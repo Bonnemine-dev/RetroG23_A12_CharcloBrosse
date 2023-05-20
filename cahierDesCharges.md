@@ -122,7 +122,14 @@ Il y 1 <font color="green">3</font> ou <font color="blue">5</font> types d'énem
 ## Niveaux
 les niveaux sont composés de blocs (40 blocs de large et 22 de haut), chaque bloc fait 32 par 32px disposés différement selon le niveau.
 Chaque bloc peut être une plateforme ou un obstacle.
-Chaque niveau est défin par un fichier json.
+Chaque niveau est défini par un fichier json contenant un dictionnaire avec :
+-   le numéro du niveau (servant de vérification à l'ouverture du fichier)
+-   le contenu du niveau sous forme d'un tableau à deux dimensions (40 par 22) d'entier où chaque entier correspond à un bloc (0 pour pas de bloc, 1 pour du sol, 2 pour une plateforme, ...)
+-   la position du tuyau haut gauche sous forme d'un tableau (`[x,y]`)
+-   la position du tuyau haut droite sous forme d'un tableau (`[x,y]`)
+-   la position du tuyau bas gauche sous forme d'un tableau (`[x,y]`)
+-   la position du tuyau bas droite sous forme d'un tableau (`[x,y]`)
+-   les ennemis du niveau sous forme de dictionnaire (`{type : nombre, type :nombre, ...}`)
 
 # Direction artistique
 ## Graphismes
