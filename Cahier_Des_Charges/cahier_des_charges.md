@@ -295,7 +295,8 @@ Un niveau du jeu _Mario Bros_.
 ## Versions
 
 Maquette de la V1.
-
+![Image de la maquette de la V1.](../img_cahierDesCharges/MaquetteV1.jpg)
+![Image de la maquette animé de la V1.](../img_cahierDesCharges/MaquetteAnimeV1.gif)
 Maquette de la V2.
 
 Maquette de la V3.
