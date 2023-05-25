@@ -17,11 +17,14 @@ Ce cahier des charges est destiné à la conception du jeu _Charclo Brosse_. Il 
 
 # Livrables
 
-1. Le texte sans couleur : Constitue **la version 1 du jeu**, doit être livré le **09/06/23**. C'est **une version jouable**, sans graphisme, se déplacer, un type d'ennemi, vies, points. _(voir annexe)_
+1. Le texte sans couleur : Constitue **la version 1 du jeu**, doit être livré le **09/06/23**. C'est **une version jouable**, sans graphisme, se déplacer, un type d'ennemi, vies, points, 1 niveau. _(voir annexe)_
 
-3. <font color="green">Le texte en vert</font> + sans couleur : Constitue **la version 2 du jeu**, doit être livré le **16/06/23**. C'est **la version visée**, avec graphismes, animations, plusieurs niveaux, argent, multiplicateurs de points, temps imparti, highscores, bloc POW, 3 types d'ennemis, obstacles, règles du jeu, pause. _(voir annexe)_
+2. <font color="green">Le texte en vert</font> + sans couleur : Constitue **la version 2 du jeu**. C'est **la version amélioré**, avec graphismes, 1 thème, animations, plusieurs niveaux, argent, multiplicateurs de points, temps imparti, highscores, bloc POW, 3 types d'ennemis, obstacles, règles du jeu, pause. _(voir annexe)_
 
-4. <font color="blue">Le texte en bleu</font> + <font color="green">vert</font> + sans couleur : Constitue **la version 3 du jeu**, ne doit **pas obligatoirement être livré**. C'est **une version additionnelle**, plus de niveaux, plusieurs thèmes, multijoueur, accélération, combos, 5 types d'ennemis, sound effect. _(voir annexe)_
+3. <font color="blue">Le texte en bleu</font> + <font color="green">vert</font> + sans couleur : Constitue **la version 3 du jeu**, doit être livré le **16/06/23**. C'est **la version visée**, 10 niveaux, 2 thèmes, accélération, combos, 5 types d'ennemis. _(voir annexe)_
+
+3. <font color="red"> Le texte en rouge</font> + <font color="blue">bleu</font> + <font color="green">vert</font> + sans couleur : Constitue **la version 4 du jeu**, ne doit **pas obligatoirement être livré**. C'est **une version additionnelle**, 15 niveaux, 10 thèmes, multijoueur, sound effects. _(voir annexe)_
+
 
 # Présentation générale
 
@@ -32,7 +35,7 @@ Charclo Brosse est un jeu **inspiré** du jeu _Mario Bros_ sorti sur arcade et c
 
 ## Présentation du jeu
 
- L'écran du jeu est fixe. Charclo est le personnage principal du jeu, le joueur peut **le controler** et le faire évoluer dans des niveaux. Ces niveaux sont constitués **de plateformes, composés de blocs**. L'objectif du joueur est de déplacer Charclo <font color="green">et de gagner le plus de points possible en terminant des niveaux le plus rapidement possible</font> en tuant tous les ennemis. <font color="green">Il a la possibilité de ramasser des pièces et des billets qui lui permettent de débloquer automatiquement des multiplicateurs de points</font><font color="blue">, ces multiplicateurs s'accompagnent de changement de thème (environnement), plus il récupère d'argent plus le thème sera luxueux/extravagant. Il existe un mode coopération dans lequel deux joueurs peuvent déplacer deux Charclo en même temps dans le même niveau, leur objectif reste d'obtenir le meilleur score.</font><font color="green"> Un tableau des highscores enregistre les 10 meilleurs scores <font color="blue">de chaque mode de jeu</font> et le nom des joueurs les aillant réalisés.</font>
+ L'écran du jeu est fixe. Charclo est le personnage principal du jeu, le joueur peut **le contrôler** et le faire évoluer dans des niveaux. Ces niveaux sont constitués **de plateformes, composés de blocs**. L'objectif du joueur est de déplacer Charclo <font color="green">et de gagner le plus de points possible en terminant des niveaux le plus rapidement possible</font> en tuant tous les ennemis. <font color="green">Il a la possibilité de ramasser des pièces et des billets qui lui permettent de débloquer automatiquement des multiplicateurs de points</font><font color="blue">, ces multiplicateurs s'accompagnent de changement de thème (environnement), plus il récupère d'argent plus le thème sera luxueux/extravagant.</font><font color="red"> Il existe un mode coopération dans lequel deux joueurs peuvent déplacer deux Charclo en même temps dans le même niveau, leur objectif reste d'obtenir le meilleur score.</font><font color="green"> Un tableau des highscores enregistre les 10 meilleurs scores <font color="red">de chaque mode de jeu</font> et le nom des joueurs les aillant réalisés.</font>
  
 
 # Régles du jeu
@@ -47,8 +50,8 @@ Charclo Brosse est un jeu **inspiré** du jeu _Mario Bros_ sorti sur arcade et c
 
 ## Charclo
 
-- Au début d'un niveau, Charclo apparait **au millieu, au plus bas du niveau**.
-- Quand Charclo perd une vie, il réapparait **au millieu, au plus haut du niveau**, sur une plateforme temporaire.
+- Au début d'un niveau, Charclo apparait **au milieu, au plus bas du niveau**.
+- Quand Charclo perd une vie, il réapparait **au milieu, au plus haut du niveau**, sur une plateforme temporaire.
 - Le joueur à la possibilité de **déplacer** Charclo de gauche à droite et de droite à gauche, de sauter et de se laisser tomber d'une plateforme supérieur à une plateforme inférieur. 
 - L'accélération de Charclo est **instantané**. 
 - <font color="blue">L'accélération de Charclo n'est pas instantanée, elle suit une courbe de progression exponentielle.</font>
@@ -98,7 +101,7 @@ Charclo Brosse est un jeu **inspiré** du jeu _Mario Bros_ sorti sur arcade et c
 ## Coopération
 
 - <font color="blue">Lorsque les deux joueurs rentre en colision, leurs courses sont stoppées.</font>
-- <font color="blue">Lorsque l'un des deux joueurs n'a plus de vie, son personnage ne réapparait pas mais l'autre joueur peut continuer de jouer.</font>
+- <font color="red">Lorsque l'un des deux joueurs n'a plus de vie, son personnage ne réapparait pas mais l'autre joueur peut continuer de jouer.</font>
 
 
 # Déroulement d'une partie
@@ -108,7 +111,7 @@ Charclo Brosse est un jeu **inspiré** du jeu _Mario Bros_ sorti sur arcade et c
 - Le joueur peut appuyer sur **trois bouton** : lancer une partie<font color="green">, afficher les règles</font>, quitter le jeu.
 - Si il appuie sur le bouton "quitter le jeu" **le jeu se ferme**.
 - <font color="green">Si il appuie sur le bouton "afficher les règles", la page des règles du jeu est affichée ainsi qu'un bouton pour retourner au menu.</font>
-- Si il appuie sur le bouton "lancer une partie"<font color="blue">, il choisi un ou deux joueurs, </font>**une partie se lance**.
+- Si il appuie sur le bouton "lancer une partie"<font color="red">, il choisi un ou deux joueurs, </font>**une partie se lance**.
 - Le joueur apparait en bas au millieu du **premier niveau**.
 - Il attend que **les ennemis apparaisent**.
 - <font color="green">Il peut ramasser de l'argent afin de débloquer des multiplicateurs de points.</font>
@@ -135,9 +138,9 @@ Dans **le menu** <font color="green">et la section pause</font> _(voir annexe)_ 
    - Flèche de gauche : Déplacement de Charclo (Joueur1) **vers la gauche**.
    - Flèche du haut : **Saut** de Charclo (Joueur1).
    - <font color="green">Echap : Mettre la partie en pause.</font>
-   - <font color="blue">D : Déplacement de Charclo (Joueur2) vers la droite.</font>
-   - <font color="blue">Q: Déplacement de Charclo (Joueur2) vers la gauche.</font>
-   - <font color="blue">Z : Saut de Charclo (Joueur2).</font>
+   - <font color="red">D : Déplacement de Charclo (Joueur2) vers la droite.</font>
+   - <font color="red">Q: Déplacement de Charclo (Joueur2) vers la gauche.</font>
+   - <font color="red">Z : Saut de Charclo (Joueur2).</font>
 
 ## Déplacement joueur
 
@@ -150,7 +153,7 @@ Le joueur peut **déplacer** Charclo vers la droite, la gauche ou le faire saute
    - Charclo, une fois une phase de **saut engagée**, ne peut plus changer **de vitesse** ou **de direction**. Donc dès l'instant où Charclo n'est plus en colision avec le sol, sa vitesse et sa direction **sont figées**.
    - Si dans son saut Charclo entre en **collision** avec le côté d'une plateforme, il concerve **sa vitesse** mais il ne peut pas avancé tant qu'il est en **colision** avec le côté de la plateforme.
    - Lorsque Charclo n'est plus en **colision** avec le dessus d'une plateforme, donc qu'**il tombe** d'une plateforme, sa position en Y va diminuer à une vitesse **instantanée** de 10 blocs/s (320px/s) jusqu'a rentrer en **colision** avec une plateforme inférieur.
-   - <font color="blue">Lorsque Charclo n'est plus en colision avec le dessus d'une plateforme, donc qu'il tombe d'une plateforme, sa position en Y va diminuer à une vitesse instantanée de 10 blocs/s (320px/s) jusqu'à rentrer en colision avec une plateforme inférieur.</font>
+   - <font color="blue">Lorsque Charclo n'est plus en colision avec le dessus d'une plateforme, donc qu'il tombe d'une plateforme, sa position en Y va diminuer à une vitesse qui ira progressivement de 0 à 10 blocs/s (320px/s) jusqu'à rentrer en colision avec une plateforme inférieur.</font>
 
 ## HitBox
 
@@ -196,7 +199,7 @@ Certains de ces objets peuvent **se mouvoir** et donc rentrer **en collision** a
    - <font color="green">Charclo et un obstacle -> Charclo perd une vie.</font>
    - <font color="green">Un ennemi et le côté d'un bloc POW -> L'ennemi repare dans la direction opposé.</font>
    - <font color="green">Un ennemi et le dessus d'un bloc POW -> L'ennemi se déplace sur sur le bloc.</font>
-   - <font color="blue">Charclo1 et Charclo2 -> Les deux sont stoppés.</font>
+   - <font color="red">Charclo1 et Charclo2 -> Les deux sont stoppés.</font>
   
 Il y a aussi des évenements qui doivent être mis en place lorsqu'**une collision n'est plus en cours** :
    - Charclo et le dessus d'un bloc (hors saut) -> Charclo **tombe naturellement**.
@@ -259,7 +262,7 @@ Le nombre d'ennemi par type<font color="green">, le nombre et la position des pi
 
 ## Direction artistique
 
-Le jeu est dans le style **rétro/arcade**. Le personnage principal Charclo est **un clochard** qui ne possède qu'**une brosse** pour frapper les ennemis qui l'attaque. Il vit dans **les égouts** au millieu **des rats et des pigeons**. Il est poursuivi par **des policiers** car il dort dans des endroits interdits. Il récupère de **l'argent** qu'il trouve dans les niveaux et qui lui permet de **s'habiller et de voyager**.
+Le jeu est dans le style **rétro/arcade**. Le personnage principal Charclo est **un clochard** qui ne possède qu'**une brosse** pour frapper les ennemis qui l'attaque. Il vit dans **les égouts** au milieu **des rats et des pigeons**. Il est poursuivi par **des policiers** car il dort dans des endroits interdits. Il récupère de **l'argent** qu'il trouve dans les niveaux et qui lui permet de **s'habiller et de voyager**.
 
 ## Thèmes
 
@@ -280,7 +283,7 @@ Tous **les assets graphiques** d'un thème sont stockés dans **un tileset**. C'
 
 ## Audio 
 
-<font color="blue">Une musique de fond et des bruitages seront associés avec certains évenements.</font>
+<font color="red">Une musique de fond et des bruitages seront associés avec certains évenements.</font>
 
 # Annexes
 
@@ -328,15 +331,6 @@ Un exemple de tileset.
 ![Image d'un tileset](../img_cahierDesCharges/tileset.png)
 
 
-
-## Versions:
-V1 : deplacements, sauts, 1 type d'ennemi, vie, points, score, 1 level 
-
-V2 : 1 thème égouts, plusieurs niveaux, pièces et billets, temps, highscore (et top 10), pow, 3 types d'ennemis, règles 
-
-V3 : obstacles, 2 thèmes, combo, tous les ennemis
-
-V4, obtionnelle : 2 joueurs , 10 thèmes, sound design 
 
 
 
