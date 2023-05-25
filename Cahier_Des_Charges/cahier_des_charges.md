@@ -329,6 +329,14 @@ Un exemple de tileset.
 
 
 
+## Versions:
+V1 : deplacements, sauts, 1 type d'ennemi, vie, points, score, 1 level 
+
+V2 : 1 thème égouts, plusieurs niveaux, pièces et billets, temps, highscore (et top 10), pow, 3 types d'ennemis, règles 
+
+V3 : obstacles, 2 thèmes, combo, tous les ennemis
+
+V4, obtionnelle : 2 joueurs , 10 thèmes, sound design 
 
 
 

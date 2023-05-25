@@ -9,4 +9,7 @@
 - **COMUNICATION** importante
 - une réunion le matin 9h : définition des objectifs de la journée et une le soir ~17H : rétrospective de la journée
 - ne pas hésiter à de demander de l'aide
-- Si quelqu'un ne finit pas ses objectifs de la journée, il ramène des croissants pour tout le monde le lendemain.  
+- Si quelqu'un ne finit pas ses objectifs de la journée, il ramène des croissants pour tout le monde le lendemain.
+
+
+
