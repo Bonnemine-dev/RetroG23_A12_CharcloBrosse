@@ -3,14 +3,29 @@ CONFIG += console c++17
 CONFIG -= app_bundle
 
 SOURCES += \
-        entity.cpp \
-        game.cpp \
-        level.cpp \
+        Entity\block.cpp \
+        Entity\Enemy\enemy.cpp \
+        Entity\entity.cpp \
+        utils\game.cpp \
+        utils\hmi.cpp \
+        utils\level.cpp \
         main.cpp \
-        sprite.cpp
+        Entity\player.cpp \
+        Spawner\spawner.cpp \
+        Sprite\sprite.cpp \
+        Entity\Enemy\standard.cpp \
+        utils\tileset.cpp
 
 HEADERS += \
-    entity.h \
-    game.h \
-    level.h \
-    sprite.h
+    Entity\block.h \
+    Entity\Enemy\enemy.h \
+    Entity\entity.h \
+    utils\game.h \
+    utils\hmi.h \
+    utils\level.h \
+    Entity\player.h \
+    Spawner\spawner.h \
+    Sprite\sprite.h \
+    Entity\Enemy\standard.h \
+    utils\tileset.h \
+    typedef.h
