@@ -254,8 +254,11 @@ Un niveau occupe **tout l'écran de jeu**, il est quadrillé comme un tableau de
 Le nombre d'ennemi par type<font color="green">, le nombre et la position des pièces/billets</font>, le temps limite et la position des blocs sont propres à chaque niveau et enregistré dans un **fichier .json** sous la forme d'**un dictionnaire** contenant :
    - Le numéro du niveau (servant de vérification à l'ouverture du fichier).
    - Le contenu du niveau sous forme d'un tableau à deux dimensions (40x22) d'entier où chaque entier correspond à un bloc (0 pour pas de bloc, 1 pour du sol, 2 pour une plateforme, 3 pour un obstacle, ...).
-   - Les ennemis du niveau sous forme de dictionnaire (`{type : nombre, type :nombre, ...}`).
+   - Les ennemis du niveau sous forme de liste avec leurs types et leurs points d'apparitions, __dans l'ordre d'apparition__  : `[["standard", "left"], ["jumper", "right"], ...]`.
    - Une liste de liste des pièces et billets (`[[type, x, y], [type, x, y], ...]` où type est un  entier correspondant à pièce ou billet) 
+   - Le délai maximum avant  l'apparition d'un ennemi en secondes
+   - Le délai minimum  avant l'apparition d'un ennemi en secondes
+	*cela sert à avoir une courbe de progression concernant le nombre d'ennemi à l'écran au même moment*
 
 
 # Graphismes
