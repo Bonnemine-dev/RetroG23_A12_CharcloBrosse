@@ -23,9 +23,9 @@ public:
      * @param y Y coordinate of the block.
      * @param height Height of the block.
      * @param width Width of the block.
-     * @param sprite Sprite used for the block.
+     * @param sprite QPixmap sprite used for the block.
      */
-    Block(int x, int y, int height, int width, Sprite* sprite);
+    Block(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite);
 
     /**
      * @brief Gets the state of the block.

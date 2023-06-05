@@ -24,7 +24,8 @@ void Block::increment()
     itsCounter += 1;
 }
 
-Block::Block(int x, int y, int height, int width, Sprite* sprite)
+//Constructeur
+Block::Block(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite)
     : Entity(x, y, height, width, sprite)
 {
 

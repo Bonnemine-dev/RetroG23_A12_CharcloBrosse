@@ -27,9 +27,9 @@ public:
      * @param y Y coordinate of the player.
      * @param height Height of the player.
      * @param width Width of the player.
-     * @param sprite Sprite used for the player.
+     * @param sprite QPixmap sprite used for the player.
      */
-    Player(int x, int y, int height, int width, Sprite* sprite);
+    Player(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite);
 
     /**
      * @brief Gets the state of the player.

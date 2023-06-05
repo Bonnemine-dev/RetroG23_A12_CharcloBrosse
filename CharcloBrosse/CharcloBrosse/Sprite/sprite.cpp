@@ -1,15 +1,18 @@
 #include "sprite.h"
 
-Sprite::Sprite()
+//Constructeur
+Sprite::Sprite(QPixmap * image)
 {
-
+    itsImage = image;
 }
 
+//Methode display()
 void Sprite::display(QPainter * painter)
 {
-    painter->drawPixmap(itsX, itsY, itsImage);
+    painter->drawPixmap(itsX, itsY, * itsImage);
 }
 
+//Methode moveTo()
 void Sprite::moveTo(unsigned short x, unsigned short y)
 {
     itsX = x;
