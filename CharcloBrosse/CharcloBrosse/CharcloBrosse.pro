@@ -25,7 +25,7 @@ HEADERS += \
     utils/level.h \
     Entity/player.h \
     Spawner/spawner.h \
-    Sprite/sprit/e.h \
+    Sprite/sprite.h \
     Entity/Enemystandard.h \
     utils/tileset.h \
     typedef.h
