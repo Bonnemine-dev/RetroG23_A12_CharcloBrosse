@@ -15,8 +15,8 @@ HMI::HMI(QWidget *parent) : QWidget(parent)
     mainLayout->addWidget(rulesButton);
     mainLayout->addWidget(quitGameButton);
 
-    // Set layout
-    setLayout(mainLayout);
+    // Set layout size
+
     setFixedSize(40*32, 22*32);
 
     // Connect button signals to appropriate slots
@@ -59,7 +59,7 @@ void HMI::keyReleaseEvent(QKeyEvent *event)
 
 void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> highscores)
 {
-
+    setLayout(mainLayout);
 }
 
 void HMI::displayPauseMenu()

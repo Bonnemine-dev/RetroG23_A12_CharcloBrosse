@@ -10,7 +10,7 @@
 #include <QVBoxLayout>
 #include <QListWidget>
 #include <QListWidgetItem>
-#include "../Entity/entity.h"
+#include "Entity/entity.h"
 
 enum MenuState {
     MAINMENU,
