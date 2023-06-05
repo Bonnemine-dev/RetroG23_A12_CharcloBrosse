@@ -12,6 +12,7 @@ SOURCES += \
         Entity/block.cpp \
         Entity/Enemy/enemy.cpp \
         Entity/entity.cpp \
+        Spawner/despawner.cpp \
         utils/game.cpp \
         utils/hmi.cpp \
         utils/level.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     Entity/block.h \
     Entity/Enemy/enemy.h \
     Entity/entity.h \
+    Spawner/despawner.h \
     utils/game.h \
     utils/hmi.h \
     utils/level.h \
