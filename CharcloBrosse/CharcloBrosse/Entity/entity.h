@@ -63,6 +63,19 @@ public:
      * @return The QRect object.
      */
     QRect * getItsRect();
+
+    /**
+     * @brief Sets the X coordinate of the sprite.
+     * @param newX The new X coordinate.
+     */
+    void setX(unsigned short newX);
+
+    /**
+     * @brief Sets the Y coordinate of the sprite.
+     * @param newY The new Y coordinate.
+     */
+    void setY(unsigned short newY);
+
 };
 
 #endif // ENTITY_H

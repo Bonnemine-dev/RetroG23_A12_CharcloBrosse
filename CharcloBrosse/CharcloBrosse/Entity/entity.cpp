@@ -12,6 +12,16 @@ QRect * Entity::getItsRect()
     return &itsRect;
 }
 
+void Entity::setX(unsigned short newX)
+{
+    itsRect.setX(newX);
+}
+
+void Entity::setY(unsigned short newY)
+{
+    itsRect.setX(newY);
+}
+
 //Constructeur
 Entity::Entity(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite)
 {
@@ -21,4 +31,3 @@ Entity::Entity(unsigned short x, unsigned short y, unsigned short height, unsign
     itsRect.setHeight(height);
     itsRect.setWidth(width);
 }
-

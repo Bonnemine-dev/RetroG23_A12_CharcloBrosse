@@ -14,7 +14,7 @@
 class Block : public Entity
 {
 private:
-    bool itsState = true; ///< State of the block.
+    bool itsState = false; ///< State of the block.
     unsigned short itsCounter = 0; ///< Counter associated with the block.
 public:
     /**

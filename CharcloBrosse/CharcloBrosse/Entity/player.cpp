@@ -1,4 +1,3 @@
-
 #include "player.h"
 
 //bool Player::getItsState() const
