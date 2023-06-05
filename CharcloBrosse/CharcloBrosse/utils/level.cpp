@@ -23,26 +23,26 @@ std::vector<Despawner *> Level::getItsDespawnerList() const
 
 void Level::display(QPainter *painter)
 {
-    for (unsigned short i = 0; i < itsBlockList.size(); i++){ // display all the blocks
+    for (unsigned short i = 0; i < itsBlockList.size(); i++){ // affiche tout les blocs
         itsBlockList.at(i)->display(painter);
     }
-    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // display all the enemies
+    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
         itsEnemiesList.at(i)->display(painter);
     }
-    for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // display all the spawners
+    for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
         itsSpawnerList.at(i)->display(painter);
     }
-    for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // display all the despawners
+    for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
         itsDespawnerList.at(i)->display(painter);
     }
 }
 
 void Level::removeEnemy(Enemy * enemy)
 {
-    for (std::vector<Enemy *>::iterator it=itsEnemiesList.begin(); it != itsEnemiesList.end(); it++){ // scan the ennemies list
-        if ((*it)==enemy){ //if it's the good enemy
-            itsEnemiesList.erase(it); // remove from the list
-            delete (*it); // delete from memory
+    for (std::vector<Enemy *>::iterator it=itsEnemiesList.begin(); it != itsEnemiesList.end(); it++){ // parcours la liste des enbemies apparus
+        if ((*it)==enemy){ // compare
+            itsEnemiesList.erase(it); // eneleve l'ennemi de la liste
+            delete (*it); // supprime l'ennemi de la memoire
         }
     }
 }
@@ -81,24 +81,26 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
 {
     // open the file and parse it
     QFile jsonFile;
-    jsonFile.setFileName(QString(itsLevelFile.c_str())); // set the file path
-    if (!jsonFile.isReadable()){ // verify if the file is readable
+    jsonFile.setFileName(QString(itsLevelFile.c_str())); // spécifie le chemin du fichier à ouvrir
+    if (!jsonFile.isReadable()){ // cerifi que le fichier soit lisible
         throw std::string("Level file is not readable");
     }
-    jsonFile.open(QIODevice::ReadOnly); // open the file
-    if (!jsonFile.isOpen()){ // verify if the file is opened
+    jsonFile.open(QIODevice::ReadOnly); // tente d'ouvrir le fichier
+    if (!jsonFile.isOpen()){ // verifi que le fichier soit ouvert
         throw std::string("Could not open the level file");
     }
-    QString content = jsonFile.readAll(); // copy the content of the file
+    QString content = jsonFile.readAll(); // copie le contenu du fichier
 
-    QJsonDocument jsonData = QJsonDocument::fromJson(content.toUtf8()); // parse the data to a QjsonDocument object
-    QJsonObject jsonRoot = jsonData.object(); // convert into a dictionnary like object
+    jsonFile.close();
+
+    QJsonDocument jsonData = QJsonDocument::fromJson(content.toUtf8()); // parse les données vers un objet de type QjsonDocument
+    QJsonObject jsonRoot = jsonData.object(); // convertie les donnée en forme de QJsonObject comme un dictionnaire
 
 
-    // get the data
-    itsId = jsonRoot.value("id").toInt(0); // get the id of the level
-    QJsonArray level = jsonRoot.value("level").toArray(); // get the block list of the level
-    QJsonArray Enemies = jsonRoot.value("enemies").toArray(); // get the enemies list of the level
+    // génere les données
+    itsId = jsonRoot.value("id").toInt(0); // reccupere l'id du niveau
+    QJsonArray level = jsonRoot.value("level").toArray(); // reccupère la liste des blocs
+    QJsonArray Enemies = jsonRoot.value("enemies").toArray(); // reccupère la liste des ennemis
     itsMinDelay = jsonRoot.value("minDelay").toInt(0); // get the minimum delay of appartition of an enemy
     itsMaxDelay = jsonRoot.value("maxDelay").toInt(0); // get the maximun delay of appartition of an enemy
 
@@ -136,6 +138,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     }
     std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
 
+    itsSpawnerList.push_back(new Spawner())
 }
 
 void Level::appears(Enemy * enemy){
