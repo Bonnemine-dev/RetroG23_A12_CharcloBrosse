@@ -5,23 +5,43 @@
 #include <QPainter>
 #include <string>
 #include <vector>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QString>
 #include "Entity/entity.h"
 #include "Entity/Enemy/enemy.h"
 #include "Entity/Enemy/standard.h"
 #include "Entity/block.h"
 #include "Spawner/spawner.h"
+#include "Spawner/despawner.h"
+#include "typedef.h"
+#include "utils/tileset.h"
+#include "Sprite/sprite.h"
 
+
+enum Sides{
+    LEFT,
+    RIGHT,
+};
 
 class Level
 {
 private:
+    unsigned short itsId;
+    unsigned short itsMinDelay;
+    unsigned short itsMaxDelay;
     std::string itsLevelFile;
     std::vector<Block *> itsBlockList;
     std::vector<Enemy *> itsEnemiesList;
     std::vector<Spawner *> itsSpawnerList;
     std::vector<Despawner *> itsDespawnerList;
+    std::vector<unsigned short> itsEnemyAppearsTimes;
+    std::vector<Sides> itsEnemyAppearsSides;
 public:
-    Level(std::string levelFilePath);
+    Level(std::string levelFilePath, TileSet * tileSet);
 
     std::vector<Block *> getItsBlockList() const;
     std::vector<Enemy *> getItsEnemiesList() const;
@@ -30,6 +50,11 @@ public:
 
     void display(QPainter * painter);
     void removeEnemy(Enemy *);
+    unsigned short getItsId() const;
+    unsigned short getItsMinDelay() const;
+    unsigned short getItsMaxDelay() const;
+    std::vector<unsigned short> getItsEnemyAppearsTimes() const;
+    std::vector<Sides> getItsEnemyAppearsSides() const;
 };
 
 #endif // LEVEL_H

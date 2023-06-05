@@ -5,7 +5,7 @@
 #include "Entity/entity.h"
 #include "Entity/Enemy/enemy.h"
 
-class Spawner : Entity
+class Spawner : public Entity
 {
 public:
     Spawner();
