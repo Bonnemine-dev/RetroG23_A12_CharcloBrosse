@@ -1,7 +1,31 @@
-
 #include "block.h"
 
-Block::Block()
+//Getter du itsState
+bool Block::getItsState() const
+{
+    return itsState;
+}
+
+//Setter du itsState
+void Block::setItsState(bool newItsState)
+{
+    itsState = newItsState;
+}
+
+//Getter du itsCounter
+unsigned short Block::getItsCounter() const
+{
+    return itsCounter;
+}
+
+//Incrétente le compteur de 1
+void Block::increment()
+{
+    itsCounter += 1;
+}
+
+Block::Block(int x, int y, int height, int width, Sprite* sprite)
+    : Entity(x, y, height, width, sprite)
 {
 
 }
