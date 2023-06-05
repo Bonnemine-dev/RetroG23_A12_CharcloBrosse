@@ -107,7 +107,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
                 itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile()));
             }
             if (block == 2){ // if platform block
-                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(0))))
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(0))));
             }
         }
     }
