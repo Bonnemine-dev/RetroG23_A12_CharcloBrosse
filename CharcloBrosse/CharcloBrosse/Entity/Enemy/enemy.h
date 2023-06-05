@@ -1,6 +1,8 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include <QPixmap>
+
 #include <Entity/entity.h>
 
 enum EnemyType {STANDARD=100, ACCELERATOR=200, JUMPER=300, GIANT=400, FREEZER=500};
@@ -27,9 +29,9 @@ public:
      * @param y Y coordinate of the enemy.
      * @param height Height of the enemy.
      * @param width Width of the enemy.
-     * @param sprite Sprite used for the enemy.
+     * @param sprite QPixmap sprite used for the enemy.
      */
-    Enemy(EnemyType type, int height, int width, Sprite* sprite);
+    Enemy(EnemyType type, unsigned short height, unsigned short width, QPixmap * sprite);
     /**
      * @brief Gets the speed of the enemy on the X axis.
      * @return The speed on the X axis.

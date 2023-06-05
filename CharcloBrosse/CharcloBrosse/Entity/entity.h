@@ -24,9 +24,9 @@ public:
      * @param y Y coordinate of the entity.
      * @param height Height of the entity.
      * @param width Width of the entity.
-     * @param sprite Sprite used for the entity.
+     * @param sprite QPixmap sprite used for the entity.
      */
-    Entity(int x, int y, int height, int width, Sprite * sprite);
+    Entity(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap *sprite);
 
     /**
      * @brief Gets the X coordinate of the entity.
@@ -62,7 +62,7 @@ public:
      * @brief Gets the QRect object representing the entity's dimensions and position.
      * @return The QRect object.
      */
-    const QRect &getItsRect() const;
+    QRect * getItsRect();
 };
 
 #endif // ENTITY_H

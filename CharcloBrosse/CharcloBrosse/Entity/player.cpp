@@ -38,7 +38,7 @@ unsigned short Player::getItsLivesNb() const
 }
 
 //Constructeur
-Player::Player(int x, int y, int height, int width, Sprite* sprite)
+Player::Player(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap *sprite)
     : Entity(x, y, height, width, sprite)
 {
 
