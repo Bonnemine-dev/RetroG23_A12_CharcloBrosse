@@ -44,9 +44,9 @@ void Enemy::setItsState(bool newItsState)
 }
 
 //Constructeur
-Enemy::Enemy(EnemyType type, unsigned short height, unsigned short width, QPixmap * sprite)
+Enemy::Enemy(unsigned short height, unsigned short width, QPixmap * sprite)
     : Entity(0, 0, height, width, sprite)
 {
-    itsType = type;
+
 }
 
