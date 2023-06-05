@@ -10,10 +10,7 @@
  * This class provides a generic representation for an entity in a game,
  * including its dimensions, position, and associated sprite.
  * It provides methods for getting entity's dimensions and for displaying the entity.
- * @author Unknown
- * @version 1.0
  * @date June 2023
- * @copyright Unknown
  */
 class Entity
 {

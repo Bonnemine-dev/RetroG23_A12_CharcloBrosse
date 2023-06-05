@@ -9,10 +9,7 @@
  * This class inherits from the Entity class and provides additional characteristics
  * for a player entity, including speed in both X and Y directions, maximum speed, a state, and the number of lives.
  * It also provides methods for getting and setting these attributes, and for moving the player.
- * @author Unknown
- * @version 1.0
  * @date June 2023
- * @copyright Unknown
  */
 class Player : public Entity
 {
