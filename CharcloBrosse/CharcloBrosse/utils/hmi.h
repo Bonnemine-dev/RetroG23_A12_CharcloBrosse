@@ -34,11 +34,17 @@ class HMI : public QWidget
 private:
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
+    QLayout* currentLayout;
     QVBoxLayout *mainLayout; ///< Main layout for the HMI.
+    QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
+    QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
+    QVBoxLayout *gameLayout; ///< Game layout for the HMI.
     QListWidget *highscoreList; ///< List widget for displaying high scores.
     QPushButton *startGameButton; ///< Button for starting the game.
     QPushButton *rulesButton; ///< Button for displaying game rules.
     QPushButton *quitGameButton; ///< Button for quitting the game.
+    QPushButton *resumeButton; ///< Button for resuming the game.
+    QPushButton *quitToMainButton; ///< Button for going to the main menu.
 public:
     /**
      * @brief Constructor of the HMI class.
@@ -68,6 +74,8 @@ private slots:
      */
     void displayGameOverMenu(std::vector <std::pair <std::string , unsigned int >> highscores);
 
+    void displayGame();
+
     /**
      * @brief Refreshes all components of the HMI.
      */
@@ -87,6 +95,16 @@ private slots:
      * @brief Closes the HMI.
      */
     void close();
+
+    /**
+     * @brief Resumes the game.
+     */
+    void resume();
+
+    /**
+     * @brief Leaves the game.
+     */
+    void leave();
 signals:
     void leftKeyPressed(); ///< Emitted when the left key is pressed.
     void rightKeyPressed(); ///< Emitted when the right key is pressed.
