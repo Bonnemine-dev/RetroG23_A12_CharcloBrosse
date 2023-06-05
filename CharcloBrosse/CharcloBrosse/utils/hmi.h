@@ -10,7 +10,7 @@
 #include <QVBoxLayout>
 #include <QListWidget>
 #include <QListWidgetItem>
-#include "game.h"
+#include "../Entity/entity.h"
 
 enum MenuState {
     MAINMENU,
@@ -27,7 +27,6 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
-    Game *itsGame;
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
     QVBoxLayout *mainLayout;
@@ -36,7 +35,7 @@ private:
     QPushButton *rulesButton;
     QPushButton *quitGameButton;
 public:
-    HMI(Game *itsGame, QWidget *parent = nullptr);
+    HMI(QWidget *parent = nullptr);
     ~HMI();
 private slots:
     void displayMainMenu(std::vector <std::pair <std::string , unsigned int >> highscores);
