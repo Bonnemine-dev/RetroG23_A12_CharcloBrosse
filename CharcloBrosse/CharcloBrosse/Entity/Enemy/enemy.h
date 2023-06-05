@@ -3,7 +3,7 @@
 
 #include <Entity/entity.h>
 
-enum EnemyType {Standard=100, Accelerator=200, Jumper=300, Giant=400, Freezer=500};
+enum EnemyType {STANDARD=100, ACCELERATOR=200, JUMPER=300, GIANT=400, FREEZER=500};
 
 /**
  * @class Enemy
@@ -29,7 +29,49 @@ public:
      * @param width Width of the enemy.
      * @param sprite Sprite used for the enemy.
      */
-    Enemy(EnemyType type, int x, int y, int height, int width, Sprite* sprite);
+    Enemy(EnemyType type, int height, int width, Sprite* sprite);
+    /**
+     * @brief Gets the speed of the enemy on the X axis.
+     * @return The speed on the X axis.
+     */
+    short getItsXSpeed() const;
+
+    /**
+     * @brief Gets the speed of the enemy on the Y axis.
+     * @return The speed on the Y axis.
+     */
+    short getItsYSpeed() const;
+
+    /**
+     * @brief Gets the state of the enemy.
+     * @return The state of the enemy.
+     */
+    bool getItsState() const;
+
+    /**
+     * @brief Gets the type of the enemy.
+     * @return The type of the enemy.
+     */
+    EnemyType getItsType() const;
+
+    /**
+     * @brief Sets the speed of the enemy on the X axis.
+     * @param newItsXSpeed The new speed on the X axis.
+     */
+    void setItsXSpeed(short newItsXSpeed);
+
+    /**
+     * @brief Sets the speed of the enemy on the Y axis.
+     * @param newItsYSpeed The new speed on the Y axis.
+     */
+    void setItsYSpeed(short newItsYSpeed);
+
+    /**
+     * @brief Sets the state of the enemy.
+     * @param newItsState The new state of the enemy.
+     */
+    void setItsState(bool newItsState);
+
 };
 
 #endif // ENEMY_H

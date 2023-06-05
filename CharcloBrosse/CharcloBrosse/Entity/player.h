@@ -17,9 +17,9 @@ private:
     unsigned short itsLivesNb = 0; ///< Number of lives the player has.
     short itsXSpeed = 0; ///< Speed of the player on the X axis.
     short itsYSpeed = 0; ///< Speed of the player on the Y axis.
-    short itsMaxXSpeed = 0; ///< Maximum speed of the player on the X axis.
-    short itsMaxYSpeed = 0; ///< Maximum speed of the player on the Y axis.
-    bool itsState = true; ///< State of the player.
+    //short itsMaxXSpeed = 0; ///< Maximum speed of the player on the X axis.
+    //short itsMaxYSpeed = 0; ///< Maximum speed of the player on the Y axis.
+    //bool itsState = true; ///< State of the player.
 public:
     /**
      * @brief Constructor of the Player class.
