@@ -1,15 +1,14 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <QPainter>
+
 #include "utils/sprite.h"
 
 class Entity
 {
 protected:
-    unsigned short itsX;
-    unsigned short itsY;
-    unsigned short itsHeight;
-    unsigned short itsWidth;
+    QRect itsRect;
     Sprite * itsSprite;
 public:
     Entity();
@@ -17,6 +16,8 @@ public:
     unsigned short getItsY() const;
     unsigned short getItsHeight() const;
     unsigned short getItsWidth() const;
+    void display(QPainter * painter);
+    const QRect &getItsRect() const;
 };
 
 #endif // ENTITY_H

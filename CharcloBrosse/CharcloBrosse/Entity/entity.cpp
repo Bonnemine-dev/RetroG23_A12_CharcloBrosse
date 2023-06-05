@@ -1,24 +1,13 @@
-
 #include "entity.h"
 
-unsigned short Entity::getItsX() const
+void Entity::display(QPainter * painter)
 {
-    return itsX;
+    itsSprite->display(painter);
 }
 
-unsigned short Entity::getItsY() const
+const QRect &Entity::getItsRect() const
 {
-    return itsY;
-}
-
-unsigned short Entity::getItsHeight() const
-{
-    return itsHeight;
-}
-
-unsigned short Entity::getItsWidth() const
-{
-    return itsWidth;
+    return itsRect;
 }
 
 Entity::Entity()
