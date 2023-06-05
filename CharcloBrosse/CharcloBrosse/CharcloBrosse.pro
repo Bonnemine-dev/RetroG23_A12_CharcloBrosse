@@ -32,7 +32,7 @@ HEADERS += \
     Entity/player.h \
     Spawner/spawner.h \
     Sprite/sprite.h \
-    Entity/Enemystandard.h \
+    Entity/Enemy/standard.h \
     utils/tileset.h \
     typedef.h
 
