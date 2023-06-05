@@ -1,4 +1,12 @@
+#include <vector>
 #include "hmi.h"
+
+//pour tester :
+std::vector<std::pair<std::string, unsigned int>> highs = {
+    {"Player1", 100},
+    {"Player2", 200},
+    {"Player3", 150}
+};
 
 HMI::HMI(QWidget *parent) : QWidget(parent)
 {
@@ -69,7 +77,7 @@ HMI::HMI(QWidget *parent) : QWidget(parent)
     quitToMainButton->setFixedWidth(300);
 
     // ajustement de la taille de la fenetre
-    setFixedSize(40*32, 22*32);
+    setFixedSize(20*32, 11*32);
 
 
     //-------------------------
@@ -84,7 +92,7 @@ HMI::HMI(QWidget *parent) : QWidget(parent)
 
 
 
-    setLayout(mainLayout);
+    displayMainMenu(highs);
 }
 
 
@@ -133,12 +141,18 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
     currentLayout = mainLayout;
     this->setStyleSheet("background-color: white;");
     setLayout(mainLayout);
+    highscoreList->clear(); // Clear the list before adding new items
+
+        for (const auto &score : highscores) {
+            QString scoreText = QString::fromStdString(score.first) + ": " + QString::number(score.second);
+            highscoreList->addItem(scoreText);
+        }
 }
 
 void HMI::displayPauseMenu()
 {
     currentLayout = pauseLayout;
-    this->setStyleSheet("background-color: black;");
+    //this->setStyleSheet("background-color: black;");
     setLayout(pauseLayout);
 }
 
@@ -149,6 +163,7 @@ void HMI::displayGameOverMenu(std::vector<std::pair<std::string, unsigned int>> 
 
 void HMI::displayGame()
 {
+    setLayout(pauseLayout);
     currentLayout = gameLayout;
 }
 
@@ -159,7 +174,8 @@ void HMI::refreshAll()
 
 void HMI::startGame()
 {
-
+    // tous les autres trucs a mettre
+    displayGame();
 }
 
 void HMI::displayRules()
@@ -181,3 +197,4 @@ void HMI::leave()
 {
     setLayout(mainLayout);
 }
+

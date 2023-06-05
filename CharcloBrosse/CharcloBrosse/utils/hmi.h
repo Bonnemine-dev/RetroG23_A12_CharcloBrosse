@@ -34,7 +34,7 @@ class HMI : public QWidget
 private:
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
-    QLayout* currentLayout;
+    QLayout* currentLayout = nullptr;
     QVBoxLayout *mainLayout; ///< Main layout for the HMI.
     QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
     QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
