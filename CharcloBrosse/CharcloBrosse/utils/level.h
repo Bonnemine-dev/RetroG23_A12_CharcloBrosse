@@ -26,7 +26,10 @@ enum Sides{
     LEFT,
     RIGHT,
 };
-
+/**
+ * @brief The Level class define a level of the game Charclo Brosse
+ * Define withthe Block list for platforms,
+ */
 class Level
 {
 private:
@@ -36,6 +39,7 @@ private:
     std::string itsLevelFile;
     std::vector<Block *> itsBlockList;
     std::vector<Enemy *> itsEnemiesList;
+    std::vector<Enemy *> itsRemainingEnemies;
     std::vector<Spawner *> itsSpawnerList;
     std::vector<Despawner *> itsDespawnerList;
     std::vector<unsigned short> itsEnemyAppearsTimes;
@@ -55,6 +59,8 @@ public:
     unsigned short getItsMaxDelay() const;
     std::vector<unsigned short> getItsEnemyAppearsTimes() const;
     std::vector<Sides> getItsEnemyAppearsSides() const;
+    std::vector<Enemy *> getItsRemainingEnemies() const;
+    void appears(Enemy * enemy);
 };
 
 #endif // LEVEL_H
