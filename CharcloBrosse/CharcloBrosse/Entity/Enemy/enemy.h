@@ -10,10 +10,7 @@ enum EnemyType {Standard=100, Accelerator=200, Jumper=300, Giant=400, Freezer=50
  * @brief Class representing an enemy entity in a game.
  * This class inherits from the Entity class and provides additional characteristics
  * for an enemy entity, including speed in both X and Y directions, a state, and a type.
- * @author Unknown
- * @version 1.0
  * @date June 2023
- * @copyright Unknown
  */
 class Enemy : public Entity
 {
