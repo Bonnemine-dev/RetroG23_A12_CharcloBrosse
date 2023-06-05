@@ -6,6 +6,7 @@
  * @version 1.1
  */
 #include "tileset.h"
+#include <ostream>
 
 
 /**
@@ -20,18 +21,27 @@ TileSet::TileSet(const std::string aFilePath)
     QPixmap tileset(filePath);
     //> Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
 
-    //< Chargement et stockage de chaque image une par une en précisant leur position et leur taille (possibilité de mettre des constantes à termes)
-    itsPlayerTile = new QPixmap(tileset.copy(9, 97, 32, 64));
-    itsGroundTile = new QPixmap(tileset.copy(97, 9, 32, 32));
-    itsBlockTilesList[0] = new QPixmap(tileset.copy(9, 9, 32, 32));
-    itsBlockTilesList[1] = new QPixmap(tileset.copy(53, 9, 32, 32));
-    itsEnemyTilesList[0] = new QPixmap(tileset.copy(9, 53, 32, 32));
-    itsEnemyTilesList[1] = new QPixmap(tileset.copy(53, 53, 32, 32));
-    itsSpawnerTilesList[0] = new QPixmap(tileset.copy(9, 174, 32, 96));
-    itsSpawnerTilesList[1] = new QPixmap(tileset.copy(53, 174, 32, 96));
-    itsDespawnerTilesList[0] = new QPixmap(tileset.copy(96, 174, 32, 96));
-    itsDespawnerTilesList[1] = new QPixmap(tileset.copy(139, 174, 32, 96));
-    //> Chargement et stockage de chaque image une par une en précisant leur position et leur taille (possibilité de mettre des constantes à termes)
+    //< Vérification de l'ouverture du fichier et lancement d'une exception si non
+    if(tileset.isNull())
+    {
+       throw std::string("File unfound (Tileset::Tileset(const std::string aFilePath)");
+    }
+    else
+    {
+        //< Chargement et stockage de chaque image une par une en précisant leur position et leur taille (possibilité de mettre des constantes à termes)
+        itsPlayerTile = new QPixmap(tileset.copy(9, 97, 32, 64));
+        itsGroundTile = new QPixmap(tileset.copy(97, 9, 32, 32));
+        itsBlockTilesList[0] = new QPixmap(tileset.copy(9, 9, 32, 32));
+        itsBlockTilesList[1] = new QPixmap(tileset.copy(53, 9, 32, 32));
+        itsEnemyTilesList[0] = new QPixmap(tileset.copy(9, 53, 32, 32));
+        itsEnemyTilesList[1] = new QPixmap(tileset.copy(53, 53, 32, 32));
+        itsSpawnerTilesList[0] = new QPixmap(tileset.copy(9, 174, 32, 96));
+        itsSpawnerTilesList[1] = new QPixmap(tileset.copy(53, 174, 32, 96));
+        itsDespawnerTilesList[0] = new QPixmap(tileset.copy(96, 174, 32, 96));
+        itsDespawnerTilesList[1] = new QPixmap(tileset.copy(139, 174, 32, 96));
+        //> Chargement et stockage de chaque image une par une en précisant leur position et leur taille (possibilité de mettre des constantes à termes)
+    }
+    //> Vérification de l'ouverture du fichier et lancement d'une exception si non
 }
 
 /**
