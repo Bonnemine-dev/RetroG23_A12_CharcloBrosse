@@ -1,8 +1,14 @@
 
 #include "hmi.h"
 
-HMI::HMI()
-{
 
+HMI::HMI(QWidget *parent)
+    : QWidget(parent)
+{
 }
+
+HMI::~HMI()
+{
+}
+
 

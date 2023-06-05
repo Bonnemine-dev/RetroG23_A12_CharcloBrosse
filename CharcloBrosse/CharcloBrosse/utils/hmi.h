@@ -2,13 +2,18 @@
 #ifndef HMI_H
 #define HMI_H
 
+#include <QWidget>
 
 
 
-class HMI
+class HMI : public QWidget
+
 {
+    Q_OBJECT
+
 public:
-    HMI();
+    HMI(QWidget *parent = nullptr);
+    ~HMI();
 };
 
 #endif // HMI_H
