@@ -17,6 +17,7 @@ private:
     unsigned short itsLivesNb = 0; ///< Number of lives the player has.
     short itsXSpeed = 0; ///< Speed of the player on the X axis.
     short itsYSpeed = 0; ///< Speed of the player on the Y axis.
+    bool isOnTheGround = true;
     //short itsMaxXSpeed = 0; ///< Maximum speed of the player on the X axis.
     //short itsMaxYSpeed = 0; ///< Maximum speed of the player on the Y axis.
     //bool itsState = true; ///< State of the player.
@@ -77,6 +78,18 @@ public:
      * @return The speed on the Y axis.
      */
     short getItsYSpeed() const;
+
+    /**
+     * @brief Sets the "is on the ground" status of the entity.
+     * @param newIsOnTheGround The new "is on the ground" status.
+     */
+    void setIsOnTheGround(bool newIsOnTheGround);
+
+    /**
+     * @brief Gets the "is on the ground" status of the entity.
+     * @return The "is on the ground" status.
+     */
+    bool getIsOnTheGround() const;
 
 };
 
