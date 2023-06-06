@@ -36,6 +36,18 @@ unsigned short Player::getItsLivesNb() const
     return itsLivesNb;
 }
 
+//Getter itsXSpeed
+short Player::getItsXSpeed() const
+{
+    return itsXSpeed;
+}
+
+//Getter itsYSpeed
+short Player::getItsYSpeed() const
+{
+    return itsYSpeed;
+}
+
 //Constructeur
 Player::Player(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap *sprite)
     : Entity(x, y, height, width, sprite)
