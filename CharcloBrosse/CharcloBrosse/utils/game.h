@@ -3,7 +3,7 @@
 #define GAME_H
 
 #include <vector>
-#include <QRect>
+#include <QRect> // Corrigé
 #include "../Entity/player.h"
 #include "hmi.h"
 #include "tileset.h"
