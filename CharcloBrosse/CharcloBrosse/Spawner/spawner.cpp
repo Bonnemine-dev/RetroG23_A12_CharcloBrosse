@@ -1,8 +1,17 @@
-
 #include "spawner.h"
 
-Spawner::Spawner()
+//Constructeur
+Spawner::Spawner(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite)
+    :Entity(x, y, height, width, sprite)
 {
 
+}
+
+//Methode appears()
+void Spawner::appears(Enemy * enemy)
+{
+    //Fait apparaitre l'enemy aux coordonnées du spawner
+    enemy->setX(itsRect.x());
+    enemy->setY(itsRect.y());
 }
 
