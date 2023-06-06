@@ -42,10 +42,23 @@ void Enemy::setItsState(bool newItsState)
     itsState = newItsState;
 }
 
+//move()
 void Enemy::move()
 {
     itsRect.setX(itsRect.x()+itsXSpeed);
     itsRect.setY(itsRect.y()+itsYSpeed);
+}
+
+//Setter isOnTheGround
+void Enemy::setIsOnTheGround(bool newIsOnTheGround)
+{
+    isOnTheGround = newIsOnTheGround;
+}
+
+//Getter isOnTheGround
+bool Enemy::getIsOnTheGround() const
+{
+    return isOnTheGround;
 }
 
 //Constructeur
