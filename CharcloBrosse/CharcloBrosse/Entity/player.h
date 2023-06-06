@@ -64,7 +64,20 @@ public:
      * @brief Gets the number of lives the player has.
      * @return The number of lives.
      */
+
     unsigned short getItsLivesNb() const;
+    /**
+     * @brief Gets the speed of the entity on the X axis.
+     * @return The speed on the X axis.
+     */
+    short getItsXSpeed() const;
+
+    /**
+     * @brief Gets the speed of the entity on the Y axis.
+     * @return The speed on the Y axis.
+     */
+    short getItsYSpeed() const;
+
 };
 
 #endif // PLAYER_H
