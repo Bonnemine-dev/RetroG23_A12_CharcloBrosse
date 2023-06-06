@@ -7,5 +7,6 @@
 
 #define PLAYERMAXSPEED 2 // define value of max X speed
 #define STILL 0 // define value of still
+#define GRAVITY 1 // gravity value
 
 #endif // TYPEDEF_H
