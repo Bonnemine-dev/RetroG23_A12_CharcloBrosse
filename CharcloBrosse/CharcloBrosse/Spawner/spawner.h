@@ -1,14 +1,37 @@
-
 #ifndef SPAWNER_H
 #define SPAWNER_H
 
+#include "Entity/entity.h"
+#include "Entity/Enemy/enemy.h"
 
-
-
-class Spawner
+/**
+ * @class Spawner
+ * @brief Class representing a spawner entity in a game.
+ * This class inherits from the Entity class and provides functionality
+ * for spawning enemies at its location.
+ * It can make enemies appear at its location when called upon.
+ * It is associated with a specific sprite and has its own position and dimensions.
+ * @date June 2023
+ */
+class Spawner : public Entity
 {
 public:
-    Spawner();
+    /**
+     * @brief Constructor of the Spawner class.
+     * @param x X coordinate of the spawner.
+     * @param y Y coordinate of the spawner.
+     * @param height Height of the spawner.
+     * @param width Width of the spawner.
+     * @param sprite Sprite used for the spawner.
+     */
+    Spawner(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite);
+
+    /**
+     * @brief Makes an enemy appear at the spawner's location.
+     * @param enemy Pointer to the enemy to be spawned.
+     */
+    void appears(Enemy * enemy);
 };
 
 #endif // SPAWNER_H
+
