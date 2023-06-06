@@ -70,7 +70,7 @@ public:
      * @brief Constructor of the HMI class.
      * @param parent The parent widget.
      */
-    HMI(QWidget *parent = nullptr, Level *level = nullptr);
+    HMI(QWidget *parent = nullptr);
 
     /**
      * @brief Destructor of the HMI class.
