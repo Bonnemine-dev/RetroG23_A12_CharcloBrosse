@@ -107,7 +107,7 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
     }
 }
 
-void Game::colBtwEnemyAndSpawner(Enemy* theEnemy, Despawner* theDespawner)
+void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
 {
     theDespawner->disappear(theEnemy);
 }

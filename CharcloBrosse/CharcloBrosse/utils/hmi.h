@@ -12,7 +12,7 @@
 #include <QListWidgetItem>
 #include <QStackedWidget>
 #include "level.h"
-#include "Entity/player.h"
+#include "../Entity/player.h"
 
 enum MenuState {
     MAINMENU,

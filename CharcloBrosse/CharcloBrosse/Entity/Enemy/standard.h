@@ -1,7 +1,7 @@
 #ifndef STANDARD_H
 #define STANDARD_H
 
-#include "Entity/Enemy/enemy.h"
+#include "enemy.h"
 
 /**
  * @class Standard

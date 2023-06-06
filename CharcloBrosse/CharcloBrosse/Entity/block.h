@@ -1,7 +1,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include <Entity/entity.h>
+#include "entity.h"
 
 /**
  * @class Block

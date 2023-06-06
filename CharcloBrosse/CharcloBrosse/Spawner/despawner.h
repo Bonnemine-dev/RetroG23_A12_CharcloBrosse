@@ -1,9 +1,9 @@
 #ifndef DESPAWNER_H
 #define DESPAWNER_H
 
-#include "Spawner/spawner.h"
-#include "Entity/entity.h"
-#include "Entity/Enemy/enemy.h"
+#include "spawner.h"
+#include "../Entity/entity.h"
+#include "../Entity/Enemy/enemy.h"
 
 /**
  * @class Despawner
