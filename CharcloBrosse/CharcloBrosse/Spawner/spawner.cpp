@@ -11,7 +11,7 @@ Spawner::Spawner(unsigned short x, unsigned short y, unsigned short height, unsi
 void Spawner::appears(Enemy * enemy)
 {
     //Fait apparaitre l'enemy aux coordonnées du spawner
-    enemy->setX(itsRect.x());
+    enemy->setX(itsRect.x()+16);
     enemy->setY(itsRect.y());
 }
 
