@@ -10,7 +10,8 @@
 #include <QVBoxLayout>
 #include <QListWidget>
 #include <QListWidgetItem>
-#include "Entity/entity.h"
+#include <QStackedWidget>
+#include "level.h"
 
 enum MenuState {
     MAINMENU,
@@ -18,6 +19,8 @@ enum MenuState {
     GAMEOVER,
     GAME
 };
+
+
 
 
 /**
@@ -32,25 +35,43 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
+    Level *itsLevel;
+
+    MenuState state;
+
+    QStackedWidget *stackedWidget;
+    QWidget *mainMenuWidget;
+    QWidget *pauseMenuWidget;
+    QWidget *gameMenuWidget;
+    QWidget *gameOverMenuWidget;
+    QWidget *rulesMenuWidget;
+
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
-    QLayout* currentLayout = nullptr;
+
     QVBoxLayout *mainLayout; ///< Main layout for the HMI.
     QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
     QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
+    QVBoxLayout *rulesLayout;
+
+    QLabel *rulesText;
+
     QListWidget *highscoreList; ///< List widget for displaying high scores.
+
     QPushButton *startGameButton; ///< Button for starting the game.
     QPushButton *rulesButton; ///< Button for displaying game rules.
     QPushButton *quitGameButton; ///< Button for quitting the game.
     QPushButton *resumeButton; ///< Button for resuming the game.
     QPushButton *quitToMainButton; ///< Button for going to the main menu.
+    QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
+    QPushButton *goBackButton;
 public:
     /**
      * @brief Constructor of the HMI class.
      * @param parent The parent widget.
      */
-    HMI(QWidget *parent = nullptr);
+    HMI(QWidget *parent = nullptr, Level *level = nullptr);
 
     /**
      * @brief Destructor of the HMI class.
@@ -76,10 +97,6 @@ private slots:
 
     void displayGame();
 
-    /**
-     * @brief Refreshes all components of the HMI.
-     */
-    void refreshAll();
 
     /**
      * @brief Starts the game.
@@ -105,12 +122,19 @@ private slots:
      * @brief Leaves the game.
      */
     void leave();
+public slots:
+    /**
+     * @brief Refreshes all components of the HMI.
+     */
+    void refreshAll();
 signals:
     void leftKeyPressed(); ///< Emitted when the left key is pressed.
     void rightKeyPressed(); ///< Emitted when the right key is pressed.
     void upKeyPressed(); ///< Emitted when the up key is pressed.
     void leftKeyReleased(); ///< Emitted when the left key is released.
     void rightKeyReleased(); ///< Emitted when the right key is released.
+    void gamePaused(); ///< Emitted when the game is paused.
 };
+
 
 #endif // HMI_H
