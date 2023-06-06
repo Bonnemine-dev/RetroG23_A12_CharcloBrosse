@@ -23,7 +23,6 @@ enum MenuState {
 
 
 
-
 /**
  * @class HMI
  * @brief Class representing a Human Machine Interface (HMI) for a game.
@@ -52,9 +51,9 @@ private:
     QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
     QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
-    QVBoxLayout *rulesLayout;
+    QVBoxLayout *rulesLayout; ///< Rules layout for the HMI.
 
-    QLabel *rulesText;
+    QLabel *rulesText; ///< Label for displaying game rules.
 
     QListWidget *highscoreList; ///< List widget for displaying high scores.
 
@@ -64,7 +63,7 @@ private:
     QPushButton *resumeButton; ///< Button for resuming the game.
     QPushButton *quitToMainButton; ///< Button for going to the main menu.
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
-    QPushButton *goBackButton;
+    QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
 public:
     /**
      * @brief Constructor of the HMI class.
@@ -94,8 +93,10 @@ private slots:
      */
     void displayGameOverMenu(std::vector <std::pair <std::string , unsigned int >> highscores);
 
+    /**
+         * @brief Displays the game screen.
+     */
     void displayGame();
-
 
     /**
      * @brief Starts the game.
@@ -123,7 +124,9 @@ private slots:
     void leave();
 public slots:
     /**
-     * @brief Refreshes all components of the HMI.
+         * @brief Refreshes all components of the HMI.
+         * @param level Pointer to the current level object.
+         * @param player Pointer to the player object.
      */
     void refreshAll(Level *level, Player *player);
 signals:
@@ -133,6 +136,7 @@ signals:
     void leftKeyReleased(); ///< Emitted when the left key is released.
     void rightKeyReleased(); ///< Emitted when the right key is released.
     void gamePaused(); ///< Emitted when the game is paused.
+    void gameResumed(); ///< Emitted when the game is resumed.
 };
 
 
