@@ -38,13 +38,17 @@ HMI::HMI(QWidget *parent) : QWidget(parent)
     // Ajout des widgets au layout main menu
     mainLayout->addWidget(highscoreList);
     highscoreList->setFocusPolicy(Qt::NoFocus);
-    mainLayout->addWidget(startGameButton);
-    mainLayout->addWidget(rulesButton);
-    mainLayout->addWidget(quitGameButton);
+    mainLayout->addStretch();
+    mainLayout->addWidget(startGameButton, 0, Qt::AlignCenter);
+    mainLayout->addWidget(rulesButton, 0, Qt::AlignCenter);
+    mainLayout->addWidget(quitGameButton, 0, Qt::AlignCenter);
+    mainLayout->addStretch();
 
     // Ajout des widgets au layout pause menu
-    pauseLayout->addWidget(resumeButton);
-    pauseLayout->addWidget(quitToMainButton);
+    pauseLayout->addStretch();
+    pauseLayout->addWidget(resumeButton, 0, Qt::AlignCenter);
+    pauseLayout->addWidget(quitToMainButton, 0, Qt::AlignCenter);
+    pauseLayout->addStretch();
 
     // Ajout des widgets au layout game over
     gameOverLayout->addWidget(quitToMainButton2);
@@ -82,9 +86,6 @@ HMI::HMI(QWidget *parent) : QWidget(parent)
     mainWindowLayout->addWidget(stackedWidget);
 
     //-------------------------
-    // Définit la couleur d'arrière-plan sur les boutons noirs et de style
-    this->setStyleSheet("background-color: black;");
-
     // Style des boutons
     QString buttonStyle =   "QPushButton {"
                                 "background-color: #0000FF;"    // BLEU
@@ -102,6 +103,12 @@ HMI::HMI(QWidget *parent) : QWidget(parent)
     resumeButton->setFixedWidth(300);
     quitToMainButton->setStyleSheet(buttonStyle);
     quitToMainButton->setFixedWidth(300);
+    startGameButton->setStyleSheet(buttonStyle);
+    startGameButton->setFixedWidth(300);
+    rulesButton->setStyleSheet(buttonStyle);
+    rulesButton->setFixedWidth(300);
+    quitGameButton->setStyleSheet(buttonStyle);
+    quitGameButton->setFixedWidth(300);
 
     // ajustement de la taille de la fenetre
     setFixedSize(20*32*2, 11*32*2);
@@ -123,9 +130,6 @@ HMI::HMI(QWidget *parent) : QWidget(parent)
     startGameButton->setFocusPolicy(Qt::StrongFocus);
     rulesButton->setFocusPolicy(Qt::StrongFocus);
     quitGameButton->setFocusPolicy(Qt::StrongFocus);
-
-    // Définir le bouton par défaut pour activer avec la touche Entrée
-    startGameButton->setDefault(true);
 
     displayMainMenu(highs);
 }
@@ -190,7 +194,7 @@ void HMI::keyReleaseEvent(QKeyEvent *event)
 void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> highscores)
 {
     state = MAINMENU;
-    this->setStyleSheet("background-color: white;");
+    startGameButton->setDefault(true);
     stackedWidget->setCurrentWidget(mainMenuWidget);
     highscoreList->clear();
 
@@ -204,6 +208,7 @@ void HMI::displayPauseMenu()
 {
     emit gamePaused();
     state = PAUSEMENU;
+    resumeButton->setDefault(true);
     stackedWidget->setCurrentWidget(pauseMenuWidget);
 }
 
@@ -231,6 +236,7 @@ void HMI::displayRules()
 }
 
 
+
 void HMI::startGame()
 {
     displayGame();
@@ -244,6 +250,7 @@ void HMI::close()
 
 void HMI::resume()
 {
+    emit gameResumed();
     displayGame();
 }
 
