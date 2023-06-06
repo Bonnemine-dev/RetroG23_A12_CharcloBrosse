@@ -12,6 +12,7 @@
 #include <QListWidgetItem>
 #include <QStackedWidget>
 #include "level.h"
+#include "Entity/player.h"
 
 enum MenuState {
     MAINMENU,
@@ -35,8 +36,6 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
-    Level *itsLevel;
-
     MenuState state;
 
     QStackedWidget *stackedWidget;
@@ -126,7 +125,7 @@ public slots:
     /**
      * @brief Refreshes all components of the HMI.
      */
-    void refreshAll();
+    void refreshAll(Level *level, Player *player);
 signals:
     void leftKeyPressed(); ///< Emitted when the left key is pressed.
     void rightKeyPressed(); ///< Emitted when the right key is pressed.
