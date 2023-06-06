@@ -11,7 +11,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QStackedWidget>
-#include "Entity/entity.h"
+#include "level.h"
 
 enum MenuState {
     MAINMENU,
@@ -35,6 +35,8 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
+    Level *itsLevel;
+
     MenuState state;
 
     QStackedWidget *stackedWidget;
@@ -69,7 +71,7 @@ public:
      * @brief Constructor of the HMI class.
      * @param parent The parent widget.
      */
-    HMI(QWidget *parent = nullptr);
+    HMI(QWidget *parent = nullptr, Level *level = nullptr);
 
     /**
      * @brief Destructor of the HMI class.
@@ -95,10 +97,6 @@ private slots:
 
     void displayGame();
 
-    /**
-     * @brief Refreshes all components of the HMI.
-     */
-    void refreshAll();
 
     /**
      * @brief Starts the game.
@@ -124,12 +122,18 @@ private slots:
      * @brief Leaves the game.
      */
     void leave();
+public slots:
+    /**
+     * @brief Refreshes all components of the HMI.
+     */
+    void refreshAll();
 signals:
     void leftKeyPressed(); ///< Emitted when the left key is pressed.
     void rightKeyPressed(); ///< Emitted when the right key is pressed.
     void upKeyPressed(); ///< Emitted when the up key is pressed.
     void leftKeyReleased(); ///< Emitted when the left key is released.
     void rightKeyReleased(); ///< Emitted when the right key is released.
+    void gamePaused(); ///< Emitted when the game is paused.
 };
 
 

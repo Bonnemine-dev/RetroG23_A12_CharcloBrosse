@@ -1,3 +1,4 @@
+#include <QApplication>
 #include <vector>
 #include "hmi.h"
 
@@ -7,7 +8,7 @@ std::vector<std::pair<std::string, unsigned int>> highs = {
     {"Player3", 150}
 };
 
-HMI::HMI(QWidget *parent) : QWidget(parent)
+HMI::HMI(QWidget *parent, Level *level) : QWidget(parent), itsLevel(level)
 {
     // Initialisation des widgets pour le main menu
     mainLayout = new QVBoxLayout;
@@ -36,6 +37,7 @@ HMI::HMI(QWidget *parent) : QWidget(parent)
     //-------------------------
     // Ajout des widgets au layout main menu
     mainLayout->addWidget(highscoreList);
+    highscoreList->setFocusPolicy(Qt::NoFocus);
     mainLayout->addWidget(startGameButton);
     mainLayout->addWidget(rulesButton);
     mainLayout->addWidget(quitGameButton);
@@ -117,6 +119,14 @@ HMI::HMI(QWidget *parent) : QWidget(parent)
     // Connecter les signaux des boutons aux emplacements appropriés pour le rules menu
     connect(goBackButton, &QPushButton::clicked, this, &HMI::leave);
 
+    // Définir la politique de focus pour permettre la navigation entre les boutons
+    startGameButton->setFocusPolicy(Qt::StrongFocus);
+    rulesButton->setFocusPolicy(Qt::StrongFocus);
+    quitGameButton->setFocusPolicy(Qt::StrongFocus);
+
+    // Définir le bouton par défaut pour activer avec la touche Entrée
+    startGameButton->setDefault(true);
+
     displayMainMenu(highs);
 }
 
@@ -143,6 +153,22 @@ void HMI::keyPressEvent(QKeyEvent *event)
     {
         displayPauseMenu();
     }
+    if ((event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down) && state != GAME)
+        {
+            QWidget::keyPressEvent(event); // Laisser le traitement des touches fléchées par défaut
+        }
+        else if ((event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) && state != GAME)
+        {
+            // Récupérer le widget qui a le focus actuel
+            QWidget *focusedWidget = QApplication::focusWidget();
+
+            // Vérifier si c'est un QPushButton et l'activer
+            QPushButton *button = qobject_cast<QPushButton*>(focusedWidget);
+            if (button != nullptr)
+            {
+                button->click(); // Simuler le clic sur le bouton
+            }
+        }
 }
 
 void HMI::keyReleaseEvent(QKeyEvent *event)
@@ -154,6 +180,10 @@ void HMI::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Right)
     {
         emit rightKeyReleased();
+    }
+    if ((event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down) && state != GAME)
+    {
+        QWidget::keyReleaseEvent(event); // Laisser le traitement des touches fléchées par défaut
     }
 }
 
@@ -172,6 +202,7 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
 
 void HMI::displayPauseMenu()
 {
+    emit gamePaused();
     state = PAUSEMENU;
     stackedWidget->setCurrentWidget(pauseMenuWidget);
 }
@@ -222,7 +253,10 @@ void HMI::leave()
 }
 
 
-void HMI::refreshAll()
+void HMI::refreshAll(Level *level, Player *player)
 {
-
+    QPainter * painter = new QPainter(this);
+    level->display(painter);
+    player->display(painter);
+    painter->end();
 }
