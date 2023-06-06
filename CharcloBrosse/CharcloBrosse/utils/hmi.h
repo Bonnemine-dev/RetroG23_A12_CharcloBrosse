@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QStackedWidget>
 #include "Entity/entity.h"
 
 enum MenuState {
@@ -18,6 +19,8 @@ enum MenuState {
     GAMEOVER,
     GAME
 };
+
+
 
 
 /**
@@ -32,19 +35,35 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
+    MenuState state;
+
+    QStackedWidget *stackedWidget;
+    QWidget *mainMenuWidget;
+    QWidget *pauseMenuWidget;
+    QWidget *gameMenuWidget;
+    QWidget *gameOverMenuWidget;
+    QWidget *rulesMenuWidget;
+
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
-    QLayout* currentLayout = nullptr;
+
     QVBoxLayout *mainLayout; ///< Main layout for the HMI.
     QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
     QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
+    QVBoxLayout *rulesLayout;
+
+    QLabel *rulesText;
+
     QListWidget *highscoreList; ///< List widget for displaying high scores.
+
     QPushButton *startGameButton; ///< Button for starting the game.
     QPushButton *rulesButton; ///< Button for displaying game rules.
     QPushButton *quitGameButton; ///< Button for quitting the game.
     QPushButton *resumeButton; ///< Button for resuming the game.
     QPushButton *quitToMainButton; ///< Button for going to the main menu.
+    QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
+    QPushButton *goBackButton;
 public:
     /**
      * @brief Constructor of the HMI class.
@@ -112,5 +131,6 @@ signals:
     void leftKeyReleased(); ///< Emitted when the left key is released.
     void rightKeyReleased(); ///< Emitted when the right key is released.
 };
+
 
 #endif // HMI_H
