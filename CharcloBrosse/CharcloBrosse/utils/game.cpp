@@ -6,13 +6,15 @@
 Game::Game()
 {
     itsHMI = new HMI;
-    itsTileSet = new TileSet();
-    itsLevel = new Level("level.json",itsTileSet);
+    itsTileSet = new TileSet("tilesettest.png");
+    itsLevel = new Level("level1.json",itsTileSet);
     HMI::connect(itsHMI, &HMI::leftKeyPressed, this, &Game::onLeftKeyPressed);
     HMI::connect(itsHMI, &HMI::rightKeyPressed, this, &Game::onRightKeyPressed);
     HMI::connect(itsHMI, &HMI::upKeyPressed, this, &Game::onUpKeyPressed);
     HMI::connect(itsHMI, &HMI::leftKeyReleased, this, &Game::onLeftKeyReleased);
     HMI::connect(itsHMI, &HMI::rightKeyReleased, this, &Game::onRightKeyReleased);
+    HMI::connect(itsHMI, &HMI::gamePaused, this, &Game::onGamePaused);
+    HMI::connect(itsHMI, &HMI::gameResumed, this, &Game::onGameResumed);
 }
 // Connexion des signaux et slots
 
@@ -43,6 +45,7 @@ void Game::gameLoop()
                 ellapsedTime = 0;
             }
             moveAll();
+            gravity();
             checkAllCollid();
             itsHMI->refreshAll(itsLevel, itsPlayer);
             ellapsedTime+= 0.10;
@@ -82,22 +85,24 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
     {
         theEnemy->setItsState(false);
     }
+    theEnemy->setIsOnTheGround(true);
 }
 
 void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
-    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsSpeedY() > 0)
+    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsYSpeed() < STILL)
     {
         thePlayer->setItsYSpeed(thePlayer->getItsYSpeed() * (-1));//à remplacer par STILL pour l'instant inverse le vitesse
         theBlock->setItsState(true);
     }
-    if(thePlayer->getItsRect()->bottom() == theBlock->getItsRect()->top())
+    if(thePlayer->getItsRect()->bottom() == theBlock->getItsRect()->top())//le joueur est sur un block
     {
-        thePlayer->setItsYSpeed(0);//à remplacer par STILL
+        thePlayer->setItsYSpeed(STILL);
+        thePlayer->setIsOnTheGround(true);
     }
     if((thePlayer->getItsRect()->left() == theBlock->getItsRect()->right()) || (thePlayer->getItsRect()->right() == theBlock->getItsRect()->left()))
     {
-        thePlayer->setItsXSpeed(0);//à remplacer par STILL
+        thePlayer->setItsXSpeed(STILL);
     }
 }
 
@@ -105,7 +110,15 @@ void Game::colBtwEnemyAndSpawner(Enemy* theEnemy, Despawner* theDespawner)
 {
     theDespawner->disappear(theEnemy);
 }
-
+void Game::gravity()
+{
+    itsPlayer->setItsYSpeed(GRAVITY);
+    for(size_t itEnemies = 0; itEnemies < itsLevel->getItsEnemiesList().size(); ++itEnemies)
+    {
+        Enemy* theEnemy = itsLevel->getItsEnemiesList().at(itEnemies);
+        theEnemy->setItsYSpeed(GRAVITY);
+    }
+}
 
 void Game::checkAllCollid()
 {
@@ -201,7 +214,12 @@ bool Game::isLevelFinished()
 }
 void Game::moveAll()
 {
-
+    itsPlayer->move();
+    for(size_t itEnemies = 0; itEnemies < itsLevel->getItsEnemiesList().size(); ++itEnemies)
+    {
+        Enemy* theEnemy = itsLevel->getItsEnemiesList().at(itEnemies);
+        theEnemy->move();
+    }
 }
 void Game::onLeftKeyPressed()
 {
@@ -226,5 +244,17 @@ void Game::onLeftKeyReleased()
 void Game::onRightKeyReleased()
 {
     itsPlayer->setItsXSpeed(STILL);
+}
+
+bool isInPause = false;
+void Game::onGamePaused()
+{
+    isInPause = true;
+    while(isInPause);
+}
+
+void Game::onGameResumed()
+{
+    isInPause = false;
 }
 
