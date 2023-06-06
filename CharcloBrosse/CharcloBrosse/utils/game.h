@@ -37,10 +37,12 @@ private:
     void colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy);
     void colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy);
     void colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock);
+    void colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock);
+    void colBtwEnemyAndSpawner(Enemy* theEnemy, Despawner* theDespawner);
 
 
 
-    void isLevelFinished();
+    bool isLevelFinished();
     void moveAll();
 public:
     void gameLoop();
