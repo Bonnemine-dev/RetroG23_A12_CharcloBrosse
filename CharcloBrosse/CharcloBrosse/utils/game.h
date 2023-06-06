@@ -17,7 +17,7 @@
  */
 
 
-class Game {
+class Game : public QObject{
 private:
     TileSet* itsTileSet;
     Player* itsPlayer;
@@ -42,7 +42,7 @@ private:
     void colBtwEnemyAndSpawner(Enemy* theEnemy, Despawner* theDespawner);
 
 
-
+    void gravity();
     bool isLevelFinished();
     void moveAll();
 public:
@@ -54,6 +54,8 @@ public slots:
     void onUpKeyPressed();
     void onLeftKeyReleased();
     void onRightKeyReleased();
+    void onGamePaused();
+    void onGameResumed();
 };
 
 
