@@ -8,6 +8,7 @@
 #include "utils/hmi.h"
 #include "utils/tileset.h"
 #include "utils/level.h"
+#include <chrono>
 
 //#include "DB_Score.h"
 
@@ -45,7 +46,14 @@ private:
     bool isLevelFinished();
     void moveAll();
 public:
+    Game();
     void gameLoop();
+public slots:
+    void onLeftKeyPressed();
+    void onRightKeyPressed();
+    void onUpKeyPressed();
+    void onLeftKeyReleased();
+    void onRightKeyReleased();
 };
 
 

@@ -1,19 +1,56 @@
-
+#include <chrono>
 #include "game.h"
 #include "typedef.h"
 #include "Spawner/despawner.h"
 
 Game::Game()
 {
-
+    itsHMI = new HMI;
+    itsTileSet = new TileSet();
+    itsLevel = new Level("level.json",itsTileSet);
+    HMI::connect(itsHMI, &HMI::leftKeyPressed, this, &Game::onLeftKeyPressed);
+    HMI::connect(itsHMI, &HMI::rightKeyPressed, this, &Game::onRightKeyPressed);
+    HMI::connect(itsHMI, &HMI::upKeyPressed, this, &Game::onUpKeyPressed);
+    HMI::connect(itsHMI, &HMI::leftKeyReleased, this, &Game::onLeftKeyReleased);
+    HMI::connect(itsHMI, &HMI::rightKeyReleased, this, &Game::onRightKeyReleased);
 }
-//bool isCollision(Entity* theFirstEntity, Spawner* theSpawner)
-//{
+// Connexion des signaux et slots
 
-//}
 void Game::gameLoop()
 {
+    bool first = true;
+    double ellapsedTime = 0;
+    auto end = std::chrono::high_resolution_clock::now();
 
+    do{
+
+        auto begin = std::chrono::high_resolution_clock::now();
+        std::chrono::duration time = end - begin;
+        long ms = std::chrono::duration_cast<std::chrono::milliseconds> (time).count();
+        if (ms >= 10 or first){
+            if(itsLevel->getItsEnemyAppearsTimes().at(0) == ellapsedTime){
+                Enemy * enemy = itsLevel->getItsEnemiesList().at(0);
+                Sides side = itsLevel->getItsEnemyAppearsSides().at(0);
+                switch(side){
+                case LEFT:
+                    itsLevel->getItsSpawnerList().at(0)->appears(enemy);
+                    break;
+                case RIGHT:
+                    itsLevel->getItsSpawnerList().at(1)->appears(enemy);
+                    break;
+                }
+                itsLevel->appears(enemy);
+                ellapsedTime = 0;
+            }
+            moveAll();
+            checkAllCollid();
+            itsHMI->refreshAll(itsLevel, itsPlayer);
+            ellapsedTime+= 0.10;
+        }
+        if (first){
+            first = false;
+        }
+    }while(!isLevelFinished() && itsPlayer->getItsLivesNb()!=0);
 }
 void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
 {
@@ -49,24 +86,18 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 
 void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
-    /*
-     * upPlayer et DownBlock -> BlockState, PlayerStillY
-     * (upPlayer et Downblock) et (bodyPlayer et bodyBlock) -> si Y positif -> BlockState, PlayerStillY -> si Y negatif -> playerStillX
-     *
-     */
-
-
-    /*
-     * Le joueur viens toucher coin à coin le bas d'un block
-     */
     if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsSpeedY() > 0)
     {
-        thePlayer->setItsYSpeed(thePlayer->getItsSpeedY() * (-1));//à remplacer par STILL pour l'instant inverse le vitesse
+        thePlayer->setItsYSpeed(thePlayer->getItsYSpeed() * (-1));//à remplacer par STILL pour l'instant inverse le vitesse
         theBlock->setItsState(true);
     }
     if(thePlayer->getItsRect()->bottom() == theBlock->getItsRect()->top())
     {
-
+        thePlayer->setItsYSpeed(0);//à remplacer par STILL
+    }
+    if((thePlayer->getItsRect()->left() == theBlock->getItsRect()->right()) || (thePlayer->getItsRect()->right() == theBlock->getItsRect()->left()))
+    {
+        thePlayer->setItsXSpeed(0);//à remplacer par STILL
     }
 }
 
@@ -172,5 +203,28 @@ void Game::moveAll()
 {
 
 }
+void Game::onLeftKeyPressed()
+{
+    itsPlayer->setItsXSpeed(-PLAYERMAXSPEED);
+}
 
+void Game::onRightKeyPressed()
+{
+    itsPlayer->setItsXSpeed(PLAYERMAXSPEED);
+}
+
+void Game::onUpKeyPressed()
+{
+    itsPlayer->setItsYSpeed(PLAYERMAXSPEED);
+}
+
+void Game::onLeftKeyReleased()
+{
+    itsPlayer->setItsXSpeed(STILL);
+}
+
+void Game::onRightKeyReleased()
+{
+    itsPlayer->setItsXSpeed(STILL);
+}
 
