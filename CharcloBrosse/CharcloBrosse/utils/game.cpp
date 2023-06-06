@@ -55,6 +55,7 @@ void Game::gameLoop()
         }
     }while(!isLevelFinished() && itsPlayer->getItsLivesNb()!=0);
 }
+
 void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
 {
     if(theEnemy->getItsState())//quand l'ennemie est KO
@@ -120,17 +121,11 @@ void Game::gravity()
     }
 }
 
+/**
+ * @brief Game::checkAllCollid
+ */
 void Game::checkAllCollid()
 {
-    /* Les collisions à check
-     * P to E
-     * //P to P
-     * E to E
-     * E to B
-     * P to B
-     * E to S
-     * P to M
-     */
     /*
      * Si une collision à lieu entre le joueur et un enemies :
      * lance une fonction colbtwplayerandenemy
@@ -196,11 +191,12 @@ void Game::checkAllCollid()
 
             if(theEnemy->getItsRect()->intersects(*theDespawner->getItsRect()))//Check collid between Enemy and blocks
             {
-                colBtwEnemyAndSpawner(theEnemy, theDespawner);
+                colBtwEnemyAndDespawner(theEnemy, theDespawner);
             }
         }
     }
 }
+
 bool Game::isLevelFinished()
 {
     if (itsLevel->getItsEnemiesList().empty() || itsPlayer->getItsLivesNb() == 0)
@@ -212,15 +208,20 @@ bool Game::isLevelFinished()
         return false;
     }
 }
+
 void Game::moveAll()
 {
-    itsPlayer->move();
+    if(itsPlayer->getIsOnTheGround())
+    {
+        itsPlayer->move();
+    }
     for(size_t itEnemies = 0; itEnemies < itsLevel->getItsEnemiesList().size(); ++itEnemies)
     {
         Enemy* theEnemy = itsLevel->getItsEnemiesList().at(itEnemies);
-        theEnemy->move();
+        if(theEnemy->getIsOnTheGround())theEnemy->move();
     }
 }
+
 void Game::onLeftKeyPressed()
 {
     itsPlayer->setItsXSpeed(-PLAYERMAXSPEED);
@@ -233,7 +234,7 @@ void Game::onRightKeyPressed()
 
 void Game::onUpKeyPressed()
 {
-    itsPlayer->setItsYSpeed(PLAYERMAXSPEED);
+    if(itsPlayer->getIsOnTheGround())itsPlayer->setItsYSpeed(-PLAYERMAXSPEED);
 }
 
 void Game::onLeftKeyReleased()
@@ -257,4 +258,3 @@ void Game::onGameResumed()
 {
     isInPause = false;
 }
-
