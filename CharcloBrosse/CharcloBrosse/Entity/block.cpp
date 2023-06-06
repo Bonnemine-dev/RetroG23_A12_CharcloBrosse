@@ -1,5 +1,7 @@
 #include "block.h"
 
+#include "typedef.h"
+
 //Getter du itsState
 bool Block::getItsState() const
 {
@@ -22,6 +24,11 @@ unsigned short Block::getItsCounter() const
 void Block::increment()
 {
     itsCounter += 1;
+    if (itsCounter >= COUNTER_VALUE) //Reset l'état du bloc au compteur = COUNTER_VALUE
+    {
+        setItsState(false);
+    }
+
 }
 
 //Constructeur

@@ -12,4 +12,5 @@ void Despawner::disappear(Enemy *enemy)
 {
     enemy->setX(itsSpawner->getItsX()); //Met le x de l'enemy au x du spawner lié
     enemy->setY(itsSpawner->getItsY()); //Met le y de l'enemy au y du spawner lié
+    enemy->setItsXSpeed(-(enemy->getItsXSpeed())); //Change la direction
 }
