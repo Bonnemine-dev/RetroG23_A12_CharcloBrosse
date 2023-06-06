@@ -55,7 +55,8 @@ private:
 
     QLabel *rulesText; ///< Label for displaying game rules.
 
-    QListWidget *highscoreList; ///< List widget for displaying high scores.
+    QLabel *scoresLabel;
+    QLabel *scoresLabelGameOver;
 
     QPushButton *startGameButton; ///< Button for starting the game.
     QPushButton *rulesButton; ///< Button for displaying game rules.
