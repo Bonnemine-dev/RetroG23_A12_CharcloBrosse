@@ -1,7 +1,5 @@
 #include <vector>
 #include "hmi.h"
-
-//pour tester :
 std::vector<std::pair<std::string, unsigned int>> highs = {
     {"Player1", 100},
     {"Player2", 200},
