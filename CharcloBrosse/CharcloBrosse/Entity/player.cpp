@@ -48,6 +48,18 @@ short Player::getItsYSpeed() const
     return itsYSpeed;
 }
 
+//Setter isOnTheGround
+void Player::setIsOnTheGround(bool newIsOnTheGround)
+{
+    isOnTheGround = newIsOnTheGround;
+}
+
+//Getter isOnTheGround
+bool Player::getIsOnTheGround() const
+{
+    return isOnTheGround;
+}
+
 //Constructeur
 Player::Player(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap *sprite)
     : Entity(x, y, height, width, sprite)
