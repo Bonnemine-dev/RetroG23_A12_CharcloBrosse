@@ -41,8 +41,9 @@ public:
 
     /**
      * @brief Increments the block's counter.
+     * @param nb The number decided to restart the counter.
      */
-    void increment();
+    void increment(unsigned int nb);
 
     /**
      * @brief Gets the counter associated with the block.

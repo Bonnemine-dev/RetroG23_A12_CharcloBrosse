@@ -12,11 +12,13 @@ QRect * Entity::getItsRect()
     return &itsRect;
 }
 
+//Setter pour la coordonnée en x
 void Entity::setX(unsigned short newX)
 {
     itsRect.setX(newX);
 }
 
+//Setter pour la coordonnée en y
 void Entity::setY(unsigned short newY)
 {
     itsRect.setX(newY);
