@@ -35,14 +35,14 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
-    MenuState state;
+    MenuState state; ///< Current state of the HMI.
 
-    QStackedWidget *stackedWidget;
-    QWidget *mainMenuWidget;
-    QWidget *pauseMenuWidget;
-    QWidget *gameMenuWidget;
-    QWidget *gameOverMenuWidget;
-    QWidget *rulesMenuWidget;
+    QStackedWidget *stackedWidget; ///< Widget for stacking different screens.
+    QWidget *mainMenuWidget; ///< Widget for the main menu screen.
+    QWidget *pauseMenuWidget; ///< Widget for the pause menu screen.
+    QWidget *gameMenuWidget; ///< Widget for the game screen.
+    QWidget *gameOverMenuWidget; ///< Widget for the game over screen.
+    QWidget *rulesMenuWidget; ///< Widget for the game rules screen.
 
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
