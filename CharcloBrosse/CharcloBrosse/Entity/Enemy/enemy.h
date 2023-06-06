@@ -74,6 +74,8 @@ public:
      */
     void setItsState(bool newItsState);
 
+    void move();
+
 };
 
 #endif // ENEMY_H

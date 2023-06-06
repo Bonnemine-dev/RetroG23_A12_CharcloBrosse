@@ -42,6 +42,12 @@ void Enemy::setItsState(bool newItsState)
     itsState = newItsState;
 }
 
+void Enemy::move()
+{
+    itsRect.setX(itsRect.x()+itsXSpeed);
+    itsRect.setY(itsRect.y()+itsYSpeed);
+}
+
 //Constructeur
 Enemy::Enemy(unsigned short height, unsigned short width, QPixmap * sprite)
     : Entity(0, 0, height, width, sprite)
