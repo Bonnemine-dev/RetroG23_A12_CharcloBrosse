@@ -21,6 +21,7 @@ protected:
     short itsYSpeed = 0; ///< Speed of the enemy on the Y axis.
     bool itsState = true; ///< State of the enemy.
     EnemyType itsType; ///< Type of the enemy.
+    bool isOnTheGround = true;
 public:
     /**
      * @brief Constructor of the Enemy class.
@@ -76,6 +77,17 @@ public:
 
     void move();
 
+    /**
+     * @brief Sets the "is on the ground" status of the entity.
+     * @param newIsOnTheGround The new "is on the ground" status.
+     */
+    void setIsOnTheGround(bool newIsOnTheGround);
+
+    /**
+     * @brief Gets the "is on the ground" status of the entity.
+     * @return The "is on the ground" status.
+     */
+    bool getIsOnTheGround() const;
 };
 
 #endif // ENEMY_H

@@ -33,3 +33,27 @@ Entity::Entity(unsigned short x, unsigned short y, unsigned short height, unsign
     itsRect.setHeight(height);
     itsRect.setWidth(width);
 }
+
+//Getter getItsX
+unsigned short Entity::getItsX() const
+{
+    return itsRect.x();
+}
+
+//Getter getItsY
+unsigned short Entity::getItsY() const
+{
+    return itsRect.y();
+}
+
+//Getter getItsHeight()
+unsigned short Entity::getItsHeight() const
+{
+    return itsRect.height();
+}
+
+//Getter getItsWidth()
+unsigned short Entity::getItsWidth() const
+{
+    return itsRect.width();
+}
