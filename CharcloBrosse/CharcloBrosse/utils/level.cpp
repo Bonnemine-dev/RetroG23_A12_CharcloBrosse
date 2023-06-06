@@ -114,7 +114,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
                 itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile()));
             }
             if (block == 2){ // if platform block
-                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(0))));
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile())));
             }
         }
     }
@@ -123,7 +123,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         QJsonArray jsonLine = Enemies[line].toArray(); // get the array
         std::string type = jsonLine[0].toString().toStdString(); // get the type of the enemy in string
         if (type == "standard"){ // if a standard enemy
-            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyTile(0,0))); // create the enemy and add it to the list
+            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyTile())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
@@ -148,16 +148,13 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
 
 void Level::appears(Enemy * enemy){
     unsigned short i = 0;
+
     for (std::vector<Enemy *>::iterator it=itsRemainingEnemies.begin(); it != itsRemainingEnemies.end(); it++){ // scan the ennemies list
         if ((*it)==enemy){ //if it's the good enemy
             itsRemainingEnemies.erase(it); // remove from the list
             itsEnemiesList.push_back(*it);
-            std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
-            itsEnemyAppearsTimes.pop_back();
-            std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
-            std::reverse(itsEnemyAppearsSides.begin(), itsEnemyAppearsSides.end());
-            itsEnemyAppearsSides.pop_back();
-            std::reverse(itsEnemyAppearsSides.begin(), itsEnemyAppearsSides.end());
+            itsEnemyAppearsTimes.erase(itsEnemyAppearsTimes.begin());
+            itsEnemyAppearsSides.erase(itsEnemyAppearsSides.begin());
         }
         i++;
     }
