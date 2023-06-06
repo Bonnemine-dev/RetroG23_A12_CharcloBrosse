@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    CharcloBrosse
+    CharcloBrosse \
+    test_CharcloBrosse
