@@ -34,10 +34,16 @@ private:
      * P to M
      */
     void checkAllCollid();
+    void colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy);
+    void colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy);
+    void colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock);
+
+
+
     void isLevelFinished();
     void moveAll();
 public:
-void gameLoop();
+    void gameLoop();
 };
 
 
