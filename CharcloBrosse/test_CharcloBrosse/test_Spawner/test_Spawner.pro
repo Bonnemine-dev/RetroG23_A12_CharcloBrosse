@@ -4,4 +4,14 @@ CONFIG += qt warn_on depend_includepath testcase
 
 TEMPLATE = app
 
-SOURCES +=  tst_test_spawner.cpp
+SOURCES +=  tst_test_spawner.cpp \
+    ../../CharcloBrosse/enemy.cpp \
+    ../../CharcloBrosse/entity.cpp \
+    ../../CharcloBrosse/spawner.cpp \
+    ../../CharcloBrosse/sprite.cpp
+
+HEADERS += \
+    ../../CharcloBrosse/enemy.h \
+    ../../CharcloBrosse/entity.h \
+    ../../CharcloBrosse/spawner.h \
+    ../../CharcloBrosse/sprite.h
