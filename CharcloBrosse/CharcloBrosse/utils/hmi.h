@@ -12,6 +12,7 @@
 #include <QListWidgetItem>
 #include <QStackedWidget>
 #include "level.h"
+<<<<<<< HEAD
 #include "../Entity/player.h"
 
 enum MenuState {
@@ -20,6 +21,10 @@ enum MenuState {
     GAMEOVER,
     GAME
 };
+=======
+#include "Entity/player.h"
+#include "../typedef.h"
+>>>>>>> Erwan
 
 
 

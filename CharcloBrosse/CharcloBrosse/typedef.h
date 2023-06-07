@@ -9,4 +9,11 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 
+enum MenuState {
+    MAINMENU,
+    PAUSEMENU,
+    GAMEOVER,
+    GAME
+};
+
 #endif // TYPEDEF_H
