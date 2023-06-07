@@ -5,11 +5,11 @@ CONFIG += qt warn_on depend_includepath testcase
 TEMPLATE = app
 
 SOURCES +=  tst_test_block.cpp \
-    ../../CharcloBrosse/Entity/block.cpp \
-    ../../CharcloBrosse/Entity/entity.cpp \
-    ../../CharcloBrosse/Sprite/sprite.cpp
+    ../../CharcloBrosse/block.cpp \
+    ../../CharcloBrosse/entity.cpp \
+    ../../CharcloBrosse/sprite.cpp
 
 HEADERS += \
-    ../../CharcloBrosse/Entity/block.h \
-    ../../CharcloBrosse/Entity/entity.h \
-    ../../CharcloBrosse/Sprite/sprite.h
+    ../../CharcloBrosse/block.h \
+    ../../CharcloBrosse/entity.h \
+    ../../CharcloBrosse/sprite.h
