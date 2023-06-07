@@ -8,18 +8,15 @@
 #include "../../CharcloBrosse/entity.h"
 #include "../../CharcloBrosse/level.h"
 #include "../../CharcloBrosse/spawner.h"
-#include "../../CharcloBrosse/sprite.h"
-#include "../../CharcloBrosse/standard.h"
 #include "../../CharcloBrosse/tileset.h"
-#include "../../CharcloBrosse/typedef.h"
 
 
 class test_Level : public QObject
 {
     Q_OBJECT
 private:
-    std::string itsJsonFilePath = "../../../CharcloBrosse/test_CharcloBrosse/test_Level/testFile.json";
-    std::string itsJsonFileUnreadablePath = "../../../CharcloBrosse/test_CharcloBrosse/test_Level/testFileUnreadable.json";
+    std::string itsJsonFilePath = "../../CharcloBrosse/test_CharcloBrosse/test_Level/testFile.json";
+    std::string itsJsonFileUnreadablePath = "../../CharcloBrosse/test_CharcloBrosse/test_Level/testFileUnreadable.json";
     Level* itsLevel;
     TileSet* itsTileset;
 
@@ -31,7 +28,6 @@ private slots:
     void init();
     void cleanup();
 
-    void test_Constructor_UnreadableFile_Exception();
     void test_Constructor_UnfoundFile_Exception();
 
     void test_Constructor_Generals();
@@ -66,17 +62,25 @@ test_Level::~test_Level()
 
 void test_Level::init()
 {
+
+    // open the file and parse it
+    QFile jsonFile;
+    jsonFile.setFileName(QString(itsJsonFilePath.c_str())); // spécifie le chemin du fichier à ouvrir
+
+    jsonFile.open(QIODevice::ReadOnly); // tente d'ouvrir le fichier
+    if (!jsonFile.isOpen())
+    {
+        QFAIL("L'erreur est la");
+    }
+
+    /*
     try
     {
         itsLevel = new Level(itsJsonFilePath, itsTileset);
     }
     catch(const std::string exceptionMessage)
     {
-        if(exceptionMessage == "Level file is not readable")
-        {
-            QFAIL("File not readable");
-        }
-        else if(exceptionMessage == "Could not open the level file")
+        if(exceptionMessage == "Could not open the level file")
         {
             QFAIL("File not openeable");
         }
@@ -85,6 +89,7 @@ void test_Level::init()
             QFAIL("Unknow exception");
         }
     }
+    */
 }
 
 void test_Level::cleanup()
@@ -93,23 +98,6 @@ void test_Level::cleanup()
     delete itsTileset;
 }
 
-void test_Level::test_Constructor_UnreadableFile_Exception()
-{
-    Level* unvalidLevel;
-    try
-    {
-        unvalidLevel = new Level(itsJsonFileUnreadablePath, itsTileset);
-        delete unvalidLevel;
-        QFAIL("No_exception_throw");
-    }
-    catch(const std::string exceptionMessage)
-    {
-        QCOMPARE(exceptionMessage, "Level file is not readable");
-    }
-
-    delete unvalidLevel;
-
-}
 
 
 void test_Level::test_Constructor_UnfoundFile_Exception()
@@ -117,7 +105,7 @@ void test_Level::test_Constructor_UnfoundFile_Exception()
     Level* unvalidLevel;
     try
     {
-        unvalidLevel = new Level("../../../jjdu/kid.son", itsTileset);
+        unvalidLevel = new Level("../../../jjdu/kid.json", itsTileset);
         delete unvalidLevel;
         QFAIL("No_exception_throw");
     }

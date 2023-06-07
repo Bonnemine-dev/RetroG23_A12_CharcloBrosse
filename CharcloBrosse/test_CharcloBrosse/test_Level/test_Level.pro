@@ -27,4 +27,6 @@ HEADERS += \
     ../../CharcloBrosse/tileset.h \
     ../../CharcloBrosse/typedef.h
 
-DISTFILES +=
+DISTFILES += \
+    testFile.json \
+    testFileUnreadable.json
