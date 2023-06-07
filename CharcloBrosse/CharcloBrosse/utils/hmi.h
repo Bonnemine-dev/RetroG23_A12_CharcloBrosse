@@ -13,13 +13,7 @@
 #include <QStackedWidget>
 #include "level.h"
 #include "Entity/player.h"
-
-enum MenuState {
-    MAINMENU,
-    PAUSEMENU,
-    GAMEOVER,
-    GAME
-};
+#include "../typedef.h"
 
 
 
