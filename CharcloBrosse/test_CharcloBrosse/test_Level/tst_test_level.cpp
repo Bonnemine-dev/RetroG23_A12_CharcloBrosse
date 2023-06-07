@@ -63,17 +63,7 @@ test_Level::~test_Level()
 void test_Level::init()
 {
 
-    // open the file and parse it
-    QFile jsonFile;
-    jsonFile.setFileName(QString(itsJsonFilePath.c_str())); // spécifie le chemin du fichier à ouvrir
 
-    jsonFile.open(QIODevice::ReadOnly); // tente d'ouvrir le fichier
-    if (!jsonFile.isOpen())
-    {
-        QFAIL("L'erreur est la");
-    }
-
-    /*
     try
     {
         itsLevel = new Level(itsJsonFilePath, itsTileset);
@@ -89,7 +79,7 @@ void test_Level::init()
             QFAIL("Unknow exception");
         }
     }
-    */
+
 }
 
 void test_Level::cleanup()
