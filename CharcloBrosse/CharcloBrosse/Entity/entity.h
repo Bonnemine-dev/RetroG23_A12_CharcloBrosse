@@ -76,6 +76,9 @@ public:
      */
     void setY(unsigned short newY);
 
+
+    void moveTo();
+
 };
 
 #endif // ENTITY_H
