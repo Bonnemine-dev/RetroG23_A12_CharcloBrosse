@@ -1,8 +1,8 @@
 #ifndef SPAWNER_H
 #define SPAWNER_H
 
-#include "Entity/entity.h"
-#include "Entity/Enemy/enemy.h"
+#include "../Entity/entity.h"
+#include "../Entity/Enemy/enemy.h"
 
 /**
  * @class Spawner

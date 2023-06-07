@@ -3,11 +3,11 @@
 #define GAME_H
 
 #include <vector>
-#include <Qrect>
-#include "Entity/player.h"
-#include "utils/hmi.h"
-#include "utils/tileset.h"
-#include "utils/level.h"
+#include <QRect> // Corrigé
+#include "../Entity/player.h"
+#include "hmi.h"
+#include "tileset.h"
+#include "level.h"
 #include <chrono>
 
 //#include "DB_Score.h"
