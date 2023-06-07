@@ -16,4 +16,9 @@ enum MenuState {
     GAME
 };
 
+enum Sides{
+    LEFT,
+    RIGHT,
+};
+
 #endif // TYPEDEF_H

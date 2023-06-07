@@ -43,8 +43,9 @@ private:
      * @brief Pointer to the HMI (Human-Machine Interface) object used in the game.
      */
     HMI* itsHMI;
-
     //    DB_Score itsDBScore;
+
+public:
     /**
      * @brief Checks all possible collisions in the current game state
      * and launches the appropriate functions
@@ -103,6 +104,12 @@ public:
      * @brief corresponds to the game loop, depending on the time the player is not dead.
      */
     void gameLoop();
+    TileSet *getItsTileSet() const;
+    Player *getItsPlayer() const;
+    unsigned int getItsScore() const;
+    Level *getItsLevel() const;
+    HMI *getItsHMI() const;
+
 public slots:
     /**
      * @brief Fonction appelée lorsque la touche gauche est enfoncée.
