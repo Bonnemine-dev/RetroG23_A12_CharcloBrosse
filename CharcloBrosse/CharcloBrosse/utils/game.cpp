@@ -4,9 +4,11 @@
 
 Game::Game()
 {
-    itsHMI = new HMI;
+
     itsTileSet = new TileSet("tilesettest.png");
+    itsPlayer = new Player(0, 0, 32, 32, itsTileSet->getItsPlayerTile());
     itsLevel = new Level("level1.json",itsTileSet);
+    itsHMI = new HMI(itsLevel, itsPlayer);
     HMI::connect(itsHMI, &HMI::leftKeyPressed, this, &Game::onLeftKeyPressed);
     HMI::connect(itsHMI, &HMI::rightKeyPressed, this, &Game::onRightKeyPressed);
     HMI::connect(itsHMI, &HMI::upKeyPressed, this, &Game::onUpKeyPressed);
@@ -14,6 +16,7 @@ Game::Game()
     HMI::connect(itsHMI, &HMI::rightKeyReleased, this, &Game::onRightKeyReleased);
     HMI::connect(itsHMI, &HMI::gamePaused, this, &Game::onGamePaused);
     HMI::connect(itsHMI, &HMI::gameResumed, this, &Game::onGameResumed);
+    itsHMI->show();
 }
 // Connexion des signaux et slots
 
