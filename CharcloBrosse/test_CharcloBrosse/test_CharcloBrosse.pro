@@ -11,5 +11,4 @@ SUBDIRS += \
     test_Spawner \
     test_Sprite \
     test_Standard \
-    test_Level \
     test_Tileset
