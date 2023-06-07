@@ -50,8 +50,8 @@ private:
 
     QLabel *rulesText; ///< Label for displaying game rules.
 
-    QLabel *scoresLabel;
-    QLabel *scoresLabelGameOver;
+    QLabel *scoresLabel; ///< Label for displaying scores in the main menu.
+    QLabel *scoresLabelGameOver; ///< Label for displaying scores in the game over menu.
 
     QPushButton *startGameButton; ///< Button for starting the game.
     QPushButton *rulesButton; ///< Button for displaying game rules.
@@ -61,8 +61,8 @@ private:
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
     QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
 
-    Level *itsLevel;
-    Player *itsPlayer;
+    Level *itsLevel; ///< The level of the game.
+    Player *itsPlayer; ///< The player.
     void paintEvent(QPaintEvent* event);
 public:
     /**
