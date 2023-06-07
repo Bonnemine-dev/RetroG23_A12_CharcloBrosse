@@ -38,6 +38,7 @@ Entity::Entity(unsigned short x, unsigned short y, unsigned short height, unsign
     itsRect.setY(y);
     itsRect.setHeight(height);
     itsRect.setWidth(width);
+    itsSprite->moveTo(itsRect.x(), itsRect.y());
 }
 
 //Getter getItsX
