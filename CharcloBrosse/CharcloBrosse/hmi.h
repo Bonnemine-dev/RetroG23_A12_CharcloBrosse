@@ -12,19 +12,9 @@
 #include <QListWidgetItem>
 #include <QStackedWidget>
 #include "level.h"
-<<<<<<< HEAD
-#include "../Entity/player.h"
+#include "player.h"
+#include "typedef.h"
 
-enum MenuState {
-    MAINMENU,
-    PAUSEMENU,
-    GAMEOVER,
-    GAME
-};
-=======
-#include "Entity/player.h"
-#include "../typedef.h"
->>>>>>> Erwan
 
 
 

@@ -11,15 +11,15 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QString>
-#include "../Entity/entity.h"
-#include "../Entity/Enemy/enemy.h"
-#include "../Entity/Enemy/standard.h"
-#include "../Entity/block.h"
-#include "../Spawner/spawner.h"
-#include "../Spawner/despawner.h"
-#include "../typedef.h"
+#include "entity.h"
+#include "enemy.h"
+#include "standard.h"
+#include "block.h"
+#include "spawner.h"
+#include "despawner.h"
+#include "typedef.h"
 #include "tileset.h"
-#include "../Sprite/sprite.h"
+#include "sprite.h"
 
 
 enum Sides{
