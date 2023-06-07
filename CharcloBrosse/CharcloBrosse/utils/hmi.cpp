@@ -8,7 +8,7 @@ std::vector<std::pair<std::string, unsigned int>> highs = {
     {"Player3", 150}
 };
 
-HMI::HMI(QWidget *parent) : QWidget(parent)
+HMI::HMI(QWidget *parent, Level * level, Player * player) : QWidget(parent), itsLevel(level), itsPlayer(player)
 {
     // Initialisation des widgets pour le main menu
     mainLayout = new QVBoxLayout;
@@ -204,6 +204,15 @@ void HMI::keyReleaseEvent(QKeyEvent *event)
     }
 }
 
+void HMI::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QPainter * painter = new QPainter(this);
+    itsLevel->display(painter);
+    itsPlayer->display(painter);
+    painter->end();
+}
+
 void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> highscores)
 {
     state = MAINMENU;
@@ -275,10 +284,7 @@ void HMI::leave()
 }
 
 
-void HMI::refreshAll(Level *level, Player *player)
+void HMI::refreshAll()
 {
-    QPainter * painter = new QPainter(this);
-    level->display(painter);
-    player->display(painter);
-    painter->end();
+    update();
 }

@@ -65,12 +65,16 @@ private:
     QPushButton *quitToMainButton; ///< Button for going to the main menu.
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
     QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
+
+    Level *itsLevel;
+    Player *itsPlayer;
+    void paintEvent(QPaintEvent* event);
 public:
     /**
      * @brief Constructor of the HMI class.
      * @param parent The parent widget.
      */
-    HMI(QWidget *parent = nullptr);
+    HMI(QWidget *parent = nullptr, Level *itsLevel = nullptr, Player *itsPlayer = nullptr);
 
     /**
      * @brief Destructor of the HMI class.
@@ -126,10 +130,8 @@ private slots:
 public slots:
     /**
          * @brief Refreshes all components of the HMI.
-         * @param level Pointer to the current level object.
-         * @param player Pointer to the player object.
      */
-    void refreshAll(Level *level, Player *player);
+    void refreshAll();
 signals:
     void leftKeyPressed(); ///< Emitted when the left key is pressed.
     void rightKeyPressed(); ///< Emitted when the right key is pressed.
