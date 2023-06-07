@@ -1,5 +1,4 @@
 #include <QtTest>
-
 #include "../../CharcloBrosse/tileset.h"
 // add necessary includes here
 
@@ -7,7 +6,7 @@ class test_Tileset : public QObject
 {
     Q_OBJECT
 private:
-    TileSet* itsTileSet;
+    TileSet* itsTileset;
 public:
     test_Tileset();
     ~test_Tileset();
@@ -29,11 +28,11 @@ test_Tileset::~test_Tileset()
 
 }
 
-void init()
+void test_Tileset::init()
 {
-    itsTileset = new TileSet;
+    itsTileset = new TileSet("../../CharcloBrosse/ressources/tileset0.png");
 }
-void cleanup()
+void test_Tileset::cleanup()
 {
     delete itsTileset;
 }
