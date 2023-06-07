@@ -16,8 +16,8 @@ class test_Level : public QObject
 {
     Q_OBJECT
 private:
-    std::string itsJsonFilePath = "testFile.json";
-    std::string itsJsonFileUnreadablePath = "testFileUnreadable.json";
+    std::string itsJsonFilePath = "../../../CharcloBrosse/test_CharcloBrosse/test_Level/testFile.json";
+    std::string itsJsonFileUnreadablePath = "../../../CharcloBrosse/test_CharcloBrosse/test_Level/testFileUnreadable.json";
     Level* itsLevel;
     TileSet* itsTileset;
 
@@ -64,7 +64,25 @@ test_Level::~test_Level()
 
 void test_Level::init()
 {
-    itsLevel = new Level(itsJsonFilePath, itsTileset);
+    try
+    {
+        itsLevel = new Level(itsJsonFilePath, itsTileset);
+    }
+    catch(const std::string exceptionMessage)
+    {
+        if(exceptionMessage == "Level file is not readable")
+        {
+            QFAIL("File not readable");
+        }
+        else if(exceptionMessage == "Could not open the level file")
+        {
+            QFAIL("File not openeable");
+        }
+        else
+        {
+            QFAIL("Unknow exception");
+        }
+    }
 }
 
 void test_Level::cleanup()
