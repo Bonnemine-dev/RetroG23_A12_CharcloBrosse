@@ -82,8 +82,8 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     // open the file and parse it
     QFile jsonFile;
     jsonFile.setFileName(QString(itsLevelFile.c_str())); // spécifie le chemin du fichier à ouvrir
-    if (!jsonFile.isReadable()){ // cerifi que le fichier soit lisible
-        throw std::string("Level file is not readable");
+    if (!jsonFile.exists()){ // cerifi que le fichier soit lisible
+        throw std::string("Level file does not exists");
     }
     jsonFile.open(QIODevice::ReadOnly); // tente d'ouvrir le fichier
     if (!jsonFile.isOpen()){ // verifi que le fichier soit ouvert
@@ -147,8 +147,6 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
 }
 
 void Level::appears(Enemy * enemy){
-    unsigned short i = 0;
-
     for (std::vector<Enemy *>::iterator it=itsRemainingEnemies.begin(); it != itsRemainingEnemies.end(); it++){ // scan the ennemies list
         if ((*it)==enemy){ //if it's the good enemy
             itsRemainingEnemies.erase(it); // remove from the list
@@ -156,6 +154,5 @@ void Level::appears(Enemy * enemy){
             itsEnemyAppearsTimes.erase(itsEnemyAppearsTimes.begin());
             itsEnemyAppearsSides.erase(itsEnemyAppearsSides.begin());
         }
-        i++;
     }
 }
