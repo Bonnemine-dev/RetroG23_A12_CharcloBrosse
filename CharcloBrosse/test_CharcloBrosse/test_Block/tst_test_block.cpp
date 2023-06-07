@@ -1,5 +1,5 @@
 #include <QtTest>
-#include <QPainter>
+//#include <QPainter>
 // add necessary includes here
 #include "../../CharcloBrosse/block.h"
 
@@ -79,6 +79,6 @@ void test_Block::test_increment()
     QCOMPARE(block->getItsState(), false);
 }
 
-QTEST_APPLESS_MAIN(test_Block)
+QTEST_MAIN(test_Block)
 
 #include "tst_test_block.moc"
