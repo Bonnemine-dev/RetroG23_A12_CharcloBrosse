@@ -1,9 +1,7 @@
 #include <QtTest>
 #include <QPainter>
 // add necessary includes here
-#include "../../CharcloBrosse/Sprite/sprite.h"
-#include "../../CharcloBrosse/Entity/entity.h"
-#include "../../CharcloBrosse/Entity/block.h"
+#include "../../CharcloBrosse/block.h"
 
 class test_Block : public QObject
 {

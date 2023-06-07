@@ -1,23 +1,25 @@
 #include <QtTest>
 
 // add necessary includes here
-#include "../../CharcloBrosse/Entity/Enemy/enemy.h"
-#include "../../CharcloBrosse/Entity/Enemy/standard.h"
-#include "../../CharcloBrosse/Sprite/sprite.h"
-#include "../../CharcloBrosse/Entity/block.h"
-#include "../../CharcloBrosse/Entity/entity.h"
-#include "../../CharcloBrosse/Spawner/despawner.h"
-#include "../../CharcloBrosse/Spawner/spawner.h"
+
+#include "../../CharcloBrosse/block.h"
+#include "../../CharcloBrosse/despawner.h"
+#include "../../CharcloBrosse/enemy.h"
+#include "../../CharcloBrosse/entity.h"
+#include "../../CharcloBrosse/level.h"
+#include "../../CharcloBrosse/spawner.h"
+#include "../../CharcloBrosse/sprite.h"
+#include "../../CharcloBrosse/standard.h"
+#include "../../CharcloBrosse/tileset.h"
 #include "../../CharcloBrosse/typedef.h"
-#include "../../CharcloBrosse/utils/level.h"
-#include "../../CharcloBrosse/utils/tileset.h"
+
 
 class test_Level : public QObject
 {
     Q_OBJECT
 private:
-    std::string itsJsonFilePath = "testFile.json";
-    std::string itsJsonFileUnreadablePath = "testFileUnreadable.json";
+    std::string itsJsonFilePath = "../../../CharcloBrosse/test_CharcloBrosse/test_Level/testFile.json";
+    std::string itsJsonFileUnreadablePath = "../../../CharcloBrosse/test_CharcloBrosse/test_Level/testFileUnreadable.json";
     Level* itsLevel;
     TileSet* itsTileset;
 
@@ -64,7 +66,25 @@ test_Level::~test_Level()
 
 void test_Level::init()
 {
-    itsLevel = new Level(itsJsonFilePath, itsTileset);
+    try
+    {
+        itsLevel = new Level(itsJsonFilePath, itsTileset);
+    }
+    catch(const std::string exceptionMessage)
+    {
+        if(exceptionMessage == "Level file is not readable")
+        {
+            QFAIL("File not readable");
+        }
+        else if(exceptionMessage == "Could not open the level file")
+        {
+            QFAIL("File not openeable");
+        }
+        else
+        {
+            QFAIL("Unknow exception");
+        }
+    }
 }
 
 void test_Level::cleanup()

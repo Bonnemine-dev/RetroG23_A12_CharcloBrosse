@@ -5,28 +5,26 @@ CONFIG += qt warn_on depend_includepath testcase
 TEMPLATE = app
 
 SOURCES +=  tst_test_level.cpp \
-    ../../CharcloBrosse/Entity/Enemy/enemy.cpp \
-    ../../CharcloBrosse/Entity/Enemy/standard.cpp \
-    ../../CharcloBrosse/Entity/block.cpp \
-    ../../CharcloBrosse/Entity/entity.cpp \
-    ../../CharcloBrosse/Spawner/despawner.cpp \
-    ../../CharcloBrosse/Spawner/spawner.cpp \
-    ../../CharcloBrosse/Sprite/sprite.cpp \
-    ../../CharcloBrosse/utils/level.cpp \
-    ../../CharcloBrosse/utils/tileset.cpp
+    ../../CharcloBrosse/block.cpp \
+    ../../CharcloBrosse/despawner.cpp \
+    ../../CharcloBrosse/enemy.cpp \
+    ../../CharcloBrosse/entity.cpp \
+    ../../CharcloBrosse/level.cpp \
+    ../../CharcloBrosse/spawner.cpp \
+    ../../CharcloBrosse/sprite.cpp \
+    ../../CharcloBrosse/standard.cpp \
+    ../../CharcloBrosse/tileset.cpp
 
 HEADERS += \
-    ../../CharcloBrosse/Entity/Enemy/enemy.h \
-    ../../CharcloBrosse/Entity/Enemy/standard.h \
-    ../../CharcloBrosse/Entity/block.h \
-    ../../CharcloBrosse/Entity/entity.h \
-    ../../CharcloBrosse/Spawner/despawner.h \
-    ../../CharcloBrosse/Spawner/spawner.h \
-    ../../CharcloBrosse/Sprite/sprite.h \
-    ../../CharcloBrosse/typedef.h \
-    ../../CharcloBrosse/utils/level.h \
-    ../../CharcloBrosse/utils/tileset.h
+    ../../CharcloBrosse/block.h \
+    ../../CharcloBrosse/despawner.h \
+    ../../CharcloBrosse/enemy.h \
+    ../../CharcloBrosse/entity.h \
+    ../../CharcloBrosse/level.h \
+    ../../CharcloBrosse/spawner.h \
+    ../../CharcloBrosse/sprite.h \
+    ../../CharcloBrosse/standard.h \
+    ../../CharcloBrosse/tileset.h \
+    ../../CharcloBrosse/typedef.h
 
-DISTFILES += \
-    testFile.json \
-    testFileUnreadable.json
+DISTFILES +=
