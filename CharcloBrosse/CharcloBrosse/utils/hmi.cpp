@@ -263,6 +263,7 @@ void HMI::displayRules()
 
 void HMI::startGame()
 {
+    emit gameStart();
     displayGame();
 }
 

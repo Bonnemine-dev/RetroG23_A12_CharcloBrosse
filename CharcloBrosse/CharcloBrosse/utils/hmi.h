@@ -140,6 +140,7 @@ signals:
     void rightKeyReleased(); ///< Emitted when the right key is released.
     void gamePaused(); ///< Emitted when the game is paused.
     void gameResumed(); ///< Emitted when the game is resumed.
+    void gameStart(); ///< Emitted when the game has to start.
 };
 
 
