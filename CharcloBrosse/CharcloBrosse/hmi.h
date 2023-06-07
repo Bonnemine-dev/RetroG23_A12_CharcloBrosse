@@ -12,14 +12,9 @@
 #include <QListWidgetItem>
 #include <QStackedWidget>
 #include "level.h"
-#include "../Entity/player.h"
+#include "player.h"
+#include "typedef.h"
 
-enum MenuState {
-    MAINMENU,
-    PAUSEMENU,
-    GAMEOVER,
-    GAME
-};
 
 
 
@@ -35,14 +30,14 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
-    MenuState state;
+    MenuState state; ///< Current state of the HMI.
 
-    QStackedWidget *stackedWidget;
-    QWidget *mainMenuWidget;
-    QWidget *pauseMenuWidget;
-    QWidget *gameMenuWidget;
-    QWidget *gameOverMenuWidget;
-    QWidget *rulesMenuWidget;
+    QStackedWidget *stackedWidget; ///< Widget for stacking different screens.
+    QWidget *mainMenuWidget; ///< Widget for the main menu screen.
+    QWidget *pauseMenuWidget; ///< Widget for the pause menu screen.
+    QWidget *gameMenuWidget; ///< Widget for the game screen.
+    QWidget *gameOverMenuWidget; ///< Widget for the game over screen.
+    QWidget *rulesMenuWidget; ///< Widget for the game rules screen.
 
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
@@ -55,7 +50,8 @@ private:
 
     QLabel *rulesText; ///< Label for displaying game rules.
 
-    QListWidget *highscoreList; ///< List widget for displaying high scores.
+    QLabel *scoresLabel; ///< Label for displaying scores in the main menu.
+    QLabel *scoresLabelGameOver; ///< Label for displaying scores in the game over menu.
 
     QPushButton *startGameButton; ///< Button for starting the game.
     QPushButton *rulesButton; ///< Button for displaying game rules.
@@ -64,12 +60,16 @@ private:
     QPushButton *quitToMainButton; ///< Button for going to the main menu.
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
     QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
+
+    Level *itsLevel; ///< The level of the game.
+    Player *itsPlayer; ///< The player.
+    void paintEvent(QPaintEvent* event);
 public:
     /**
      * @brief Constructor of the HMI class.
      * @param parent The parent widget.
      */
-    HMI(QWidget *parent = nullptr);
+    HMI(Level *itsLevel = nullptr, Player *itsPlayer = nullptr, QWidget *parent = nullptr);
 
     /**
      * @brief Destructor of the HMI class.
@@ -125,10 +125,8 @@ private slots:
 public slots:
     /**
          * @brief Refreshes all components of the HMI.
-         * @param level Pointer to the current level object.
-         * @param player Pointer to the player object.
      */
-    void refreshAll(Level *level, Player *player);
+    void refreshAll();
 signals:
     void leftKeyPressed(); ///< Emitted when the left key is pressed.
     void rightKeyPressed(); ///< Emitted when the right key is pressed.
@@ -137,6 +135,7 @@ signals:
     void rightKeyReleased(); ///< Emitted when the right key is released.
     void gamePaused(); ///< Emitted when the game is paused.
     void gameResumed(); ///< Emitted when the game is resumed.
+    void gameStart(); ///< Emitted when the game has to start.
 };
 
 

@@ -9,33 +9,33 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        Entity/block.cpp \
-        Entity/Enemy/enemy.cpp \
-        Entity/entity.cpp \
-        Spawner/despawner.cpp \
-        utils/game.cpp \
-        utils/hmi.cpp \
-        utils/level.cpp \
+        block.cpp \
+        enemy.cpp \
+        entity.cpp \
+        despawner.cpp \
+        game.cpp \
+        hmi.cpp \
+        level.cpp \
         main.cpp \
-        Entity/player.cpp \
-        Spawner/spawner.cpp \
-        Sprite/sprite.cpp \
-        Entity/Enemy/standard.cpp \
-        utils/tileset.cpp
+        player.cpp \
+        spawner.cpp \
+        sprite.cpp \
+        standard.cpp \
+        tileset.cpp
 
 HEADERS += \
-    Entity/block.h \
-    Entity/Enemy/enemy.h \
-    Entity/entity.h \
-    Spawner/despawner.h \
-    utils/game.h \
-    utils/hmi.h \
-    utils/level.h \
-    Entity/player.h \
-    Spawner/spawner.h \
-    Sprite/sprite.h \
-    Entity/Enemy/standard.h \
-    utils/tileset.h \
+    block.h \
+    enemy.h \
+    entity.h \
+    despawner.h \
+    game.h \
+    hmi.h \
+    level.h \
+    player.h \
+    spawner.h \
+    sprite.h \
+    standard.h \
+    tileset.h \
     typedef.h
 
 # Default rules for deployment.

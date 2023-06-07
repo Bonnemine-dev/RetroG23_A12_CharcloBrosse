@@ -1,14 +1,15 @@
 
 #ifndef GAME_H
 #define GAME_H
-
+#include <chrono>
 #include <vector>
 #include <QRect> // Corrigé
-#include "../Entity/player.h"
+
+#include "player.h"
 #include "hmi.h"
 #include "tileset.h"
 #include "level.h"
-#include <chrono>
+
 
 //#include "DB_Score.h"
 

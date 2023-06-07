@@ -3,7 +3,7 @@
 
 #include <QPixmap>
 
-#include "../entity.h"
+#include "entity.h"
 
 enum EnemyType {STANDARD=100, ACCELERATOR=200, JUMPER=300, GIANT=400, FREEZER=500};
 
@@ -21,7 +21,7 @@ protected:
     short itsYSpeed = 0; ///< Speed of the enemy on the Y axis.
     bool itsState = true; ///< State of the enemy.
     EnemyType itsType; ///< Type of the enemy.
-    bool isOnTheGround = true;
+    bool isOnTheGround = true; ///< True is the player is on the ground .
 public:
     /**
      * @brief Constructor of the Enemy class.

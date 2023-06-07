@@ -24,6 +24,12 @@ void Entity::setY(unsigned short newY)
     itsRect.setX(newY);
 }
 
+//Change la position du sprite en fonction de celle de la hit box
+void Entity::moveTo()
+{
+    itsSprite->moveTo(itsRect.x(), itsRect.y());
+}
+
 //Constructeur
 Entity::Entity(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite)
 {

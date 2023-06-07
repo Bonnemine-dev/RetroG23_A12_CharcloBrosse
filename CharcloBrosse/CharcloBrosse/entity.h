@@ -2,7 +2,8 @@
 #define ENTITY_H
 
 #include <QPainter>
-#include "../Sprite/sprite.h"
+
+#include "sprite.h"
 
 /**
  * @class Entity
@@ -75,6 +76,9 @@ public:
      * @param newY The new Y coordinate.
      */
     void setY(unsigned short newY);
+
+
+    void moveTo();
 
 };
 

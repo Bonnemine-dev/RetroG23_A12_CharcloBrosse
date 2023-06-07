@@ -1,6 +1,6 @@
 #include "block.h"
 
-#include "../typedef.h"
+#include "typedef.h"
 
 //Getter du itsState
 bool Block::getItsState() const
