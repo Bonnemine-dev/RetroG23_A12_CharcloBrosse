@@ -3,7 +3,7 @@
 
 #include <QPixmap>
 
-#include "../entity.h"
+#include "entity.h"
 
 enum EnemyType {STANDARD=100, ACCELERATOR=200, JUMPER=300, GIANT=400, FREEZER=500};
 

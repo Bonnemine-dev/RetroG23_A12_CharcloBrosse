@@ -11,6 +11,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QString>
+
 #include "entity.h"
 #include "enemy.h"
 #include "standard.h"

@@ -5,8 +5,10 @@
  * @date 05/06/2023
  * @version 1.2
  */
-#include "tileset.h"
+
 #include <ostream>
+
+#include "tileset.h"
 
 
 /**

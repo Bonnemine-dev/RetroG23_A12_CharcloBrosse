@@ -2,7 +2,8 @@
 #define ENTITY_H
 
 #include <QPainter>
-#include "../Sprite/sprite.h"
+
+#include "sprite.h"
 
 /**
  * @class Entity
