@@ -8,7 +8,7 @@ class test_Block : public QObject
     Q_OBJECT
 
     Block * block;
-    QPixmap * sprite; // you might want to use a mock sprite for testing
+    QPixmap * sprite;
 
 public:
     test_Block();
