@@ -21,7 +21,7 @@ void Entity::setX(unsigned short newX)
 //Setter pour la coordonnée en y
 void Entity::setY(unsigned short newY)
 {
-    itsRect.setX(newY);
+    itsRect.setY(newY);
 }
 
 //Change la position du sprite en fonction de celle de la hit box
