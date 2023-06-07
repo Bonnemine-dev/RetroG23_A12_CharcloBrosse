@@ -4,4 +4,8 @@ CONFIG += qt warn_on depend_includepath testcase
 
 TEMPLATE = app
 
-SOURCES +=  tst_test_tileset.cpp
+SOURCES +=  tst_test_tileset.cpp \
+    ../../CharcloBrosse/tileset.cpp
+
+HEADERS += \
+    ../../CharcloBrosse/tileset.h
