@@ -141,8 +141,8 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     itsSpawnerList.push_back(new Spawner(0, 32*3, 96, 64, tileSet->getItsSpawnerTile(0)));
     itsSpawnerList.push_back(new Spawner(32*38, 32*3, 96, 64, tileSet->getItsSpawnerTile(1)));
 
-    itsDespawnerList.push_back(new Despawner(itsSpawnerList.at(0), 0, 32*3, 96, 64, tileSet->getItsSpawnerTile(0)));
-    itsDespawnerList.push_back(new Despawner(itsSpawnerList.at(1), 32*38, 32*3, 96, 64, tileSet->getItsSpawnerTile(1)));
+    itsDespawnerList.push_back(new Despawner(itsSpawnerList.at(0), 0, 32*3, 96, 64, tileSet->getItsDespawnerTile(0)));
+    itsDespawnerList.push_back(new Despawner(itsSpawnerList.at(1), 32*38, 32*3, 96, 64, tileSet->getItsDespawnerTile(1)));
 
 }
 
