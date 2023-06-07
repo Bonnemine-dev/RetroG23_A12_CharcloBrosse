@@ -49,7 +49,7 @@ void Game::gameLoop()
             moveAll();
             gravity();
             checkAllCollid();
-            itsHMI->refreshAll(itsLevel, itsPlayer);
+            itsHMI->refreshAll();
             ellapsedTime+= 0.10;
         }
         if (first){

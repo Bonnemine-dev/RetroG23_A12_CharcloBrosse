@@ -8,7 +8,7 @@ std::vector<std::pair<std::string, unsigned int>> highs = {
     {"Player3", 150}
 };
 
-HMI::HMI(QWidget *parent, Level * level, Player * player) : QWidget(parent), itsLevel(level), itsPlayer(player)
+HMI::HMI(Level * level, Player * player, QWidget *parent) : QWidget(parent), itsLevel(level), itsPlayer(player)
 {
     // Initialisation des widgets pour le main menu
     mainLayout = new QVBoxLayout;
