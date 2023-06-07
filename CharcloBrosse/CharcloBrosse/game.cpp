@@ -126,6 +126,31 @@ void Game::gravity()
 /**
  * @brief Game::checkAllCollid
  */
+TileSet *Game::getItsTileSet() const
+{
+    return itsTileSet;
+}
+
+Player *Game::getItsPlayer() const
+{
+    return itsPlayer;
+}
+
+unsigned int Game::getItsScore() const
+{
+    return itsScore;
+}
+
+Level *Game::getItsLevel() const
+{
+    return itsLevel;
+}
+
+HMI *Game::getItsHMI() const
+{
+    return itsHMI;
+}
+
 void Game::checkAllCollid()
 {
     /*
