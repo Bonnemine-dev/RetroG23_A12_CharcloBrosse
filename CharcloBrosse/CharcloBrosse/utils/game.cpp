@@ -1,7 +1,6 @@
 #include <chrono>
 #include "game.h"
 #include "typedef.h"
-#include "Spawner/despawner.h"
 
 Game::Game()
 {
