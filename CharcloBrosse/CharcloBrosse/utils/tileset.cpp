@@ -35,10 +35,10 @@ TileSet::TileSet(const std::string aFilePath)
         itsBlockTilesList[1] = new QPixmap(tileset.copy(53, 9, 32, 32));
         itsEnemyTilesList[0] = new QPixmap(tileset.copy(9, 53, 32, 32));
         itsEnemyTilesList[1] = new QPixmap(tileset.copy(53, 53, 32, 32));
-        itsSpawnerTilesList[0] = new QPixmap(tileset.copy(9, 174, 32, 96));
-        itsSpawnerTilesList[1] = new QPixmap(tileset.copy(53, 174, 32, 96));
-        itsDespawnerTilesList[0] = new QPixmap(tileset.copy(96, 174, 32, 96));
-        itsDespawnerTilesList[1] = new QPixmap(tileset.copy(139, 174, 32, 96));
+        itsSpawnerTilesList[0] = new QPixmap(tileset.copy(9, 174, 64, 96));
+        itsSpawnerTilesList[1] = new QPixmap(tileset.copy(73, 174, 64, 96));
+        itsDespawnerTilesList[0] = new QPixmap(tileset.copy(137, 174, 64, 96));
+        itsDespawnerTilesList[1] = new QPixmap(tileset.copy(201, 174, 64, 96));
         //> Chargement et stockage de chaque image une par une en précisant leur position et leur taille (possibilité de mettre des constantes à termes)
     }
     //> Vérification de l'ouverture du fichier et lancement d'une exception si non
