@@ -111,7 +111,7 @@ public :
      */
     void moveAll();
 
-    bool isOnTop(Entity * entity, Block * block);
+    bool isOnTop(Entity * entity1, Entity * entity2);
 
     bool collid(Entity * entity1, Entity * entity2);
 
