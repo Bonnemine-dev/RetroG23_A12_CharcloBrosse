@@ -51,6 +51,7 @@ private:
 
     QLabel *scoresLabel;
     QLabel *scoresLabelGameOver;
+    QLabel *gameOverLabel;
 
     QPushButton *startGameButton; ///< Button for starting the game.
     QPushButton *rulesButton; ///< Button for displaying game rules.

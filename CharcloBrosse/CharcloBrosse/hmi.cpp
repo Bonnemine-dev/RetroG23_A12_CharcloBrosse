@@ -27,6 +27,13 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     // Initialisation des widgets pour le game over
     gameOverLayout = new QVBoxLayout;
     quitToMainButton2 = new QPushButton("Leave the game");
+    gameOverLabel = new QLabel("GAME OVER", this);
+    gameOverLabel->setAlignment(Qt::AlignCenter);  // Centre le texte dans le QLabel
+    QFont gameOverFont = gameOverLabel->font();
+    gameOverFont.setPointSize(48); // ajustez la taille de la police comme vous le souhaitez
+    gameOverLabel->setFont(gameOverFont);
+
+    gameOverLayout->addWidget(gameOverLabel, 0, Qt::AlignCenter);
 
     // Initialisation des widgets pour le gaming
     gameLayout = new QVBoxLayout;
@@ -46,10 +53,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
 
     // Initialisation du QLabel pour le highscoreList du main
     scoresLabelGameOver = new QLabel(this);
-    scoresLabelGameOver->setAlignment(Qt::AlignCenter);  // Centre le texte dans le QLabel
-    gameOverLayout->addWidget(scoresLabelGameOver, 0, Qt::AlignCenter);
-    font.setPointSize(18); // ajustez la taille de la police comme vous le souhaitez
-    scoresLabelGameOver->setFont(font);
+
 
     //-------------------------
     // Ajout des widgets au layout main menu
@@ -66,7 +70,10 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     pauseLayout->addStretch();
 
     // Ajout des widgets au layout game over
-    gameOverLayout->addWidget(quitToMainButton2);
+    gameOverLayout->addWidget(quitToMainButton2, 0, Qt::AlignCenter);
+
+    font.setPointSize(18); // ajustez la taille de la police comme vous le souhaitez
+    scoresLabelGameOver->setFont(font);
 
     // Ajout des widgets au layout gaming
 
@@ -121,6 +128,8 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     rulesButton->setFixedWidth(300);
     quitGameButton->setStyleSheet(buttonStyle);
     quitGameButton->setFixedWidth(300);
+    quitToMainButton2->setStyleSheet(buttonStyle);
+    quitToMainButton2->setFixedWidth(300);
 
     // ajustement de la taille de la fenetre
     setFixedSize(20*32*2, 11*32*2);
@@ -148,6 +157,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
 
     itsTimer = new QTimer(this);
     connect(itsTimer, SIGNAL(timeout()), this, SLOT(gameLoop()));
+
     displayMainMenu(highs);
 }
 
@@ -247,17 +257,10 @@ void HMI::displayPauseMenu()
     stackedWidget->setCurrentWidget(pauseMenuWidget);
 }
 
-void HMI::displayGameOverMenu(std::vector<std::pair<std::string, unsigned int>> highscores)
+void HMI::displayGameOverMenu()
 {
     state = GAMEOVER;
     stackedWidget->setCurrentWidget(gameOverMenuWidget);
-
-    QString scoresText2;
-    for (const auto &score : highscores) {
-        scoresText2 += QString::fromStdString(score.first) + ": " + QString::number(score.second) + "\n";
-    }
-
-    scoresLabel->setText(scoresText2);
 }
 
 void HMI::displayGame()
