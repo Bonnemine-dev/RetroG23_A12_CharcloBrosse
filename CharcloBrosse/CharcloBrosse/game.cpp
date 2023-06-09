@@ -20,9 +20,9 @@ void displayCoord(Entity * entity1, Entity * entity2){
 
 Game::Game()
 {
-    itsTileSet = new TileSet("/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/build-CharcloBrosse-Qt_6_5_0_for_macOS-Debug/ressources/tilsetCharclo.png");
+    itsTileSet = new TileSet("../../CharcloBrosse/CharcloBrosse/ressources/tilsetCharclo.png");
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
-    itsLevel = new Level("/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/build-CharcloBrosse-Qt_6_5_0_for_macOS-Debug/ressources/oneenemy.json",itsTileSet);
+    itsLevel = new Level("../../CharcloBrosse/CharcloBrosse/ressources/oneenemy.json",itsTileSet);
     itsHMI = new HMI(itsLevel, itsPlayer, this);
     itsEllapsedTime = 0;
     itsHMI->show();
@@ -63,7 +63,7 @@ void Game::gameLoop()
         itsEllapsedTime = 0;
     }
 
-    system("clear");
+    //system("clear");
     checkAllCollid();
     //    //std::cout<<"Est sur une platforme : "<<itsPlayer->getIsOnTheGround()<<"\n";
     moveAll();

@@ -18,11 +18,12 @@ void Player::move()
     if(itsX == -1)
     {
         itsX = 32*39;
+        itsRect.moveTo(itsX,itsY);
     }
     else if(itsX == (32*39)+1)
     {
         itsX = 0;
-
+        itsRect.moveTo(itsX,itsY);
     }
 }
 
