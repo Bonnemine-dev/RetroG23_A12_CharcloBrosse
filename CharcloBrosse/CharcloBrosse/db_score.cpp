@@ -13,7 +13,7 @@ std::vector<std::pair<std::string, unsigned int>> DB_Score::loadScores()
 {
     std::vector<std::pair<std::string, unsigned int>> scores;
 
-    // Ouvrez le fichier en mode lecture.
+    // Ouvre le fichier en mode lecture.
     std::ifstream file("../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt");
 
     if (file.is_open())
@@ -25,11 +25,11 @@ std::vector<std::pair<std::string, unsigned int>> DB_Score::loadScores()
             std::string name;
             unsigned int score;
 
-            // Lisez le nom et le score de la ligne.
+            // Lis le nom et le score de la ligne.
             getline(ss, name, ',');
             ss >> score;
 
-            // Ajoutez la paire au vecteur
+            // Ajoute la paire au vecteur
             scores.push_back(std::make_pair(name, score));
         }
 
