@@ -11,7 +11,6 @@ SOURCES +=  tst_test_level.cpp \
     ../../CharcloBrosse/entity.cpp \
     ../../CharcloBrosse/level.cpp \
     ../../CharcloBrosse/spawner.cpp \
-    ../../CharcloBrosse/sprite.cpp \
     ../../CharcloBrosse/standard.cpp \
     ../../CharcloBrosse/tileset.cpp
 
@@ -22,7 +21,6 @@ HEADERS += \
     ../../CharcloBrosse/entity.h \
     ../../CharcloBrosse/level.h \
     ../../CharcloBrosse/spawner.h \
-    ../../CharcloBrosse/sprite.h \
     ../../CharcloBrosse/standard.h \
     ../../CharcloBrosse/tileset.h \
     ../../CharcloBrosse/typedef.h

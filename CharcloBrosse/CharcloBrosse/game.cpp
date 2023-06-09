@@ -64,10 +64,7 @@ void Game::gameLoop()
         itsEllapsedTime = 0;
     }
 
-<<<<<<< HEAD
-=======
-    //system("clear");
->>>>>>> dev
+
     checkAllCollid();
     //    //std::cout<<"Est sur une platforme : "<<itsPlayer->getIsOnTheGround()<<"\n";
     moveAll();
