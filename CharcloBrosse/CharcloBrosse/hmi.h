@@ -21,6 +21,7 @@
 #include "level.h"
 #include "player.h"
 #include "typedef.h"
+#include "db_score.h"
 
 
 class Game;
@@ -37,6 +38,8 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
+    DB_Score *DBSCORE;
+
     MenuState state; ///< Current state of the HMI.
 
     QStackedWidget *stackedWidget; ///< Widget for stacking different screens.
