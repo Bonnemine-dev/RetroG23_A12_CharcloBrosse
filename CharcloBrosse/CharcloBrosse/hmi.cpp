@@ -118,17 +118,26 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
                           "font-size: 32px;"
                           "margin: 4px 2px;"
                           "}";
-    resumeButton->setStyleSheet(buttonStyle);
+
+    QString buttonFocusedStyle = "QPushButton:focus {"
+                                 "color: red;"
+                                 "}";
+
+    QString buttonHoverStyle = "QPushButton:hover {"
+                               "color: rgba(255, 0, 0, 0.5);"
+                               "}";
+
+    resumeButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     resumeButton->setFixedWidth(300);
-    quitToMainButton->setStyleSheet(buttonStyle);
+    quitToMainButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     quitToMainButton->setFixedWidth(300);
-    startGameButton->setStyleSheet(buttonStyle);
+    startGameButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     startGameButton->setFixedWidth(300);
-    rulesButton->setStyleSheet(buttonStyle);
+    rulesButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     rulesButton->setFixedWidth(300);
-    quitGameButton->setStyleSheet(buttonStyle);
+    quitGameButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     quitGameButton->setFixedWidth(300);
-    quitToMainButton2->setStyleSheet(buttonStyle);
+    quitToMainButton2->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     quitToMainButton2->setFixedWidth(300);
 
     // ajustement de la taille de la fenetre
