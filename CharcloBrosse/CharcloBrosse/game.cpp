@@ -20,9 +20,9 @@ void displayCoord(Entity * entity1, Entity * entity2){
 
 Game::Game()
 {
-    itsTileSet = new TileSet("C:/Users/tombo/Desktop/src/tilsetCharclo.png");
+    itsTileSet = new TileSet("/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/ressources/tilsetCharclo.png");
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
-    itsLevel = new Level("C:/Users/tombo/Desktop/src/oneenemy.json",itsTileSet);
+    itsLevel = new Level("/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/ressources/oneenemy.json",itsTileSet);
     itsHMI = new HMI(itsLevel, itsPlayer, this);
     itsEllapsedTime = 0;
     itsHMI->show();
@@ -77,7 +77,6 @@ void Game::gameLoop()
         //std::cout<<"Je passe pas la condition de list vide\n";
         itsHMI->stopGame();
     }
-    std::cout<<"sgdiysgc";
 }
 
 
