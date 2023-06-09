@@ -1,3 +1,11 @@
+/**
+ * @file entity.cpp
+ * @brief Source file for abstract class Entity
+ * @author Tom Bonneau
+ * @date 05/06/2023
+ * @version 1.1
+ */
+
 #include "entity.h"
 #include "qdebug.h"
 

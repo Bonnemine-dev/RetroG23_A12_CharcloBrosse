@@ -1,3 +1,10 @@
+/**
+ * @file level.cpp
+ * @brief Source file for class Level
+ * @author Kevin Simon
+ * @date 05/06/2023
+ * @version 1.1
+ */
 
 #include "level.h"
 
@@ -130,16 +137,16 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     }
 
     if (itsRemainingEnemies.size() > 1){
-            for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
-                unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
-                itsEnemyAppearsTimes.push_back(temp); // compute the delay
-            }
-            std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
+        for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
+            unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
+            itsEnemyAppearsTimes.push_back(temp); // compute the delay
+            qWarning() << temp;
         }
-        else {
-            itsEnemyAppearsTimes.push_back(itsMaxDelay);
-        }
-    std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
+        // std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
+    }
+    else {
+        itsEnemyAppearsTimes.push_back(itsMaxDelay);
+    }
 
     itsSpawnerList.push_back(new Spawner(0, 32*3, 96, 64, tileSet->getItsSpawnerTile(0)));
     itsSpawnerList.push_back(new Spawner(32*38, 32*3, 96, 64, tileSet->getItsSpawnerTile(1)));
@@ -151,19 +158,10 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
 }
 
 void Level::appears(Enemy * enemy){
-    for (std::vector<Enemy *>::iterator it=itsRemainingEnemies.begin(); it != itsRemainingEnemies.end(); it++){ // scan the ennemies list
-        if ((*it)==enemy){ //if it's the good enemy
-            qWarning() << "apparition";
-            itsRemainingEnemies.erase(it); // remove from the list
-            qWarning() << "apparition";
-            itsEnemiesList.push_back(*it);
-            qWarning() << "apparition";
-            itsEnemyAppearsTimes.erase(itsEnemyAppearsTimes.begin());
-            qWarning() << "apparition";
-            itsEnemyAppearsSides.erase(itsEnemyAppearsSides.begin());
-            break;
-        }
-    }
+    itsRemainingEnemies.pop_back();
+    itsEnemiesList.push_back(enemy);
+    itsEnemyAppearsTimes.pop_back();
+    itsEnemyAppearsSides.pop_back();
 }
 
 void Level::activate(){

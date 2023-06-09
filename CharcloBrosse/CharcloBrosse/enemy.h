@@ -1,3 +1,11 @@
+/**
+ * @file enemy.h
+ * @brief Header file for class Enemy
+ * @author Tom Bonneau
+ * @date 06/06/2023
+ * @version 1.3
+ */
+
 #ifndef ENEMY_H
 #define ENEMY_H
 
