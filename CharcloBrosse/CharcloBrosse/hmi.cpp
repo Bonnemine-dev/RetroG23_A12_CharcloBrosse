@@ -227,7 +227,11 @@ void HMI::paintEvent(QPaintEvent *event)
     Q_UNUSED(event);
 
     if (itsLevel->isActive()){
+        unsigned int score = itsGame->getItsScore();
+        short lives = itsGame->getItsPlayer()->getItsLivesNb();
         QPainter * painter = new QPainter(this);
+        painter->drawText(10, 20, QString("Score: %1").arg(score)); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
+        painter->drawText(10, 40, QString("Lives: %1").arg(lives)); // Le texte apparaîtra à 10 pixels du bord gauche et à 40 pixels du haut de l'écran
         itsLevel->display(painter);
         itsPlayer->display(painter);
         painter->end();
