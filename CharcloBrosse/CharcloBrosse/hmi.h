@@ -66,6 +66,8 @@ private:
     Game * itsGame;
     QTimer * itsTimer;
     void paintEvent(QPaintEvent* event);
+    void clearPaintings();
+    bool shouldDraw = true;
 public:
     /**
      * @brief Constructor of the HMI class.

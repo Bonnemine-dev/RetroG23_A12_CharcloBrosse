@@ -235,7 +235,7 @@ void HMI::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
-    if (itsLevel->isActive()){
+    if (itsLevel->isActive() && shouldDraw){
         unsigned int score = itsGame->getItsScore();
         short lives = itsGame->getItsPlayer()->getItsLivesNb();
         QPainter * painter = new QPainter(this);
@@ -245,6 +245,10 @@ void HMI::paintEvent(QPaintEvent *event)
         itsPlayer->display(painter);
         painter->end();
     }
+}
+void HMI::clearPaintings() {
+    shouldDraw = false;
+    update();
 }
 
 void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> highscores)
@@ -267,11 +271,13 @@ void HMI::displayPauseMenu()
     qWarning() << "emit pause\n";
     state = PAUSEMENU;
     resumeButton->setDefault(true);
+    clearPaintings();
     stackedWidget->setCurrentWidget(pauseMenuWidget);
 }
 
 void HMI::displayGameOverMenu()
 {
+    clearPaintings();
     state = GAMEOVER;
     stackedWidget->setCurrentWidget(gameOverMenuWidget);
 }
@@ -292,6 +298,7 @@ void HMI::displayRules()
 
 void HMI::startGame()
 {
+    shouldDraw = true;
     displayGame();
     itsGame->onGameStart();
     itsTimer->start(5);//33
@@ -305,7 +312,7 @@ void HMI::close()
 
 void HMI::resume()
 {
-
+    shouldDraw = true;
     displayGame();
     itsGame->onGameResumed();
 }
