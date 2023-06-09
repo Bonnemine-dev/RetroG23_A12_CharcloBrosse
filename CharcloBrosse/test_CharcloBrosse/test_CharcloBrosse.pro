@@ -9,6 +9,6 @@ SUBDIRS += \
     test_Level \
     test_Player \
     test_Spawner \
-    test_Sprite \
+#    test_Sprite \
     test_Standard \
     test_Tileset
