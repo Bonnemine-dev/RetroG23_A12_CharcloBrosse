@@ -14,7 +14,6 @@ SOURCES +=  tst_test_game.cpp \
     ../../CharcloBrosse/level.cpp \
     ../../CharcloBrosse/player.cpp \
     ../../CharcloBrosse/spawner.cpp \
-    ../../CharcloBrosse/sprite.cpp \
     ../../CharcloBrosse/standard.cpp \
     ../../CharcloBrosse/tileset.cpp
 
