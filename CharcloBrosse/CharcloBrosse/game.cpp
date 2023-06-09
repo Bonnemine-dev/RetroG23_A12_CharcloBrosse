@@ -28,9 +28,11 @@ void displayCoord(Entity * entity1, Entity * entity2){
 
 Game::Game()
 {
-    itsTileSet = new TileSet("../../CharcloBrosse/CharcloBrosse/ressources//tileset0.png");
+    itsTileSet = new TileSet("../../CharcloBrosse/CharcloBrosse/ressources/tileset0.png");
+    // itsTileSet = new TileSet("ressources/tileset0.png");
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
     itsLevel = new Level("../../CharcloBrosse/CharcloBrosse/ressources/level1.json",itsTileSet); // a remplacer selon les besoins
+    // itsLevel = new Level("ressources/level1.json",itsTileSet);
     itsHMI = new HMI(itsLevel, itsPlayer, this);
     itsEllapsedTime = 0;
     itsHMI->show();
