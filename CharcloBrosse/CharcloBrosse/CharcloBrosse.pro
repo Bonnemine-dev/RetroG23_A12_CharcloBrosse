@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++17 rtti
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -19,7 +19,6 @@ SOURCES += \
         main.cpp \
         player.cpp \
         spawner.cpp \
-        sprite.cpp \
         standard.cpp \
         tileset.cpp
 
@@ -33,7 +32,6 @@ HEADERS += \
     level.h \
     player.h \
     spawner.h \
-    sprite.h \
     standard.h \
     tileset.h \
     typedef.h

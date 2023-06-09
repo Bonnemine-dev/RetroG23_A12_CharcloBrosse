@@ -1,9 +1,10 @@
 #include "entity.h"
+#include "qdebug.h"
 
 //Methode display()
 void Entity::display(QPainter * painter)
 {
-    itsSprite->display(painter);
+    painter->drawPixmap(itsX, itsY, *itsSprite);
 }
 
 //Gette itsRect
@@ -13,53 +14,55 @@ QRect * Entity::getItsRect()
 }
 
 //Setter pour la coordonnée en x
-void Entity::setX(unsigned short newX)
+void Entity::setX( short newX)
 {
-    itsRect.setX(newX);
+    itsX = newX;
+    itsRect.moveTo(itsX,itsY);
 }
 
 //Setter pour la coordonnée en y
-void Entity::setY(unsigned short newY)
+void Entity::setY( short newY)
 {
-    itsRect.setY(newY);
+    itsY = newY;
+    itsRect.moveTo(itsX,itsY);
 }
 
 //Change la position du sprite en fonction de celle de la hit box
 void Entity::moveTo()
 {
-    itsSprite->moveTo(itsRect.x(), itsRect.y());
 }
 
 //Constructeur
-Entity::Entity(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite)
+Entity::Entity(short x,  short y,  short height,  short width, QPixmap * sprite)
 {
-    itsSprite = new Sprite(sprite);
-    itsRect.setX(x);
-    itsRect.setY(y);
+    itsSprite = sprite;
+    itsX = x;
+    itsY = y;
+    itsRect.moveTo(x,y);
     itsRect.setHeight(height);
     itsRect.setWidth(width);
 }
 
 //Getter getItsX
-unsigned short Entity::getItsX() const
+short Entity::getItsX() const
 {
-    return itsRect.x();
+    return itsX;
 }
 
 //Getter getItsY
-unsigned short Entity::getItsY() const
+short Entity::getItsY() const
 {
-    return itsRect.y();
+    return itsY;
 }
 
 //Getter getItsHeight()
-unsigned short Entity::getItsHeight() const
+short Entity::getItsHeight() const
 {
     return itsRect.height();
 }
 
 //Getter getItsWidth()
-unsigned short Entity::getItsWidth() const
+short Entity::getItsWidth() const
 {
     return itsRect.width();
 }

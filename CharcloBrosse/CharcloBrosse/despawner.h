@@ -27,7 +27,7 @@ public:
      * @param width Width of the despawner.
      * @param sprite Sprite used for the despawner.
      */
-    Despawner(Spawner * spawner, unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite);
+    Despawner(Spawner * spawner,  short x,  short y,  short height,  short width, QPixmap * sprite);
 
     /**
      * @brief Makes an enemy disappear.

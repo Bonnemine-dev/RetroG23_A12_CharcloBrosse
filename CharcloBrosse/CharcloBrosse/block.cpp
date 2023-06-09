@@ -32,7 +32,7 @@ void Block::increment()
 }
 
 //Constructeur
-Block::Block(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite)
+Block::Block( short x,  short y,  short height,  short width, QPixmap * sprite)
     : Entity(x, y, height, width, sprite)
 {
 

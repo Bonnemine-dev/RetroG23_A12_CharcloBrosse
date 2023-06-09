@@ -1,4 +1,6 @@
 #include "player.h"
+#include "qdebug.h"
+#include <iostream>
 
 //bool Player::getItsState() const
 //{
@@ -8,8 +10,20 @@
 //Methode move
 void Player::move()
 {
-    itsRect.setX(itsRect.x() + itsXSpeed);
-    itsRect.setY(itsRect.y() + itsYSpeed);
+    //std::cout<<"La vitesse sur l'axe X de player lors de son move : "<<itsXSpeed<<"\n";
+    itsX += itsXSpeed;
+    //std::cout<<"La vitesse sur l'axe Y de player lors de son move : "<<itsYSpeed<<"\n";
+    itsY += itsYSpeed;
+    itsRect.moveTo((itsRect.x() + itsXSpeed),(itsRect.y() + itsYSpeed));
+    if(itsX == -1)
+    {
+        itsX = 32*39;
+    }
+    else if(itsX == (32*39)+1)
+    {
+        itsX = 0;
+
+    }
 }
 
 //Setter itsXSpeed
@@ -61,9 +75,10 @@ bool Player::getIsOnTheGround() const
 }
 
 //Constructeur
-Player::Player(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap *sprite)
+Player::Player( short x,  short y,  short height,  short width, QPixmap *sprite)
     : Entity(x, y, height, width, sprite)
 {
-
+    itsLivesNb = 3;
+    qWarning() << height;
 }
 

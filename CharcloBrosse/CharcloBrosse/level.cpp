@@ -1,10 +1,4 @@
-/**
- * @file level.cpp
- * @brief Source file for class Level for the CharcloBrosse project
- * @author SIMON Kevin
- * @date 05/06/2023
- * @version 1.0
- */
+
 #include "level.h"
 
 std::vector<Block *> Level::getItsBlockList() const
@@ -32,14 +26,14 @@ void Level::display(QPainter *painter)
     for (unsigned short i = 0; i < itsBlockList.size(); i++){ // affiche tout les blocs
         itsBlockList.at(i)->display(painter);
     }
-    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
-        itsEnemiesList.at(i)->display(painter);
-    }
     for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
         itsSpawnerList.at(i)->display(painter);
     }
     for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
         itsDespawnerList.at(i)->display(painter);
+    }
+    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
+        itsEnemiesList.at(i)->display(painter);
     }
 }
 
@@ -88,7 +82,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     // open the file and parse it
     QFile jsonFile;
     jsonFile.setFileName(QString(itsLevelFile.c_str())); // spécifie le chemin du fichier à ouvrir
-    if (!jsonFile.exists()){ // cerifi que le fichier soit lisible
+    if (!jsonFile.exists()){ // cerifi que le fichier existe
         throw std::string("Level file does not exists");
     }
     jsonFile.open(QIODevice::ReadOnly); // tente d'ouvrir le fichier
@@ -107,59 +101,74 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     itsId = jsonRoot.value("id").toInt(0); // reccupere l'id du niveau
     QJsonArray level = jsonRoot.value("level").toArray(); // reccupère la liste des blocs
     QJsonArray Enemies = jsonRoot.value("enemies").toArray(); // reccupère la liste des ennemis
-    itsMinDelay = jsonRoot.value("minDelay").toInt(0); // reccupere le delais minimum avant l'apparition du prochain ennemi
-    itsMaxDelay = jsonRoot.value("maxDelay").toInt(0); // reccupere le delais maximum avant l'apparition du prochain ennemi
+    itsMinDelay = jsonRoot.value("minDelay").toInt(0); // get the minimum delay of appartition of an enemy
+    itsMaxDelay = jsonRoot.value("maxDelay").toInt(0); // get the maximun delay of appartition of an enemy
+    qWarning() << itsMinDelay;
+    qWarning() << itsMaxDelay;
 
 
     // compute the data
-    for (unsigned short line=0; line < level.size(); line++){ // pour chaque ligne du niveau
-        QJsonArray jsonLine = level[line].toArray(); // créer un tableau contenant la ligne
-        for (unsigned short col=0; col < jsonLine.size(); col++){ // pour chaque clonnes
-            int block = jsonLine[col].toInt(0); // reccupere le numero du bloc (0 pour rien, 1 pour le sol, 2 pour la plateforme)
-            if (block == 1){ // si un bloq de sol
+    for (unsigned short line=0; line < level.size(); line++){ // for each line of the level
+        QJsonArray jsonLine = level[line].toArray(); // create the array for the column
+        for (unsigned short col=0; col < jsonLine.size(); col++){ // for each column
+            int block = jsonLine[col].toInt(0); // get the block number (0 for nothing, 1 for the ground, 2 for the platform)
+            if (block == 1){ // if ground block
                 itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile()));
             }
-            if (block == 2){ // si un bloc de plateforme
+            if (block == 2){ // if platform block
                 itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile())));
             }
         }
     }
 
-    for (unsigned short line=0; line < Enemies.size(); line++){ // pour chaque ennemis
-        QJsonArray jsonLine = Enemies[line].toArray(); // reccupere le tableau
-        std::string type = jsonLine[0].toString().toStdString(); // reccupere le type d'ennemi
-        if (type == "standard"){ // si un ennemi standard
-            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyTile())); // creer l'ennemi et l'ajoute à la liste des ennemis à faire apparaitre
+    for (unsigned short line=0; line < Enemies.size(); line++){ // for each enemies
+        QJsonArray jsonLine = Enemies[line].toArray(); // get the array
+        std::string type = jsonLine[0].toString().toStdString(); // get the type of the enemy in string
+        if (type == "standard"){ // if a standard enemy
+            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyTile())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
-                itsEnemyAppearsSides.push_back(LEFT); // met le point d'apparition au spawner gauche
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
             else{
-                itsEnemyAppearsSides.push_back(RIGHT); // met le point d'apparition au spawner droit
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
             }
         }
     }
 
-    for (unsigned int i = 0; i < itsEnemiesList.size(); i++){ // reccupere le delais d'appartion de chaque ennemis (en sens inverse)
-        itsEnemyAppearsTimes.push_back(itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsEnemiesList.size()-1))*i); // calcul le delais
+    for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
+        itsEnemyAppearsTimes.push_back(itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i); // compute the delay
     }
-    std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // inverse la liste
+    std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
 
-    itsSpawnerList.push_back(new Spawner(0, 32*3, 96, 64, tileSet->getItsSpawnerTile(0))); // ajoute le spawner gauche
-    itsSpawnerList.push_back(new Spawner(32*38, 32*3, 96, 64, tileSet->getItsSpawnerTile(1))); // ajoute le spawner droit
+    itsSpawnerList.push_back(new Spawner(0, 32*3, 96, 64, tileSet->getItsSpawnerTile(0)));
+    itsSpawnerList.push_back(new Spawner(32*38, 32*3, 96, 64, tileSet->getItsSpawnerTile(1)));
 
-    itsDespawnerList.push_back(new Despawner(itsSpawnerList.at(0), 0, 32*3, 96, 64, tileSet->getItsDespawnerTile(0))); // ajoute le despawner gauche
-    itsDespawnerList.push_back(new Despawner(itsSpawnerList.at(1), 32*38, 32*3, 96, 64, tileSet->getItsDespawnerTile(1))); // ajoute le despawner despawner
+    itsDespawnerList.push_back(new Despawner(itsSpawnerList.at(0), 0, 32*18, 96, 64, tileSet->getItsDespawnerTile(0)));
+    itsDespawnerList.push_back(new Despawner(itsSpawnerList.at(1), 32*38, 32*18, 96, 64, tileSet->getItsDespawnerTile(1)));
 
+    active = false;
 }
 
 void Level::appears(Enemy * enemy){
-    //checher l'ennemi et le transfert de la liste a apparaite à clelle de ceux deja apparus
-    for (std::vector<Enemy *>::iterator it=itsRemainingEnemies.begin(); it != itsRemainingEnemies.end(); it++){
-        if ((*it)==enemy){
-            itsRemainingEnemies.erase(it); // eneleve l'ennemi de la liste de ceux à apparaitre
-            itsEnemiesList.push_back(*it); // l'ajoute a la liste de ceux etant apparus
-            itsEnemyAppearsTimes.erase(itsEnemyAppearsTimes.begin()); // retire son delais d'apparition
-            itsEnemyAppearsSides.erase(itsEnemyAppearsSides.begin()); // retire son point d'apparition
+    for (std::vector<Enemy *>::iterator it=itsRemainingEnemies.begin(); it != itsRemainingEnemies.end(); it++){ // scan the ennemies list
+        if ((*it)==enemy){ //if it's the good enemy
+            qWarning() << "apparition";
+            itsRemainingEnemies.erase(it); // remove from the list
+            qWarning() << "apparition";
+            itsEnemiesList.push_back(*it);
+            qWarning() << "apparition";
+            itsEnemyAppearsTimes.erase(itsEnemyAppearsTimes.begin());
+            qWarning() << "apparition";
+            itsEnemyAppearsSides.erase(itsEnemyAppearsSides.begin());
+            break;
         }
     }
+}
+
+void Level::activate(){
+    active = true;
+}
+
+bool Level::isActive(){
+    return active;
 }

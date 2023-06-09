@@ -14,7 +14,7 @@
 class Player : public Entity
 {
 private:
-    unsigned short itsLivesNb = 0; ///< Number of lives the player has.
+     short itsLivesNb = 0; ///< Number of lives the player has.
     short itsXSpeed = 0; ///< Speed of the player on the X axis.
     short itsYSpeed = 0; ///< Speed of the player on the Y axis.
     bool isOnTheGround = true; ///< True is the player is on the ground .
@@ -30,7 +30,7 @@ public:
      * @param width Width of the player.
      * @param sprite QPixmap sprite used for the player.
      */
-    Player(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite);
+    Player( short x,  short y,  short height,  short width, QPixmap * sprite);
 
     /**
      * @brief Gets the state of the player.

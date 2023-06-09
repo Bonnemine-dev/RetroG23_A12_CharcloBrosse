@@ -4,6 +4,7 @@
 #include <chrono>
 #include <vector>
 #include <QRect> // Corrigé
+#include <QTimer>
 
 #include "player.h"
 #include "hmi.h"
@@ -22,6 +23,9 @@
  * @author Arthur ANCIEN
  */
 class Game : public QObject{
+
+    Q_OBJECT
+
 private:
     /**
      * @brief Pointer to the TileSet object used in the game.
@@ -43,9 +47,14 @@ private:
      * @brief Pointer to the HMI (Human-Machine Interface) object used in the game.
      */
     HMI* itsHMI;
+
+    bool isInPause;
+
+    double itsEllapsedTime;
+
     //    DB_Score itsDBScore;
 
-public:
+public :
     /**
      * @brief Checks all possible collisions in the current game state
      * and launches the appropriate functions
@@ -81,10 +90,7 @@ public:
      * @param theDespawner the despawner concerned
      */
     void colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner);
-    /**
-     * @brief defines the speed on the y-axis (Y) at maximum gravity
-     */
-    void gravity();
+
     /**
      * @brief checks whether a level is finished. If the player has no more lives
      * or if there are no more enemies to appear.
@@ -95,22 +101,15 @@ public:
      * @brief launch player and enemy move methods.
      */
     void moveAll();
-public:
+
+    bool isOnTop(Entity * entity, Block * block);
+
+    bool collid(Entity * entity1, Entity * entity2);
+
     /**
      * @brief The constructor for the "Game" class
      */
     Game();
-    /**
-     * @brief corresponds to the game loop, depending on the time the player is not dead.
-     */
-    void gameLoop();
-    TileSet *getItsTileSet() const;
-    Player *getItsPlayer() const;
-    unsigned int getItsScore() const;
-    Level *getItsLevel() const;
-    HMI *getItsHMI() const;
-
-public slots:
     /**
      * @brief Fonction appelée lorsque la touche gauche est enfoncée.
      */
@@ -139,6 +138,14 @@ public slots:
      * @brief Fonction appelée lorsque le jeu reprend après avoir été mis en pause.
      */
     void onGameResumed();
+
+    void onGameStart();
+
+public slots:
+    /**
+     * @brief corresponds to the game loop, depending on the time the player is not dead.
+     */
+    void gameLoop();
 };
 
 

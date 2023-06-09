@@ -1,10 +1,3 @@
-/**
- * @file level.h
- * @brief Header file for class Level for the CharcloBrosse project
- * @author SIMON Kevin
- * @date 05/06/2023
- * @version 1.0
- */
 
 #ifndef LEVEL_H
 #define LEVEL_H
@@ -27,9 +20,12 @@
 #include "despawner.h"
 #include "typedef.h"
 #include "tileset.h"
-#include "sprite.h"
-#include "typedef.h"
 
+
+enum Sides{
+    LEFT = 0,
+    RIGHT = 1,
+};
 /**
  * @brief The Level class define a level of the game Charclo Brosse
  * Define with the Block list for platforms, displayed enemies, to appears enemies, spawners and dispawners.
@@ -97,6 +93,8 @@ private:
      */
     std::vector<Sides> itsEnemyAppearsSides;
 
+    bool active;
+
 public:
     /**
      * @brief Level the constructor of the Level class
@@ -135,49 +133,19 @@ public:
 
     /**
      * @brief display display all the entities of the level that have to be displayed
-     * @param painter the painter to display the level content on a window
+     * @param painter
      */
     void display(QPainter * painter);
-    /**
-     * @brief removeEnemy remove an enemy if is K.O.
-     * @param enemy pointer to the enemy to remove
-     */
     void removeEnemy(Enemy * enemy);
-    /**
-     * @brief getItsId getter for itsId
-     * @return  the id of the level
-     */
     unsigned short getItsId() const;
-    /**
-     * @brief getItsMinDelay getter for itsMinDelay
-     * @return the minimum delay before an enemy to appear
-     */
     unsigned short getItsMinDelay() const;
-    /**
-     * @brief getItsMaxDelay
-     * @return
-     */
     unsigned short getItsMaxDelay() const;
-    /**
-     * @brief getItsMaxDelay getter for itsMaxDelay
-     * @return the maximum delay before an enemy to appear
-     */
     std::vector<unsigned short> getItsEnemyAppearsTimes() const;
-    /**
-     * @brief getItsEnemyAppearsSides getter for itsEnemyAppearsSides
-     * @return the list of apparition sides for each enemies inn wait to appears
-     */
     std::vector<Sides> getItsEnemyAppearsSides() const;
-    /**
-     * @brief getItsRemainingEnemies getter for itsRemainingsEnemies
-     * @return the list of the enemies in wait to appears
-     */
     std::vector<Enemy *> getItsRemainingEnemies() const;
-    /**
-     * @brief appears set the enemy to be displayed and update all the enemies list
-     * @param enemy a pointer for the enemy to appears
-     */
     void appears(Enemy * enemy);
+    void activate();
+    bool isActive();
 };
 
 #endif // LEVEL_H
