@@ -1,3 +1,10 @@
+/**
+ * @file level.cpp
+ * @brief Source file for class Level
+ * @author Kevin Simon
+ * @date 05/06/2023
+ * @version 1.1
+ */
 
 #include "level.h"
 

@@ -1,3 +1,11 @@
+/**
+ * @file block.h
+ * @brief Header file for class Block
+ * @author Tom Bonneau
+ * @date 09/06/2023
+ * @version 1.3
+ */
+
 #ifndef BLOCK_H
 #define BLOCK_H
 

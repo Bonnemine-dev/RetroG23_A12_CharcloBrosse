@@ -1,3 +1,11 @@
+/**
+ * @file game.cpp
+ * @brief Source file for class Game
+ * @author Arthur Ancien
+ * @date 05/06/2023
+ * @version 1.1
+ */
+
 #include <chrono>
 #include <QObject>
 #include "game.h"
