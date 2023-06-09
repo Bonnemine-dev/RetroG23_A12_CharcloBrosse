@@ -134,7 +134,10 @@ public slots:
     void refreshAll();
 
     void gameLoop();
+
+    void stopGame();
 };
 
 
 #endif // HMI_H
+

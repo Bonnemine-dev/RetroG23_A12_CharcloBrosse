@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "tileset.h"
 
 //Getter itsXSpeed
 short Enemy::getItsXSpeed() const
@@ -45,17 +46,24 @@ void Enemy::setItsState(bool newItsState)
 //move()
 void Enemy::move()
 {
-    itsX += itsXSpeed;
-    itsY += itsYSpeed;
-    itsRect.moveTo((itsRect.x() + itsXSpeed),(itsRect.y() + itsYSpeed));
-    if(itsX == -1)
+    if(!itsState)
     {
-        itsX = 32*39;
-    }
-    else if(itsX == (32*39)+1)
-    {
-        itsX = 0;
 
+    }
+    else
+    {
+        itsX += itsXSpeed;
+        itsY += itsYSpeed;
+        itsRect.moveTo((itsRect.x() + itsXSpeed),(itsRect.y() + itsYSpeed));
+        if(itsX == -1)
+        {
+            itsX = 32*39;
+        }
+        else if(itsX == (32*39)+1)
+        {
+            itsX = 0;
+
+        }
     }
 }
 

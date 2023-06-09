@@ -177,10 +177,10 @@ HMI::~HMI()
 void HMI::keyPressEvent(QKeyEvent *event)
 {
     //j'envoie un signal quand une touche est appuyée (c'est pour la classe game)
-//    if (event->key() == Qt::Key_E && state == GAME)
-//    {
-//        itsGame->gameLoop();
-//    }
+    //    if (event->key() == Qt::Key_E && state == GAME)
+    //    {
+    //        itsGame->gameLoop();
+    //    }
 
     if (event->key() == Qt::Key_Left && state == GAME)
     {
@@ -198,32 +198,32 @@ void HMI::keyPressEvent(QKeyEvent *event)
         displayPauseMenu();
     }
     if ((event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down) && state != GAME)
-        {
-            QWidget::keyPressEvent(event); // Laisser le traitement des touches fléchées par défaut
-        }
-        else if ((event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) && state != GAME)
-        {
-            // Récupérer le widget qui a le focus actuel
-            QWidget *focusedWidget = QApplication::focusWidget();
+    {
+        QWidget::keyPressEvent(event); // Laisser le traitement des touches fléchées par défaut
+    }
+    else if ((event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) && state != GAME)
+    {
+        // Récupérer le widget qui a le focus actuel
+        QWidget *focusedWidget = QApplication::focusWidget();
 
-            // Vérifier si c'est un QPushButton et l'activer
-            QPushButton *button = qobject_cast<QPushButton*>(focusedWidget);
-            if (button != nullptr)
-            {
-                button->click(); // Simuler le clic sur le bouton
-            }
+        // Vérifier si c'est un QPushButton et l'activer
+        QPushButton *button = qobject_cast<QPushButton*>(focusedWidget);
+        if (button != nullptr)
+        {
+            button->click(); // Simuler le clic sur le bouton
         }
+    }
 }
 
 void HMI::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Left)
     {
-            itsGame->onLeftKeyReleased();
+        itsGame->onLeftKeyReleased();
     }
     if (event->key() == Qt::Key_Right)
     {
-            itsGame->onRightKeyReleased();
+        itsGame->onRightKeyReleased();
     }
     if ((event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down) && state != GAME)
     {
@@ -330,4 +330,10 @@ void HMI::refreshAll()
 
 void HMI::gameLoop(){
     itsGame->gameLoop();
+}
+
+void HMI::stopGame()
+{
+    itsTimer->stop();
+    displayGameOverMenu();
 }

@@ -52,6 +52,8 @@ private:
 
     double itsEllapsedTime;
 
+    int countJump;
+
     //    DB_Score itsDBScore;
 
 public :
@@ -140,6 +142,10 @@ public :
     void onGameResumed();
 
     void onGameStart();
+
+    unsigned int getItsScore() const;
+
+    Player *getItsPlayer() const;
 
 public slots:
     /**

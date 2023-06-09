@@ -82,6 +82,7 @@ public:
 
     void moveTo();
 
+    void setItsSprite(QPixmap *newItsSprite);
 };
 
 #endif // ENTITY_H

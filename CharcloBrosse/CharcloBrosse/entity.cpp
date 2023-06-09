@@ -33,6 +33,11 @@ void Entity::moveTo()
 }
 
 //Constructeur
+void Entity::setItsSprite(QPixmap *newItsSprite)
+{
+    itsSprite = newItsSprite;
+}
+
 Entity::Entity(short x,  short y,  short height,  short width, QPixmap * sprite)
 {
     itsSprite = sprite;
