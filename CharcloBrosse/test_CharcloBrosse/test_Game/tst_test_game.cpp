@@ -31,8 +31,7 @@ private slots:
     void test_colBtwEnemyAndBlock();
     void test_colBtwPlayerAndBlock();
     void test_colBtwEnemyAndDespawner();
-//    void test_isLevelFinished();
-//    void test_isOnTop();
+    void test_isOnTop();
     void test_collid();
 };
 
@@ -46,9 +45,9 @@ test_Game::~test_Game()
 
 void test_Game::initTestCase()
 {
-    tileSet = new TileSet("tileset0.png");
+    tileSet = new TileSet("C:/Users/tombo/Desktop/src/tileset0.png");
     player = new Player(80, 80, 64, 32, sprite);
-    level = new Level("level1.json",tileSet);
+    level = new Level("C:/Users/tombo/Desktop/src/level1.json",tileSet);
     block = new Block(0, 0, 32, 32, sprite);
     enemy1 = new Enemy(32, 32, sprite);
     enemy2 = new Enemy(32, 32, sprite);
@@ -100,10 +99,10 @@ void test_Game::test_colBtwEnemyAndEnemy()
     enemy1->setItsXSpeed(10);
     enemy2->setItsXSpeed(10);
     game->colBtwEnemyAndEnemy(enemy1, enemy2);
-    QCOMPARE(enemy2->getItsXSpeed(), -10);
+    QCOMPARE(enemy2->getItsXSpeed(), (short)-10);
     game->colBtwEnemyAndEnemy(enemy1, enemy2);
-    QCOMPARE(enemy1->getItsXSpeed(), -10);
-    QCOMPARE(enemy2->getItsXSpeed(), 10);
+    QCOMPARE(enemy1->getItsXSpeed(), (short)-10);
+    QCOMPARE(enemy2->getItsXSpeed(), (short)10);
 }
 
 void test_Game::test_colBtwEnemyAndBlock()
@@ -135,6 +134,18 @@ void test_Game::test_colBtwEnemyAndDespawner()
     game->colBtwEnemyAndDespawner(enemy1, despawner);
     QCOMPARE(enemy1->getItsX(), spawner->getItsX());
     QCOMPARE(enemy1->getItsY(), spawner->getItsY());
+}
+
+void test_Game::test_isOnTop()
+{
+    player->setX(10);
+    player->setY(10);
+    block->setX(10);
+    block->setY(75);
+    QVERIFY(game->isOnTop(player, block) == true);
+    player->setX(10);
+    player->setY(150);
+    QVERIFY(game->isOnTop(player, block) == false);
 }
 
 void test_Game::test_collid()
