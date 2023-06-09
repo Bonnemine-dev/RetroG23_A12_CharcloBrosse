@@ -38,7 +38,7 @@ private:
     /**
      * @brief Game score.
      */
-    unsigned int itsScore;
+    unsigned int itsScore=0;
     /**
      * @brief Pointer to the Level object representing the current level of the game.
      */
