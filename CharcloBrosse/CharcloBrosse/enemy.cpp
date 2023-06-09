@@ -45,8 +45,18 @@ void Enemy::setItsState(bool newItsState)
 //move()
 void Enemy::move()
 {
-    itsRect.setX(itsRect.x()+itsXSpeed);
-    itsRect.setY(itsRect.y()+itsYSpeed);
+    itsX += itsXSpeed;
+    itsY += itsYSpeed;
+    itsRect.moveTo((itsRect.x() + itsXSpeed),(itsRect.y() + itsYSpeed));
+    if(itsX == -1)
+    {
+        itsX = 32*39;
+    }
+    else if(itsX == (32*39)+1)
+    {
+        itsX = 0;
+
+    }
 }
 
 //Setter isOnTheGround
@@ -62,9 +72,9 @@ bool Enemy::getIsOnTheGround() const
 }
 
 //Constructeur
-Enemy::Enemy(unsigned short height, unsigned short width, QPixmap * sprite)
+Enemy::Enemy( short height,  short width, QPixmap * sprite)
     : Entity(0, 0, height, width, sprite)
 {
-
+    itsState = true;
 }
 

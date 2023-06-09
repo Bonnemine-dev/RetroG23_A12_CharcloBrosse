@@ -24,7 +24,7 @@ public:
      * @param width Width of the spawner.
      * @param sprite Sprite used for the spawner.
      */
-    Spawner(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite);
+    Spawner( short x,  short y,  short height,  short width, QPixmap * sprite);
 
     /**
      * @brief Makes an enemy appear at the spawner's location.

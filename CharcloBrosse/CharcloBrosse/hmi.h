@@ -16,8 +16,7 @@
 #include "typedef.h"
 
 
-
-
+class Game;
 /**
  * @class HMI
  * @brief Class representing a Human Machine Interface (HMI) for a game.
@@ -50,8 +49,9 @@ private:
 
     QLabel *rulesText; ///< Label for displaying game rules.
 
-    QLabel *scoresLabel; ///< Label for displaying scores in the main menu.
-    QLabel *scoresLabelGameOver; ///< Label for displaying scores in the game over menu.
+    QLabel *scoresLabel;
+    QLabel *scoresLabelGameOver;
+    QLabel *gameOverLabel;
 
     QPushButton *startGameButton; ///< Button for starting the game.
     QPushButton *rulesButton; ///< Button for displaying game rules.
@@ -61,20 +61,22 @@ private:
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
     QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
 
-    Level *itsLevel; ///< The level of the game.
-    Player *itsPlayer; ///< The player.
+    Level *itsLevel;
+    Player *itsPlayer;
+    Game * itsGame;
+    QTimer * itsTimer;
     void paintEvent(QPaintEvent* event);
 public:
     /**
      * @brief Constructor of the HMI class.
      * @param parent The parent widget.
      */
-    HMI(Level *itsLevel = nullptr, Player *itsPlayer = nullptr, QWidget *parent = nullptr);
+    HMI(Level *itsLevel, Player *itsPlayer, Game * game, QWidget *parent = nullptr);
 
     /**
      * @brief Destructor of the HMI class.
      */
-    ~HMI();
+    virtual ~HMI();
 private slots:
     /**
      * @brief Displays the main menu.
@@ -91,7 +93,7 @@ private slots:
      * @brief Displays the game over menu.
      * @param highscores List of high scores to be displayed.
      */
-    void displayGameOverMenu(std::vector <std::pair <std::string , unsigned int >> highscores);
+    void displayGameOverMenu();
 
     /**
          * @brief Displays the game screen.
@@ -122,20 +124,14 @@ private slots:
      * @brief Leaves the game.
      */
     void leave();
+
 public slots:
     /**
          * @brief Refreshes all components of the HMI.
      */
     void refreshAll();
-signals:
-    void leftKeyPressed(); ///< Emitted when the left key is pressed.
-    void rightKeyPressed(); ///< Emitted when the right key is pressed.
-    void upKeyPressed(); ///< Emitted when the up key is pressed.
-    void leftKeyReleased(); ///< Emitted when the left key is released.
-    void rightKeyReleased(); ///< Emitted when the right key is released.
-    void gamePaused(); ///< Emitted when the game is paused.
-    void gameResumed(); ///< Emitted when the game is resumed.
-    void gameStart(); ///< Emitted when the game has to start.
+
+    void gameLoop();
 };
 
 

@@ -1,6 +1,8 @@
 #include <QApplication>
+#include <iostream>
 #include <vector>
 #include "hmi.h"
+#include "game.h"
 
 std::vector<std::pair<std::string, unsigned int>> highs = {
     {"Player1", 100},
@@ -8,8 +10,9 @@ std::vector<std::pair<std::string, unsigned int>> highs = {
     {"Player3", 150}
 };
 
-HMI::HMI(Level * level, Player * player, QWidget *parent) : QWidget(parent), itsLevel(level), itsPlayer(player)
+HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget(parent), itsLevel(level), itsPlayer(player), itsGame(game)
 {
+
     // Initialisation des widgets pour le main menu
     mainLayout = new QVBoxLayout;
     startGameButton = new QPushButton("Start Game");
@@ -24,6 +27,13 @@ HMI::HMI(Level * level, Player * player, QWidget *parent) : QWidget(parent), its
     // Initialisation des widgets pour le game over
     gameOverLayout = new QVBoxLayout;
     quitToMainButton2 = new QPushButton("Leave the game");
+    gameOverLabel = new QLabel("GAME OVER", this);
+    gameOverLabel->setAlignment(Qt::AlignCenter);  // Centre le texte dans le QLabel
+    QFont gameOverFont = gameOverLabel->font();
+    gameOverFont.setPointSize(48); // ajustez la taille de la police comme vous le souhaitez
+    gameOverLabel->setFont(gameOverFont);
+
+    gameOverLayout->addWidget(gameOverLabel, 0, Qt::AlignCenter);
 
     // Initialisation des widgets pour le gaming
     gameLayout = new QVBoxLayout;
@@ -43,10 +53,7 @@ HMI::HMI(Level * level, Player * player, QWidget *parent) : QWidget(parent), its
 
     // Initialisation du QLabel pour le highscoreList du main
     scoresLabelGameOver = new QLabel(this);
-    scoresLabelGameOver->setAlignment(Qt::AlignCenter);  // Centre le texte dans le QLabel
-    gameOverLayout->addWidget(scoresLabelGameOver, 0, Qt::AlignCenter);
-    font.setPointSize(18); // ajustez la taille de la police comme vous le souhaitez
-    scoresLabelGameOver->setFont(font);
+
 
     //-------------------------
     // Ajout des widgets au layout main menu
@@ -63,7 +70,10 @@ HMI::HMI(Level * level, Player * player, QWidget *parent) : QWidget(parent), its
     pauseLayout->addStretch();
 
     // Ajout des widgets au layout game over
-    gameOverLayout->addWidget(quitToMainButton2);
+    gameOverLayout->addWidget(quitToMainButton2, 0, Qt::AlignCenter);
+
+    font.setPointSize(18); // ajustez la taille de la police comme vous le souhaitez
+    scoresLabelGameOver->setFont(font);
 
     // Ajout des widgets au layout gaming
 
@@ -118,6 +128,8 @@ HMI::HMI(Level * level, Player * player, QWidget *parent) : QWidget(parent), its
     rulesButton->setFixedWidth(300);
     quitGameButton->setStyleSheet(buttonStyle);
     quitGameButton->setFixedWidth(300);
+    quitToMainButton2->setStyleSheet(buttonStyle);
+    quitToMainButton2->setFixedWidth(300);
 
     // ajustement de la taille de la fenetre
     setFixedSize(20*32*2, 11*32*2);
@@ -143,6 +155,8 @@ HMI::HMI(Level * level, Player * player, QWidget *parent) : QWidget(parent), its
     rulesButton->setFocusPolicy(Qt::StrongFocus);
     quitGameButton->setFocusPolicy(Qt::StrongFocus);
 
+    itsTimer = new QTimer(this);
+    connect(itsTimer, SIGNAL(timeout()), this, SLOT(gameLoop()));
 
     displayMainMenu(highs);
 }
@@ -154,17 +168,21 @@ HMI::~HMI()
 void HMI::keyPressEvent(QKeyEvent *event)
 {
     //j'envoie un signal quand une touche est appuyée (c'est pour la classe game)
+//    if (event->key() == Qt::Key_E && state == GAME)
+//    {
+//        itsGame->gameLoop();
+//    }
+
     if (event->key() == Qt::Key_Left && state == GAME)
     {
-        emit leftKeyPressed();
+        itsGame->onLeftKeyPressed();
     }
     if (event->key() == Qt::Key_Right && state == GAME)
     {
-        emit rightKeyPressed();
+        itsGame->onRightKeyPressed();
     }
-    if (event->key() == Qt::Key_Up && state == GAME)
-    {
-        emit upKeyPressed();
+    if (event->key() == Qt::Key_Up && state == GAME){
+        itsGame->onUpKeyPressed();
     }
     if (event->key() == Qt::Key_Escape && state == GAME)
     {
@@ -192,11 +210,11 @@ void HMI::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Left)
     {
-        emit leftKeyReleased();
+            itsGame->onLeftKeyReleased();
     }
     if (event->key() == Qt::Key_Right)
     {
-        emit rightKeyReleased();
+            itsGame->onRightKeyReleased();
     }
     if ((event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down) && state != GAME)
     {
@@ -207,10 +225,13 @@ void HMI::keyReleaseEvent(QKeyEvent *event)
 void HMI::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    QPainter * painter = new QPainter(this);
-    itsLevel->display(painter);
-    itsPlayer->display(painter);
-    painter->end();
+
+    if (itsLevel->isActive()){
+        QPainter * painter = new QPainter(this);
+        itsLevel->display(painter);
+        itsPlayer->display(painter);
+        painter->end();
+    }
 }
 
 void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> highscores)
@@ -229,28 +250,23 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
 
 void HMI::displayPauseMenu()
 {
-    emit gamePaused();
+    itsGame->onGamePaused();
+    qWarning() << "emit pause\n";
     state = PAUSEMENU;
     resumeButton->setDefault(true);
     stackedWidget->setCurrentWidget(pauseMenuWidget);
 }
 
-void HMI::displayGameOverMenu(std::vector<std::pair<std::string, unsigned int>> highscores)
+void HMI::displayGameOverMenu()
 {
     state = GAMEOVER;
     stackedWidget->setCurrentWidget(gameOverMenuWidget);
-
-    QString scoresText2;
-    for (const auto &score : highscores) {
-        scoresText2 += QString::fromStdString(score.first) + ": " + QString::number(score.second) + "\n";
-    }
-
-    scoresLabel->setText(scoresText2);
 }
 
 void HMI::displayGame()
 {
     state = GAME;
+
     stackedWidget->setCurrentWidget(gameMenuWidget);
 }
 
@@ -263,8 +279,9 @@ void HMI::displayRules()
 
 void HMI::startGame()
 {
-    emit gameStart();
     displayGame();
+    itsGame->onGameStart();
+    itsTimer->start(5);//33
 }
 
 
@@ -275,8 +292,9 @@ void HMI::close()
 
 void HMI::resume()
 {
-    emit gameResumed();
+
     displayGame();
+    itsGame->onGameResumed();
 }
 
 void HMI::leave()
@@ -288,4 +306,8 @@ void HMI::leave()
 void HMI::refreshAll()
 {
     update();
+}
+
+void HMI::gameLoop(){
+    itsGame->gameLoop();
 }

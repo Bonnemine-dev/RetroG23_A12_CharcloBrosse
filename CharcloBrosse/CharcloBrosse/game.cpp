@@ -1,69 +1,186 @@
 #include <chrono>
+#include <QObject>
 #include "game.h"
 #include "typedef.h"
+#include <iostream>
+#include <QElapsedTimer>
+#include <QDebug>
+#include <iostream>
+
+void displayCoord(Entity * entity1, Entity * entity2){
+    qWarning() << entity1->getItsY();
+    qWarning() << entity2->getItsY();
+
+    //    qWarning() << "trop a droite : " << (entity2->getItsX() > entity1->getItsX() + entity1->getItsWidth());
+    //    qWarning() << "trop a gauche : " << (entity2->getItsX() + entity2->getItsWidth() < entity1->getItsX());
+    //    qWarning() << "trop en bas : " << (entity2->getItsY() > entity1->getItsY() + entity1->getItsHeight());
+    //    qWarning() << "trop en haut : " << (entity2->getItsY() + entity2->getItsHeight() < entity1->getItsY());
+}
+
 
 Game::Game()
 {
-
-    itsTileSet = new TileSet("tilesettest.png");
-    itsPlayer = new Player(0, 0, 32, 32, itsTileSet->getItsPlayerTile());
+    itsTileSet = new TileSet("tileset0.png");
+    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
     itsLevel = new Level("level1.json",itsTileSet);
-    itsHMI = new HMI(itsLevel, itsPlayer);
-    HMI::connect(itsHMI, &HMI::leftKeyPressed, this, &Game::onLeftKeyPressed);
-    HMI::connect(itsHMI, &HMI::rightKeyPressed, this, &Game::onRightKeyPressed);
-    HMI::connect(itsHMI, &HMI::upKeyPressed, this, &Game::onUpKeyPressed);
-    HMI::connect(itsHMI, &HMI::leftKeyReleased, this, &Game::onLeftKeyReleased);
-    HMI::connect(itsHMI, &HMI::rightKeyReleased, this, &Game::onRightKeyReleased);
-    HMI::connect(itsHMI, &HMI::gamePaused, this, &Game::onGamePaused);
-    HMI::connect(itsHMI, &HMI::gameResumed, this, &Game::onGameResumed);
+    itsHMI = new HMI(itsLevel, itsPlayer, this);
+    itsEllapsedTime = 0;
     itsHMI->show();
 }
 // Connexion des signaux et slots
 
+void Game::onGameStart(){
+    itsLevel->activate();
+    itsHMI->refreshAll();
+    itsEllapsedTime = 0;
+}
+
 void Game::gameLoop()
 {
-    bool first = true;
-    double ellapsedTime = 0;
-    auto end = std::chrono::high_resolution_clock::now();
+//    QElapsedTimer timer;
+//    timer.start();
+    itsEllapsedTime += 0.16;//0.16
 
-    do{
 
-        auto begin = std::chrono::high_resolution_clock::now();
-        std::chrono::duration time = end - begin;
-        long ms = std::chrono::duration_cast<std::chrono::milliseconds> (time).count();
-        if (ms >= 10 or first){
-            if(itsLevel->getItsEnemyAppearsTimes().at(0) == ellapsedTime){
-                Enemy * enemy = itsLevel->getItsEnemiesList().at(0);
-                Sides side = itsLevel->getItsEnemyAppearsSides().at(0);
-                switch(side){
-                case LEFT:
-                    itsLevel->getItsSpawnerList().at(0)->appears(enemy);
-                    break;
-                case RIGHT:
-                    itsLevel->getItsSpawnerList().at(1)->appears(enemy);
-                    break;
-                }
-                itsLevel->appears(enemy);
-                ellapsedTime = 0;
+
+
+        if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(0))
+        {
+        std::cout<<"Je passe dans la condition pour faire apparaitre un enemy \n";
+        Enemy * enemy = itsLevel->getItsRemainingEnemies().at(0);
+            Sides side = itsLevel->getItsEnemyAppearsSides().at(0);
+            switch(side){
+            case LEFT:
+                itsLevel->getItsSpawnerList().at(0)->appears(enemy);
+                break;
+            case RIGHT:
+                itsLevel->getItsSpawnerList().at(1)->appears(enemy);
+                break;
             }
-            moveAll();
-            gravity();
-            checkAllCollid();
-            itsHMI->refreshAll();
-            ellapsedTime+= 0.10;
+            itsLevel->appears(enemy);
+            itsEllapsedTime = 0;
         }
-        if (first){
-            first = false;
+
+
+
+
+//    system("clear");
+    checkAllCollid();
+//    //std::cout<<"Est sur une platforme : "<<itsPlayer->getIsOnTheGround()<<"\n";
+    moveAll();
+    itsHMI->refreshAll();
+//    qint64 elapsed = timer.nsecsElapsed(); // Temps écoulé en nanosecondes
+//    //std::cout << "Temps écoulé:" << elapsed << "nanosecondes";
+}
+
+void Game::checkAllCollid(){
+    // player to block
+    bool playerGravity = true;
+
+    // qWarning() << "player to block";
+    for (Block * block : itsLevel->getItsBlockList()){
+        //        //std::cout<<"Le x de e2 : "<<itsPlayer->getItsX()<<" / le x + width de e1 : "<<block->getItsX() + block->getItsWidth()<<" / soit la condition : "<<(itsPlayer->getItsX() > (block->getItsX() + block->getItsWidth()))<<"\n";
+        if(collid(itsPlayer, block) == true){
+            displayCoord(itsPlayer, block);
+            colBtwPlayerAndBlock(itsPlayer, block);
+            if (isOnTop(itsPlayer, block)){
+                playerGravity = false;
+            }
         }
-    }while(!isLevelFinished() && itsPlayer->getItsLivesNb()!=0);
+    }
+
+    /*    for(unsigned int i = 0; i < itsLevel->getItsBlockList().size(); i++){
+    //        Block * block = itsLevel->getItsBlockList().at(i);
+    //        if(collid(itsPlayer, block)){
+    //            qWarning() << "collid";
+    //            colBtwPlayerAndBlock(itsPlayer, block);
+    //            if (isOnTop(itsPlayer, block)){
+    //                playerGravity = false;
+    //            }
+    //        }
+    //    }
+    */
+
+    if (playerGravity){
+        itsPlayer->setItsYSpeed(GRAVITY);
+    }
+    else {
+        itsPlayer->setItsYSpeed(STILL);
+    }
+
+    std::vector<Enemy *> enemyList = itsLevel->getItsEnemiesList();
+
+    if (enemyList.size()>0){
+        // player to enemy
+
+        qWarning() << "player to enemy";
+        for(Enemy * enemy : enemyList){
+            if(collid(itsPlayer, enemy)){
+                std::cout<<"collision entre player et ennemy\n";
+                colBtwPlayerAndEnemy(itsPlayer, enemy);
+            }
+        }
+
+        // enemy to block
+        qWarning() << "enemy to block";
+        for(Enemy * enemy : enemyList){
+            bool enemyGravity = true;
+            for (Block * block : itsLevel->getItsBlockList()){
+                if (collid(enemy, block)){
+                    colBtwEnemyAndBlock(enemy, block);
+                    if (isOnTop(enemy, block)){
+                        enemyGravity = false;
+                    }
+                }
+            }
+            if (enemyGravity){
+                std::cout<<"La gravité est appliqué\n";
+                enemy->setItsYSpeed(GRAVITY);
+            }
+            else{
+                enemy->setItsYSpeed(STILL);
+            }
+        }
+
+        // enemy to enemy
+        qWarning() << "enemy to enemy";
+
+//        if (enemyList.size() >= 2){
+//            for (std::vector<Enemy *>::iterator it1 = enemyList.begin(); it1 < (enemyList.end()--); it1++){
+//                qWarning() << "enemy1";
+//                for (std::vector<Enemy *>::iterator it2 = it1++; it2 < enemyList.end(); it2++){
+//                    qWarning() << "enemy2";
+//                    Enemy * enemy1 = *it1;
+//                    Enemy * enemy2 = *it2;
+//                    if (collid(enemy1, enemy2)){
+//                        colBtwEnemyAndEnemy(enemy1, enemy2);
+//                    }
+//                }
+//            }
+//        }
+
+        // enemy et despawner
+        qWarning() << "enemy to despawner";
+        for (Enemy * enemy : enemyList){
+            for (Despawner * despawner : itsLevel->getItsDespawnerList()){
+                if(collid(enemy, despawner)){
+                    std::cout<<"je passe par la méthode colbtwenemyanddespawner\n";
+                    colBtwEnemyAndDespawner(enemy, despawner);
+                }
+            }
+        }
+    }
 }
 
 void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
 {
-    if(theEnemy->getItsState())//quand l'ennemie est KO
+    std::cout<<"je suis dans la fonction qui crash\n";
+    if(theEnemy->getItsState())//quand l'ennemie n'est KO
     {
         thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
-        thePlayer->getItsRect()->moveTo(12,12);
+        thePlayer->setX((32*39)/2);
+        thePlayer->setY(32);
+        thePlayer->getItsRect()->moveTo((32*39)/2,32);
     }
     else//quand l'enemie est KO
     {
@@ -83,7 +200,7 @@ void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
 
 void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 {
-    theEnemy->setItsYSpeed(0);//à remplacer le 0 par STILL
+    theEnemy->setItsYSpeed(STILL);
     if(theBlock->getItsState())
     {
         theEnemy->setItsState(false);
@@ -103,9 +220,16 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
         thePlayer->setItsYSpeed(STILL);
         thePlayer->setIsOnTheGround(true);
     }
-    if((thePlayer->getItsRect()->left() == theBlock->getItsRect()->right()) || (thePlayer->getItsRect()->right() == theBlock->getItsRect()->left()))
-    {
-        thePlayer->setItsXSpeed(STILL);
+
+    if((thePlayer->getItsRect()->top() < theBlock->getItsRect()->bottom()) && (thePlayer->getItsRect()->bottom() > theBlock->getItsRect()->top())){
+        if((thePlayer->getItsRect()->right() == theBlock->getItsRect()->left()))
+        {
+            thePlayer->setItsXSpeed(thePlayer->getItsXSpeed() > 0?0:thePlayer->getItsXSpeed());
+        }
+        else if((thePlayer->getItsRect()->left() == theBlock->getItsRect()->right()))
+        {
+            thePlayer->setItsXSpeed(thePlayer->getItsXSpeed() < 0?0:thePlayer->getItsXSpeed());
+        }
     }
 }
 
@@ -113,139 +237,56 @@ void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
 {
     theDespawner->disappear(theEnemy);
 }
-void Game::gravity()
-{
-    itsPlayer->setItsYSpeed(GRAVITY);
-    for(size_t itEnemies = 0; itEnemies < itsLevel->getItsEnemiesList().size(); ++itEnemies)
-    {
-        Enemy* theEnemy = itsLevel->getItsEnemiesList().at(itEnemies);
-        theEnemy->setItsYSpeed(GRAVITY);
-    }
+
+bool Game::isOnTop(Entity * entity, Block * block){
+    return entity->getItsY() + entity->getItsHeight() <= block->getItsY();
 }
 
-/**
- * @brief Game::checkAllCollid
- */
-TileSet *Game::getItsTileSet() const
-{
-    return itsTileSet;
-}
+bool Game::collid(Entity * entity1, Entity * entity2){
 
-Player *Game::getItsPlayer() const
-{
-    return itsPlayer;
-}
+    //std::cout<<"La height du player = "<<entity1->getItsHeight()<<"\n";
+    //std::cout<<"La width du player = "<<entity1->getItsWidth()<<"\n";
+    //std::cout<<"Le Y du player : "<<entity1->getItsY()<<"\n";
+    //std::cout<<"Le X du player : "<<entity1->getItsX()<<"\n";
 
-unsigned int Game::getItsScore() const
-{
-    return itsScore;
-}
-
-Level *Game::getItsLevel() const
-{
-    return itsLevel;
-}
-
-HMI *Game::getItsHMI() const
-{
-    return itsHMI;
-}
-
-void Game::checkAllCollid()
-{
-    /*
-     * Si une collision à lieu entre le joueur et un enemies :
-     * lance une fonction colbtwplayerandenemy
-     */
-    for(size_t it = 0; it < itsLevel->getItsEnemiesList().size(); ++it){
-        Enemy* theEnemy = itsLevel->getItsEnemiesList().at(it);
-        if(itsPlayer->getItsRect()->intersects(*theEnemy->getItsRect()))//Check collid between Player and the ennemy number = it in the vector at the level
-        {
-            colBtwPlayerAndEnemy(itsPlayer,theEnemy);
-        }
+    //std::cout<<"Est trop à droite : "<<(entity1->getItsX() > (entity2->getItsX() + entity2->getItsWidth()))<<"\n";
+        //std::cout<<"Car le coté d de pl : "<<entity1->getItsX()<<" est plus grand que le coté g de bl : "<<(entity2->getItsX() + entity2->getItsWidth())<<"\n";
+    if(entity1->getItsX() > (entity2->getItsX() + entity2->getItsWidth())){      // trop à droite
+        // qWarning() << "trop à droite";
+        //std::cout<<"Trop à droite\n";
+            return false;
     }
-    /*
-     * Si une collision à lieu entre deux enemy :
-     * lance une fonction colBtwEnemyAndEnemy
-     */
-    for (size_t i = 0; i < itsLevel->getItsEnemiesList().size() - 1; i++) {
-        for (size_t j = i + 1; j < itsLevel->getItsEnemiesList().size(); j++) {
-            Enemy *theFirstEnemy = itsLevel->getItsEnemiesList().at(i), *theSecondEnemy = itsLevel->getItsEnemiesList().at(j);
-            if(theFirstEnemy->getItsRect()->intersects(*theSecondEnemy->getItsRect()))// si une collision a lieux
-            {
-                colBtwEnemyAndEnemy(theFirstEnemy, theSecondEnemy);
-            }
-        }
+    //std::cout<<"Est trop à gauche : "<<((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX())<<"\n";
+        if((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX()){ // trop à gauche
+        // qWarning() << "trop à gauche";
+        //std::cout<<"Trop à gauche\n";
+            return false;
     }
-    /*
-     * Si une collision à lieu entre un enemy et un block :
-     * Lance une fonction colBtwEnemyAndBlock
-     */
-    for(size_t itEnemies = 0; itEnemies < itsLevel->getItsEnemiesList().size(); ++itEnemies)
-    {
-        Enemy* theEnemy = itsLevel->getItsEnemiesList().at(itEnemies);
-        for(size_t itBlocks = 0; itBlocks < itsLevel->getItsBlockList().size(); ++itBlocks)
-        {
-            Block* theBlock = itsLevel->getItsBlockList().at(itBlocks);
-            if(theEnemy->getItsRect()->intersects(*theBlock->getItsRect()))//Check collid between Enemy and blocks
-            {
-                colBtwEnemyAndBlock(theEnemy, theBlock);
-            }
-        }
-    }
-    /*
-     * Si une collision à lieu entre un joueur et un block :
-     * Lance une fonction colBtwPlayerAndBlock
-     */
-    for(size_t itBlocks = 0; itBlocks < itsLevel->getItsBlockList().size(); ++itBlocks)
-    {
-        Block* theBlock = itsLevel->getItsBlockList().at(itBlocks);
-        if(itsPlayer->getItsRect()->intersects(*theBlock->getItsRect()))//Check collid between Enemy and blocks
-        {
-            colBtwPlayerAndBlock(itsPlayer, theBlock);
-        }
-    }
-    /*
-     * Si une collision à lieu entre un enemy et un despawner :
-     * Lance une fonction colBtwEnemyAndDespawner
-     */
-    for(size_t itEnemies = 0; itEnemies < itsLevel->getItsEnemiesList().size(); ++itEnemies)
-    {
-        Enemy* theEnemy = itsLevel->getItsEnemiesList().at(itEnemies);
-        for(size_t itSpawner = 0; itSpawner < itsLevel->getItsDespawnerList().size(); ++itSpawner)
-        {
-            Despawner* theDespawner = itsLevel->getItsDespawnerList().at(itEnemies);
-
-            if(theEnemy->getItsRect()->intersects(*theDespawner->getItsRect()))//Check collid between Enemy and blocks
-            {
-                colBtwEnemyAndDespawner(theEnemy, theDespawner);
-            }
-        }
-    }
-}
-
-bool Game::isLevelFinished()
-{
-    if (itsLevel->getItsEnemiesList().empty() || itsPlayer->getItsLivesNb() == 0)
-    {
-        return true;
-    }
-    else
-    {
+    //std::cout<<"Est trop en bas : "<<(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight()))<<"\n";
+    if(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight())){ // trop en bas
+        // qWarning() << "trop en bas";
+        //std::cout<<"Trop en bas\n";
         return false;
     }
+
+    //std::cout<<"Le Y + H de player : "<<(entity1->getItsY() + entity1->getItsHeight())<<" / le Y du block : "<<entity2->getItsY()<<" / soit la condition : "<<((entity1->getItsY() + entity1->getItsHeight()) > entity2->getItsY())<<"\n";
+    if((entity1->getItsY() + entity1->getItsHeight()) < entity2->getItsY()){  // trop en haut
+        // qWarning() << "trop en haut";
+        //        //std::cout<<"La height du player = "<<entity1->getItsHeight()<<"\n";
+        //        //std::cout<<"La width du player = "<<entity1->getItsWidth()<<"\n";
+        //        //std::cout<<"Le Y du player : "<<entity1->getItsY()<<"\n";
+        //std::cout<<"Trop en haut\n";
+        return false;
+    }
+    //std::cout<<"En collision\n";
+    return true;
 }
 
-void Game::moveAll()
-{
-    if(itsPlayer->getIsOnTheGround())
-    {
-        itsPlayer->move();
-    }
-    for(size_t itEnemies = 0; itEnemies < itsLevel->getItsEnemiesList().size(); ++itEnemies)
-    {
-        Enemy* theEnemy = itsLevel->getItsEnemiesList().at(itEnemies);
-        if(theEnemy->getIsOnTheGround())theEnemy->move();
+
+void Game::moveAll(){
+    itsPlayer->move();
+    for (Enemy * enemy : itsLevel->getItsEnemiesList()){
+        enemy->move();
     }
 }
 
@@ -257,6 +298,7 @@ void Game::onLeftKeyPressed()
 void Game::onRightKeyPressed()
 {
     itsPlayer->setItsXSpeed(PLAYERMAXSPEED);
+    //std::cout<<"appuie du right : "<<itsPlayer->getItsXSpeed()<<"\n";
 }
 
 void Game::onUpKeyPressed()
@@ -274,11 +316,9 @@ void Game::onRightKeyReleased()
     itsPlayer->setItsXSpeed(STILL);
 }
 
-bool isInPause = false;
 void Game::onGamePaused()
 {
     isInPause = true;
-    while(isInPause);
 }
 
 void Game::onGameResumed()

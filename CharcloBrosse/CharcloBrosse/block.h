@@ -25,7 +25,7 @@ public:
      * @param width Width of the block.
      * @param sprite QPixmap sprite used for the block.
      */
-    Block(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap * sprite);
+    Block( short x,  short y,  short height,  short width, QPixmap * sprite);
 
     /**
      * @brief Gets the state of the block.

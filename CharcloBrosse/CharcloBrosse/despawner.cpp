@@ -1,7 +1,7 @@
 #include "despawner.h"
 
 //Constructeur
-Despawner::Despawner(Spawner * spawner, unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap *sprite)
+Despawner::Despawner(Spawner * spawner,  short x,  short y,  short height,  short width, QPixmap *sprite)
     :Entity(x, y, height, width, sprite)
 {
     itsSpawner = spawner;

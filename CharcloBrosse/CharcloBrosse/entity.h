@@ -2,8 +2,8 @@
 #define ENTITY_H
 
 #include <QPainter>
-
-#include "sprite.h"
+#include <QPixmap>
+#include <QRect>
 
 /**
  * @class Entity
@@ -17,7 +17,9 @@ class Entity
 {
 protected:
     QRect itsRect; ///< Rectangle representing the entity's dimensions and position.
-    Sprite * itsSprite; ///< Sprite associated with the entity.
+    QPixmap * itsSprite; ///< Sprite associated with the entity.
+    short itsX;
+    short itsY;
 public:
     /**
      * @brief Constructor of the Entity class.
@@ -27,31 +29,31 @@ public:
      * @param width Width of the entity.
      * @param sprite QPixmap sprite used for the entity.
      */
-    Entity(unsigned short x, unsigned short y, unsigned short height, unsigned short width, QPixmap *sprite);
+    Entity(short x, short y, short height, short width, QPixmap *sprite);
 
     /**
      * @brief Gets the X coordinate of the entity.
      * @return The X coordinate.
      */
-    unsigned short getItsX() const;
+    short getItsX() const;
 
     /**
      * @brief Gets the Y coordinate of the entity.
      * @return The Y coordinate.
      */
-    unsigned short getItsY() const;
+    short getItsY() const;
 
     /**
      * @brief Gets the height of the entity.
      * @return The height.
      */
-    unsigned short getItsHeight() const;
+    short getItsHeight() const;
 
     /**
      * @brief Gets the width of the entity.
      * @return The width.
      */
-    unsigned short getItsWidth() const;
+    short getItsWidth() const;
 
     /**
      * @brief Displays the entity.
@@ -69,13 +71,13 @@ public:
      * @brief Sets the X coordinate of the sprite.
      * @param newX The new X coordinate.
      */
-    void setX(unsigned short newX);
+    void setX( short newX);
 
     /**
      * @brief Sets the Y coordinate of the sprite.
      * @param newY The new Y coordinate.
      */
-    void setY(unsigned short newY);
+    void setY( short newY);
 
 
     void moveTo();
