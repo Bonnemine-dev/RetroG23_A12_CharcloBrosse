@@ -37,14 +37,8 @@ void Level::display(QPainter *painter)
     }
 }
 
-void Level::removeEnemy(Enemy * enemy)
-{
-    for (std::vector<Enemy *>::iterator it=itsEnemiesList.begin(); it != itsEnemiesList.end(); it++){ // parcours la liste des enbemies apparus
-        if ((*it)==enemy){ // compare
-            itsEnemiesList.erase(it); // eneleve l'ennemi de la liste
-            delete (*it); // supprime l'ennemi de la memoire
-        }
-    }
+void Level::removeEnemy(Enemy * enemy) {
+    itsEnemiesList.erase(std::remove(itsEnemiesList.begin(), itsEnemiesList.end(), enemy), itsEnemiesList.end());
 }
 
 unsigned short Level::getItsId() const

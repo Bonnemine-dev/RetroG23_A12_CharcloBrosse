@@ -118,17 +118,26 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
                           "font-size: 32px;"
                           "margin: 4px 2px;"
                           "}";
-    resumeButton->setStyleSheet(buttonStyle);
+
+    QString buttonFocusedStyle = "QPushButton:focus {"
+                                 "color: red;"
+                                 "}";
+
+    QString buttonHoverStyle = "QPushButton:hover {"
+                               "color: rgba(255, 0, 0, 0.5);"
+                               "}";
+
+    resumeButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     resumeButton->setFixedWidth(300);
-    quitToMainButton->setStyleSheet(buttonStyle);
+    quitToMainButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     quitToMainButton->setFixedWidth(300);
-    startGameButton->setStyleSheet(buttonStyle);
+    startGameButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     startGameButton->setFixedWidth(300);
-    rulesButton->setStyleSheet(buttonStyle);
+    rulesButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     rulesButton->setFixedWidth(300);
-    quitGameButton->setStyleSheet(buttonStyle);
+    quitGameButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     quitGameButton->setFixedWidth(300);
-    quitToMainButton2->setStyleSheet(buttonStyle);
+    quitToMainButton2->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     quitToMainButton2->setFixedWidth(300);
 
     // ajustement de la taille de la fenetre
@@ -168,10 +177,10 @@ HMI::~HMI()
 void HMI::keyPressEvent(QKeyEvent *event)
 {
     //j'envoie un signal quand une touche est appuyée (c'est pour la classe game)
-//    if (event->key() == Qt::Key_E && state == GAME)
-//    {
-//        itsGame->gameLoop();
-//    }
+    //    if (event->key() == Qt::Key_E && state == GAME)
+    //    {
+    //        itsGame->gameLoop();
+    //    }
 
     if (event->key() == Qt::Key_Left && state == GAME)
     {
@@ -189,32 +198,32 @@ void HMI::keyPressEvent(QKeyEvent *event)
         displayPauseMenu();
     }
     if ((event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down) && state != GAME)
-        {
-            QWidget::keyPressEvent(event); // Laisser le traitement des touches fléchées par défaut
-        }
-        else if ((event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) && state != GAME)
-        {
-            // Récupérer le widget qui a le focus actuel
-            QWidget *focusedWidget = QApplication::focusWidget();
+    {
+        QWidget::keyPressEvent(event); // Laisser le traitement des touches fléchées par défaut
+    }
+    else if ((event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) && state != GAME)
+    {
+        // Récupérer le widget qui a le focus actuel
+        QWidget *focusedWidget = QApplication::focusWidget();
 
-            // Vérifier si c'est un QPushButton et l'activer
-            QPushButton *button = qobject_cast<QPushButton*>(focusedWidget);
-            if (button != nullptr)
-            {
-                button->click(); // Simuler le clic sur le bouton
-            }
+        // Vérifier si c'est un QPushButton et l'activer
+        QPushButton *button = qobject_cast<QPushButton*>(focusedWidget);
+        if (button != nullptr)
+        {
+            button->click(); // Simuler le clic sur le bouton
         }
+    }
 }
 
 void HMI::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Left)
     {
-            itsGame->onLeftKeyReleased();
+        itsGame->onLeftKeyReleased();
     }
     if (event->key() == Qt::Key_Right)
     {
-            itsGame->onRightKeyReleased();
+        itsGame->onRightKeyReleased();
     }
     if ((event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down) && state != GAME)
     {
@@ -226,12 +235,20 @@ void HMI::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
-    if (itsLevel->isActive()){
+    if (itsLevel->isActive() && shouldDraw){
+        unsigned int score = itsGame->getItsScore();
+        short lives = itsGame->getItsPlayer()->getItsLivesNb();
         QPainter * painter = new QPainter(this);
+        painter->drawText(10, 20, QString("Score: %1").arg(score)); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
+        painter->drawText(10, 40, QString("Lives: %1").arg(lives)); // Le texte apparaîtra à 10 pixels du bord gauche et à 40 pixels du haut de l'écran
         itsLevel->display(painter);
         itsPlayer->display(painter);
         painter->end();
     }
+}
+void HMI::clearPaintings() {
+    shouldDraw = false;
+    update();
 }
 
 void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> highscores)
@@ -254,11 +271,13 @@ void HMI::displayPauseMenu()
     qWarning() << "emit pause\n";
     state = PAUSEMENU;
     resumeButton->setDefault(true);
+    clearPaintings();
     stackedWidget->setCurrentWidget(pauseMenuWidget);
 }
 
 void HMI::displayGameOverMenu()
 {
+    clearPaintings();
     state = GAMEOVER;
     stackedWidget->setCurrentWidget(gameOverMenuWidget);
 }
@@ -279,6 +298,7 @@ void HMI::displayRules()
 
 void HMI::startGame()
 {
+    shouldDraw = true;
     displayGame();
     itsGame->onGameStart();
     itsTimer->start(5);//33
@@ -292,7 +312,7 @@ void HMI::close()
 
 void HMI::resume()
 {
-
+    shouldDraw = true;
     displayGame();
     itsGame->onGameResumed();
 }
@@ -310,4 +330,10 @@ void HMI::refreshAll()
 
 void HMI::gameLoop(){
     itsGame->gameLoop();
+}
+
+void HMI::stopGame()
+{
+    itsTimer->stop();
+    displayGameOverMenu();
 }

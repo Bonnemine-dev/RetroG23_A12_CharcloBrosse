@@ -12,7 +12,7 @@ void Player::move()
 {
     //std::cout<<"La vitesse sur l'axe X de player lors de son move : "<<itsXSpeed<<"\n";
     itsX += itsXSpeed;
-    //std::cout<<"La vitesse sur l'axe Y de player lors de son move : "<<itsYSpeed<<"\n";
+    std::cout<<"La vitesse sur l'axe Y de player lors de son move : "<<itsYSpeed<<"\n";
     itsY += itsYSpeed;
     itsRect.moveTo((itsRect.x() + itsXSpeed),(itsRect.y() + itsYSpeed));
     if(itsX == -1)

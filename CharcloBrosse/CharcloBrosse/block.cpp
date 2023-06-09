@@ -32,6 +32,11 @@ void Block::increment()
 }
 
 //Constructeur
+void Block::setItsCounter(unsigned short newItsCounter)
+{
+    itsCounter = newItsCounter;
+}
+
 Block::Block( short x,  short y,  short height,  short width, QPixmap * sprite)
     : Entity(x, y, height, width, sprite)
 {

@@ -7,6 +7,8 @@
 
 #define STANDARD_ENEMY_SPEED 1
 
+#define BLOCK_HIT_TIME 100
+
 #define PLAYERMAXSPEED 1 // define value of max X speed
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value

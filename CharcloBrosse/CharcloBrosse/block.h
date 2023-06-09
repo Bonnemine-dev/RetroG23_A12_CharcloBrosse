@@ -49,6 +49,7 @@ public:
      * @return The counter.
      */
     unsigned short getItsCounter() const;
+    void setItsCounter(unsigned short newItsCounter);
 };
 
 #endif // BLOCK_H
