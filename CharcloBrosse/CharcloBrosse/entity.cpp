@@ -41,7 +41,6 @@ Entity::Entity(short x,  short y,  short height,  short width, QPixmap * sprite)
     itsRect.moveTo(x,y);
     itsRect.setHeight(height);
     itsRect.setWidth(width);
-    itsSprite->moveTo(itsRect.x(), itsRect.y());
 }
 
 //Getter getItsX
