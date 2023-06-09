@@ -1,3 +1,11 @@
+/**
+ * @file desspawner.h
+ * @brief Header file for class Despawner
+ * @author Tom Bonneau
+ * @date 06/06/2023
+ * @version 1.2
+ */
+
 #ifndef DESPAWNER_H
 #define DESPAWNER_H
 

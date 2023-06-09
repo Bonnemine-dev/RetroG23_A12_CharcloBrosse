@@ -1,3 +1,11 @@
+/**
+ * @file typeDef.h
+ * @brief Header file for general definition
+ * @author Kevin Simon
+ * @date 08/06/2023
+ * @version 1.3
+ */
+
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 

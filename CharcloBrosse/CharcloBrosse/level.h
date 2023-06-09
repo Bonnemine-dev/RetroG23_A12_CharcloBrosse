@@ -1,3 +1,10 @@
+/**
+ * @file level.h
+ * @brief Header file for class Level
+ * @author Kevin Simon
+ * @date 09/06/2023
+ * @version 1.5
+ */
 
 #ifndef LEVEL_H
 #define LEVEL_H
