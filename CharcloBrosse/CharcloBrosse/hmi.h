@@ -93,7 +93,7 @@ private slots:
      * @brief Displays the game over menu.
      * @param highscores List of high scores to be displayed.
      */
-    void displayGameOverMenu(std::vector <std::pair <std::string , unsigned int >> highscores);
+    void displayGameOverMenu();
 
     /**
          * @brief Displays the game screen.
