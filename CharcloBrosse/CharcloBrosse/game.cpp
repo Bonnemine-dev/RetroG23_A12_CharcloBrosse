@@ -20,9 +20,10 @@ void displayCoord(Entity * entity1, Entity * entity2){
 
 Game::Game()
 {
-    itsTileSet = new TileSet("tilsetCharclo.png");
+
+    itsTileSet = new TileSet("../../CharcloBrosse/CharcloBrosse/ressources/tilsetCharclo.png");
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
-    itsLevel = new Level("oneenemy.json",itsTileSet);
+    itsLevel = new Level("../../CharcloBrosse/CharcloBrosse/ressources/oneenemy.json",itsTileSet);
     itsHMI = new HMI(itsLevel, itsPlayer, this);
     itsEllapsedTime = 0;
     itsHMI->show();
@@ -63,6 +64,10 @@ void Game::gameLoop()
         itsEllapsedTime = 0;
     }
 
+<<<<<<< HEAD
+=======
+    //system("clear");
+>>>>>>> dev
     checkAllCollid();
     //    //std::cout<<"Est sur une platforme : "<<itsPlayer->getIsOnTheGround()<<"\n";
     moveAll();

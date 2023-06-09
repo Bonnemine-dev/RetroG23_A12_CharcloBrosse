@@ -1,3 +1,10 @@
+/**
+ * @file hmi.h
+ * @brief Header file for class HMI
+ * @author Erwan GODELLE
+ * @date June 2023
+ * @version 1
+ */
 #ifndef HMI_H
 #define HMI_H
 
@@ -17,6 +24,7 @@
 
 
 class Game;
+
 /**
  * @class HMI
  * @brief Class representing a Human Machine Interface (HMI) for a game.
@@ -49,9 +57,9 @@ private:
 
     QLabel *rulesText; ///< Label for displaying game rules.
 
-    QLabel *scoresLabel;
-    QLabel *scoresLabelGameOver;
-    QLabel *gameOverLabel;
+    QLabel *scoresLabel; ///< Label for displaying scores.
+    QLabel *scoresLabelGameOver; ///< Label for displaying scores in the game over screen.
+    QLabel *gameOverLabel; ///< Label for displaying "Game Over" text.
 
     QPushButton *startGameButton; ///< Button for starting the game.
     QPushButton *rulesButton; ///< Button for displaying game rules.
@@ -61,13 +69,23 @@ private:
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
     QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
 
-    Level *itsLevel;
-    Player *itsPlayer;
-    Game * itsGame;
-    QTimer * itsTimer;
+    Level *itsLevel; ///< Pointer to the current level object.
+    Player *itsPlayer; ///< Pointer to the player object.
+    Game *itsGame; ///< Pointer to the game object.
+    QTimer *itsTimer; ///< Timer for game updates.
+
+    /**
+     * @brief Redefinition of the paintEvent method to perform custom drawings.
+     * @param event The paint event.
+     */
     void paintEvent(QPaintEvent* event);
+
+    /**
+     * @brief Clears previously drawn items.
+     */
     void clearPaintings();
-    bool shouldDraw = true;
+
+    bool shouldDraw = true; ///< Boolean indicating whether drawing should be performed or not.
 public:
     /**
      * @brief Constructor of the HMI class.
@@ -133,8 +151,14 @@ public slots:
      */
     void refreshAll();
 
+    /**
+     * @brief The main game loop for handling game updates.
+     */
     void gameLoop();
 
+    /**
+     * @brief Stops the game and performs necessary cleanup.
+     */
     void stopGame();
 };
 

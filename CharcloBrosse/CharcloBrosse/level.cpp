@@ -129,9 +129,16 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         }
     }
 
-    for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
-        itsEnemyAppearsTimes.push_back(itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i); // compute the delay
-    }
+    if (itsRemainingEnemies.size() > 1){
+            for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
+                unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
+                itsEnemyAppearsTimes.push_back(temp); // compute the delay
+            }
+            std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
+        }
+        else {
+            itsEnemyAppearsTimes.push_back(itsMaxDelay);
+        }
     std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
 
     itsSpawnerList.push_back(new Spawner(0, 32*3, 96, 64, tileSet->getItsSpawnerTile(0)));
