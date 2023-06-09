@@ -15,8 +15,9 @@ class test_Level : public QObject
 {
     Q_OBJECT
 private:
-    std::string itsJsonFilePath = "../../CharcloBrosse/test_CharcloBrosse/test_Level/testFile.json";
-    std::string itsJsonFileUnreadablePath = "../../CharcloBrosse/test_CharcloBrosse/test_Level/testFileUnreadable.json";
+    std::string itsJsonFilePath = "../../../CharcloBrosse/test_CharcloBrosse/test_Level/testFile.json";
+    std::string itsJsonFileUnopenablePath = "../../../CharcloBrosse/test_CharcloBrosse/test_Level/testFileUnreadable.json";
+    std::string itsTilesetPath = "../../../CharcloBrosse/test_CharcloBrosse/test_Level/tileset0.png";
     Level* itsLevel;
     TileSet* itsTileset;
 
@@ -28,7 +29,9 @@ private slots:
     void init();
     void cleanup();
 
+
     void test_Constructor_UnfoundFile_Exception();
+    void test_Constructor_UnOpenableFile_Exception();
 
     void test_Constructor_Generals();
 
@@ -63,16 +66,16 @@ test_Level::~test_Level()
 void test_Level::init()
 {
 
-
     try
     {
-        itsLevel = new Level(itsJsonFilePath, itsTileset);
+        itsTileset = new TileSet(itsTilesetPath);
+
     }
     catch(const std::string exceptionMessage)
     {
-        if(exceptionMessage == "Could not open the level file")
+        if(exceptionMessage == "File unfound (Tileset::Tileset(const std::string aFilePath)")
         {
-            QFAIL("File not openeable");
+            QFAIL("File unfound - constructeru de tileset");
         }
         else
         {
@@ -80,12 +83,36 @@ void test_Level::init()
         }
     }
 
+    try
+    {
+        itsLevel = new Level(itsJsonFilePath, itsTileset);
+
+    }
+    catch(const std::string exceptionMessage)
+    {
+        if(exceptionMessage == "Level file does not exists")
+        {
+            QFAIL("File does not exist - constructeur level");
+        }
+        if(exceptionMessage == "Could not open the level file")
+        {
+            QFAIL("File not openeable - constructeur level");
+        }
+        else
+        {
+            QFAIL("Unknow exception");
+        }
+    }
+
+
 }
 
 void test_Level::cleanup()
 {
     delete itsLevel;
     delete itsTileset;
+    itsLevel = nullptr;
+    itsLevel = nullptr;
 }
 
 
@@ -101,6 +128,23 @@ void test_Level::test_Constructor_UnfoundFile_Exception()
     }
     catch(const std::string exceptionMessage)
     {
+        QCOMPARE(exceptionMessage, "Level file does not exists");
+    }
+
+    delete unvalidLevel;
+}
+
+void test_Level::test_Constructor_UnOpenableFile_Exception()
+{
+    Level* unvalidLevel;
+    try
+    {
+        unvalidLevel = new Level(itsJsonFileUnopenablePath, itsTileset);
+        delete unvalidLevel;
+        QFAIL("No_exception_throw");
+    }
+    catch(const std::string exceptionMessage)
+    {
         QCOMPARE(exceptionMessage, "Could not open the level file");
     }
 
@@ -109,14 +153,14 @@ void test_Level::test_Constructor_UnfoundFile_Exception()
 
 void test_Level::test_Constructor_Generals()
 {
-    QCOMPARE(itsLevel->getItsId(), 4);
+    QCOMPARE(itsLevel->getItsId(), 1);
     QCOMPARE(itsLevel->getItsMinDelay(), 5);
     QCOMPARE(itsLevel->getItsMinDelay(), 13);
 }
 
 void test_Level::test_Constructor_NumberBlock()
 {
-    QCOMPARE(itsLevel->getItsBlockList().size(), 4);
+    QCOMPARE(itsLevel->getItsBlockList().size(), (const long long unsigned)4);
 }
 
 void test_Level::test_Constructor_PositionBlock()
