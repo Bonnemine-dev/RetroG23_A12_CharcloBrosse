@@ -15,6 +15,7 @@ SOURCES += \
         despawner.cpp \
         freezer.cpp \
         game.cpp \
+        giant.cpp \
         hmi.cpp \
         level.cpp \
         main.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     despawner.h \
     freezer.h \
     game.h \
+    giant.h \
     hmi.h \
     level.h \
     money.h \
