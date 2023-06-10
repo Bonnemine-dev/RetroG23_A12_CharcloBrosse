@@ -1,3 +1,11 @@
+/**
+ * @file player.h
+ * @brief Header file for class Player
+ * @author Tom Bonneau
+ * @date 07/06/2023
+ * @version 1.3
+ */
+
 #ifndef PLAYER_H
 #define PLAYER_H
 

@@ -1,3 +1,11 @@
+/**
+ * @file block.cpp
+ * @brief Source file for class Block
+ * @author Tom Bonneau
+ * @date 05/06/2023
+ * @version 1.1
+ */
+
 #include "block.h"
 
 #include "typedef.h"

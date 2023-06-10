@@ -1,3 +1,11 @@
+/**
+ * @file standard.h
+ * @brief Header file for class Standard
+ * @author Tom Bonneau
+ * @date 05/06/2023
+ * @version 1.1
+ */
+
 #ifndef STANDARD_H
 #define STANDARD_H
 

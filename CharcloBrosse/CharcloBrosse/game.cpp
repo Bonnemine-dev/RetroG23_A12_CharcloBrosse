@@ -1,3 +1,11 @@
+/**
+ * @file game.cpp
+ * @brief Source file for class Game
+ * @author Arthur Ancien
+ * @date 05/06/2023
+ * @version 1.1
+ */
+
 #include <chrono>
 #include <QObject>
 #include "game.h"
@@ -20,9 +28,11 @@ void displayCoord(Entity * entity1, Entity * entity2){
 
 Game::Game()
 {
-    itsTileSet = new TileSet("../../CharcloBrosse/CharcloBrosse/ressources/tilsetCharclo.png");
+    itsTileSet = new TileSet("../../CharcloBrosse/CharcloBrosse/ressources/tileset0.png");
+    // itsTileSet = new TileSet("ressources/tileset0.png");
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
-    itsLevel = new Level("../../CharcloBrosse/CharcloBrosse/ressources/oneenemy.json",itsTileSet);
+    itsLevel = new Level("../../CharcloBrosse/CharcloBrosse/ressources/level1.json",itsTileSet); // a remplacer selon les besoins
+    // itsLevel = new Level("ressources/level1.json",itsTileSet);
     itsHMI = new HMI(itsLevel, itsPlayer, this);
     itsEllapsedTime = 0;
     itsHMI->show();
@@ -41,28 +51,33 @@ void Game::gameLoop()
     //    QElapsedTimer timer;
     //    timer.start();
 
-    itsEllapsedTime += 0.16;//0.16
+    itsEllapsedTime += 0.016;//0.16
 
+    qWarning() << itsEllapsedTime;
 
-    if(!itsLevel->getItsEnemiesList().empty())std::cout<<"L'état du enemy : "<<itsLevel->getItsEnemiesList().at(itsLevel->getItsEnemiesList().size()-1)->getItsState()<<"\n";
+    // if(!itsLevel->getItsEnemiesList().empty())std::cout<<"L'état du enemy : "<<itsLevel->getItsEnemiesList().at(itsLevel->getItsEnemiesList().size()-1)->getItsState()<<"\n";
+    if (itsLevel->getItsRemainingEnemies().size() > 0){
+        unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
+        if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(pos))
+        {
+            std::cout<<"Je passe dans la condition pour faire apparaitre un enemy \n";
 
-    if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(0))
-    {
-        std::cout<<"Je passe dans la condition pour faire apparaitre un enemy \n";
-        Enemy * enemy = itsLevel->getItsRemainingEnemies().at(0);
-        Sides side = itsLevel->getItsEnemyAppearsSides().at(0);
-        switch(side){
-        case LEFT:
-            itsLevel->getItsSpawnerList().at(0)->appears(enemy);
-            break;
-        case RIGHT:
-            itsLevel->getItsSpawnerList().at(1)->appears(enemy);
-            break;
+            Enemy * enemy = itsLevel->getItsRemainingEnemies().at(pos);
+            Sides side = itsLevel->getItsEnemyAppearsSides().at(pos);
+            switch(side){
+            case LEFT:
+                itsLevel->getItsSpawnerList().at(0)->appears(enemy);
+                break;
+            case RIGHT:
+                itsLevel->getItsSpawnerList().at(1)->appears(enemy);
+                enemy->setItsXSpeed(-STANDARD_ENEMY_SPEED);
+                break;
+            }
+
+            itsLevel->appears(enemy);
+            itsEllapsedTime = 0;
         }
-        itsLevel->appears(enemy);
-        itsEllapsedTime = 0;
     }
-
     //system("clear");
     checkAllCollid();
     //    //std::cout<<"Est sur une platforme : "<<itsPlayer->getIsOnTheGround()<<"\n";
@@ -142,78 +157,130 @@ void Game::checkAllCollid(){
     if (enemyList.size()>0){
         // player to enemy
 
-        qWarning() << "player to enemy";
-        for(Enemy * enemy : enemyList){
-            std::cout<<"#1";
-            if(collid(itsPlayer, enemy)){
-                std::cout<<"#2";
-                std::cout<<"collision entre player et ennemy\n";
-                colBtwPlayerAndEnemy(itsPlayer, enemy);
-            }
+        bool gravityList[enemyList.size()];
+        for (unsigned short i = 0; i < enemyList.size(); i++){
+            gravityList[i] = true;
         }
 
-        // enemy to block
-        qWarning() << "enemy to block";
-        for(Enemy * enemy : enemyList){
-            bool enemyGravity = true;
-            for (Block * block : itsLevel->getItsBlockList()){
-                if (collid(enemy, block)){
-                    colBtwEnemyAndBlock(enemy, block);
-                    if(!enemy->getItsState())
-                    {
-                        enemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
-                    }
-                    else
-                    {
-                        enemy->setItsSprite(itsTileSet->getItsEnemyTile());
-                    }
-                    if (isOnTop(enemy, block)){
-                        enemyGravity = false;
-                    }
+        for (unsigned short i1 = 0; i1 < enemyList.size(); i1++){
+
+            Enemy * enemy1 = enemyList.at(i1);
+            if (collid(itsPlayer, enemy1)){
+                colBtwPlayerAndEnemy(itsPlayer, enemy1);
+            }
+
+            for (Despawner * despawner : itsLevel->getItsDespawnerList()){
+                if(collid(enemy1, despawner)){
+                    std::cout<<"je passe par la méthode colbtwenemyanddespawner\n";
+                        colBtwEnemyAndDespawner(enemy1, despawner);
                 }
             }
-            if (enemyGravity){
-                std::cout<<"La gravité est appliqué\n";
-                enemy->setItsYSpeed(GRAVITY);
-            }
-            else{
-                enemy->setItsYSpeed(STILL);
-            }
-        }
 
-        // enemy to enemy
-        qWarning() << "enemy to enemy";
-        if (enemyList.size() >= 2){
-            for (std::vector<Enemy *>::iterator it1 = enemyList.begin(); it1 < (enemyList.end()--); it1++){
-                qWarning() << "enemy1";
-                for (std::vector<Enemy *>::iterator it2 = it1++; it2 < enemyList.end(); it2++){
-                    qWarning() << "enemy2";
-                    Enemy * enemy1 = *it1;
-                    Enemy * enemy2 = *it2;
+            for (Block * block : itsLevel->getItsBlockList()){
+                if (collid(enemy1, block)){
+                    if (isOnTop(enemy1, block)){
+                        gravityList[i1] = false;
+                    }
+                    colBtwEnemyAndBlock(enemy1, block);
+                }
+            }
+
+            if (enemyList.size() >= 2){
+                for (unsigned int i2 = i1+1; i2 < enemyList.size(); i2++){
+                    Enemy * enemy2 = enemyList.at(i2);
                     if (collid(enemy1, enemy2)){
                         colBtwEnemyAndEnemy(enemy1, enemy2);
+                        if (isOnTop(enemy1, enemy2)){
+                            gravityList[i1] = false;
+                        }
+                        else if (isOnTop(enemy2, enemy1)){
+                            gravityList[i2] = false;
+                        }
                     }
                 }
             }
-        }
 
-        // enemy et despawner
-        qWarning() << "enemy to despawner";
-        for (Enemy * enemy : enemyList){
-            for (Despawner * despawner : itsLevel->getItsDespawnerList()){
-                if(collid(enemy, despawner)){
-                    std::cout<<"je passe par la méthode colbtwenemyanddespawner\n";
-                        colBtwEnemyAndDespawner(enemy, despawner);
-                }
+            if (gravityList[i1]){
+                enemy1->setItsYSpeed(GRAVITY);
+            }
+            else{
+                enemy1->setItsYSpeed(STILL);
             }
         }
+
+
+//        qWarning() << "player to enemy";
+//        for(Enemy * enemy : enemyList){
+//            std::cout<<"#1";
+//            if(collid(itsPlayer, enemy)){
+//                std::cout<<"#2";
+//                std::cout<<"collision entre player et ennemy\n";
+//                colBtwPlayerAndEnemy(itsPlayer, enemy);
+//            }
+//        }
+
+//        // enemy to block
+//        qWarning() << "enemy to block";
+//        for(Enemy * enemy : enemyList){
+//            bool enemyGravity = true;
+//            for (Block * block : itsLevel->getItsBlockList()){
+//                if (collid(enemy, block)){
+//                    colBtwEnemyAndBlock(enemy, block);
+//                    if(!enemy->getItsState())
+//                    {
+//                        enemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
+//                    }
+//                    else
+//                    {
+//                        enemy->setItsSprite(itsTileSet->getItsEnemyTile());
+//                    }
+//                    if (isOnTop(enemy, block)){
+//                        enemyGravity = false;
+//                    }
+//                }
+//            }
+//            if (enemyGravity){
+//                std::cout<<"La gravité est appliqué\n";
+//                enemy->setItsYSpeed(GRAVITY);
+//            }
+//            else{
+//                enemy->setItsYSpeed(STILL);
+//            }
+//        }
+
+//        // enemy to enemy
+//        qWarning() << "enemy to enemy";
+//        if (enemyList.size() >= 2){
+//            for (std::vector<Enemy *>::iterator it1 = enemyList.begin(); it1 < (enemyList.end()--); it1++){
+//                qWarning() << "enemy1";
+//                for (std::vector<Enemy *>::iterator it2 = it1++; it2 < enemyList.end(); it2++){
+//                    qWarning() << "enemy2";
+//                    Enemy * enemy1 = *it1;
+//                    Enemy * enemy2 = *it2;
+//                    if (collid(enemy1, enemy2)){
+//                        colBtwEnemyAndEnemy(enemy1, enemy2);
+//                    }
+//                }
+//            }
+//        }
+
+//        // enemy et despawner
+//        qWarning() << "enemy to despawner";
+//        for (Enemy * enemy : enemyList){
+//            for (Despawner * despawner : itsLevel->getItsDespawnerList()){
+//                if(collid(enemy, despawner)){
+//                    std::cout<<"je passe par la méthode colbtwenemyanddespawner\n";
+//                        colBtwEnemyAndDespawner(enemy, despawner);
+//                }
+//            }
+//        }
     }
 }
 
 void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
 {
-    std::cout<<"je suis dans la fonction qui crash\n";
-    std::cout<<"#3";
+    // std::cout<<"je suis dans la fonction qui crash\n";
+    // std::cout<<"#3";
     if(theEnemy->getItsState()&&std::cout<<"#4")//quand l'ennemie n'est PAS KO
     {
         thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
@@ -231,11 +298,13 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
 
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
 {
-    if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
-    {
-        theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
+    if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
+        if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
+        {
+            theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
+        }
+        theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
     }
-    theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
 }
 
 void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
@@ -279,8 +348,8 @@ void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
     theDespawner->disappear(theEnemy);
 }
 
-bool Game::isOnTop(Entity * entity, Block * block){
-    return entity->getItsY() + entity->getItsHeight() <= block->getItsY();
+bool Game::isOnTop(Entity * entity1, Entity * entity2){
+    return entity1->getItsY() + entity1->getItsHeight() <= entity2->getItsY();
 }
 
 bool Game::collid(Entity * entity1, Entity * entity2){
@@ -346,7 +415,7 @@ void Game::onRightKeyPressed()
 
 void Game::onUpKeyPressed()
 {
-    std::cout<<itsPlayer->getIsOnTheGround()<<" / est sur le sol? passe par upkey\n";
+    // std::cout<<itsPlayer->getIsOnTheGround()<<" / est sur le sol? passe par upkey\n";
     if(itsPlayer->getIsOnTheGround()){
         itsPlayer->setItsYSpeed(-PLAYERMAXSPEED);
         countJump = 6*32;
