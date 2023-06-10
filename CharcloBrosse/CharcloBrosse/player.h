@@ -26,6 +26,7 @@ private:
     short itsXSpeed = 0; ///< Speed of the player on the X axis.
     short itsYSpeed = 0; ///< Speed of the player on the Y axis.
     bool isOnTheGround = true; ///< True is the player is on the ground .
+    unsigned short itsRemaningJumpMove = 0;
     //short itsMaxXSpeed = 0; ///< Maximum speed of the player on the X axis.
     //short itsMaxYSpeed = 0; ///< Maximum speed of the player on the Y axis.
     //bool itsState = true; ///< State of the player.
@@ -99,6 +100,8 @@ public:
      */
     bool getIsOnTheGround() const;
 
+    unsigned short getItsRemaningJumpMove() const;
+    void setItsRemaningJumpMove(unsigned short newItsRemaningJumpMove);
 };
 
 #endif // PLAYER_H

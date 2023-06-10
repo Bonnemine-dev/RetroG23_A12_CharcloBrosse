@@ -10,9 +10,8 @@
 //Methode move
 void Player::move()
 {
-    //std::cout<<"La vitesse sur l'axe X de player lors de son move : "<<itsXSpeed<<"\n";
+
     itsX += itsXSpeed;
-    std::cout<<"La vitesse sur l'axe Y de player lors de son move : "<<itsYSpeed<<"\n";
     itsY += itsYSpeed;
     itsRect.moveTo((itsRect.x() + itsXSpeed),(itsRect.y() + itsYSpeed));
     if(itsX == -1)
@@ -25,6 +24,7 @@ void Player::move()
         itsX = 0;
         itsRect.moveTo(itsX,itsY);
     }
+    itsRemaningJumpMove = (itsRemaningJumpMove != 0?itsRemaningJumpMove - 1:itsRemaningJumpMove);
 }
 
 //Setter itsXSpeed
@@ -76,10 +76,19 @@ bool Player::getIsOnTheGround() const
 }
 
 //Constructeur
+unsigned short Player::getItsRemaningJumpMove() const
+{
+    return itsRemaningJumpMove;
+}
+
+void Player::setItsRemaningJumpMove(unsigned short newItsRemaningJumpMove)
+{
+    itsRemaningJumpMove = newItsRemaningJumpMove;
+}
+
 Player::Player( short x,  short y,  short height,  short width, QPixmap *sprite)
     : Entity(x, y, height, width, sprite)
 {
     itsLivesNb = 3;
-    qWarning() << height;
 }
 

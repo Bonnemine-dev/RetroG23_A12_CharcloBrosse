@@ -17,7 +17,7 @@
 
 #define STANDARD_ENEMY_SPEED 5 //Speed for the standard ennemie in blocks per second
 
-#define FPS 10
+#define FPS 10 //Define the number 
 #define BLOCK_HIT_TIME 100
 #define BLOCK_SIZE 32 //the number of pixels for each side for all blocks
 
