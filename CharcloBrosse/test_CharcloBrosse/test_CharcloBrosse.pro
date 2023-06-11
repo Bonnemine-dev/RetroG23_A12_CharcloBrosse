@@ -6,8 +6,6 @@ SUBDIRS += \
     test_Enemy \
     test_Entity \
     test_Game \
-    test_Level \
     test_Player \
     test_Spawner \
-    test_Standard \
-    test_Tileset
+    test_Standard

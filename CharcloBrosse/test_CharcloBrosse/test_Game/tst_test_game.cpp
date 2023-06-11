@@ -10,7 +10,6 @@ class test_Game : public QObject
     TileSet * tileSet;
     Player * player;
     Level * level;
-    HMI * hmi;
     Block * block;
     Enemy * enemy1;
     Enemy * enemy2;
