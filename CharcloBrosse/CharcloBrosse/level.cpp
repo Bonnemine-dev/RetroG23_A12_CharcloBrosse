@@ -31,11 +31,11 @@ std::vector<Despawner *> Level::getItsDespawnerList() const
 
 void Level::display(QPainter *painter)
 {
-    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
-        itsEnemiesList.at(i)->display(painter);
-    }
     for (unsigned short i = 0; i < itsBlockList.size(); i++){ // affiche tout les blocs
         itsBlockList.at(i)->display(painter);
+    }
+    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
+        itsEnemiesList.at(i)->display(painter);
     }
     for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
         itsSpawnerList.at(i)->display(painter);
@@ -119,12 +119,6 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             }
             else if (block == 3){ // if obstacle
                 itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsEnemyHitTile(),OBSTACLE)));
-            }
-            if (block == 1){ // if ground block
-                itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile()));
-            }
-            else if (block == 3){ // if platform block
-                itsBlockList.push_back((new Obstacle(col*32, line*32, 32, 32, tileSet->getItsGroundTile())));
             }
         }
     }

@@ -254,15 +254,49 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
     {
         if(theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() == 0)
         {
-            theEnemy->setItsState(false);
-            theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
-            theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+            switch (theEnemy->getItsType())
+            {
+            case STANDARD:
+                theEnemy->setItsState(false);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case GIANT:
+                theEnemy->setItsState(false);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case ACCELERATOR:
+                theEnemy->setItsState(false);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            default:
+                break;
+            }
         }
         else if(!theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() < (KO_TIME * NUMBER_LOOP_PER_SECOND)-((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME)-1)//+1 car problème de précision
         {
-            theEnemy->setItsState(true);
-            theEnemy->setItsSprite(itsTileSet->getItsEnemyTile());
-            theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+            switch (theEnemy->getItsType())
+            {
+            case STANDARD:
+                theEnemy->setItsState(true);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyTile());
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case GIANT:
+                theEnemy->setItsState(true);
+                theEnemy->setItsSprite(itsTileSet->getItsPlayerTile());
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case ACCELERATOR:
+                theEnemy->setItsState(true);
+                theEnemy->setItsSprite(itsTileSet->getItsGroundTile());
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            default:
+                break;
+            }
         }
     }
     theEnemy->setIsOnTheGround(true);
