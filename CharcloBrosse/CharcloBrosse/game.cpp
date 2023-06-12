@@ -19,12 +19,7 @@
 
 Game::Game()
 {
-<<<<<<< HEAD
-
-    itsTileSet = new TileSet("../../CharcloBrosse/CharcloBrosse/ressources/tilsetCharclo.png");
-=======
     itsTileSet = new TileSet(TILESET_FILE_PATH);
->>>>>>> dev
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
     itsLevel = new Level(LEVEL_FILE_PATH,itsTileSet);
     itsHMI = new HMI(itsLevel, itsPlayer, this);
@@ -69,11 +64,6 @@ void Game::gameLoop()
             itsEllapsedTime = 0;
         }
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> dev
     checkAllCollid();
     moveAll();
     if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
