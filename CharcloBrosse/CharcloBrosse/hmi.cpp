@@ -308,9 +308,8 @@ void HMI::startGame()
     shouldDraw = true;
     displayGame();
     itsGame->onGameStart();
-    itsTimer->start(1);//pas assez précis il faudrait 1041 microsecondes ou 1041667 nanosecondes
+    itsTimer->start(1);
 }
-
 
 void HMI::close()
 {
