@@ -11,6 +11,7 @@
 
 #include "entity.h"
 #include "typedef.h"
+#include <array>
 
 /**
  * @class Player
@@ -23,13 +24,14 @@
 class Player : public Entity
 {
 private:
-     short itsLivesNb = 0; ///< Number of lives the player has.
+    short itsLivesNb = 0; ///< Number of lives the player has.
     short itsXSpeed = 0; ///< Speed of the player on the X axis.
     short itsYSpeed = 0; ///< Speed of the player on the Y axis.
     bool isOnTheGround = false; ///< True is the player is on the ground .
     unsigned short itsRemaningJumpMove = 0;
     MoveX itsCurrentMove = NONE;
     MoveX itsNextMove = NONE;
+    static std::array<QPixmap*, 5>* itsSprite; ///< ----------refaire-------------------refaire-------------------refaire---------
     //short itsMaxXSpeed = 0; ///< Maximum speed of the player on the X axis.
     //short itsMaxYSpeed = 0; ///< Maximum speed of the player on the Y axis.
     //bool itsState = true; ///< State of the player.
@@ -42,9 +44,11 @@ public:
      * @param width Width of the player.
      * @param sprite QPixmap sprite used for the player.
      */
-    Player( short x,  short y,  short height,  short width, QPixmap * sprite);
+    Player(short x,  short y,  short height,  short width, std::array<QPixmap*, 5>* sprites);
 
-    /**
+
+    void display(QPainter *painter);
+     /**
      * @brief Gets the state of the player.
      * @return The state of the player.
      */

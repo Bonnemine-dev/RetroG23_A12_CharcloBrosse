@@ -22,7 +22,7 @@ Game::Game()
     //Définition du tileset pour la partie en cours, TILESET_FILE_PATH = le chemin vers le fichier .png du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Création du joueur pour la partie en cours
-    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
+    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTiles());
     //Dénition et création du niveau pour la partie, LEVEL_FILE_PATH = le chemin vers le fichier .json du niveau
     itsLevel = new Level(LEVEL_FILE_PATH,itsTileSet);
     //Création de l'interface homme machine lié au jeu
@@ -375,7 +375,7 @@ bool Game::collid(Entity * entity1, Entity * entity2){
 
 void Game::updateAnimation(Entity *theEntity)
 {
-
+    dynamic_cast<Block*>(theEntity)->increment();
 }
 
 

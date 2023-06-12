@@ -21,6 +21,10 @@ void Player::move()
     itsRemaningJumpMove += (itsRemaningJumpMove != 0?-1:0);
 }
 
+void Player::display(QPainter * painter)
+{
+    painter->drawPixmap(itsX, itsY, *itsSprite);
+}
 //Setter itsXSpeed
 void Player::setItsXSpeed(short newItsXSpeed)
 {
@@ -90,9 +94,10 @@ void Player::setItsNextMove(MoveX newItsNextMove)
     itsNextMove = newItsNextMove;
 }
 
-Player::Player( short x,  short y,  short height,  short width, QPixmap *sprite)
-    : Entity(x, y, height, width, sprite)
+Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 5> *sprites)
+    : Entity(x, y, height, width)
 {
+    itsSprite = sprites;
     itsLivesNb = 3;
 }
 

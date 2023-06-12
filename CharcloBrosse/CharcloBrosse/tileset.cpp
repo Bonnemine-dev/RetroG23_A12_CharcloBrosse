@@ -16,6 +16,11 @@
  * Generate and stock all images from the file specified
  * @param string aFilePath : The path to the file which contains all images (tileset)
  */
+std::array<QPixmap *, 5> *TileSet::getItsPlayerTiles() const
+{
+    return itsPlayerTiles;
+}
+
 TileSet::TileSet(const std::string aFilePath)
 {
     //< Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
@@ -31,7 +36,7 @@ TileSet::TileSet(const std::string aFilePath)
     else
     {
         //< Chargement et stockage de chaque image une par une en précisant leur position et leur taille (possibilité de mettre des constantes à termes)
-        itsPlayerTile = new QPixmap(tileset.copy(9, 97, 32, 64));
+        itsPlayerTiles = new QPixmap(tileset.copy(9, 97, 32, 64));
         itsGroundTile = new QPixmap(tileset.copy(97, 9, 32, 32));
         itsBlockTilesList[0] = new QPixmap(tileset.copy(9, 9, 32, 32));
         itsBlockTilesList[1] = new QPixmap(tileset.copy(53, 9, 32, 32));
@@ -46,14 +51,6 @@ TileSet::TileSet(const std::string aFilePath)
     //> Vérification de l'ouverture du fichier et lancement d'une exception si non
 }
 
-/**
- * @brief Tileset::getItsPlayerTile() function implementation
- * @return QPixmap* : A pointer to the image of the Player
- */
-QPixmap* TileSet::getItsPlayerTile()
-{
-    return itsPlayerTile;
-}
 
 /**
  * @brief Tileset::getItsBlockTile() function implementation

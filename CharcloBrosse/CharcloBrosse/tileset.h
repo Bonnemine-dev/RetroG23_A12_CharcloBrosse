@@ -20,7 +20,7 @@
 class TileSet
 {
 private:
-    QPixmap* itsPlayerTile; /**< The image of the Player */
+    std::array<QPixmap*,5>* itsPlayerTiles; /**< The image of the Player */
     QPixmap* itsBlockTilesList[2]; /**< The array that contains images of a Block, [0] for Block in normal state image, [1] for Block in hit state image. */
     QPixmap* itsGroundTile; /**< The image of a ground Block */
     QPixmap* itsEnemyTilesList[2]; /**< The array that contains images of an Enemy, [0] for Enemy in normal state image, [1] for Enemy in hit state image. */
@@ -38,7 +38,7 @@ public:
      * @brief Tileset::getItsPlayerTile() function declaration
      * @return QPixmap* : A pointer to the image of the Player
      */
-    QPixmap* getItsPlayerTile();
+    QPixmap* getItsPlayerTiles();
 
     /**
      * @brief Tileset::getItsBlockTile() function declaration
@@ -83,6 +83,7 @@ public:
      * @return QPixmap* : A pointer to the image of a Despawner specified
      */
     QPixmap* getItsDespawnerTile(unsigned short index);
+    std::array<QPixmap *, 5> *getItsPlayerTiles() const;
 };
 
 #endif // TILESET_H
