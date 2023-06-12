@@ -18,7 +18,7 @@
 #define STANDARD_ENEMY_SPEED 5 //Speed for the standard ennemie in blocks per second
 #define KO_TIME 3//The Duration for the KO in seconds
 
-#define FPS 25 //Define the number of frame per seconds
+#define FPS 60 //Define the number of frame per seconds
 #define BLOCK_HIT_TIME 100 //The time that a block are hit in milliseconds
 #define BLOCK_SIZE 32 //the number of pixels for each side for all blocks
 
@@ -41,6 +41,14 @@ enum MoveX {
     NONE = 0,
     RIGHT_X = 1,
     LEFT_X = -1,
+};
+
+enum EnemyType{
+    STANDARD=100,
+    ACCELERATOR=200,
+    JUMPER=300,
+    GIANT=400,
+    FREEZER=500
 };
 
 #endif // TYPEDEF_H

@@ -52,11 +52,11 @@ void Game::gameLoop()
             switch(side){
             case LEFT:
                 itsLevel->getItsSpawnerList().at(0)->appears(enemy);
-                enemy->setItsXSpeed(1);
+                enemy->setItsXSpeed(RIGHT_X);
                 break;
             case RIGHT:
                 itsLevel->getItsSpawnerList().at(1)->appears(enemy);
-                enemy->setItsXSpeed(-1);
+                enemy->setItsXSpeed(LEFT_X);
                 break;
             }
 
@@ -112,13 +112,14 @@ void Game::checkAllCollid(){
     }
 
 
-    if (playerGravity){
+    if (playerGravity)
+    {
         itsPlayer->setItsYSpeed(GRAVITY);
     }
-    else {
+    else
+    {
         itsPlayer->setItsYSpeed(itsPlayer->getItsYSpeed() > STILL?STILL:itsPlayer->getItsYSpeed());
     }
-
     std::vector<Enemy *> enemyList = itsLevel->getItsEnemiesList();
 
     if (enemyList.size()>0){
@@ -141,7 +142,6 @@ void Game::checkAllCollid(){
                     colBtwEnemyAndDespawner(enemy1, despawner);
                 }
             }
-
             for (Block * block : itsLevel->getItsBlockList()){
                 if (collid(enemy1, block)){
                     if (isOnTop(enemy1, block)){
@@ -150,11 +150,11 @@ void Game::checkAllCollid(){
                     colBtwEnemyAndBlock(enemy1, block);
                 }
             }
-
-            if (enemyList.size() >= 2){
+            if (enemyList.size() >= 2 &&  (itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0){
                 for (unsigned int i2 = i1+1; i2 < enemyList.size(); i2++){
                     Enemy * enemy2 = enemyList.at(i2);
-                    if (collid(enemy1, enemy2)){
+                    if (enemy1 != enemy2 && collid(enemy1, enemy2)){
+                        qWarning()<<itsLoopCounter;
                         colBtwEnemyAndEnemy(enemy1, enemy2);
                         if (isOnTop(enemy1, enemy2)){
                             gravityList[i1] = false;
@@ -206,7 +206,7 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
 {
     if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
-        if(theFirstEnemy->getItsXSpeed() != theSecondEnemy->getItsXSpeed())//si les deux enemy sont dans des directions différentes
+        if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
         {
             theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
         }

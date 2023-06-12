@@ -15,6 +15,6 @@ void Spawner::appears(Enemy * enemy)
     //Fait apparaitre l'enemy aux coordonnées du spawner
     enemy->setX(itsRect.x()+16);//16
     enemy->setY(itsRect.y()+60);//Enlever le +60 à terme
-    enemy->setItsXSpeed(1);
+    enemy->setItsXSpeed(NONE);
 }
 
