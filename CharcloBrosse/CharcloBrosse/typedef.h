@@ -30,6 +30,7 @@
 #define TILESET_FILE_PATH "://ressources/tileset0.png"
 #define LEVEL_FILE_PATH "://ressources/level1.json"
 
+
 enum MenuState {
     MAINMENU,
     PAUSEMENU,
