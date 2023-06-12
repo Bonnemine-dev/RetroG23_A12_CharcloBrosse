@@ -700,6 +700,7 @@ QPixmap* TileSet::getItsBlockHittedTile()
     return itsBlockTilesList[1];
 }
 
+
 /**
  * @brief Tileset::getItsGroundTile() function implementation
  * @return QPixmap* : A pointer to the image of a ground Block
