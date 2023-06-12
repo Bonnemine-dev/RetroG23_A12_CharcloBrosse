@@ -47,7 +47,7 @@ void test_Game::initTestCase()
     tileSet = new TileSet("C:/Users/tombo/Desktop/src/tileset0.png");
     player = new Player(80, 80, 64, 32, sprite);
     level = new Level("C:/Users/tombo/Desktop/src/level1.json",tileSet);
-    block = new Block(0, 0, 32, 32, sprite);
+    block = new Block(0, 0, 32, 32, sprite, BRICK);
     enemy1 = new Enemy(32, 32, sprite);
     enemy2 = new Enemy(32, 32, sprite);
     spawner = new Spawner(0, 200, 64, 64, sprite);

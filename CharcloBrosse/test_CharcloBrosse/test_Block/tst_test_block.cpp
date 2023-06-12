@@ -48,7 +48,7 @@ void test_Block::cleanupTestCase()
 
 void test_Block::init()
 {
-    block = new Block(0, 0, 100, 100, sprite);
+    block = new Block(0, 0, 100, 100, sprite, BRICK);
 }
 
 void test_Block::cleanup()
