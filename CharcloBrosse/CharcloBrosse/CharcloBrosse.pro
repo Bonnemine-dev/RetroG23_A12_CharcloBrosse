@@ -9,6 +9,7 @@ CONFIG += c++17 rtti
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        accelerator.cpp \
         block.cpp \
         enemy.cpp \
         entity.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
         tileset.cpp
 
 HEADERS += \
+    accelerator.h \
     block.h \
     enemy.h \
     entity.h \

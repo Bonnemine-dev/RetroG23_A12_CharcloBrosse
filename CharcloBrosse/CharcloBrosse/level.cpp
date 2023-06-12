@@ -149,8 +149,8 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
                 itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
             }
         }
-        else if (type == "freezer"){ // if a standard enemy
-            itsRemainingEnemies.push_back(new Freezer(32, 32, tileSet->getItsGroundTile())); // create the enemy and add it to the list
+        else if (type == "accelerator"){ // if a standard enemy
+            itsRemainingEnemies.push_back(new Accelerator(32, 32, tileSet->getItsGroundTile())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }

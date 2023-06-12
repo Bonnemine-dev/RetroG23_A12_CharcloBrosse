@@ -23,7 +23,7 @@
 #include "enemy.h"
 #include "standard.h"
 #include "giant.h"
-#include "freezer.h"
+#include "accelerator.h"
 #include "block.h"
 #include "obstacle.h"
 #include "spawner.h"
