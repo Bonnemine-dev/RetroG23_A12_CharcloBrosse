@@ -45,9 +45,14 @@ void Block::setItsCounter(unsigned short newItsCounter)
     itsCounter = newItsCounter;
 }
 
-Block::Block( short x,  short y,  short height,  short width, QPixmap * sprite)
+BlockType Block::getItsType() const
+{
+    return itsType;
+}
+
+Block::Block( short x,  short y,  short height,  short width, QPixmap * sprite,BlockType theBlockType)
     : Entity(x, y, height, width, sprite)
 {
-
+    itsType = theBlockType;
 }
 

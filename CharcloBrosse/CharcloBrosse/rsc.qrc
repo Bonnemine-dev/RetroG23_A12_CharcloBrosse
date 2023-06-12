@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ressources/level1.json</file>
+        <file>ressources/oneblock.json</file>
+        <file>ressources/oneenemy.json</file>
+        <file>ressources/tileset0.png</file>
+        <file>ressources/tilsetCharclo.png</file>
+    </qresource>
+</RCC>

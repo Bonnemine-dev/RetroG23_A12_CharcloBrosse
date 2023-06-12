@@ -57,17 +57,10 @@ void Enemy::move()
     if(itsState)
     {
         itsX += itsXSpeed;
+        if(itsX == -1)itsX = 32*39;
+        else if(itsX == (32*39)+1)itsX = 0;
         itsY += itsYSpeed;
-        itsRect.moveTo((itsRect.x() + itsXSpeed),(itsRect.y() + itsYSpeed));
-        if(itsX == -1)
-        {
-            itsX = 32*39;
-        }
-        else if(itsX == (32*39)+1)
-        {
-            itsX = 0;
-
-        }
+        itsRect.moveTo(itsX,itsY);
     }
 }
 
