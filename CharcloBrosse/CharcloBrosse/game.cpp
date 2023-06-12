@@ -305,7 +305,9 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 
 void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
 {
-    theDespawner->disappear(theEnemy);
+    if ((theEnemy->getItsX() <= theEnemy->getItsWidth()) ||(theEnemy->getItsX() >= WIDTH*32-theEnemy->getItsWidth())) {
+        theDespawner->disappear(theEnemy);
+    }
 }
 
 bool Game::isOnTop(Entity * entity1, Entity * entity2){
