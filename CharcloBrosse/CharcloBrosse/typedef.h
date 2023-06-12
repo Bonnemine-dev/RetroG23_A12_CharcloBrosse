@@ -27,7 +27,7 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 
-#define TILESET_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/ressources/tileset0.png"
+#define TILESET_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/ressources/tileset_exclu.png"
 #define LEVEL_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/ressources/level1.json"
 
 enum MenuState {
