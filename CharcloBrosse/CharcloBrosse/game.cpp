@@ -20,81 +20,85 @@
 Game::Game()
 {
     itsTileSet = new TileSet(TILESET_FILE_PATH);
+    itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerTile());
     itsLevel = nullptr;
     itsHMI = new HMI(nullptr, itsPlayer, this);
-    itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerTile());
     itsEllapsedTime = 0;
     itsHMI->show();
     itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-    pass = 0;
+    running = false;
 }
 // Connexion des signaux et slots
 
 void Game::onGameStart(){
     currentLevel = 1;
     itsPlayer->setItsLivesNb(3);
-    openLevel(currentLevel);
+    itsScore = 0;
+    openLevel();
     itsHMI->setLevel(itsLevel);
     itsHMI->displayLevelNumber();
     itsEllapsedTime = 0;
     gameLoop();
+    running = true;
 }
 
 void Game::gameLoop()
 {
-    QElapsedTimer timer;
-    timer.restart();
-    if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-    itsEllapsedTime += 0.001;
+    if(running){
+        QElapsedTimer timer;
+        timer.restart();
+        if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+        itsEllapsedTime += 0.001;
 
-    if (itsLevel->getItsRemainingEnemies().size() > 0){
-        unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
-        if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(pos))
-        {
-            Enemy * enemy = itsLevel->getItsRemainingEnemies().at(pos);
-            Sides side = itsLevel->getItsEnemyAppearsSides().at(pos);
-            switch(side){
-            case LEFT:
-                itsLevel->getItsSpawnerList().at(0)->appears(enemy);
-                enemy->setItsXSpeed(RIGHT_X);
-                break;
-            case RIGHT:
-                itsLevel->getItsSpawnerList().at(1)->appears(enemy);
-                enemy->setItsXSpeed(LEFT_X);
-                break;
+        if (itsLevel->getItsRemainingEnemies().size() > 0){
+            unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
+            if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(pos))
+            {
+                Enemy * enemy = itsLevel->getItsRemainingEnemies().at(pos);
+                Sides side = itsLevel->getItsEnemyAppearsSides().at(pos);
+                switch(side){
+                case LEFT:
+                    itsLevel->getItsSpawnerList().at(0)->appears(enemy);
+                    enemy->setItsXSpeed(RIGHT_X);
+                    break;
+                case RIGHT:
+                    itsLevel->getItsSpawnerList().at(1)->appears(enemy);
+                    enemy->setItsXSpeed(LEFT_X);
+                    break;
+                }
+
+                itsLevel->appears(enemy);
+                itsEllapsedTime = 0;
             }
-
-            itsLevel->appears(enemy);
-            itsEllapsedTime = 0;
         }
-    }
-    checkAllCollid();
-    moveAll();
-    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
-    itsLoopCounter--;
+        checkAllCollid();
+        moveAll();
+        if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
+        itsLoopCounter--;
 
-    if(isLevelFinished()){
-        if (currentLevel != MAX_LEVEL){
-            currentLevel++;
-            openLevel(currentLevel);
-            itsHMI->setLevel(itsLevel);
-            itsHMI->displayLevelNumber();
-            itsPlayer->setX((32*39)/2);
-            itsPlayer->setY(250);
-            itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-            itsEllapsedTime = 0;
+        if(isLevelFinished()){
+            if (currentLevel != MAX_LEVEL){
+                currentLevel++;
+                openLevel();
+                itsHMI->setLevel(itsLevel);
+                itsHMI->displayLevelNumber();
+                itsPlayer->setX((32*39)/2);
+                itsPlayer->setY(250);
+                itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+                itsEllapsedTime = 0;
+            }
+            else{
+                currentLevel = 1;
+                itsHMI->stopGame();
+
+            }
         }
-        else{
+
+        if(itsPlayer->getItsLivesNb() == 0)
+        {
             currentLevel = 1;
             itsHMI->stopGame();
-
         }
-    }
-
-    if(itsPlayer->getItsLivesNb() == 0)
-    {
-        currentLevel = 1;
-        itsHMI->stopGame();
     }
 }
 
@@ -204,8 +208,23 @@ void Game::checkAllCollid(){
             if(enemy1->getItsNumberLoopKO() != 0)enemy1->setItsNumberLoopKO(enemy1->getItsNumberLoopKO()-1);
             else
             {
-                enemy1->setItsState(true);
-                enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
+                switch (enemy1->getItsType())
+                {
+                case STANDARD:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
+                    break;
+                case GIANT:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsPlayerTile());
+                    break;
+                case ACCELERATOR:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsGroundTile());
+                    break;
+                default:
+                    break;
+                }
             }
         }
     }
@@ -251,8 +270,6 @@ void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
             theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
         }
         theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
-        pass ++;
-        qWarning() << pass;
     }
 }
 
@@ -339,9 +356,23 @@ void Game::moveAll(){
         itsPlayer->move();
     }
     for (Enemy * enemy : itsLevel->getItsEnemiesList()){
-        switch (enemy->getItsType()) {
+        switch (enemy->getItsType())
+        {
         case STANDARD:
-            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0){
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case GIANT:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(GIANT_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case ACCELERATOR:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(ACCELERATOR_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
                 enemy->move();
             }
             break;
@@ -386,14 +417,18 @@ void Game::onRightKeyReleased()
 void Game::onGamePaused()
 {
     isInPause = true;
+    running = false;
+    itsLevel->desactivate();
 }
 
 void Game::onGameResumed()
 {
     isInPause = false;
+    running = true;
+    itsLevel->activate();
 }
 
-void Game::openLevel(int levelNumber){
+void Game::openLevel(){
     std::string fileName = "://ressources/level" + std::to_string(currentLevel) + ".json";
     if (itsLevel != nullptr){
         delete itsLevel;

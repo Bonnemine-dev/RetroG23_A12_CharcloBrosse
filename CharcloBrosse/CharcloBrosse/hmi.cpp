@@ -263,9 +263,7 @@ void HMI::paintEvent(QPaintEvent *event)
         painter->drawText(10, 20, QString("Score: %1").arg(score)); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
         painter->drawText(10, 40, QString("Lives: %1").arg(lives)); // Le texte apparaîtra à 10 pixels du bord gauche et à 40 pixels du haut de l'écran
         itsLevel->display(painter);
-        qWarning() << "level";
         itsPlayer->display(painter);
-        qWarning() << "palyer";
         painter->end();
     }
 

@@ -22,6 +22,8 @@
 #include "entity.h"
 #include "enemy.h"
 #include "standard.h"
+#include "giant.h"
+#include "accelerator.h"
 #include "block.h"
 #include "spawner.h"
 #include "despawner.h"
@@ -153,6 +155,7 @@ public:
     void appears(Enemy * enemy);
     void activate();
     bool isActive();
+    void desactivate();
 };
 
 #endif // LEVEL_H

@@ -31,22 +31,18 @@ std::vector<Despawner *> Level::getItsDespawnerList() const
 
 void Level::display(QPainter *painter)
 {
-    for (unsigned short i = 0; i < itsBlockList.size(); i++){ // affiche tout les blocs
-        itsBlockList.at(i)->display(painter);
-    }
-    qWarning() << "block";
-    for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
-        itsSpawnerList.at(i)->display(painter);
-    }
-    qWarning() << "spawner";
-    for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
-        itsDespawnerList.at(i)->display(painter);
-    }
-    qWarning() << "despawner";
     for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
         itsEnemiesList.at(i)->display(painter);
     }
-    qWarning() << "enemies";
+    for (unsigned short i = 0; i < itsBlockList.size(); i++){ // affiche tout les blocs
+        itsBlockList.at(i)->display(painter);
+    }
+    for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
+        itsSpawnerList.at(i)->display(painter);
+    }
+    for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
+        itsDespawnerList.at(i)->display(painter);
+    }
 }
 
 void Level::removeEnemy(Enemy * enemy) {
@@ -139,6 +135,24 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
                 itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
             }
         }
+        else if (type == "giant"){ // if a giant enemy
+            itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsPlayerTile())); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
+        else if (type == "accelerator"){ // if an accelerator enemy
+            itsRemainingEnemies.push_back(new Accelerator(32, 32, tileSet->getItsGroundTile())); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
     }
 
     if (itsRemainingEnemies.size() > 1){
@@ -174,4 +188,9 @@ void Level::activate(){
 
 bool Level::isActive(){
     return active;
+}
+
+void Level::desactivate()
+{
+    active = false;
 }

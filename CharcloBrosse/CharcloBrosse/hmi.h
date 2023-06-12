@@ -75,12 +75,18 @@ private:
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
     QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
 
+    /**
+     * @brief itsLevelNumberText the text to display the the current level before launch it
+     */
     QLabel *itsLevelNumberText;
 
     Level *itsLevel; ///< Pointer to the current level object.
     Player *itsPlayer; ///< Pointer to the player object.
     Game *itsGame; ///< Pointer to the game object.
     QTimer *itsTimer; ///< Timer for game updates.
+    /**
+     * @brief itsStartLevelTimer the timer to display the level number only during 1 seconds
+     */
     QTimer *itsStartLevelTimer;
 
 
@@ -110,6 +116,10 @@ public:
 
     void setLevel(Level * level);
 
+    /**
+     * @brief displayLevelNumber display th current level number at the screen
+     * Display the current number of the level during one seconds
+     */
     void displayLevelNumber();
 private slots:
     /**
