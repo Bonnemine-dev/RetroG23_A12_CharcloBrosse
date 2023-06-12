@@ -365,14 +365,12 @@ void Game::moveAll(){
 
 void Game::onLeftKeyPressed()
 {
-    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(LEFT_X);
-    /*    else */itsPlayer->setItsNextMove(LEFT_X);
+    itsPlayer->setItsNextMove(LEFT_X);
 }
 
 void Game::onRightKeyPressed()
 {
-    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(RIGHT_X);
-    /*    else */itsPlayer->setItsNextMove(RIGHT_X);
+    itsPlayer->setItsNextMove(RIGHT_X);
 }
 
 void Game::onUpKeyPressed()
@@ -385,14 +383,12 @@ void Game::onUpKeyPressed()
 
 void Game::onLeftKeyReleased()
 {
-    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(NONE);
-    /*    else */itsPlayer->setItsNextMove(NONE);
+    itsPlayer->setItsNextMove(NONE);
 }
 
 void Game::onRightKeyReleased()
 {
-    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(NONE);
-    /*    else */itsPlayer->setItsNextMove(NONE);
+    itsPlayer->setItsNextMove(NONE);
 }
 
 void Game::onGamePaused()
