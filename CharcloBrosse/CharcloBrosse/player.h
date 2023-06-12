@@ -22,9 +22,10 @@
 class Player : public Entity
 {
 private:
-     short itsLivesNb = 0; ///< Number of lives the player has.
+    short itsLivesNb = 0; ///< Number of lives the player has.
     short itsXSpeed = 0; ///< Speed of the player on the X axis.
     short itsYSpeed = 0; ///< Speed of the player on the Y axis.
+    short itsMoney = 0;
     bool isOnTheGround = true; ///< True is the player is on the ground .
     //short itsMaxXSpeed = 0; ///< Maximum speed of the player on the X axis.
     //short itsMaxYSpeed = 0; ///< Maximum speed of the player on the Y axis.
@@ -99,6 +100,8 @@ public:
      */
     bool getIsOnTheGround() const;
 
+    short getItsMoney() const;
+    void setItsMoney(short newItsMoney);
 };
 
 #endif // PLAYER_H

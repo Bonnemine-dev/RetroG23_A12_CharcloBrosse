@@ -17,6 +17,7 @@
 #include "hmi.h"
 #include "tileset.h"
 #include "level.h"
+#include "money.h"
 
 
 //#include "DB_Score.h"
@@ -106,6 +107,9 @@ public :
      * @param theObstacle the obstacle concerned
      */
     void colBtwPlayerAndObstacle(Player* thePlayer,Obstacle* theObstacle);
+
+
+    void colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney);
 
     /**
      * @brief checks whether a level is finished. If the player has no more lives

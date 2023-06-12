@@ -366,6 +366,22 @@ void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
     theDespawner->disappear(theEnemy);
 }
 
+void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
+{
+    if (theMoney->getItsMoneyType()==RED)
+    {
+        thePlayer->setItsMoney(thePlayer->getItsMoney()+100);
+    }
+    if (theMoney->getItsMoneyType()==YELLOW)
+    {
+        thePlayer->setItsMoney(thePlayer->getItsMoney()+250);
+    }
+    else
+    {
+        thePlayer->setItsMoney(thePlayer->getItsMoney()+500);
+    }
+}
+
 bool Game::isOnTop(Entity * entity1, Entity * entity2){
     return entity1->getItsY() + entity1->getItsHeight() <= entity2->getItsY();
 }
