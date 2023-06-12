@@ -61,6 +61,10 @@ private:
 
     unsigned short int itsLoopCounter;
 
+    short currentLevel;
+
+    int pass;
+
     //    DB_Score itsDBScore;
 
 public :
@@ -149,6 +153,8 @@ public :
     void onGameResumed();
 
     void onGameStart();
+
+    void openLevel(int levelNumber);
 
     unsigned int getItsScore() const;
 

@@ -55,6 +55,7 @@ private:
     QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
     QVBoxLayout *rulesLayout; ///< Rules layout for the HMI.
+    QVBoxLayout *levelLayout;
 
     QLabel *rulesText; ///< Label for displaying game rules.
 
@@ -70,10 +71,14 @@ private:
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
     QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
 
+    QLabel *itsLevelNumberText;
+
     Level *itsLevel; ///< Pointer to the current level object.
     Player *itsPlayer; ///< Pointer to the player object.
     Game *itsGame; ///< Pointer to the game object.
     QTimer *itsTimer; ///< Timer for game updates.
+    QTimer *itsStartLevelTimer;
+
 
     /**
      * @brief Redefinition of the paintEvent method to perform custom drawings.
@@ -98,6 +103,10 @@ public:
      * @brief Destructor of the HMI class.
      */
     virtual ~HMI();
+
+    void setLevel(Level * level);
+
+    void displayLevelNumber();
 private slots:
     /**
      * @brief Displays the main menu.
@@ -145,6 +154,12 @@ private slots:
      * @brief Leaves the game.
      */
     void leave();
+
+    /**
+     * @brief startLevel display the level number before the level;
+     */
+    void startLevel();
+
 
 public slots:
     /**

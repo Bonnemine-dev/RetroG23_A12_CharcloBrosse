@@ -21,17 +21,20 @@ Game::Game()
 {
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
-    itsLevel = new Level(LEVEL_FILE_PATH,itsTileSet);
-    itsHMI = new HMI(itsLevel, itsPlayer, this);
+    itsLevel = nullptr;
+    itsHMI = new HMI(nullptr, itsPlayer, this);
     itsEllapsedTime = 0;
     itsHMI->show();
     itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+    currentLevel = 1;
+    pass = 0;
 }
 // Connexion des signaux et slots
 
 void Game::onGameStart(){
-    itsLevel->activate();
-    itsHMI->refreshAll();
+    openLevel(currentLevel);
+    itsHMI->setLevel(itsLevel);
+    itsHMI->displayLevelNumber();
     itsEllapsedTime = 0;
     gameLoop();
 }
@@ -41,7 +44,8 @@ void Game::gameLoop()
     QElapsedTimer timer;
     timer.restart();
     if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-    itsEllapsedTime += 0.016;//0.16
+    itsEllapsedTime += 1.0/1000.0;//0.16
+    qWarning() << itsEllapsedTime;
 
     if (itsLevel->getItsRemainingEnemies().size() > 0){
         unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
@@ -68,11 +72,31 @@ void Game::gameLoop()
     moveAll();
     if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
     itsLoopCounter--;
-    if((itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty()) || itsPlayer->getItsLivesNb() == 0)
+
+    if(isLevelFinished()){
+        if (currentLevel != MAX_LEVEL){
+            currentLevel++;
+            openLevel(currentLevel);
+            itsHMI->setLevel(itsLevel);
+            itsHMI->displayLevelNumber();
+            itsPlayer->setX((32*39)/2);
+            itsPlayer->setY(250);
+            itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+            itsEllapsedTime = 0;
+        }
+        else{
+            currentLevel = 1;
+            itsHMI->stopGame();
+
+        }
+    }
+
+    if(itsPlayer->getItsLivesNb() == 0)
     {
+        currentLevel = 1;
         itsHMI->stopGame();
     }
-    unsigned int elapsedTime = timer.nsecsElapsed();
+    // unsigned int elapsedTime = timer.nsecsElapsed();
 //    qWarning() << "Game loop execution time in nanoseconds : " << elapsedTime;
 }
 
@@ -211,6 +235,8 @@ void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
             theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
         }
         theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
+        pass ++;
+        qWarning() << pass;
     }
 }
 
@@ -347,4 +373,17 @@ void Game::onGamePaused()
 void Game::onGameResumed()
 {
     isInPause = false;
+}
+
+void Game::openLevel(int levelNumber){
+    std::string fileName = "://ressources/level" + std::to_string(currentLevel) + ".json";
+    if (itsLevel != nullptr){
+        delete itsLevel;
+        itsLevel = nullptr;
+    }
+    itsLevel = new Level(fileName, itsTileSet);
+}
+
+bool Game::isLevelFinished(){
+    return itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty();
 }

@@ -54,6 +54,8 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     // Initialisation du QLabel pour le highscoreList du main
     scoresLabelGameOver = new QLabel(this);
 
+    itsLevelNumberText = new QLabel(this);
+
 
     //-------------------------
     // Ajout des widgets au layout main menu
@@ -76,10 +78,12 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     scoresLabelGameOver->setFont(font);
 
     // Ajout des widgets au layout gaming
+    gameLayout->addWidget(itsLevelNumberText);
 
     // Ajout des widgets au layout rules
     rulesLayout->addWidget(rulesText);
     rulesLayout->addWidget(goBackButton);
+
 
     // Création des widgets
     mainMenuWidget = new QWidget;
@@ -127,6 +131,8 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
                                "color: rgba(255, 0, 0, 0.5);"
                                "}";
 
+    itsStartLevelTimer = new QTimer(this);
+
     resumeButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     resumeButton->setFixedWidth(300);
     quitToMainButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
@@ -158,6 +164,8 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
 
     // Connecter les signaux des boutons aux emplacements appropriés pour le game over menu
     connect(quitToMainButton2, &QPushButton::clicked, this, &HMI::leave);
+
+    connect(itsStartLevelTimer, &QTimer::timeout, this, &HMI::startLevel);
 
     // Définir la politique de focus pour permettre la navigation entre les boutons
     startGameButton->setFocusPolicy(Qt::StrongFocus);
@@ -235,7 +243,7 @@ void HMI::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
-    if (itsLevel->isActive() && shouldDraw){
+    if (itsLevel != nullptr && itsLevel->isActive() && shouldDraw){
         unsigned int score = itsGame->getItsScore();
         short lives = itsGame->getItsPlayer()->getItsLivesNb();
         QPainter * painter = new QPainter(this);
@@ -335,4 +343,24 @@ void HMI::stopGame()
 {
     itsTimer->stop();
     displayGameOverMenu();
+}
+
+void HMI::setLevel(Level * level){
+    itsLevel = level;
+}
+
+
+void HMI::displayLevelNumber(){
+    QString text = QString::fromStdString("Level n°" + std::to_string(itsLevel->getItsId()));
+
+    itsLevelNumberText->setText(text);
+
+    itsLevelNumberText->setAlignment(Qt::AlignCenter);
+
+    itsStartLevelTimer->start(1000);
+}
+
+void HMI::startLevel(){
+    itsLevelNumberText->setText("");
+    itsLevel->activate();
 }
