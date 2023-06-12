@@ -3,24 +3,30 @@
 
 
 
-class TestDB_Score : public QObject
+class test_DB_Score : public QObject
 {
     Q_OBJECT
 
 public:
-    TestDB_Score();
-    ~TestDB_Score();
+    test_DB_Score();
+    ~test_DB_Score();
 
 private slots:
     void test_saveScore();
     void test_isInTop10();
 };
 
-TestDB_Score::TestDB_Score() {}
+test_DB_Score::test_DB_Score()
+{
 
-TestDB_Score::~TestDB_Score() {}
+}
 
-void TestDB_Score::test_saveScore()
+test_DB_Score::~test_DB_Score()
+{
+
+}
+
+void test_DB_Score::test_saveScore()
 {
     DB_Score db;
     unsigned int testScore = 100;
@@ -34,7 +40,7 @@ void TestDB_Score::test_saveScore()
     }) != scores.end());
 }
 
-void TestDB_Score::test_isInTop10()
+void test_DB_Score::test_isInTop10()
 {
     DB_Score db;
     unsigned int testScore = 200;
@@ -48,6 +54,6 @@ void TestDB_Score::test_isInTop10()
     QVERIFY(!db.isInTop10(testScore - 1));
 }
 
-QTEST_APPLESS_MAIN(TestDB_Score)
+QTEST_APPLESS_MAIN(test_DB_Score)
 
-#include "tst_testdb_score.moc"
+#include "tst_test_DB_Score.moc"
