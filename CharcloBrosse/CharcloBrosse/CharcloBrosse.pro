@@ -9,11 +9,14 @@ CONFIG += c++17 rtti
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        accelerator.cpp \
         block.cpp \
+        db_score.cpp \
         enemy.cpp \
         entity.cpp \
         despawner.cpp \
         game.cpp \
+        giant.cpp \
         hmi.cpp \
         level.cpp \
         main.cpp \
@@ -23,11 +26,14 @@ SOURCES += \
         tileset.cpp
 
 HEADERS += \
+    accelerator.h \
     block.h \
+    db_score.h \
     enemy.h \
     entity.h \
     despawner.h \
     game.h \
+    giant.h \
     hmi.h \
     level.h \
     player.h \
@@ -41,9 +47,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    ressources/level1.json \
-    ressources/oneblock.json \
-    ressources/oneenemy.json \
-    ressources/tileset0.png \
-    ressources/tilsetCharclo.png
+RESOURCES += \
+    rsc.qrc

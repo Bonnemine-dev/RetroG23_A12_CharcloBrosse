@@ -16,6 +16,8 @@
 #define NUMBER_LOOP_PER_SECOND 960 //Define the number that the gameloop have to make in one second
 
 #define STANDARD_ENEMY_SPEED 5 //Speed for the standard ennemie in blocks per second
+#define GIANT_ENEMY_SPEED 3 //Speed for the giant ennemie in blocks per second
+#define ACCELERATOR_ENEMY_SPEED 5 //Speed for the accelerator ennemie in blocks per second
 #define KO_TIME 3//The Duration for the KO in seconds
 
 #define FPS 60 //Define the number of frame per seconds
@@ -27,8 +29,11 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 
+
 #define TILESET_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/ressources/tileset_exclu.png"
 #define LEVEL_FILE_PATH "://ressources/level1.json"
+#define FONT_PATH "://ressources/PressStart2P-Regular.ttf"
+#define HIGH_SCORE_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 
 
 enum MenuState {
@@ -54,6 +59,7 @@ enum EnemyType{
 
 enum BlockType{
     BRICK,
-    GROUND
+    GROUND,
+    OBSTACLE
 };
 #endif // TYPEDEF_H

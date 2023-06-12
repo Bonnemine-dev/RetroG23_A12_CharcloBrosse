@@ -1,0 +1,8 @@
+bonnemine,800
+Bonsoir,400
+Tabliblu,100
+erwan,100
+erwan,100
+uuuu,100
+Samuel,50
+Nul,0

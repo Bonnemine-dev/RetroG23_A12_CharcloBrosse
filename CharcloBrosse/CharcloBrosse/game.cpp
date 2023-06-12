@@ -199,7 +199,7 @@ void Game::checkAllCollid(){
                 }
             }
             for (Block * block : itsLevel->getItsBlockList()){
-                if (collid(enemy1, block)){
+                if (collid(enemy1, block) && (block->getItsType() == BRICK || block->getItsType() == GROUND)){
                     if (isOnTop(enemy1, block)){
                         gravityList[i1] = false;
                     }
@@ -230,8 +230,23 @@ void Game::checkAllCollid(){
             if(enemy1->getItsNumberLoopKO() != 0)enemy1->setItsNumberLoopKO(enemy1->getItsNumberLoopKO()-1);
             else
             {
-                enemy1->setItsState(true);
-                enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
+                switch (enemy1->getItsType())
+                {
+                case STANDARD:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
+                    break;
+                case GIANT:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsPlayerTile());
+                    break;
+                case ACCELERATOR:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsGroundTile());
+                    break;
+                default:
+                    break;
+                }
             }
         }
     }
@@ -245,7 +260,7 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     {
         thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
         thePlayer->setX((BLOCK_SIZE*39)/2);
-        thePlayer->setY(32);
+        thePlayer->setY(0);
         thePlayer->getItsRect()->moveTo((BLOCK_SIZE*39)/2,32);
         thePlayer->setItsRemaningJumpMove(0);
         thePlayer->setItsCurrentMove(NONE);
@@ -257,6 +272,16 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
         itsLevel->removeEnemy(theEnemy);
 
     }
+}
+
+void Game::colBtwPlayerAndObstacle(Player* thePlayer)
+{
+    thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
+    thePlayer->setX((32*39)/2);
+    thePlayer->setY(0);
+    thePlayer->getItsRect()->moveTo((32*39)/2,32);
+    thePlayer->setItsCurrentMove(NONE);
+    thePlayer->setItsNextMove(NONE);
 }
 
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
@@ -319,7 +344,10 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 
 void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
 {
-    theDespawner->disappear(theEnemy);
+    if ((theEnemy->getItsX() <= theEnemy->getItsWidth()) ||(theEnemy->getItsX() >= WIDTH*32-theEnemy->getItsWidth())) {
+        theDespawner->disappear(theEnemy);
+    }
+
 }
 
 bool Game::isOnTop(Entity * entity1, Entity * entity2){
@@ -351,9 +379,23 @@ void Game::moveAll(){
         itsPlayer->move();
     }
     for (Enemy * enemy : itsLevel->getItsEnemiesList()){
-        switch (enemy->getItsType()) {
+        switch (enemy->getItsType())
+        {
         case STANDARD:
-            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0){
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case GIANT:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(GIANT_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case ACCELERATOR:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(ACCELERATOR_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
                 enemy->move();
             }
             break;

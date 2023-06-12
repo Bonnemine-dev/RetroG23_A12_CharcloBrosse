@@ -26,7 +26,7 @@ public:
      * @param width Width of the standard enemy.
      * @param sprite Sprite used for the standard enemy.
      */
-    Standard( short height,  short width, QPixmap * sprite);
+    Standard(short height,  short width, QPixmap * sprite);
 };
 
 #endif // STANDARD_H
