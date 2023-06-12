@@ -395,21 +395,30 @@ void HMI::gameLoop(){
 void HMI::stopGame()
 {
     itsTimer->stop();
-    //je ne rentre pas dans la boucle (il faut faire en sorte que quand le leaderboard est inferieur a 10 bah c 100%dedans
+
     if (DBSCORE->isInTop10(itsGame->getItsScore()))
     {
-        bool ok;
-        QString text = QInputDialog::getText(this, tr("Score Input"),
-                                             tr("You made it to the top 10! Enter your name:"), QLineEdit::Normal,
-                                             QDir::home().dirName(), &ok);
-        if (ok && !text.isEmpty())
-        {
-            std::string name = text.toStdString();
+        QInputDialog dialog(this);
+        dialog.setModal(true);
+        dialog.setWindowTitle(tr("Score Input"));
+        dialog.setLabelText(tr("You made it to the top 10! Enter your name:"));
+        dialog.setInputMode(QInputDialog::TextInput);
+        dialog.setTextValue(QDir::home().dirName());
+
+        QLineEdit *lineEdit = dialog.findChild<QLineEdit *>();
+        if (lineEdit) {
+            lineEdit->setMaxLength(10);
+        }
+
+        if (dialog.exec() == QDialog::Accepted && !dialog.textValue().isEmpty()) {
+            std::string name = dialog.textValue().toStdString();
             DBSCORE->saveScore(name, itsGame->getItsScore());
         }
     }
+
     displayGameOverMenu();
 }
+
 
 void HMI::setLevel(Level * level){
     itsLevel = level;
