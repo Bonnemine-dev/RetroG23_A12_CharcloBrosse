@@ -110,6 +110,13 @@ public :
     void colBtwPlayerAndObstacle(Player* thePlayer);
 
     /**
+     * @brief Method launched when the player collides with an obstacle
+     * @param thePlayer
+     * @param theObstacle the obstacle concerned
+     */
+    void colBtwPlayerAndObstacle(Player* thePlayer,Obstacle* theObstacle);
+
+    /**
      * @brief checks whether a level is finished. If the player has no more lives
      * or if there are no more enemies to appear.
      * @return true if the level are finished, false else.

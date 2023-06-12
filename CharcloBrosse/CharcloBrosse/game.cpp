@@ -19,11 +19,14 @@
 
 Game::Game()
 {
+    qWarning()<<"je suis au debut deu constructeur de game";
     //Définition du tileset pour la partie en cours, TILESET_FILE_PATH = le chemin vers le fichier .png du tileset
-    itsTileSet = new TileSet(TILESET_FILE_PATH);
+    itsTileSet = new TileSet(TILESET_FILE_PATH,BACKGROUND_FILE_PATH);
     //Création du joueur pour la partie en cours
-    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTiles());
+    qWarning()<<"game#2";
+    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList());
     //Dénition et création du niveau pour la partie, LEVEL_FILE_PATH = le chemin vers le fichier .json du niveau
+    qWarning()<<"game#3";
     itsLevel = new Level(LEVEL_FILE_PATH,itsTileSet);
     //Création de l'interface homme machine lié au jeu
     itsHMI = new HMI(itsLevel, itsPlayer, this);
@@ -34,6 +37,8 @@ Game::Game()
     //Définition de la variable qui compte le nombre de fois ou la game loop s'execute, sert à coordonner les vitesses (definie à NUMBER_LOOP_PER_SECOND)
     itsLoopCounter = NUMBER_LOOP_PER_SECOND;
     running = false;
+    qWarning()<<"je suis au bout deu constructeur de game";
+
 }
 
 void Game::onGameStart(){
@@ -51,6 +56,7 @@ void Game::onGameStart(){
 
 void Game::gameLoop()
 {
+    qWarning()<<"je rentre dans la gameloop";
     //Définition du compteur qui sert à compter le temps écoulé
     //lors de l'excution de la fonction GameLoop
     QElapsedTimer timer;
@@ -58,6 +64,7 @@ void Game::gameLoop()
     timer.restart();
     //Condition qui vérifie que : le compteur du nombre de fois que la gameloop est executé
     //est à 0 si oui la remet à NUMBER_LOOP_PER_SECOND sinon ne fait rien
+    if(itsPlayer->getItsAnimCounter() == 0)itsPlayer->setItsAnimCounter(200);
     if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
     //Incrémente de 0.001 le temps écoulé
     itsEllapsedTime += 0.001;
@@ -92,6 +99,7 @@ void Game::gameLoop()
     //par le nombre de FPS souhaité, est égal à 0. Soit la condition vrai "nombre de FPS" par secondes
     if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
     //Decrémente le nombre de tours de loop pour pour le cycle suivant
+    itsPlayer->setItsAnimCounter(itsPlayer->getItsAnimCounter()-1);
     itsLoopCounter--;
     //Condition qui vérifie que : il ne reste plus d'ennemies ni en jeu ni en list d'attente, ou alors que le joueur n'a plus de vies
     if((itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty()) || itsPlayer->getItsLivesNb() == 0)
@@ -134,16 +142,12 @@ void Game::checkAllCollid(){
             {
                 //Decremente le compteur du temps restant depuis le deernier touché
                 block->setItsCounter(block->getItsCounter() - 1);
-                //Met le sprite du Block avec le sprite de la brique touché
-                block->setItsSprite(itsTileSet->getItsBlockHitTile());
             }
             //Si NON :
             else
             {
                 //Met l'état du bloc à faux (non touché)
                 block->setItsState(false);
-                //Met le sprite du Block avec le sprite de la brique non touché
-                block->setItsSprite(itsTileSet->getItsBlockTile());
             }
         }
         //Condition qui vérifie que : une collision à lieu entre le joueur et le bloc
@@ -212,7 +216,6 @@ void Game::checkAllCollid(){
                 for (unsigned int i2 = i1+1; i2 < enemyList.size(); i2++){
                     Enemy * enemy2 = enemyList.at(i2);
                     if (enemy1 != enemy2 && collid(enemy1, enemy2)){
-                        qWarning()<<itsLoopCounter;
                         colBtwEnemyAndEnemy(enemy1, enemy2);
                         if (isOnTop(enemy1, enemy2)){
                             gravityList[i1] = false;
@@ -236,15 +239,12 @@ void Game::checkAllCollid(){
                 {
                 case STANDARD:
                     enemy1->setItsState(true);
-                    enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
                     break;
                 case GIANT:
                     enemy1->setItsState(true);
-                    enemy1->setItsSprite(itsTileSet->getItsPlayerTile());
                     break;
                 case ACCELERATOR:
                     enemy1->setItsState(true);
-                    enemy1->setItsSprite(itsTileSet->getItsGroundTile());
                     break;
                 default:
                     break;
@@ -304,15 +304,44 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
     {
         if(theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() == 0)
         {
-            theEnemy->setItsState(false);
-            theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
-            theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+            switch (theEnemy->getItsType())
+            {
+            case STANDARD:
+                theEnemy->setItsState(false);
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case GIANT:
+                theEnemy->setItsState(false);
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case ACCELERATOR:
+                theEnemy->setItsState(false);
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                dynamic_cast<Accelerator*>(theEnemy)->addItsSpeedState();
+                break;
+            default:
+                break;
+            }
         }
         else if(!theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() < (KO_TIME * NUMBER_LOOP_PER_SECOND)-((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME)-1)//+1 car problème de précision
         {
-            theEnemy->setItsState(true);
-            theEnemy->setItsSprite(itsTileSet->getItsEnemyTile());
-            theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+            switch (theEnemy->getItsType())
+            {
+            case STANDARD:
+                theEnemy->setItsState(true);
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case GIANT:
+                theEnemy->setItsState(true);
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case ACCELERATOR:
+                theEnemy->setItsState(true);
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            default:
+                break;
+            }
         }
     }
     theEnemy->setIsOnTheGround(true);
@@ -373,10 +402,10 @@ bool Game::collid(Entity * entity1, Entity * entity2){
     return true;
 }
 
-void Game::updateAnimation(Entity *theEntity)
-{
-    dynamic_cast<Block*>(theEntity)->increment();
-}
+//void Game::updateAnimation(Entity *theEntity)
+//{
+//    dynamic_cast<Block*>(theEntity)->increment();
+//}
 
 
 void Game::moveAll(){
@@ -400,12 +429,11 @@ void Game::moveAll(){
             }
             break;
         case ACCELERATOR:
-            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(ACCELERATOR_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/((ACCELERATOR_ENEMY_SPEED+accelerator->getItsSpeedState())*BLOCK_SIZE))) == 0)
             {
                 enemy->move();
             }
-            break;
-        default:
             break;
         }
     }

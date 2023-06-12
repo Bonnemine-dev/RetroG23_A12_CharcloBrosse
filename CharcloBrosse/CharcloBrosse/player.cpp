@@ -1,10 +1,7 @@
 #include "player.h"
 #include <iostream>
 
-//bool Player::getItsState() const
-//{
-//    return itsState;
-//}
+std::array<QPixmap*, 12>* Player::itsSprite = nullptr;
 
 //Methode move
 void Player::move()
@@ -23,7 +20,26 @@ void Player::move()
 
 void Player::display(QPainter * painter)
 {
-    painter->drawPixmap(itsX, itsY, *itsSprite);
+    if(isOnTheGround){
+        if(itsAnimCounter > 100)
+        {
+            if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSprite->at(0));
+            else if(itsCurrentMove == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSprite->at(6));
+            else painter->drawPixmap(itsX, itsY, *itsSprite->at(1));
+        }
+        else
+        {
+            if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSprite->at(1));
+            else if(itsCurrentMove == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSprite->at(7));
+            else painter->drawPixmap(itsX, itsY, *itsSprite->at(1));
+        }
+    }
+    else
+    {
+        if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSprite->at(2));
+        else if(itsCurrentMove == LEFT_X)painter->drawPixmap(itsX, itsY, *itsSprite->at(8));
+        else painter->drawPixmap(itsX, itsY, *itsSprite->at(8));
+    }
 }
 //Setter itsXSpeed
 void Player::setItsXSpeed(short newItsXSpeed)
@@ -94,10 +110,20 @@ void Player::setItsNextMove(MoveX newItsNextMove)
     itsNextMove = newItsNextMove;
 }
 
-Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 5> *sprites)
+short Player::getItsAnimCounter() const
+{
+    return itsAnimCounter;
+}
+
+void Player::setItsAnimCounter(short newItsAnimCounter)
+{
+    itsAnimCounter = newItsAnimCounter;
+}
+
+Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 12> *sprites)
     : Entity(x, y, height, width)
 {
     itsSprite = sprites;
-    itsLivesNb = 3;
+    itsLivesNb = MAX_LIFE;
 }
 

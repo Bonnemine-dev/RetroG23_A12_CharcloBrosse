@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 bonnemine,800
 Bonsoir,400
+=======
+dcshbdcksh,900
+J'ai win,900
+Bonsoir,400
+tombo,200
+tombo,200
+erwan,100
+>>>>>>> dev
 Tabliblu,100
 erwan,100
 erwan,100
 uuuu,100
 Samuel,50
-Nul,0

@@ -40,7 +40,11 @@ public:
      * @param width Width of the enemy.
      * @param sprite QPixmap sprite used for the enemy.
      */
-    Enemy( short height,  short width, QPixmap * sprite);
+    Enemy( short height,  short width);
+
+    virtual ~Enemy(); // Ajoutez un destructeur virtuel
+    virtual void display(QPainter * painter);
+
     /**
      * @brief Gets the speed of the enemy on the X axis.
      * @return The speed on the X axis.

@@ -30,11 +30,13 @@
 #define GRAVITY 1 // gravity value
 
 
-#define TILESET_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/ressources/tileset_exclu.png"
+#define TILESET_FILE_PATH "://ressources/tileset_exclu.png"
+#define BACKGROUND_FILE_PATH "://ressources/background0.png"
 #define LEVEL_FILE_PATH "://ressources/level1.json"
 #define FONT_PATH "://ressources/PressStart2P-Regular.ttf"
 #define HIGH_SCORE_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 
+#define MAX_LIFE 3
 #define MAX_LEVEL 2
 
 enum MenuState {
@@ -62,5 +64,10 @@ enum BlockType{
     BRICK,
     GROUND,
     OBSTACLE
+};
+
+enum Direction{
+    EAST,
+    WEST
 };
 #endif // TYPEDEF_H

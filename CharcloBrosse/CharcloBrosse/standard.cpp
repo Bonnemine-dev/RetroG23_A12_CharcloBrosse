@@ -9,10 +9,19 @@
 
 #include "standard.h"
 
+std::array<QPixmap *,12>* Standard::itsSprite = nullptr;
+
 //Constructeur
-Standard::Standard( short height,  short width, QPixmap * sprite)
-    :Enemy(height, width, sprite)
+Standard::Standard( short height,  short width, std::array<QPixmap *,12>* sprite)
+    :Enemy(height, width)
 {
     itsType = STANDARD;
+    itsSprite = sprite;
+}
+
+void Standard::display(QPainter *painter)
+{
+    if(itsState)painter->drawPixmap(itsX, itsY, *itsSprite->at(2));
+    else painter->drawPixmap(itsX, itsY, *itsSprite->at(4));
 }
 

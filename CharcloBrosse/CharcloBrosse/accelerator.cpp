@@ -8,21 +8,29 @@
 
 
 #include "accelerator.h"
-
-//Constructeur
-Accelerator::Accelerator(short height,  short width, QPixmap * sprite)
-    :Enemy(height, width, sprite)
+std::array<std::array<QPixmap *,12>*, 3>* Accelerator::itsSprite = nullptr;
+//Add 5 to itsSpeedState
+void Accelerator::addItsSpeedState()
 {
-    itsType = ACCELERATOR;
+    if (itsSpeedState < 8)
+    {
+        itsSpeedState += 4;
+    }
 }
 
-//upSpeed -> Accelerates the speed of the accelerator when it comes up
-void Accelerator::upSpeed()
+//Constructeur
+short Accelerator::getItsSpeedState() const
 {
-    if(itsSpeedState < 3)
-    {
-        itsSpeedState += 1;
-        itsXSpeed += itsSpeedState * 5;
-        itsYSpeed += itsSpeedState * 5;
-    }
+    return itsSpeedState;
+}
+void Accelerator::display(QPainter *painter)
+{
+    if(itsState)painter->drawPixmap(itsX, itsY, *itsSprite->at(0)->at(2));
+    else painter->drawPixmap(itsX, itsY, *itsSprite->at(0)->at(4));
+}
+Accelerator::Accelerator( short height,  short width, std::array<std::array<QPixmap *,12>*, 3>* sprite)
+    :Enemy(height, width)
+{
+    itsType = STANDARD;
+    itsSprite = sprite;
 }

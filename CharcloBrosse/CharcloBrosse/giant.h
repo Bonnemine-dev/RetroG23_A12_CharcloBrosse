@@ -19,6 +19,8 @@
  */
 class Giant : public Enemy
 {
+private:
+    static std::array<QPixmap *,12>* itsSprite;
 public:
     /**
      * @brief Constructor of the Giant class.
@@ -26,7 +28,8 @@ public:
      * @param width Width of the Giant enemy.
      * @param sprite Sprite used for the Giant enemy.
      */
-    Giant(short height,  short width, QPixmap * sprite);
+    Giant(short height,  short width, std::array<QPixmap *,12>* sprite);
+    void display(QPainter *painter);
 };
 
 #endif // GIANT_H

@@ -19,7 +19,9 @@
  */
 class Accelerator : public Enemy
 {
-    short itsSpeedState = 0; ///< The Speed State when accelerator comes up.
+private:
+    static std::array<std::array<QPixmap *,12>*, 3>* itsSprite;
+    short itsSpeedState = 1; ///< The Speed State when accelerator comes up.
 public:
     /**
      * @brief Constructor of the Accelerator class.
@@ -27,12 +29,10 @@ public:
      * @param width Width of the accelerator enemy.
      * @param sprite Sprite used for the accelerator enemy.
      */
-    Accelerator(short height,  short width, QPixmap * sprite);
-
-    /**
-     * @brief upSpeed method is called when the accelerator is raised in order to increase its speed.
-     */
-    void upSpeed();
+    Accelerator(short height,  short width, std::array<std::array<QPixmap *,12>*, 3>* sprite);
+    void display(QPainter *painter);
+    void addItsSpeedState();
+    short getItsSpeedState() const;
 };
 
 #endif // ACCELERATOR_H

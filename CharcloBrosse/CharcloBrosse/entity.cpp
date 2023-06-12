@@ -11,7 +11,7 @@
 //Methode display()
 void Entity::display(QPainter * painter)
 {
-    painter->drawPixmap(itsX, itsY, *itsSprite);
+//    painter->drawPixmap(itsX, itsY, *itsSprite);
 }
 
 //Gette itsRect
