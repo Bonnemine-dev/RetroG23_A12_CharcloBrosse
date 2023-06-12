@@ -61,7 +61,14 @@ private:
 
     unsigned short int itsLoopCounter;
 
+    /**
+     * @brief currentLevel the current level number
+     */
+    short currentLevel;
+
     //    DB_Score itsDBScore;
+
+    bool running;
 
 public :
     /**
@@ -101,6 +108,13 @@ public :
     void colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner);
 
     void colBtwPlayerAndObstacle(Player* thePlayer);
+
+    /**
+     * @brief Method launched when the player collides with an obstacle
+     * @param thePlayer
+     * @param theObstacle the obstacle concerned
+     */
+    void colBtwPlayerAndObstacle(Player* thePlayer,Obstacle* theObstacle);
 
     /**
      * @brief checks whether a level is finished. If the player has no more lives
@@ -150,7 +164,17 @@ public :
      */
     void onGameResumed();
 
+    /**
+     * @brief onGameStart start the Game
+     * Start a party at the first level with 3 lives and a score of zero
+     */
     void onGameStart();
+
+    /**
+     * @brief openLevel open a level file and parse it
+     * Open the current level file to get the level info and display it
+     */
+    void openLevel();
 
     unsigned int getItsScore() const;
 

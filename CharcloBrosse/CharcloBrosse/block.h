@@ -37,6 +37,8 @@ public:
      */
     Block( short x,  short y,  short height,  short width, QPixmap * sprite,BlockType theBlockType);
 
+    virtual ~Block();
+
     /**
      * @brief Gets the state of the block.
      * @return The state of the block.

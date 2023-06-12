@@ -25,6 +25,7 @@
 #include "giant.h"
 #include "accelerator.h"
 #include "block.h"
+#include "obstacle.h"
 #include "spawner.h"
 #include "despawner.h"
 #include "typedef.h"
@@ -155,6 +156,7 @@ public:
     void appears(Enemy * enemy);
     void activate();
     bool isActive();
+    void desactivate();
 };
 
 #endif // LEVEL_H
