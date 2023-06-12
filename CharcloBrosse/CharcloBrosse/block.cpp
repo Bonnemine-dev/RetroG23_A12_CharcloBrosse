@@ -1,3 +1,11 @@
+/**
+ * @file block.cpp
+ * @brief Source file for class Block
+ * @author Tom Bonneau
+ * @date 05/06/2023
+ * @version 1.1
+ */
+
 #include "block.h"
 
 #include "typedef.h"
@@ -37,9 +45,14 @@ void Block::setItsCounter(unsigned short newItsCounter)
     itsCounter = newItsCounter;
 }
 
-Block::Block( short x,  short y,  short height,  short width, QPixmap * sprite)
+BlockType Block::getItsType() const
+{
+    return itsType;
+}
+
+Block::Block( short x,  short y,  short height,  short width, QPixmap * sprite,BlockType theBlockType)
     : Entity(x, y, height, width, sprite)
 {
-
+    itsType = theBlockType;
 }
 

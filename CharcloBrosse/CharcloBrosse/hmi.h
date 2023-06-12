@@ -2,9 +2,10 @@
  * @file hmi.h
  * @brief Header file for class HMI
  * @author Erwan GODELLE
- * @date June 2023
- * @version 1
+ * @date 09/06/2023
+ * @version 1.6
  */
+
 #ifndef HMI_H
 #define HMI_H
 

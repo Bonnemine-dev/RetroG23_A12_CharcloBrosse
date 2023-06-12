@@ -1,3 +1,11 @@
+/**
+ * @file entity.h
+ * @brief Header file for class Entity
+ * @author Tom Bonneau
+ * @date 06/06/2023
+ * @version 1.4
+ */
+
 #ifndef ENTITY_H
 #define ENTITY_H
 

@@ -1,5 +1,4 @@
 #include "player.h"
-#include "qdebug.h"
 #include <iostream>
 
 //bool Player::getItsState() const
@@ -10,21 +9,16 @@
 //Methode move
 void Player::move()
 {
-    //std::cout<<"La vitesse sur l'axe X de player lors de son move : "<<itsXSpeed<<"\n";
-    itsX += itsXSpeed;
-    std::cout<<"La vitesse sur l'axe Y de player lors de son move : "<<itsYSpeed<<"\n";
+    if(itsCurrentMove != itsNextMove && isOnTheGround)itsCurrentMove = itsNextMove;
+
+    itsX += itsCurrentMove;
+    if(itsX == -1)itsX = 32*39;
+    else if(itsX == (32*39)+1)itsX = 0;
+
     itsY += itsYSpeed;
-    itsRect.moveTo((itsRect.x() + itsXSpeed),(itsRect.y() + itsYSpeed));
-    if(itsX == -1)
-    {
-        itsX = 32*39;
-        itsRect.moveTo(itsX,itsY);
-    }
-    else if(itsX == (32*39)+1)
-    {
-        itsX = 0;
-        itsRect.moveTo(itsX,itsY);
-    }
+    itsRect.moveTo(itsX,itsY);
+
+    itsRemaningJumpMove += (itsRemaningJumpMove != 0?-1:0);
 }
 
 //Setter itsXSpeed
@@ -76,10 +70,29 @@ bool Player::getIsOnTheGround() const
 }
 
 //Constructeur
+unsigned short Player::getItsRemaningJumpMove() const
+{
+    return itsRemaningJumpMove;
+}
+
+void Player::setItsRemaningJumpMove(unsigned short newItsRemaningJumpMove)
+{
+    itsRemaningJumpMove = newItsRemaningJumpMove;
+}
+
+void Player::setItsCurrentMove(MoveX newItsCurrentMove)
+{
+    itsCurrentMove = newItsCurrentMove;
+}
+
+void Player::setItsNextMove(MoveX newItsNextMove)
+{
+    itsNextMove = newItsNextMove;
+}
+
 Player::Player( short x,  short y,  short height,  short width, QPixmap *sprite)
     : Entity(x, y, height, width, sprite)
 {
     itsLivesNb = 3;
-    qWarning() << height;
 }
 

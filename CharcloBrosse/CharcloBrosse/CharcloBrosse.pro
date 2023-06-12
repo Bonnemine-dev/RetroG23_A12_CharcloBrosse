@@ -41,9 +41,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    ressources/level1.json \
-    ressources/oneblock.json \
-    ressources/oneenemy.json \
-    ressources/tileset0.png \
-    ressources/tilsetCharclo.png
+RESOURCES += \
+    rsc.qrc

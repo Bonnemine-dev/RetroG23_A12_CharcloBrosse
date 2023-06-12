@@ -3,7 +3,7 @@
  * @brief Header file for class Tileset
  * @author Melvin WARNET
  * @date 05/06/2023
- * @version 1.1
+ * @version 1.2
  */
 #ifndef TILESET_H
 #define TILESET_H
