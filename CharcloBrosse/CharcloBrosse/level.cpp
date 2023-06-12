@@ -31,6 +31,9 @@ std::vector<Despawner *> Level::getItsDespawnerList() const
 
 void Level::display(QPainter *painter)
 {
+    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
+        itsEnemiesList.at(i)->display(painter);
+    }
     for (unsigned short i = 0; i < itsBlockList.size(); i++){ // affiche tout les blocs
         itsBlockList.at(i)->display(painter);
     }
@@ -39,10 +42,7 @@ void Level::display(QPainter *painter)
     }
     for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
         itsDespawnerList.at(i)->display(painter);
-    }
-    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
-        itsEnemiesList.at(i)->display(painter);
-    }
+    } 
 }
 
 void Level::removeEnemy(Enemy * enemy) {
@@ -114,8 +114,11 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             if (block == 1){ // if ground block
                 itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile(),GROUND));
             }
-            if (block == 2){ // if platform block
+            else if (block == 2){ // if platform block
                 itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(),BRICK)));
+            }
+            else if (block == 3){ // if obstacle
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsEnemyHitTile(),OBSTACLE)));
             }
         }
     }
@@ -125,6 +128,24 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         std::string type = jsonLine[0].toString().toStdString(); // get the type of the enemy in string
         if (type == "standard"){ // if a standard enemy
             itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyTile())); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
+        else if (type == "giant"){ // if a giant enemy
+            itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsPlayerTile())); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
+        else if (type == "accelerator"){ // if an accelerator enemy
+            itsRemainingEnemies.push_back(new Accelerator(32, 32, tileSet->getItsGroundTile())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
