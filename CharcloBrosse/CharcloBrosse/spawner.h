@@ -1,3 +1,11 @@
+/**
+ * @file spawner.h
+ * @brief Header file for class Spawner
+ * @author Tom Bonneau
+ * @date 06/06/2023
+ * @version 1.2
+ */
+
 #ifndef SPAWNER_H
 #define SPAWNER_H
 

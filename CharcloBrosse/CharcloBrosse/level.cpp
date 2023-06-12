@@ -1,5 +1,13 @@
+/**
+ * @file level.cpp
+ * @brief Source file for class Level
+ * @author Kevin Simon
+ * @date 05/06/2023
+ * @version 1.1
+ */
 
 #include "level.h"
+#include "typedef.h"
 
 std::vector<Block *> Level::getItsBlockList() const
 {
@@ -97,9 +105,6 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     QJsonArray Enemies = jsonRoot.value("enemies").toArray(); // reccupère la liste des ennemis
     itsMinDelay = jsonRoot.value("minDelay").toInt(0); // get the minimum delay of appartition of an enemy
     itsMaxDelay = jsonRoot.value("maxDelay").toInt(0); // get the maximun delay of appartition of an enemy
-    qWarning() << itsMinDelay;
-    qWarning() << itsMaxDelay;
-
 
     // compute the data
     for (unsigned short line=0; line < level.size(); line++){ // for each line of the level
@@ -107,10 +112,10 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         for (unsigned short col=0; col < jsonLine.size(); col++){ // for each column
             int block = jsonLine[col].toInt(0); // get the block number (0 for nothing, 1 for the ground, 2 for the platform)
             if (block == 1){ // if ground block
-                itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile()));
+                itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile(),GROUND));
             }
             if (block == 2){ // if platform block
-                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile())));
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(),BRICK)));
             }
         }
     }
@@ -130,16 +135,15 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     }
 
     if (itsRemainingEnemies.size() > 1){
-            for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
-                unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
-                itsEnemyAppearsTimes.push_back(temp); // compute the delay
-            }
-            std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
+        for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
+            unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
+            itsEnemyAppearsTimes.push_back(temp); // compute the delay
         }
-        else {
-            itsEnemyAppearsTimes.push_back(itsMaxDelay);
-        }
-    std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
+        // std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
+    }
+    else {
+        itsEnemyAppearsTimes.push_back(itsMaxDelay);
+    }
 
     itsSpawnerList.push_back(new Spawner(0, 32*3, 96, 64, tileSet->getItsSpawnerTile(0)));
     itsSpawnerList.push_back(new Spawner(32*38, 32*3, 96, 64, tileSet->getItsSpawnerTile(1)));
@@ -151,19 +155,10 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
 }
 
 void Level::appears(Enemy * enemy){
-    for (std::vector<Enemy *>::iterator it=itsRemainingEnemies.begin(); it != itsRemainingEnemies.end(); it++){ // scan the ennemies list
-        if ((*it)==enemy){ //if it's the good enemy
-            qWarning() << "apparition";
-            itsRemainingEnemies.erase(it); // remove from the list
-            qWarning() << "apparition";
-            itsEnemiesList.push_back(*it);
-            qWarning() << "apparition";
-            itsEnemyAppearsTimes.erase(itsEnemyAppearsTimes.begin());
-            qWarning() << "apparition";
-            itsEnemyAppearsSides.erase(itsEnemyAppearsSides.begin());
-            break;
-        }
-    }
+    itsRemainingEnemies.pop_back();
+    itsEnemiesList.push_back(enemy);
+    itsEnemyAppearsTimes.pop_back();
+    itsEnemyAppearsSides.pop_back();
 }
 
 void Level::activate(){

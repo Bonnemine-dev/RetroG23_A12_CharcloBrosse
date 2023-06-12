@@ -1,3 +1,10 @@
+/**
+ * @file game.h
+ * @brief Header file for class Game
+ * @author Arthur Ancien
+ * @date 09/06/2023
+ * @version 1.7
+ */
 
 #ifndef GAME_H
 #define GAME_H
@@ -52,7 +59,7 @@ private:
 
     double itsEllapsedTime;
 
-    int countJump;
+    unsigned short int itsLoopCounter;
 
     //    DB_Score itsDBScore;
 
@@ -104,7 +111,7 @@ public :
      */
     void moveAll();
 
-    bool isOnTop(Entity * entity, Block * block);
+    bool isOnTop(Entity * entity1, Entity * entity2);
 
     bool collid(Entity * entity1, Entity * entity2);
 

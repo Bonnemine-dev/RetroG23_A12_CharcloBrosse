@@ -1,3 +1,11 @@
+/**
+ * @file enemy.cpp
+ * @brief Source file for class Enemy
+ * @author Tom Bonneau
+ * @date 05/06/2023
+ * @version 1.1
+ */
+
 #include "enemy.h"
 #include "tileset.h"
 
@@ -46,24 +54,13 @@ void Enemy::setItsState(bool newItsState)
 //move()
 void Enemy::move()
 {
-    if(!itsState)
-    {
-
-    }
-    else
+    if(itsState)
     {
         itsX += itsXSpeed;
+        if(itsX == -1)itsX = 32*39;
+        else if(itsX == (32*39)+1)itsX = 0;
         itsY += itsYSpeed;
-        itsRect.moveTo((itsRect.x() + itsXSpeed),(itsRect.y() + itsYSpeed));
-        if(itsX == -1)
-        {
-            itsX = 32*39;
-        }
-        else if(itsX == (32*39)+1)
-        {
-            itsX = 0;
-
-        }
+        itsRect.moveTo(itsX,itsY);
     }
 }
 
@@ -80,6 +77,16 @@ bool Enemy::getIsOnTheGround() const
 }
 
 //Constructeur
+short Enemy::getItsNumberLoopKO() const
+{
+    return itsNumberLoopKO;
+}
+
+void Enemy::setItsNumberLoopKO(short newItsNumberLoopKO)
+{
+    itsNumberLoopKO = newItsNumberLoopKO;
+}
+
 Enemy::Enemy( short height,  short width, QPixmap * sprite)
     : Entity(0, 0, height, width, sprite)
 {

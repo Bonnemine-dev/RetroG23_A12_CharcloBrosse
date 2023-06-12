@@ -279,7 +279,6 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
 void HMI::displayPauseMenu()
 {
     itsGame->onGamePaused();
-    qWarning() << "emit pause\n";
     state = PAUSEMENU;
     resumeButton->setDefault(true);
     clearPaintings();
@@ -312,9 +311,8 @@ void HMI::startGame()
     shouldDraw = true;
     displayGame();
     itsGame->onGameStart();
-    itsTimer->start(5);//33
+    itsTimer->start(1);
 }
-
 
 void HMI::close()
 {
