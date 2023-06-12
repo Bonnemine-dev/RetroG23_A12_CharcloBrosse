@@ -3,9 +3,10 @@
         <file>ressources/level1.json</file>
         <file>ressources/oneblock.json</file>
         <file>ressources/oneenemy.json</file>
-        <file>ressources/tileset0.png</file>
         <file>ressources/tilsetCharclo.png</file>
         <file>ressources/level2.json</file>
         <file>ressources/PressStart2P-Regular.ttf</file>
+        <file>ressources/background0.png</file>
+        <file>ressources/tileset0.png</file>
     </qresource>
 </RCC>

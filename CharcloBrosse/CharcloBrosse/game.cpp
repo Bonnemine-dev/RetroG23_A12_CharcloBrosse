@@ -19,8 +19,8 @@
 
 Game::Game()
 {
-    itsTileSet = new TileSet(TILESET_FILE_PATH);
-    itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerTile());
+    itsTileSet = new TileSet(TILESET_FILE_PATH, BACKGROUND_FILE_PATH);
+    itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerRunningRightTile(1));
     itsLevel = nullptr;
     itsHMI = new HMI(nullptr, itsPlayer, this);
     itsEllapsedTime = 0;
@@ -125,8 +125,8 @@ void Game::checkAllCollid(){
         if(block->getItsType() == BRICK){
             if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
             {
-                block->setItsCounter(block->getItsCounter() - 1);
-                block->setItsSprite(itsTileSet->getItsBlockHitTile());
+                block->setItsCounter(block->getItsCounter() - 1) ;
+                block->setItsSprite(itsTileSet->getItsBlockHittedTile());
             }
             else
             {
@@ -212,15 +212,15 @@ void Game::checkAllCollid(){
                 {
                 case STANDARD:
                     enemy1->setItsState(true);
-                    enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyStandardRunningRightTile(0));
                     break;
                 case GIANT:
                     enemy1->setItsState(true);
-                    enemy1->setItsSprite(itsTileSet->getItsPlayerTile());
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
                     break;
                 case ACCELERATOR:
                     enemy1->setItsState(true);
-                    enemy1->setItsSprite(itsTileSet->getItsGroundTile());
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
                     break;
                 default:
                     break;
@@ -284,17 +284,17 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
             {
             case STANDARD:
                 theEnemy->setItsState(false);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardHittedRightTile(0));
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 break;
             case GIANT:
                 theEnemy->setItsState(false);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantHittedRightTile(0));
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 break;
             case ACCELERATOR:
                 theEnemy->setItsState(false);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1HittedRightTile(0));
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
                 accelerator->addItsSpeedState();
@@ -307,17 +307,17 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
             {
             case STANDARD:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyTile());
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardHittedLeftTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             case GIANT:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsPlayerTile());
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             case ACCELERATOR:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsGroundTile());
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             default:

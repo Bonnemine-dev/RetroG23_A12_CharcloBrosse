@@ -118,7 +118,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
                 itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(),BRICK)));
             }
             else if (block == 3){ // if obstacle
-                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsEnemyHitTile(),OBSTACLE)));
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsObstacleTile(),OBSTACLE)));
             }
         }
     }
@@ -127,7 +127,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         QJsonArray jsonLine = Enemies[line].toArray(); // get the array
         std::string type = jsonLine[0].toString().toStdString(); // get the type of the enemy in string
         if (type == "standard"){ // if a standard enemy
-            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyTile())); // create the enemy and add it to the list
+            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyStandardRunningRightTile(0))); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
@@ -136,7 +136,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             }
         }
         else if (type == "giant"){ // if a giant enemy
-            itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsPlayerTile())); // create the enemy and add it to the list
+            itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsEnemyGiantRunningRightTile(0))); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
