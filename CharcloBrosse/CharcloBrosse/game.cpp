@@ -3,7 +3,7 @@
  * @brief Source file for class Game
  * @author Arthur Ancien
  * @date 05/06/2023
- * @version 1.1
+ * @version 1.2
  */
 
 #include <chrono>
@@ -38,43 +38,42 @@ void Game::onGameStart(){
 
 void Game::gameLoop()
 {
-//    ((!itsLevel->getItsEnemiesList().empty() && !itsLevel->getItsRemainingEnemies().empty()) || itsPlayer->getItsLivesNb() != 0)
-//    while(itsLoopCounter != 0){
-//    for (int var = 0; var < 10; ++var) {
-//        QElapsedTimer timer;
-//        timer.start();
-        if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-        qWarning() << "La valeur de la loop est :" << itsLoopCounter;
-        itsEllapsedTime += 0.016;//0.16
+    QElapsedTimer timer;
+    timer.restart();
+    if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+    itsEllapsedTime += 0.016;//0.16
 
-        if (itsLevel->getItsRemainingEnemies().size() > 0){
-            unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
-            if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(pos))
-            {
-                Enemy * enemy = itsLevel->getItsRemainingEnemies().at(pos);
-                Sides side = itsLevel->getItsEnemyAppearsSides().at(pos);
-                switch(side){
-                case LEFT:
-                    itsLevel->getItsSpawnerList().at(0)->appears(enemy);
-                    break;
-                case RIGHT:
-                    itsLevel->getItsSpawnerList().at(1)->appears(enemy);
-                    enemy->setItsXSpeed(-STANDARD_ENEMY_SPEED);
-                    break;
-                }
-
-                itsLevel->appears(enemy);
-                itsEllapsedTime = 0;
+    if (itsLevel->getItsRemainingEnemies().size() > 0){
+        unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
+        if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(pos))
+        {
+            Enemy * enemy = itsLevel->getItsRemainingEnemies().at(pos);
+            Sides side = itsLevel->getItsEnemyAppearsSides().at(pos);
+            switch(side){
+            case LEFT:
+                itsLevel->getItsSpawnerList().at(0)->appears(enemy);
+                enemy->setItsXSpeed(1);
+                break;
+            case RIGHT:
+                itsLevel->getItsSpawnerList().at(1)->appears(enemy);
+                enemy->setItsXSpeed(-1);
+                break;
             }
+
+            itsLevel->appears(enemy);
+            itsEllapsedTime = 0;
         }
-        checkAllCollid();
-        moveAll();
-        if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
-        itsLoopCounter--;
-//        QThread::usleep(((1000000000/(NUMBER_LOOP_PER_SECOND*1000000))-timer.nsecsElapsed())/1000); // Pause de 1 milliseconde entre chaque itération
-//        std::this_thread::sleep_for(std::chrono::microseconds(1000000));
-//    }
-//    itsHMI->stopGame();
+    }
+    checkAllCollid();
+    moveAll();
+    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
+    itsLoopCounter--;
+    if((itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty()) || itsPlayer->getItsLivesNb() == 0)
+    {
+        itsHMI->stopGame();
+    }
+    unsigned int elapsedTime = timer.nsecsElapsed();
+//    qWarning() << "Game loop execution time in nanoseconds : " << elapsedTime;
 }
 
 
@@ -166,12 +165,17 @@ void Game::checkAllCollid(){
                     }
                 }
             }
-
             if (gravityList[i1]){
                 enemy1->setItsYSpeed(GRAVITY);
             }
             else{
                 enemy1->setItsYSpeed(STILL);
+            }
+            if(enemy1->getItsNumberLoopKO() != 0)enemy1->setItsNumberLoopKO(enemy1->getItsNumberLoopKO()-1);
+            else
+            {
+                enemy1->setItsState(true);
+                enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
             }
         }
     }
@@ -188,6 +192,8 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
         thePlayer->setY(32);
         thePlayer->getItsRect()->moveTo((BLOCK_SIZE*39)/2,32);
         thePlayer->setItsRemaningJumpMove(0);
+        thePlayer->setItsCurrentMove(NONE);
+        thePlayer->setItsNextMove(NONE);
     }
     else//quand l'enemie est KO
     {
@@ -200,7 +206,7 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
 {
     if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
-        if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
+        if(theFirstEnemy->getItsXSpeed() != theSecondEnemy->getItsXSpeed())//si les deux enemy sont dans des directions différentes
         {
             theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
         }
@@ -213,7 +219,18 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
     theEnemy->setItsYSpeed(STILL);
     if(theBlock->getItsState())
     {
-        theEnemy->setItsState(false);
+        if(theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() == 0)
+        {
+            theEnemy->setItsState(false);
+            theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
+            theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+        }
+        else if(!theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() < (KO_TIME * NUMBER_LOOP_PER_SECOND)-((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME)-1)//+1 car problème de précision
+        {
+            theEnemy->setItsState(true);
+            theEnemy->setItsSprite(itsTileSet->getItsEnemyTile());
+            theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+        }
     }
     theEnemy->setIsOnTheGround(true);
 }
@@ -224,7 +241,7 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
     {
         thePlayer->setItsRemaningJumpMove(0);//à remplacer par STILL pour l'instant inverse la vitesse
         theBlock->setItsState(true);
-        theBlock->setItsCounter(BLOCK_HIT_TIME);
+        theBlock->setItsCounter((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME);
     }
     if(thePlayer->getItsRect()->bottom() == theBlock->getItsRect()->top())//le joueur est sur un block
     {
@@ -235,11 +252,11 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
     if((thePlayer->getItsRect()->top() < theBlock->getItsRect()->bottom()) && (thePlayer->getItsRect()->bottom() > theBlock->getItsRect()->top())){
         if((thePlayer->getItsRect()->right() == theBlock->getItsRect()->left()))
         {
-            thePlayer->setItsXSpeed(thePlayer->getItsXSpeed() > 0?0:thePlayer->getItsXSpeed());
+            thePlayer->setItsCurrentMove(NONE);
         }
         else if((thePlayer->getItsRect()->left() == theBlock->getItsRect()->right()))
         {
-            thePlayer->setItsXSpeed(thePlayer->getItsXSpeed() < 0?0:thePlayer->getItsXSpeed());
+            thePlayer->setItsCurrentMove(NONE);
         }
     }
 }
@@ -292,12 +309,14 @@ void Game::moveAll(){
 
 void Game::onLeftKeyPressed()
 {
-    itsPlayer->setItsXSpeed(-1);
+    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(LEFT_X);
+    /*    else */itsPlayer->setItsNextMove(LEFT_X);
 }
 
 void Game::onRightKeyPressed()
 {
-    itsPlayer->setItsXSpeed(1);
+    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(RIGHT_X);
+    /*    else */itsPlayer->setItsNextMove(RIGHT_X);
 }
 
 void Game::onUpKeyPressed()
@@ -310,12 +329,14 @@ void Game::onUpKeyPressed()
 
 void Game::onLeftKeyReleased()
 {
-    itsPlayer->setItsXSpeed(STILL);
+    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(NONE);
+    /*    else */itsPlayer->setItsNextMove(NONE);
 }
 
 void Game::onRightKeyReleased()
 {
-    itsPlayer->setItsXSpeed(STILL);
+    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(NONE);
+    /*    else */itsPlayer->setItsNextMove(NONE);
 }
 
 void Game::onGamePaused()

@@ -54,11 +54,7 @@ void Enemy::setItsState(bool newItsState)
 //move()
 void Enemy::move()
 {
-    if(!itsState)
-    {
-
-    }
-    else
+    if(itsState)
     {
         itsX += itsXSpeed;
         itsY += itsYSpeed;
@@ -88,6 +84,16 @@ bool Enemy::getIsOnTheGround() const
 }
 
 //Constructeur
+short Enemy::getItsNumberLoopKO() const
+{
+    return itsNumberLoopKO;
+}
+
+void Enemy::setItsNumberLoopKO(short newItsNumberLoopKO)
+{
+    itsNumberLoopKO = newItsNumberLoopKO;
+}
+
 Enemy::Enemy( short height,  short width, QPixmap * sprite)
     : Entity(0, 0, height, width, sprite)
 {

@@ -300,7 +300,7 @@ void HMI::startGame()
     shouldDraw = true;
     displayGame();
     itsGame->onGameStart();
-    itsTimer->start(1);//33
+    itsTimer->start(1);//pas assez précis il faudrait 1041 microsecondes ou 1041667 nanosecondes
 }
 
 
@@ -333,6 +333,6 @@ void HMI::gameLoop(){
 
 void HMI::stopGame()
 {
-//    itsTimer->stop();
+    itsTimer->stop();
     displayGameOverMenu();
 }
