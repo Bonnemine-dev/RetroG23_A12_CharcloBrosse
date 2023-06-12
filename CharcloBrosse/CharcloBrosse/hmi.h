@@ -58,10 +58,11 @@ private:
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
     QVBoxLayout *rulesLayout; ///< Rules layout for the HMI.
 
+    QLabel *gameTitleLabel; ///< Label for displaying "Chaclo Brosse".
     QLabel *rulesText; ///< Label for displaying game rules.
 
     QLabel *scoresLabel; ///< Label for displaying scores.
-    QLabel *scoresLabelGameOver; ///< Label for displaying scores in the game over screen.
+    QLabel *scoreLabelGameOver; ///< Label for displaying scores in the game over screen.
     QLabel *gameOverLabel; ///< Label for displaying "Game Over" text.
 
     QPushButton *startGameButton; ///< Button for starting the game.
