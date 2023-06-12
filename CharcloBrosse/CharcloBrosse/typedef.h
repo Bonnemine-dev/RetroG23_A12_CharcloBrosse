@@ -32,6 +32,7 @@
 #define TILESET_FILE_PATH "://ressources/tileset0.png"
 #define LEVEL_FILE_PATH "://ressources/level1.json"
 
+#define MAX_LEVEL 2
 
 enum MenuState {
     MAINMENU,
