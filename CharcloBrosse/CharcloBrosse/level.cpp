@@ -114,8 +114,11 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             if (block == 1){ // if ground block
                 itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile(),GROUND));
             }
-            if (block == 2){ // if platform block
+            else if (block == 2){ // if platform block
                 itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(),BRICK)));
+            }
+            else if (block == 3){ // if obstacle
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsEnemyHitTile(),OBSTACLE)));
             }
         }
     }

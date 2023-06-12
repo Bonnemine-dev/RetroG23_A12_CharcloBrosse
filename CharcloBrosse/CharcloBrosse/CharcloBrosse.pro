@@ -10,6 +10,7 @@ CONFIG += c++17 rtti
 
 SOURCES += \
         block.cpp \
+        db_score.cpp \
         enemy.cpp \
         entity.cpp \
         despawner.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     block.h \
+    db_score.h \
     enemy.h \
     entity.h \
     despawner.h \

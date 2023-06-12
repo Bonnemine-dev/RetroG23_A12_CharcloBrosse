@@ -55,6 +55,7 @@ enum EnemyType{
 
 enum BlockType{
     BRICK,
-    GROUND
+    GROUND,
+    OBSTACLE
 };
 #endif // TYPEDEF_H

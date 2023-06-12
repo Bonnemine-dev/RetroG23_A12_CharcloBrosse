@@ -104,6 +104,8 @@ public :
      */
     void colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner);
 
+    void colBtwPlayerAndObstacle(Player* thePlayer);
+
     /**
      * @brief checks whether a level is finished. If the player has no more lives
      * or if there are no more enemies to appear.

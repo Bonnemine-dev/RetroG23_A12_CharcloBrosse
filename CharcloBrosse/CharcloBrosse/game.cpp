@@ -20,9 +20,9 @@
 Game::Game()
 {
     itsTileSet = new TileSet(TILESET_FILE_PATH);
-    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
     itsLevel = nullptr;
     itsHMI = new HMI(nullptr, itsPlayer, this);
+    itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerTile());
     itsEllapsedTime = 0;
     itsHMI->show();
     itsLoopCounter = NUMBER_LOOP_PER_SECOND;
@@ -114,6 +114,10 @@ void Game::checkAllCollid(){
     bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
     itsPlayer->setIsOnTheGround(false);
     for (Block * block : itsLevel->getItsBlockList()){
+        if (block->getItsType() == OBSTACLE && collid(itsPlayer, block))
+        {
+            colBtwPlayerAndObstacle(itsPlayer);
+        }
         if(block->getItsType() == BRICK){
             if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
             {
@@ -126,9 +130,11 @@ void Game::checkAllCollid(){
                 block->setItsSprite(itsTileSet->getItsBlockTile());
             }
         }
-        if(collid(itsPlayer, block) == true){
+        if(collid(itsPlayer, block) == true)
+        {
             colBtwPlayerAndBlock(itsPlayer, block);
-            if (isOnTop(itsPlayer, block)){
+            if (isOnTop(itsPlayer, block))
+            {
                 playerGravity = false;
                 itsPlayer->setIsOnTheGround(true);
             }
@@ -167,7 +173,7 @@ void Game::checkAllCollid(){
                 }
             }
             for (Block * block : itsLevel->getItsBlockList()){
-                if (collid(enemy1, block)){
+                if (collid(enemy1, block) && (block->getItsType() == BRICK || block->getItsType() == GROUND)){
                     if (isOnTop(enemy1, block)){
                         gravityList[i1] = false;
                     }
@@ -213,7 +219,7 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     {
         thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
         thePlayer->setX((BLOCK_SIZE*39)/2);
-        thePlayer->setY(32);
+        thePlayer->setY(0);
         thePlayer->getItsRect()->moveTo((BLOCK_SIZE*39)/2,32);
         thePlayer->setItsRemaningJumpMove(0);
         thePlayer->setItsCurrentMove(NONE);
@@ -225,6 +231,16 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
         itsLevel->removeEnemy(theEnemy);
 
     }
+}
+
+void Game::colBtwPlayerAndObstacle(Player* thePlayer)
+{
+    thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
+    thePlayer->setX((32*39)/2);
+    thePlayer->setY(0);
+    thePlayer->getItsRect()->moveTo((32*39)/2,32);
+    thePlayer->setItsCurrentMove(NONE);
+    thePlayer->setItsNextMove(NONE);
 }
 
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)

@@ -1,23 +1,29 @@
 #include <QApplication>
 #include <iostream>
 #include <vector>
+#include <QInputDialog>
+#include <QDir>
 #include "hmi.h"
 #include "game.h"
 
-std::vector<std::pair<std::string, unsigned int>> highs = {
-    {"Player1", 100},
-    {"Player2", 200},
-    {"Player3", 150}
-};
 
 HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget(parent), itsLevel(level), itsPlayer(player), itsGame(game)
 {
+    DBSCORE= nullptr;
+
+    // Police Press Start 2P
+    QFont arcadeFont;
+    arcadeFont.setFamily("Press Start 2P");
+    arcadeFont.setPointSize(48);
 
     // Initialisation des widgets pour le main menu
     mainLayout = new QVBoxLayout;
     startGameButton = new QPushButton("Start Game");
     rulesButton = new QPushButton("Rules");
     quitGameButton = new QPushButton("Quit Game");
+    gameTitleLabel = new QLabel("Charclo Brosse", this);
+    gameTitleLabel->setAlignment(Qt::AlignCenter);
+    gameTitleLabel->setFont(arcadeFont);
 
     // Initialisation des widgets pour le pause menu
     pauseLayout = new QVBoxLayout;
@@ -40,25 +46,30 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
 
     // Initialisation des widgets pour le rules menu
     rulesLayout = new QVBoxLayout;
-    rulesText = new QLabel("Charclo Brosse est un jeu super cool #EmojiLunettesDeSoleil");
+    rulesText = new QLabel("In this game, the player controls the main character, Charclo, and must navigate through levels composed of platforms and blocks.\nThe objective is to defeat all the enemies, collect coins and bills to unlock score multipliers, and complete the levels as quickly as possible.\nTo control Charclo, the player uses the arrow keys to move left or right, and the up arrow key to jump.\nPressing the \"Escape\" key allows the player to pause the game.");
     goBackButton = new QPushButton("Go back");
 
     // Initialisation du QLabel pour le highscoreList du main
     scoresLabel = new QLabel(this);
-    scoresLabel->setAlignment(Qt::AlignCenter);  // Centre le texte dans le QLabel
-    mainLayout->addWidget(scoresLabel, 0, Qt::AlignCenter);
+    scoresLabel->setAlignment(Qt::AlignCenter);
     QFont font = scoresLabel->font();
-    font.setPointSize(18); // ajustez la taille de la police comme vous le souhaitez
+    font.setPointSize(13);
     scoresLabel->setFont(font);
+    rulesText->setAlignment(Qt::AlignCenter);
+    rulesText->setFont(font);
 
-    // Initialisation du QLabel pour le highscoreList du main
-    scoresLabelGameOver = new QLabel(this);
-
+    // initialisation du QLabel pour le numero de niveau
     itsLevelNumberText = new QLabel(this);
+    itsLevelNumberText->setFont(arcadeFont);
 
+    // Initialisation du QLabel pour le highscoreList du gameover
+    scoreLabelGameOver = new QLabel(this);
+    scoresLabel->setAlignment(Qt::AlignCenter);
 
     //-------------------------
     // Ajout des widgets au layout main menu
+    mainLayout->addWidget(scoresLabel, 0, Qt::AlignCenter);
+    mainLayout->addWidget(gameTitleLabel, 0, Qt::AlignCenter);
     mainLayout->addStretch();
     mainLayout->addWidget(startGameButton, 0, Qt::AlignCenter);
     mainLayout->addWidget(rulesButton, 0, Qt::AlignCenter);
@@ -72,10 +83,12 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     pauseLayout->addStretch();
 
     // Ajout des widgets au layout game over
+    gameOverLayout->addWidget(scoreLabelGameOver, 0, Qt::AlignCenter);
     gameOverLayout->addWidget(quitToMainButton2, 0, Qt::AlignCenter);
+    QFont fontGO = scoreLabelGameOver->font();
+    fontGO.setPointSize(30);
+    scoreLabelGameOver->setFont(fontGO);
 
-    font.setPointSize(18); // ajustez la taille de la police comme vous le souhaitez
-    scoresLabelGameOver->setFont(font);
 
     // Ajout des widgets au layout gaming
     gameLayout->addWidget(itsLevelNumberText);
@@ -175,7 +188,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     itsTimer = new QTimer(this);
     connect(itsTimer, SIGNAL(timeout()), this, SLOT(gameLoop()));
 
-    displayMainMenu(highs);
+    displayMainMenu(DBSCORE->loadScores());
 }
 
 HMI::~HMI()
@@ -265,7 +278,7 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
     startGameButton->setDefault(true);
     stackedWidget->setCurrentWidget(mainMenuWidget);
 
-    QString scoresText;
+    QString scoresText = "Leaderboard :\n\n";
     for (const auto &score : highscores) {
         scoresText += QString::fromStdString(score.first) + ": " + QString::number(score.second) + "\n";
     }
@@ -285,6 +298,7 @@ void HMI::displayPauseMenu()
 void HMI::displayGameOverMenu()
 {
     clearPaintings();
+    scoreLabelGameOver->setText(QString("Score: %1").arg(itsGame->getItsScore()));
     state = GAMEOVER;
     stackedWidget->setCurrentWidget(gameOverMenuWidget);
 }
@@ -292,7 +306,6 @@ void HMI::displayGameOverMenu()
 void HMI::displayGame()
 {
     state = GAME;
-
     stackedWidget->setCurrentWidget(gameMenuWidget);
 }
 
@@ -325,7 +338,7 @@ void HMI::resume()
 
 void HMI::leave()
 {
-    stackedWidget->setCurrentWidget(mainMenuWidget);
+    displayMainMenu(DBSCORE->loadScores());
 }
 
 
@@ -341,6 +354,19 @@ void HMI::gameLoop(){
 void HMI::stopGame()
 {
     itsTimer->stop();
+    //je ne rentre pas dans la boucle (il faut faire en sorte que quand le leaderboard est inferieur a 10 bah c 100%dedans
+    if (DBSCORE->isInTop10(itsGame->getItsScore()))
+    {
+        bool ok;
+        QString text = QInputDialog::getText(this, tr("Score Input"),
+                                             tr("You made it to the top 10! Enter your name:"), QLineEdit::Normal,
+                                             QDir::home().dirName(), &ok);
+        if (ok && !text.isEmpty())
+        {
+            std::string name = text.toStdString();
+            DBSCORE->saveScore(name, itsGame->getItsScore());
+        }
+    }
     displayGameOverMenu();
 }
 
