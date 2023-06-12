@@ -70,6 +70,11 @@ private:
 
     bool running;
 
+    /**
+    * @brief Boolean which represent the state of the BlockPOW, false if it is not hitted, true if it is hitted.
+    */
+    bool isBlockPOWHitted;
+
 public :
     /**
      * @brief Checks all possible collisions in the current game state
@@ -119,7 +124,7 @@ public :
     /**
      * @brief Method launched when the player collides with the bottom of a blockPOW
      */
-    void colBtwPlayerAndBlockPOW(Block* theBLockPOW);
+    void colBtwPlayerAndBlockPOW(Player* thePlayer, Block* theBLockPOW);
 
     /**
      * @brief checks whether a level is finished. If the player has no more lives

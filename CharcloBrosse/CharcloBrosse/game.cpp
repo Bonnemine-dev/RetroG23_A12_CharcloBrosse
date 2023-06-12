@@ -27,6 +27,8 @@ Game::Game()
     itsHMI->show();
     itsLoopCounter = NUMBER_LOOP_PER_SECOND;
     running = false;
+    isBlockPOWHitted = false;
+
 }
 // Connexion des signaux et slots
 
@@ -114,6 +116,7 @@ Player *Game::getItsPlayer() const
 }
 
 void Game::checkAllCollid(){
+    isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
     // player to block
     bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
     itsPlayer->setIsOnTheGround(false);
@@ -262,10 +265,63 @@ void Game::colBtwPlayerAndObstacle(Player* thePlayer)
     thePlayer->setItsNextMove(NONE);
 }
 
-void Game::colBtwPlayerAndBlockPOW(Block *theBlockPOW)
+void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
 {
+    isBlockPOWHitted = true;
+    thePlayer->setItsRemaningJumpMove(0);
     theBlockPOW->setItsState(true);
     theBlockPOW->setItsSprite(itsTileSet->getItsPOWBlockHittedTile());
+    for (Enemy * enemy : itsLevel->getItsEnemiesList())
+    {
+        if((enemy->getItsState() == true) && /*il me faut une condition ici*/)
+        {
+            switch (enemy->getItsType())
+            {
+            case STANDARD:
+                enemy->setItsState(false);
+                enemy->setItsSprite(itsTileSet->getItsEnemyStandardHittedRightTile(0));
+                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case GIANT:
+                enemy->setItsState(false);
+                enemy->setItsSprite(itsTileSet->getItsEnemyGiantHittedRightTile(0));
+                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case ACCELERATOR:
+                enemy->setItsState(false);
+                enemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1HittedRightTile(0));
+                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+                accelerator->addItsSpeedState();
+                break;
+            }
+        }
+        else if((enemy->getItsState() == false) && (enemy->getItsNumberLoopKO() < (KO_TIME * NUMBER_LOOP_PER_SECOND)-((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME)-1))
+        {
+            switch (enemy->getItsType())
+            {
+            case STANDARD:
+                enemy->setItsState(true);
+                enemy->setItsSprite(itsTileSet->getItsEnemyStandardRunningRightTile(0));
+                enemy->setItsNumberLoopKO(0);//+2 car problème de précision
+                std::cout << "ici" << std::endl;
+                break;
+            case GIANT:
+                enemy->setItsState(true);
+                enemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
+                enemy->setItsNumberLoopKO(0);//+2 car problème de précision
+                break;
+            case ACCELERATOR:
+                enemy->setItsState(true);
+                enemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
+                enemy->setItsNumberLoopKO(0);//+2 car problème de précision
+                break;
+            default:
+                break;
+            }
+        }
+
+    }
 }
 
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
@@ -313,7 +369,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
             {
             case STANDARD:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardHittedLeftTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardRunningLeftTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             case GIANT:
@@ -338,18 +394,17 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsYSpeed() < STILL)
     {
-        // Si le bloc est un bloc POW
-        if(theBlock->getItsType() == POW)
+        if((theBlock->getItsType() == POW) == (isBlockPOWHitted == false))
         {
-            // On appelle la méthode qui gère cette collision
-            colBtwPlayerAndBlockPOW(theBlock);
+            colBtwPlayerAndBlockPOW(thePlayer, theBlock);
         }
-        else // Sinon c'est un bloc normal
+        else
         {
             thePlayer->setItsRemaningJumpMove(0);//à remplacer par STILL pour l'instant inverse la vitesse
             theBlock->setItsState(true);
             theBlock->setItsCounter((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME);
         }
+
 
     }
     if(thePlayer->getItsRect()->bottom() == theBlock->getItsRect()->top())//le joueur est sur un block
