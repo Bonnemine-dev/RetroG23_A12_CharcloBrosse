@@ -27,8 +27,9 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 
-#define TILESET_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/tileset0.png"
-#define LEVEL_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/level1.json"
+#define TILESET_FILE_PATH "://ressources/tileset0.png"
+#define LEVEL_FILE_PATH "://ressources/level1.json"
+
 
 enum MenuState {
     MAINMENU,

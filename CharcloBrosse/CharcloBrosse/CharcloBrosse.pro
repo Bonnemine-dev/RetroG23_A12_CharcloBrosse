@@ -10,6 +10,7 @@ CONFIG += c++17 rtti
 
 SOURCES += \
         block.cpp \
+        db_score.cpp \
         enemy.cpp \
         entity.cpp \
         despawner.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     block.h \
+    db_score.h \
     enemy.h \
     entity.h \
     despawner.h \
@@ -41,9 +43,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    ressources/level1.json \
-    ressources/oneblock.json \
-    ressources/oneenemy.json \
-    ressources/tileset0.png \
-    ressources/tilsetCharclo.png
+RESOURCES += \
+    rsc.qrc

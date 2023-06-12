@@ -41,7 +41,7 @@ void Game::gameLoop()
     QElapsedTimer timer;
     timer.restart();
     if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-    itsEllapsedTime += 0.01;
+    itsEllapsedTime += 0.001;
 
     if (itsLevel->getItsRemainingEnemies().size() > 0){
         unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
