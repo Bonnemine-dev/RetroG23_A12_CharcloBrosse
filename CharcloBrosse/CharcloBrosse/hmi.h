@@ -22,6 +22,7 @@
 #include "level.h"
 #include "player.h"
 #include "typedef.h"
+#include "db_score.h"
 
 
 class Game;
@@ -38,6 +39,8 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
+    DB_Score *DBSCORE;
+
     MenuState state; ///< Current state of the HMI.
 
     QStackedWidget *stackedWidget; ///< Widget for stacking different screens.
@@ -56,10 +59,11 @@ private:
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
     QVBoxLayout *rulesLayout; ///< Rules layout for the HMI.
 
+    QLabel *gameTitleLabel; ///< Label for displaying "Chaclo Brosse".
     QLabel *rulesText; ///< Label for displaying game rules.
 
     QLabel *scoresLabel; ///< Label for displaying scores.
-    QLabel *scoresLabelGameOver; ///< Label for displaying scores in the game over screen.
+    QLabel *scoreLabelGameOver; ///< Label for displaying scores in the game over screen.
     QLabel *gameOverLabel; ///< Label for displaying "Game Over" text.
 
     QPushButton *startGameButton; ///< Button for starting the game.

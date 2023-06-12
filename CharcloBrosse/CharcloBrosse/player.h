@@ -10,6 +10,7 @@
 #define PLAYER_H
 
 #include "entity.h"
+#include "typedef.h"
 
 /**
  * @class Player
@@ -25,7 +26,10 @@ private:
      short itsLivesNb = 0; ///< Number of lives the player has.
     short itsXSpeed = 0; ///< Speed of the player on the X axis.
     short itsYSpeed = 0; ///< Speed of the player on the Y axis.
-    bool isOnTheGround = true; ///< True is the player is on the ground .
+    bool isOnTheGround = false; ///< True is the player is on the ground .
+    unsigned short itsRemaningJumpMove = 0;
+    MoveX itsCurrentMove = NONE;
+    MoveX itsNextMove = NONE;
     //short itsMaxXSpeed = 0; ///< Maximum speed of the player on the X axis.
     //short itsMaxYSpeed = 0; ///< Maximum speed of the player on the Y axis.
     //bool itsState = true; ///< State of the player.
@@ -99,6 +103,10 @@ public:
      */
     bool getIsOnTheGround() const;
 
+    unsigned short getItsRemaningJumpMove() const;
+    void setItsRemaningJumpMove(unsigned short newItsRemaningJumpMove);
+    void setItsCurrentMove(MoveX newItsCurrentMove);
+    void setItsNextMove(MoveX newItsNextMove);
 };
 
 #endif // PLAYER_H

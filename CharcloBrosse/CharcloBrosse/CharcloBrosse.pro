@@ -11,6 +11,7 @@ CONFIG += c++17 rtti
 SOURCES += \
         accelerator.cpp \
         block.cpp \
+        db_score.cpp \
         enemy.cpp \
         entity.cpp \
         despawner.cpp \
@@ -19,8 +20,6 @@ SOURCES += \
         hmi.cpp \
         level.cpp \
         main.cpp \
-        money.cpp \
-        obstacle.cpp \
         player.cpp \
         spawner.cpp \
         standard.cpp \
@@ -29,6 +28,7 @@ SOURCES += \
 HEADERS += \
     accelerator.h \
     block.h \
+    db_score.h \
     enemy.h \
     entity.h \
     despawner.h \
@@ -36,8 +36,6 @@ HEADERS += \
     giant.h \
     hmi.h \
     level.h \
-    money.h \
-    obstacle.h \
     player.h \
     spawner.h \
     standard.h \
@@ -48,3 +46,6 @@ HEADERS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    rsc.qrc
