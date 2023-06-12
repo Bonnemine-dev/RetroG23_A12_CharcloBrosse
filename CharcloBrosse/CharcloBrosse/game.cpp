@@ -270,8 +270,8 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 theEnemy->setItsState(false);
                 theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
-                break;
-            default:
+                Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
+                accelerator->addItsSpeedState();
                 break;
             }
         }
@@ -380,12 +380,11 @@ void Game::moveAll(){
             }
             break;
         case ACCELERATOR:
-            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(ACCELERATOR_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/((ACCELERATOR_ENEMY_SPEED+accelerator->getItsSpeedState())*BLOCK_SIZE))) == 0)
             {
                 enemy->move();
             }
-            break;
-        default:
             break;
         }
     }
