@@ -7,5 +7,6 @@
         <file>ressources/tilsetCharclo.png</file>
         <file>ressources/level2.json</file>
         <file>ressources/PressStart2P-Regular.ttf</file>
+        <file>ressources/VT323-Regular.ttf</file>
     </qresource>
 </RCC>

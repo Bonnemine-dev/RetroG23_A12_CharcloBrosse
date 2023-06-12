@@ -54,6 +54,9 @@ private:
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
 
     QVBoxLayout *mainLayout; ///< Main layout for the HMI.
+    QHBoxLayout *middleLayout;
+    QVBoxLayout *leftLayout;
+    QVBoxLayout *rightLayout;
     QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
     QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.

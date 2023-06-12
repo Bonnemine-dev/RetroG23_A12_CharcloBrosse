@@ -9,22 +9,30 @@
 
 HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget(parent), itsLevel(level), itsPlayer(player), itsGame(game)
 {
-    DBSCORE= nullptr;
+    DBSCORE = nullptr;
 
     // Police Press Start 2P
     QFont arcadeFont;
     arcadeFont.setFamily("Press Start 2P");
     arcadeFont.setPointSize(48);
 
+    //Police VT323
+    QFont buttonFont;
+    buttonFont.setFamily("VT323");
+    buttonFont.setPointSize(40);
+
     // Initialisation des widgets pour le main menu
     mainLayout = new QVBoxLayout;
+    middleLayout = new QHBoxLayout;  // New layout for leaderboard and buttons
+    leftLayout = new QVBoxLayout;
+    rightLayout = new QVBoxLayout;
+
     startGameButton = new QPushButton("Start Game");
     rulesButton = new QPushButton("Rules");
     quitGameButton = new QPushButton("Quit Game");
     gameTitleLabel = new QLabel("Charclo Brosse", this);
     gameTitleLabel->setAlignment(Qt::AlignCenter);
     gameTitleLabel->setFont(arcadeFont);
-
     // Initialisation des widgets pour le pause menu
     pauseLayout = new QVBoxLayout;
     resumeButton = new QPushButton("Resume");
@@ -36,7 +44,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     gameOverLabel = new QLabel("GAME OVER", this);
     gameOverLabel->setAlignment(Qt::AlignCenter);  // Centre le texte dans le QLabel
     QFont gameOverFont = gameOverLabel->font();
-    gameOverFont.setPointSize(48); // ajustez la taille de la police comme vous le souhaitez
+    gameOverFont.setPointSize(56);
     gameOverLabel->setFont(gameOverFont);
 
     gameOverLayout->addWidget(gameOverLabel, 0, Qt::AlignCenter);
@@ -53,7 +61,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     scoresLabel = new QLabel(this);
     scoresLabel->setAlignment(Qt::AlignCenter);
     QFont font = scoresLabel->font();
-    font.setPointSize(13);
+    font.setPointSize(18);
     scoresLabel->setFont(font);
     rulesText->setAlignment(Qt::AlignCenter);
     rulesText->setFont(font);
@@ -67,14 +75,23 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     scoresLabel->setAlignment(Qt::AlignCenter);
 
     //-------------------------
-    // Ajout des widgets au layout main menu
-    mainLayout->addWidget(scoresLabel, 0, Qt::AlignCenter);
+    // Ajout du titre au layout principal
     mainLayout->addWidget(gameTitleLabel, 0, Qt::AlignCenter);
-    mainLayout->addStretch();
-    mainLayout->addWidget(startGameButton, 0, Qt::AlignCenter);
-    mainLayout->addWidget(rulesButton, 0, Qt::AlignCenter);
-    mainLayout->addWidget(quitGameButton, 0, Qt::AlignCenter);
-    mainLayout->addStretch();
+
+    // Ajout des widgets au layout left (leaderboard)
+    leftLayout->addWidget(scoresLabel, 0, Qt::AlignCenter);
+
+    // Ajout des widgets au layout right (buttons)
+    rightLayout->addWidget(startGameButton, 0, Qt::AlignCenter);
+    rightLayout->addWidget(rulesButton, 0, Qt::AlignCenter);
+    rightLayout->addWidget(quitGameButton, 0, Qt::AlignCenter);
+
+    // Ajout des layouts left et right au layout middle
+    middleLayout->addLayout(leftLayout);
+    middleLayout->addLayout(rightLayout);
+
+    // Ajout du layout middle au layout principal
+    mainLayout->addLayout(middleLayout);
 
     // Ajout des widgets au layout pause menu
     pauseLayout->addStretch();
@@ -95,7 +112,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
 
     // Ajout des widgets au layout rules
     rulesLayout->addWidget(rulesText);
-    rulesLayout->addWidget(goBackButton);
+    rulesLayout->addWidget(goBackButton, 0, Qt::AlignCenter);
 
 
     // Création des widgets
@@ -128,12 +145,13 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     // Style des boutons
     QString buttonStyle = "QPushButton {"
                           "background: transparent;"
-                          "color: black;"
+                          "color: white;"
                           "padding: 15px 32px;"
                           "text-align: center;"
                           "text-decoration: none;"
-                          "font-size: 32px;"
+                          "font-size: 50px;"
                           "margin: 4px 2px;"
+                          "outline: none;"
                           "}";
 
     QString buttonFocusedStyle = "QPushButton:focus {"
@@ -147,17 +165,26 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     itsStartLevelTimer = new QTimer(this);
 
     resumeButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
+    resumeButton->setFont(buttonFont);
     resumeButton->setFixedWidth(300);
     quitToMainButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
-    quitToMainButton->setFixedWidth(300);
+    quitToMainButton->setFont(buttonFont);
+    quitToMainButton->setFixedWidth(350);
     startGameButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
+    startGameButton->setFont(buttonFont);
     startGameButton->setFixedWidth(300);
     rulesButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
+    rulesButton->setFont(buttonFont);
     rulesButton->setFixedWidth(300);
     quitGameButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
+    quitGameButton->setFont(buttonFont);
     quitGameButton->setFixedWidth(300);
     quitToMainButton2->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
-    quitToMainButton2->setFixedWidth(300);
+    quitToMainButton2->setFont(buttonFont);
+    quitToMainButton2->setFixedWidth(400);
+    goBackButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
+    goBackButton->setFont(buttonFont);
+    goBackButton->setFixedWidth(400);
 
     // ajustement de la taille de la fenetre
     setFixedSize(20*32*2, 11*32*2);
@@ -189,6 +216,16 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     connect(itsTimer, SIGNAL(timeout()), this, SLOT(gameLoop()));
 
     displayMainMenu(DBSCORE->loadScores());
+
+    // couleur de fond et des labels
+    mainMenuWidget->setStyleSheet("background-color: black;");
+    pauseMenuWidget->setStyleSheet("background-color: black;");
+    gameOverMenuWidget->setStyleSheet("background-color: black;");
+    rulesMenuWidget->setStyleSheet("background-color: black;");
+    for (QLabel* label: this->findChildren<QLabel*>()) {
+        label->setStyleSheet("QLabel { color : white; }");
+    }
+
 }
 
 HMI::~HMI()
@@ -280,8 +317,11 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
     stackedWidget->setCurrentWidget(mainMenuWidget);
 
     QString scoresText = "Leaderboard :\n\n";
+    int rank = 1;
     for (const auto &score : highscores) {
-        scoresText += QString::fromStdString(score.first) + ": " + QString::number(score.second) + "\n";
+        scoresText += QString::number(rank) + ". " + QString::fromStdString(score.first) + ": " + QString::number(score.second) + "\n";
+        rank++;
+
     }
 
     scoresLabel->setText(scoresText);
@@ -378,7 +418,7 @@ void HMI::setLevel(Level * level){
 
 void HMI::displayLevelNumber(){
     QString text = QString::fromStdString("Level n°" + std::to_string(itsLevel->getItsId()));
-
+    itsLevelNumberText->setStyleSheet("QLabel { color : black; }");
     itsLevelNumberText->setText(text);
 
     itsLevelNumberText->setAlignment(Qt::AlignCenter);
