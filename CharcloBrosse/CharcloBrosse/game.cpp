@@ -182,8 +182,23 @@ void Game::checkAllCollid(){
             if(enemy1->getItsNumberLoopKO() != 0)enemy1->setItsNumberLoopKO(enemy1->getItsNumberLoopKO()-1);
             else
             {
-                enemy1->setItsState(true);
-                enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
+                switch (enemy1->getItsType())
+                {
+                case STANDARD:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
+                    break;
+                case GIANT:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsPlayerTile());
+                    break;
+                case ACCELERATOR:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsGroundTile());
+                    break;
+                default:
+                    break;
+                }
             }
         }
     }
@@ -313,9 +328,23 @@ void Game::moveAll(){
         itsPlayer->move();
     }
     for (Enemy * enemy : itsLevel->getItsEnemiesList()){
-        switch (enemy->getItsType()) {
+        switch (enemy->getItsType())
+        {
         case STANDARD:
-            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0){
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case GIANT:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(GIANT_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case ACCELERATOR:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(ACCELERATOR_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
                 enemy->move();
             }
             break;

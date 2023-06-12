@@ -16,6 +16,8 @@
 #define NUMBER_LOOP_PER_SECOND 960 //Define the number that the gameloop have to make in one second
 
 #define STANDARD_ENEMY_SPEED 5 //Speed for the standard ennemie in blocks per second
+#define GIANT_ENEMY_SPEED 2 //Speed for the giant ennemie in blocks per second
+#define ACCELERATOR_ENEMY_SPEED 10 //Speed for the accelerator ennemie in blocks per second
 #define KO_TIME 3//The Duration for the KO in seconds
 
 #define FPS 60 //Define the number of frame per seconds
