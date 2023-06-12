@@ -59,7 +59,7 @@ private:
 
     double itsEllapsedTime;
 
-    int countJump;
+    unsigned short int itsLoopCounter;
 
     //    DB_Score itsDBScore;
 

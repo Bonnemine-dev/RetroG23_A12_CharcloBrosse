@@ -268,7 +268,6 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
 void HMI::displayPauseMenu()
 {
     itsGame->onGamePaused();
-    qWarning() << "emit pause\n";
     state = PAUSEMENU;
     resumeButton->setDefault(true);
     clearPaintings();
@@ -301,7 +300,7 @@ void HMI::startGame()
     shouldDraw = true;
     displayGame();
     itsGame->onGameStart();
-    itsTimer->start(5);//33
+    itsTimer->start(1);//pas assez précis il faudrait 1041 microsecondes ou 1041667 nanosecondes
 }
 
 

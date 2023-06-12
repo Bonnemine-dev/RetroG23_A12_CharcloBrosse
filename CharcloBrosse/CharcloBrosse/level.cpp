@@ -104,9 +104,6 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     QJsonArray Enemies = jsonRoot.value("enemies").toArray(); // reccupère la liste des ennemis
     itsMinDelay = jsonRoot.value("minDelay").toInt(0); // get the minimum delay of appartition of an enemy
     itsMaxDelay = jsonRoot.value("maxDelay").toInt(0); // get the maximun delay of appartition of an enemy
-    qWarning() << itsMinDelay;
-    qWarning() << itsMaxDelay;
-
 
     // compute the data
     for (unsigned short line=0; line < level.size(); line++){ // for each line of the level
@@ -140,7 +137,6 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
             unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
             itsEnemyAppearsTimes.push_back(temp); // compute the delay
-            qWarning() << temp;
         }
         // std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
     }
