@@ -48,6 +48,10 @@ private:
      */
     unsigned int itsScore=0;
     /**
+     * @brief Money amount in the wallet.
+     */
+    unsigned int itsMoney=0;
+    /**
      * @brief Pointer to the Level object representing the current level of the game.
      */
     Level* itsLevel;
@@ -61,8 +65,6 @@ private:
     double itsEllapsedTime;
 
     unsigned short int itsLoopCounter;
-
-    //    DB_Score itsDBScore;
 
 public :
     /**
@@ -166,6 +168,9 @@ public :
     unsigned int getItsScore() const;
 
     Player *getItsPlayer() const;
+
+    unsigned int getItsMoney() const;
+    void setItsMoney(unsigned int newItsMoney);
 
 public slots:
     /**

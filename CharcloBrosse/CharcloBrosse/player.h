@@ -26,7 +26,6 @@ private:
     short itsLivesNb = 0; ///< Number of lives the player has.
     short itsXSpeed = 0; ///< Speed of the player on the X axis.
     short itsYSpeed = 0; ///< Speed of the player on the Y axis.
-    short itsMoney = 0;
     bool isOnTheGround = false; ///< True is the player is on the ground .
     unsigned short itsRemaningJumpMove = 0;
     MoveX itsCurrentMove = NONE;
@@ -103,8 +102,6 @@ public:
      * @return The "is on the ground" status.
      */
     bool getIsOnTheGround() const;
-    short getItsMoney() const;
-    void setItsMoney(short newItsMoney);
     unsigned short getItsRemaningJumpMove() const;
     void setItsRemaningJumpMove(unsigned short newItsRemaningJumpMove);
     void setItsCurrentMove(MoveX newItsCurrentMove);

@@ -157,7 +157,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
 
         else if (type == "freezer"){ // if a standard enemy
             itsRemainingEnemies.push_back(new Freezer(32, 32, tileSet->getItsGroundTile())); // create the enemy and add it to the list
-
+        }
         else if (type == "accelerator"){ // if an accelerator enemy
             itsRemainingEnemies.push_back(new Accelerator(32, 32, tileSet->getItsGroundTile())); // create the enemy and add it to the list
 

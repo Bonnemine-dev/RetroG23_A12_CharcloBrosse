@@ -87,6 +87,16 @@ Player *Game::getItsPlayer() const
     return itsPlayer;
 }
 
+unsigned int Game::getItsMoney() const
+{
+    return itsMoney;
+}
+
+void Game::setItsMoney(unsigned int newItsMoney)
+{
+    itsMoney = newItsMoney;
+}
+
 void Game::checkAllCollid(){
     // player to block
     bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
@@ -309,15 +319,15 @@ void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
 {
     if (theMoney->getItsMoneyType()==RED)
     {
-        thePlayer->setItsMoney(thePlayer->getItsMoney()+100);
+        setItsMoney(getItsMoney()+100);
     }
-    if (theMoney->getItsMoneyType()==YELLOW)
+    else if (theMoney->getItsMoneyType()==YELLOW)
     {
-        thePlayer->setItsMoney(thePlayer->getItsMoney()+250);
+        setItsMoney(getItsMoney()+250);
     }
     else
     {
-        thePlayer->setItsMoney(thePlayer->getItsMoney()+500);
+        setItsMoney(getItsMoney()+500);
     }
 }
 
