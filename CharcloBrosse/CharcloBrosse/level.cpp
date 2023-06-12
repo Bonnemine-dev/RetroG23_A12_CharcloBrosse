@@ -42,7 +42,7 @@ void Level::display(QPainter *painter)
     }
     for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
         itsDespawnerList.at(i)->display(painter);
-    } 
+    }
 }
 
 void Level::removeEnemy(Enemy * enemy) {
@@ -188,4 +188,9 @@ void Level::activate(){
 
 bool Level::isActive(){
     return active;
+}
+
+void Level::desactivate()
+{
+    active = false;
 }

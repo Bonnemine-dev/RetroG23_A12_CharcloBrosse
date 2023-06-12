@@ -55,6 +55,11 @@ Entity::Entity(short x,  short y,  short height,  short width, QPixmap * sprite)
     itsRect.setWidth(width);
 }
 
+Entity::~Entity()
+{
+
+}
+
 //Getter getItsX
 short Entity::getItsX() const
 {

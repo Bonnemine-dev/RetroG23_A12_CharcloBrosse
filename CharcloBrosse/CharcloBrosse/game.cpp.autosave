@@ -375,7 +375,7 @@ bool Game::collid(Entity * entity1, Entity * entity2){
 
 void Game::updateAnimation(Entity *theEntity)
 {
-
+    dynamic_cast<PKMN_ELEC*>(pkmn1)->getNbFeet()
 }
 
 

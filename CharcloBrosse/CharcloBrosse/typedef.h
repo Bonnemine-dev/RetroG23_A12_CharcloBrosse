@@ -35,6 +35,7 @@
 #define FONT_PATH "://ressources/PressStart2P-Regular.ttf"
 #define HIGH_SCORE_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 
+#define MAX_LEVEL 2
 
 enum MenuState {
     MAINMENU,
