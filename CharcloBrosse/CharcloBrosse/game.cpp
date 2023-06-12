@@ -232,9 +232,10 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     }
     else//quand l'enemie est KO
     {
-        itsScore += theEnemy->getItsType();
+        int tier = checkTier();
+        int multiplier = 1 + (tier * 3); // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
+        itsScore += theEnemy->getItsType() * multiplier;
         itsLevel->removeEnemy(theEnemy);
-
     }
 }
 
@@ -352,6 +353,21 @@ bool Game::collid(Entity * entity1, Entity * entity2){
     }
     return true;
 }
+
+int Game::checkTier()
+{
+    if (itsMoney >= 100)
+        return 4; // Quatrième palier
+    else if (itsMoney >= 50)
+        return 3; // Troisième palier
+    else if (itsMoney >= 25)
+        return 2; // Deuxième palier
+    else if (itsMoney >= 10)
+        return 1; // Premier palier
+    else
+        return 0; // Pas encore de palier atteint
+}
+
 
 
 void Game::moveAll(){

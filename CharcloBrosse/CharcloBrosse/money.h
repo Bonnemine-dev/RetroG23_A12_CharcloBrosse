@@ -15,7 +15,7 @@
  * @enum MoneyType
  * @brief Enumeration representing the types of money.
  */
-enum MoneyType {RED = 100, YELLOW = 250, BILL = 500};
+enum MoneyType {RED = 1, YELLOW = 3, BILL = 5};
 
 /**
  * @class Money
