@@ -130,8 +130,12 @@ void Game::checkAllCollid(){
             }
         }
     }
-
-
+    for (Money * money : itsLevel->getItsMoneyList()){
+        if(collid(itsPlayer,money))
+        {
+            colBtwPlayerAndMoney(itsPlayer,money);
+        }
+    }
     if (playerGravity)
     {
         itsPlayer->setItsYSpeed(GRAVITY);
@@ -140,6 +144,7 @@ void Game::checkAllCollid(){
     {
         itsPlayer->setItsYSpeed(itsPlayer->getItsYSpeed() > STILL?STILL:itsPlayer->getItsYSpeed());
     }
+
     std::vector<Enemy *> enemyList = itsLevel->getItsEnemiesList();
 
     if (enemyList.size()>0){
