@@ -21,8 +21,10 @@ class TileSet
 {
 private:
 
-    QPixmap* itsPlayerTilesList[3][2]; /**< The array that contains images of Player, [0][n] for running animation, [1][n] for jumping animation, [2][n] for hitting animation, [n][0] for frame 1, [n][1] for frame 2 */
-    QPixmap* itsEnemyTilesList[5][3][2]; /**< The array that contains images of Enemies, [0][n][n] for Standard, [1][n][n] for Accelerator1, [2][n][n] for Accelerator2, [3][n][n] for Accelerator3, [4][n][n] for Giant, [n][0][n] for running animation, [n][1][n] for jumping image, [n][2][n] for hitted animation, [n][n][0] for frame 1, [n][n][1] for frame 2 */
+    QPixmap* itsPlayerRightTilesList[3][2]; /**< The array that contains images of Player in direction RIGHT, [0][n] for running animation, [1][n] for jumping animation, [2][n] for hitting animation, [n][0] for frame 1, [n][1] for frame 2 */
+    QPixmap* itsEnemyRightTilesList[5][3][2]; /**< The array that contains images of Enemies in direction RIGHT, [0][n][n] for Standard, [1][n][n] for Accelerator1, [2][n][n] for Accelerator2, [3][n][n] for Accelerator3, [4][n][n] for Giant, [n][0][n] for running animation, [n][1][n] for jumping image, [n][2][n] for hitted animation, [n][n][0] for frame 1, [n][n][1] for frame 2 */
+    QPixmap* itsPlayerLeftTilesList[3][2]; /**< The array that contains images of Player in direction RIGHT, [0][n] for running animation, [1][n] for jumping animation, [2][n] for hitting animation, [n][0] for frame 1, [n][1] for frame 2 */
+    QPixmap* itsEnemyLeftTilesList[5][3][2]; /**< The array that contains images of Enemies in direction RIGHT, [0][n][n] for Standard, [1][n][n] for Accelerator1, [2][n][n] for Accelerator2, [3][n][n] for Accelerator3, [4][n][n] for Giant, [n][0][n] for running animation, [n][1][n] for jumping image, [n][2][n] for hitted animation, [n][n][0] for frame 1, [n][n][1] for frame 2 */
     QPixmap* itsBlockTilesList[2]; /**< The array that contains images of a Block, [0] for Block in basic state image, [1] for Block in hit state */
     QPixmap* itsGroundTile; /**< The image of a ground Block */
     QPixmap* itsPOWTilesList[2]; /**< The array that contains images of a POW, [0] for POW in normal state image, [1] for POW in hit state image */
@@ -45,19 +47,37 @@ public:
      * @brief Tileset::getItsPlayerRunningTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of the Player while is running at the frame wanted
      */
-    QPixmap* getItsPlayerRunningTile(unsigned short aFrame);
+    QPixmap* getItsPlayerRunningRightTile(unsigned short aFrame);
 
     /**
      * @brief Tileset::getItsPlayerJumpingTile() function declaration
      * @return QPixmap* : A pointer to the image of the Player while is jumping
      */
-    QPixmap* getItsPlayerJumpingTile();
+    QPixmap* getItsPlayerJumpingRightTile();
 
     /**
      * @brief Tileset::getItsPlayerHittingTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of the Player while is hitting at the frame wanted
      */
-    QPixmap* getItsPlayerHittingTile(unsigned short aFrame);
+    QPixmap* getItsPlayerHittingRightTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsPlayerRunningTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of the Player while is running at the frame wanted
+     */
+    QPixmap* getItsPlayerRunningLeftTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsPlayerJumpingTile() function declaration
+     * @return QPixmap* : A pointer to the image of the Player while is jumping
+     */
+    QPixmap* getItsPlayerJumpingLeftTile();
+
+    /**
+     * @brief Tileset::getItsPlayerHittingTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of the Player while is hitting at the frame wanted
+     */
+    QPixmap* getItsPlayerHittingLeftTile(unsigned short aFrame);
 
 
 
@@ -68,20 +88,37 @@ public:
      * @brief Tileset::getItsEnemyStandardRunningTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Standard in running at the frame wanted
      */
-    QPixmap* getItsEnemyStandardRunningTile(unsigned short aFrame);
+    QPixmap* getItsEnemyStandardRunningRightTile(unsigned short aFrame);
 
     /**
      * @brief Tileset::getItsEnemyStandardJumpingTile() function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Standard in jumping
      */
-    QPixmap* getItsEnemyStandardJumpingTile();
+    QPixmap* getItsEnemyStandardJumpingRightTile();
 
     /**
      * @brief Tileset::getItsEnemyStandardHittedTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Standard in hitted at the frame wanted
      */
-    QPixmap* getItsEnemyStandardHittedTile(unsigned short aFrame);
+    QPixmap* getItsEnemyStandardHittedRightTile(unsigned short aFrame);
 
+    /**
+     * @brief Tileset::getItsEnemyStandardRunningTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Standard in running at the frame wanted
+     */
+    QPixmap* getItsEnemyStandardRunningLeftTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsEnemyStandardJumpingTile() function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Standard in jumping
+     */
+    QPixmap* getItsEnemyStandardJumpingLeftTile();
+
+    /**
+     * @brief Tileset::getItsEnemyStandardHittedTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Standard in hitted at the frame wanted
+     */
+    QPixmap* getItsEnemyStandardHittedLeftTile(unsigned short aFrame);
 
 
 
@@ -91,19 +128,37 @@ public:
      * @brief Tileset::getItsEnemyAccelerator1RunningTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Accelerator1 while is running state 1 at the frame wanted
      */
-    QPixmap* getItsEnemyAccelerator1RunningTile(unsigned short aFrame);
+    QPixmap* getItsEnemyAccelerator1RunningRightTile(unsigned short aFrame);
 
     /**
      * @brief Tileset::getItsEnemyAccelerator1JumpingTile() function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state2 while is jumping
      */
-    QPixmap* getItsEnemyAccelerator1JumpingTile();
+    QPixmap* getItsEnemyAccelerator1JumpingRightTile();
 
     /**
      * @brief Tileset::getItsEnemyAcceleratorHittedTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Accelerator iwhile is hitted at the frame wanted
      */
-    QPixmap* getItsEnemyAccelerator1HittedTile(unsigned short aFrame);
+    QPixmap* getItsEnemyAccelerator1HittedRightTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsEnemyAccelerator1RunningTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Accelerator1 while is running state 1 at the frame wanted
+     */
+    QPixmap* getItsEnemyAccelerator1RunningLeftTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsEnemyAccelerator1JumpingTile() function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state2 while is jumping
+     */
+    QPixmap* getItsEnemyAccelerator1JumpingLeftTile();
+
+    /**
+     * @brief Tileset::getItsEnemyAcceleratorHittedTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Accelerator iwhile is hitted at the frame wanted
+     */
+    QPixmap* getItsEnemyAccelerator1HittedLeftTile(unsigned short aFrame);
 
 
 
@@ -112,19 +167,38 @@ public:
      * @brief Tileset::getItsEnemyAccelerator2RunningTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Accelerator while is running state 2 at the frame wanted
      */
-    QPixmap* getItsEnemyAccelerator2RunningTile(unsigned short aFrame);
+    QPixmap* getItsEnemyAccelerator2RunningRightTile(unsigned short aFrame);
 
     /**
      * @brief Tileset::getItsEnemyAccelerator2JumpingTile() function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state2 while is jumping
      */
-    QPixmap* getItsEnemyAccelerator2JumpingTile();
+    QPixmap* getItsEnemyAccelerator2JumpingRightTile();
 
     /**
      * @brief Tileset::getItsEnemyAccelerator2HittedTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state2 while is hitted at the frame wanted
      */
-    QPixmap* getItsEnemyAccelerator2HittedTile(unsigned short aFrame);
+    QPixmap* getItsEnemyAccelerator2HittedRightTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsEnemyAccelerator2RunningTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Accelerator while is running state 2 at the frame wanted
+     */
+    QPixmap* getItsEnemyAccelerator2RunningLeftTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsEnemyAccelerator2JumpingTile() function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state2 while is jumping
+     */
+    QPixmap* getItsEnemyAccelerator2JumpingLeftTile();
+
+    /**
+     * @brief Tileset::getItsEnemyAccelerator2HittedTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state2 while is hitted at the frame wanted
+     */
+    QPixmap* getItsEnemyAccelerator2HittedLeftTile(unsigned short aFrame);
+
 
 
 
@@ -133,19 +207,37 @@ public:
      * @brief Tileset::getItsEnemyAccelerator3RunningTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Accelerator while is running state 3 at the frame wanted
      */
-    QPixmap* getItsEnemyAccelerator3RunningTile(unsigned short aFrame);
+    QPixmap* getItsEnemyAccelerator3RunningRightTile(unsigned short aFrame);
 
     /**
      * @brief Tileset::getItsEnemyAccelerator3JumpingTile() function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state3 while is jumping
      */
-    QPixmap* getItsEnemyAccelerator3JumpingTile();
+    QPixmap* getItsEnemyAccelerator3JumpingRightTile();
 
     /**
      * @brief Tileset::getItsEnemyAccelerator3HittedTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state 3 while is hitted at the frame wanted
      */
-    QPixmap* getItsEnemyAccelerator3HittedTile(unsigned short aFrame);
+    QPixmap* getItsEnemyAccelerator3HittedRightTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsEnemyAccelerator3RunningTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Accelerator while is running state 3 at the frame wanted
+     */
+    QPixmap* getItsEnemyAccelerator3RunningLeftTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsEnemyAccelerator3JumpingTile() function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state3 while is jumping
+     */
+    QPixmap* getItsEnemyAccelerator3JumpingLeftTile();
+
+    /**
+     * @brief Tileset::getItsEnemyAccelerator3HittedTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Accelerator in state 3 while is hitted at the frame wanted
+     */
+    QPixmap* getItsEnemyAccelerator3HittedLeftTile(unsigned short aFrame);
 
 
 
@@ -155,19 +247,37 @@ public:
      * @brief Tileset::getItsEnemyGiantRunningTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Giant in running at the frame wanted
      */
-    QPixmap* getItsEnemyGiantRunningTile(unsigned short aFrame);
+    QPixmap* getItsEnemyGiantRunningRightTile(unsigned short aFrame);
 
     /**
      * @brief Tileset::getItsEnemyGiantJumpingTile() function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Giant in jumping
      */
-    QPixmap* getItsEnemyGiantdJumpingTile();
+    QPixmap* getItsEnemyGiantdJumpingRightTile();
 
     /**
      * @brief Tileset::getItsEnemyGiantHittedTile(unsigned short aFrame) function declaration
      * @return QPixmap* : A pointer to the image of an Enemy Giant in hitted at the frame wanted
      */
-    QPixmap* getItsEnemyGiantHittedTile(unsigned short aFrame);
+    QPixmap* getItsEnemyGiantHittedRightTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsEnemyGiantRunningTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Giant in running at the frame wanted
+     */
+    QPixmap* getItsEnemyGiantRunningLeftTile(unsigned short aFrame);
+
+    /**
+     * @brief Tileset::getItsEnemyGiantJumpingTile() function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Giant in jumping
+     */
+    QPixmap* getItsEnemyGiantdJumpingLeftTile();
+
+    /**
+     * @brief Tileset::getItsEnemyGiantHittedTile(unsigned short aFrame) function declaration
+     * @return QPixmap* : A pointer to the image of an Enemy Giant in hitted at the frame wanted
+     */
+    QPixmap* getItsEnemyGiantHittedLeftTile(unsigned short aFrame);
 
 
 

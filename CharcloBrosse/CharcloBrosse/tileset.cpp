@@ -31,71 +31,143 @@ TileSet::TileSet(std::string aTileSetFilePath, std::string aBackgroundFilePath)
     else
     {
         //< Chargement et stockage de chaque image une par une en précisant leur position et leur taille (possibilité de mettre des constantes à termes)
-        // Charclo court
-        itsPlayerTilesList[0][0] = new QPixmap(tileset.copy(1, 2, 32, 64));
-        itsPlayerTilesList[0][1] = new QPixmap(tileset.copy(34, 2, 32, 64));
-        // Charclo saute
-        itsPlayerTilesList[1][0] = new QPixmap(tileset.copy(67, 2, 32, 64));
-        itsPlayerTilesList[1][1] = nullptr;
-        // Charclo frappe
-        itsPlayerTilesList[2][0] = new QPixmap(tileset.copy(100, 2, 32, 64));
-        itsPlayerTilesList[2][1] = new QPixmap(tileset.copy(133, 2, 32, 64));
+
+        // Pour l'inversion horizontale
+        QTransform mirror;
+        mirror.scale(-1, 1);
+
+        // Charclo droite court
+        itsPlayerRightTilesList[0][0] = new QPixmap(tileset.copy(1, 2, 32, 64));
+        itsPlayerRightTilesList[0][1] = new QPixmap(tileset.copy(34, 2, 32, 64));
+        // Charclo droite saute
+        itsPlayerRightTilesList[1][0] = new QPixmap(tileset.copy(67, 2, 32, 64));
+        itsPlayerRightTilesList[1][1] = nullptr;
+        // Charclo droite frappe
+        itsPlayerRightTilesList[2][0] = new QPixmap(tileset.copy(100, 2, 32, 64));
+        itsPlayerRightTilesList[2][1] = new QPixmap(tileset.copy(133, 2, 32, 64));
 
 
-        // Ennemi standard court
-        itsEnemyTilesList[0][0][0] = new QPixmap(tileset.copy(1, 67, 32, 32));
-        itsEnemyTilesList[0][0][1] = new QPixmap(tileset.copy(34, 67, 32, 32));
-        // Ennemi standard tombe
-        itsEnemyTilesList[0][1][0] = new QPixmap(tileset.copy(67, 67, 32, 32));
-        itsEnemyTilesList[0][1][1] = nullptr;
-        // Ennemi standard immobilisé
-        itsEnemyTilesList[0][2][0] = new QPixmap(tileset.copy(100, 67, 32, 32));
-        itsEnemyTilesList[0][2][1] = new QPixmap(tileset.copy(133, 67, 32, 32));
+        // Charclo gauche court
+        itsPlayerLeftTilesList[0][0] = new QPixmap(tileset.copy(1, 2, 32, 64).transformed(mirror));
+        itsPlayerLeftTilesList[0][1] = new QPixmap(tileset.copy(34, 2, 32, 64).transformed(mirror));
+        // Charclo gauche saute
+        itsPlayerLeftTilesList[1][0] = new QPixmap(tileset.copy(67, 2, 32, 64).transformed(mirror));
+        itsPlayerLeftTilesList[1][1] = nullptr;
+        // Charclo gauche frappe
+        itsPlayerLeftTilesList[2][0] = new QPixmap(tileset.copy(100, 2, 32, 64).transformed(mirror));
+        itsPlayerLeftTilesList[2][1] = new QPixmap(tileset.copy(133, 2, 32, 64).transformed(mirror));
 
 
-        // Ennemi accélérateur état1 court
-        itsEnemyTilesList[1][0][0] = new QPixmap(tileset.copy(1, 100, 32, 32));
-        itsEnemyTilesList[1][0][1] = new QPixmap(tileset.copy(34, 100, 32, 32));
-        // Ennemi accélérateur état1 tombe
-        itsEnemyTilesList[1][1][0] = new QPixmap(tileset.copy(67, 100, 32, 32));
-        itsEnemyTilesList[1][1][1] = nullptr;
-        // Ennemi accélérateur état1 immobilisé
-        itsEnemyTilesList[1][2][0] = new QPixmap(tileset.copy(100, 100, 32, 32));
-        itsEnemyTilesList[1][2][1] = new QPixmap(tileset.copy(133, 100, 32, 32));
+        // Ennemi droite standard court
+        itsEnemyRightTilesList[0][0][0] = new QPixmap(tileset.copy(1, 67, 32, 32));
+        itsEnemyRightTilesList[0][0][1] = new QPixmap(tileset.copy(34, 67, 32, 32));
+        // Ennemi droite standard tombe
+        itsEnemyRightTilesList[0][1][0] = new QPixmap(tileset.copy(67, 67, 32, 32));
+        itsEnemyRightTilesList[0][1][1] = nullptr;
+        // Ennemi droite standard immobilisé
+        itsEnemyRightTilesList[0][2][0] = new QPixmap(tileset.copy(100, 67, 32, 32));
+        itsEnemyRightTilesList[0][2][1] = new QPixmap(tileset.copy(133, 67, 32, 32));
 
 
-        // Ennemi accélérateur état2 court
-        itsEnemyTilesList[2][0][0] = new QPixmap(tileset.copy(1, 133, 32, 32));
-        itsEnemyTilesList[2][0][1] = new QPixmap(tileset.copy(34, 133, 32, 32));
-        // Ennemi accélérateur état2 tombe
-        itsEnemyTilesList[2][1][0] = new QPixmap(tileset.copy(67, 133, 32, 32));
-        itsEnemyTilesList[2][1][1] = nullptr;
-        // Ennemi accélérateur état2 immobilisé
-        itsEnemyTilesList[2][2][0] = new QPixmap(tileset.copy(100, 133, 32, 32));
-        itsEnemyTilesList[2][2][1] = new QPixmap(tileset.copy(133, 133, 32, 32));
-
-
-        // Ennemi accélérateur état2 court
-        itsEnemyTilesList[3][0][0] = new QPixmap(tileset.copy(1, 166, 32, 32));
-        itsEnemyTilesList[3][0][1] = new QPixmap(tileset.copy(34, 166, 32, 32));
-        // Ennemi accélérateur état2 tombe
-        itsEnemyTilesList[3][1][0] = new QPixmap(tileset.copy(67, 166, 32, 32));
-        itsEnemyTilesList[3][1][1] = nullptr;
-        // Ennemi accélérateur état2 immobilisé
-        itsEnemyTilesList[3][2][0] = new QPixmap(tileset.copy(100, 166, 32, 32));
-        itsEnemyTilesList[3][2][1] = new QPixmap(tileset.copy(133, 166, 32, 32));
+        // Ennemi gauche standard court
+        itsEnemyLeftTilesList[0][0][0] = new QPixmap(tileset.copy(1, 67, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[0][0][1] = new QPixmap(tileset.copy(34, 67, 32, 32).transformed(mirror));
+        // Ennemi gauche standard tombe
+        itsEnemyLeftTilesList[0][1][0] = new QPixmap(tileset.copy(67, 67, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[0][1][1] = nullptr;
+        // Ennemi gauche standard immobilisé
+        itsEnemyLeftTilesList[0][2][0] = new QPixmap(tileset.copy(100, 67, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[0][2][1] = new QPixmap(tileset.copy(133, 67, 32, 32).transformed(mirror));
 
 
 
-        // Ennemi Giant court
-        itsEnemyTilesList[4][0][0] = new QPixmap(tileset.copy(1, 199, 32, 96));
-        itsEnemyTilesList[4][0][1] = new QPixmap(tileset.copy(34, 199, 32, 96));
-        // Ennemi Giant tombe
-        itsEnemyTilesList[4][1][0] = new QPixmap(tileset.copy(67, 199, 32, 96));
-        itsEnemyTilesList[4][1][1] = nullptr;
-        // Ennemi Giant immobilisé
-        itsEnemyTilesList[4][2][0] = new QPixmap(tileset.copy(100, 199, 32, 96));
-        itsEnemyTilesList[4][2][1] = new QPixmap(tileset.copy(133, 199, 32, 96));
+        // Ennemi droite accélérateur état1 court
+        itsEnemyRightTilesList[1][0][0] = new QPixmap(tileset.copy(1, 100, 32, 32));
+        itsEnemyRightTilesList[1][0][1] = new QPixmap(tileset.copy(34, 100, 32, 32));
+        // Ennemi droite accélérateur état1 tombe
+        itsEnemyRightTilesList[1][1][0] = new QPixmap(tileset.copy(67, 100, 32, 32));
+        itsEnemyRightTilesList[1][1][1] = nullptr;
+        // Ennemi droite accélérateur état1 immobilisé
+        itsEnemyRightTilesList[1][2][0] = new QPixmap(tileset.copy(100, 100, 32, 32));
+        itsEnemyRightTilesList[1][2][1] = new QPixmap(tileset.copy(133, 100, 32, 32));
+
+
+        // Ennemi gauche accélérateur état1 court
+        itsEnemyLeftTilesList[1][0][0] = new QPixmap(tileset.copy(1, 100, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[1][0][1] = new QPixmap(tileset.copy(34, 100, 32, 32).transformed(mirror));
+        // Ennemi gauche accélérateur état1 tombe
+        itsEnemyLeftTilesList[1][1][0] = new QPixmap(tileset.copy(67, 100, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[1][1][1] = nullptr;
+        // Ennemi gauche accélérateur état1 immobilisé
+        itsEnemyLeftTilesList[1][2][0] = new QPixmap(tileset.copy(100, 100, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[1][2][1] = new QPixmap(tileset.copy(133, 100, 32, 32).transformed(mirror));
+
+
+        // Ennemi droite accélérateur état2 court
+        itsEnemyRightTilesList[2][0][0] = new QPixmap(tileset.copy(1, 133, 32, 32));
+        itsEnemyRightTilesList[2][0][1] = new QPixmap(tileset.copy(34, 133, 32, 32));
+        // Ennemi droite accélérateur état2 tombe
+        itsEnemyRightTilesList[2][1][0] = new QPixmap(tileset.copy(67, 133, 32, 32));
+        itsEnemyRightTilesList[2][1][1] = nullptr;
+        // Ennemi droite accélérateur état2 immobilisé
+        itsEnemyRightTilesList[2][2][0] = new QPixmap(tileset.copy(100, 133, 32, 32));
+        itsEnemyRightTilesList[2][2][1] = new QPixmap(tileset.copy(133, 133, 32, 32));
+
+
+        // Ennemi gauche accélérateur état2 court
+        itsEnemyLeftTilesList[2][0][0] = new QPixmap(tileset.copy(1, 133, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[2][0][1] = new QPixmap(tileset.copy(34, 133, 32, 32).transformed(mirror));
+        // Ennemi gacuhe accélérateur état2 tombe
+        itsEnemyLeftTilesList[2][1][0] = new QPixmap(tileset.copy(67, 133, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[2][1][1] = nullptr;
+        // Ennemi gauche accélérateur état2 immobilisé
+        itsEnemyLeftTilesList[2][2][0] = new QPixmap(tileset.copy(100, 133, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[2][2][1] = new QPixmap(tileset.copy(133, 133, 32, 32).transformed(mirror));
+
+
+        // Ennemi droite accélérateur état3 court
+        itsEnemyRightTilesList[3][0][0] = new QPixmap(tileset.copy(1, 166, 32, 32));
+        itsEnemyRightTilesList[3][0][1] = new QPixmap(tileset.copy(34, 166, 32, 32));
+        // Ennemi droite accélérateur état3 tombe
+        itsEnemyRightTilesList[3][1][0] = new QPixmap(tileset.copy(67, 166, 32, 32));
+        itsEnemyRightTilesList[3][1][1] = nullptr;
+        // Ennemi droite accélérateur état3 immobilisé
+        itsEnemyRightTilesList[3][2][0] = new QPixmap(tileset.copy(100, 166, 32, 32));
+        itsEnemyRightTilesList[3][2][1] = new QPixmap(tileset.copy(133, 166, 32, 32));
+
+
+        // Ennemi gauche accélérateur état3 court
+        itsEnemyLeftTilesList[3][0][0] = new QPixmap(tileset.copy(1, 166, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[3][0][1] = new QPixmap(tileset.copy(34, 166, 32, 32).transformed(mirror));
+        // Ennemi gauche accélérateur état3 tombe
+        itsEnemyLeftTilesList[3][1][0] = new QPixmap(tileset.copy(67, 166, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[3][1][1] = nullptr;
+        // Ennemi gauche accélérateur état3 immobilisé
+        itsEnemyLeftTilesList[3][2][0] = new QPixmap(tileset.copy(100, 166, 32, 32).transformed(mirror));
+        itsEnemyLeftTilesList[3][2][1] = new QPixmap(tileset.copy(133, 166, 32, 32).transformed(mirror));
+
+
+
+        // Ennemi droite Giant court
+        itsEnemyRightTilesList[4][0][0] = new QPixmap(tileset.copy(1, 199, 32, 96));
+        itsEnemyRightTilesList[4][0][1] = new QPixmap(tileset.copy(34, 199, 32, 96));
+        // Ennemi droite Giant tombe
+        itsEnemyRightTilesList[4][1][0] = new QPixmap(tileset.copy(67, 199, 32, 96));
+        itsEnemyRightTilesList[4][1][1] = nullptr;
+        // Ennemi droite Giant immobilisé
+        itsEnemyRightTilesList[4][2][0] = new QPixmap(tileset.copy(100, 199, 32, 96));
+        itsEnemyRightTilesList[4][2][1] = new QPixmap(tileset.copy(133, 199, 32, 96));
+
+
+        // Ennemi gauche Giant court
+        itsEnemyLeftTilesList[4][0][0] = new QPixmap(tileset.copy(1, 199, 32, 96).transformed(mirror));
+        itsEnemyLeftTilesList[4][0][1] = new QPixmap(tileset.copy(34, 199, 32, 96).transformed(mirror));
+        // Ennemi gauche Giant tombe
+        itsEnemyLeftTilesList[4][1][0] = new QPixmap(tileset.copy(67, 199, 32, 96).transformed(mirror));
+        itsEnemyLeftTilesList[4][1][1] = nullptr;
+        // Ennemi gauche Giant immobilisé
+        itsEnemyLeftTilesList[4][2][0] = new QPixmap(tileset.copy(100, 199, 32, 96).transformed(mirror));
+        itsEnemyLeftTilesList[4][2][1] = new QPixmap(tileset.copy(133, 199, 32, 96).transformed(mirror));
 
 
         // Block normal
@@ -164,15 +236,15 @@ TileSet::TileSet(std::string aTileSetFilePath, std::string aBackgroundFilePath)
     //> Vérification de l'ouverture du fichier et lancement d'une exception si non
 }
 
-QPixmap *TileSet::getItsPlayerRunningTile(unsigned short aFrame)
+QPixmap *TileSet::getItsPlayerRunningRightTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsPlayerTilesList[0][0];
+        return itsPlayerRightTilesList[0][0];
     }
     else if (aFrame == 1)
     {
-        return itsPlayerTilesList[0][1];
+        return itsPlayerRightTilesList[0][1];
     }
     else
     {
@@ -180,20 +252,20 @@ QPixmap *TileSet::getItsPlayerRunningTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsPlayerJumpingTile()
+QPixmap *TileSet::getItsPlayerJumpingRightTile()
 {
-    return itsPlayerTilesList[1][0];
+    return itsPlayerRightTilesList[1][0];
 }
 
-QPixmap *TileSet::getItsPlayerHittingTile(unsigned short aFrame)
+QPixmap *TileSet::getItsPlayerHittingRightTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsPlayerTilesList[2][0];
+        return itsPlayerRightTilesList[2][0];
     }
     else if (aFrame == 1)
     {
-        return itsPlayerTilesList[2][1];
+        return itsPlayerRightTilesList[2][1];
     }
     else
     {
@@ -201,15 +273,15 @@ QPixmap *TileSet::getItsPlayerHittingTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsEnemyStandardRunningTile(unsigned short aFrame)
+QPixmap *TileSet::getItsPlayerRunningLeftTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[0][0][0];
+        return itsPlayerLeftTilesList[0][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[0][0][1];
+        return itsPlayerLeftTilesList[0][1];
     }
     else
     {
@@ -217,20 +289,94 @@ QPixmap *TileSet::getItsEnemyStandardRunningTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsEnemyStandardJumpingTile()
+QPixmap *TileSet::getItsPlayerJumpingLeftTile()
 {
-    return itsEnemyTilesList[0][1][0];
+    return itsPlayerLeftTilesList[1][0];
 }
 
-QPixmap *TileSet::getItsEnemyStandardHittedTile(unsigned short aFrame)
+QPixmap *TileSet::getItsPlayerHittingLeftTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[0][2][0];
+        return itsPlayerLeftTilesList[2][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[0][2][1];
+        return itsPlayerLeftTilesList[2][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyStandardRunningRightTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyRightTilesList[0][0][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyRightTilesList[0][0][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyStandardJumpingRightTile()
+{
+    return itsEnemyRightTilesList[0][1][0];
+}
+
+QPixmap *TileSet::getItsEnemyStandardHittedRightTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyRightTilesList[0][2][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyRightTilesList[0][2][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyStandardRunningLeftTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyLeftTilesList[0][0][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyLeftTilesList[0][0][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyStandardJumpingLeftTile()
+{
+    return itsEnemyLeftTilesList[0][1][0];
+}
+
+QPixmap *TileSet::getItsEnemyStandardHittedLeftTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyLeftTilesList[0][2][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyLeftTilesList[0][2][1];
     }
     else
     {
@@ -239,15 +385,15 @@ QPixmap *TileSet::getItsEnemyStandardHittedTile(unsigned short aFrame)
 }
 
 
-QPixmap *TileSet::getItsEnemyAccelerator1RunningTile(unsigned short aFrame)
+QPixmap *TileSet::getItsEnemyAccelerator1RunningRightTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[1][0][0];
+        return itsEnemyRightTilesList[1][0][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[1][0][1];
+        return itsEnemyRightTilesList[1][0][1];
     }
     else
     {
@@ -255,20 +401,20 @@ QPixmap *TileSet::getItsEnemyAccelerator1RunningTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsEnemyAccelerator1JumpingTile()
+QPixmap *TileSet::getItsEnemyAccelerator1JumpingRightTile()
 {
-    return itsEnemyTilesList[1][1][0];
+    return itsEnemyRightTilesList[1][1][0];
 }
 
-QPixmap *TileSet::getItsEnemyAccelerator1HittedTile(unsigned short aFrame)
+QPixmap *TileSet::getItsEnemyAccelerator1HittedRightTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[1][2][0];
+        return itsEnemyRightTilesList[1][2][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[1][2][1];
+        return itsEnemyRightTilesList[1][2][1];
     }
     else
     {
@@ -276,15 +422,15 @@ QPixmap *TileSet::getItsEnemyAccelerator1HittedTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsEnemyAccelerator2RunningTile(unsigned short aFrame)
+QPixmap *TileSet::getItsEnemyAccelerator1RunningLeftTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[2][0][0];
+        return itsEnemyLeftTilesList[1][0][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[2][0][1];
+        return itsEnemyLeftTilesList[1][0][1];
     }
     else
     {
@@ -292,20 +438,20 @@ QPixmap *TileSet::getItsEnemyAccelerator2RunningTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsEnemyAccelerator2JumpingTile()
+QPixmap *TileSet::getItsEnemyAccelerator1JumpingLeftTile()
 {
-    return itsEnemyTilesList[2][1][0];
+    return itsEnemyLeftTilesList[1][1][0];
 }
 
-QPixmap *TileSet::getItsEnemyAccelerator2HittedTile(unsigned short aFrame)
+QPixmap *TileSet::getItsEnemyAccelerator1HittedLeftTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[2][2][0];
+        return itsEnemyLeftTilesList[1][2][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[2][2][1];
+        return itsEnemyLeftTilesList[1][2][1];
     }
     else
     {
@@ -313,15 +459,15 @@ QPixmap *TileSet::getItsEnemyAccelerator2HittedTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsEnemyAccelerator3RunningTile(unsigned short aFrame)
+QPixmap *TileSet::getItsEnemyAccelerator2RunningRightTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[3][0][0];
+        return itsEnemyRightTilesList[2][0][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[3][0][1];
+        return itsEnemyRightTilesList[2][0][1];
     }
     else
     {
@@ -329,20 +475,20 @@ QPixmap *TileSet::getItsEnemyAccelerator3RunningTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsEnemyAccelerator3JumpingTile()
+QPixmap *TileSet::getItsEnemyAccelerator2JumpingRightTile()
 {
-    return itsEnemyTilesList[3][1][0];
+    return itsEnemyRightTilesList[2][1][0];
 }
 
-QPixmap *TileSet::getItsEnemyAccelerator3HittedTile(unsigned short aFrame)
+QPixmap *TileSet::getItsEnemyAccelerator2HittedRightTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[3][2][0];
+        return itsEnemyRightTilesList[2][2][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[3][2][1];
+        return itsEnemyRightTilesList[2][2][1];
     }
     else
     {
@@ -350,15 +496,15 @@ QPixmap *TileSet::getItsEnemyAccelerator3HittedTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsEnemyGiantRunningTile(unsigned short aFrame)
+QPixmap *TileSet::getItsEnemyAccelerator2RunningLeftTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[4][0][0];
+        return itsEnemyLeftTilesList[2][0][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[4][0][1];
+        return itsEnemyLeftTilesList[2][0][1];
     }
     else
     {
@@ -366,20 +512,168 @@ QPixmap *TileSet::getItsEnemyGiantRunningTile(unsigned short aFrame)
     }
 }
 
-QPixmap *TileSet::getItsEnemyGiantdJumpingTile()
+QPixmap *TileSet::getItsEnemyAccelerator2JumpingLeftTile()
 {
-    return itsEnemyTilesList[4][1][0];
+    return itsEnemyLeftTilesList[2][1][0];
 }
 
-QPixmap *TileSet::getItsEnemyGiantHittedTile(unsigned short aFrame)
+QPixmap *TileSet::getItsEnemyAccelerator2HittedLeftTile(unsigned short aFrame)
 {
     if(aFrame == 0)
     {
-        return itsEnemyTilesList[4][2][0];
+        return itsEnemyLeftTilesList[2][0][0];
     }
     else if (aFrame == 1)
     {
-        return itsEnemyTilesList[4][2][1];
+        return itsEnemyLeftTilesList[2][0][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyAccelerator3RunningRightTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyRightTilesList[3][0][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyRightTilesList[3][0][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyAccelerator3JumpingRightTile()
+{
+    return itsEnemyRightTilesList[3][1][0];
+}
+
+QPixmap *TileSet::getItsEnemyAccelerator3HittedRightTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyRightTilesList[3][2][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyRightTilesList[3][2][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyAccelerator3RunningLeftTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyLeftTilesList[3][0][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyLeftTilesList[3][0][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyAccelerator3JumpingLeftTile()
+{
+    return itsEnemyLeftTilesList[3][1][0];
+}
+
+QPixmap *TileSet::getItsEnemyAccelerator3HittedLeftTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyLeftTilesList[3][0][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyLeftTilesList[3][0][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyGiantRunningRightTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyRightTilesList[4][0][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyRightTilesList[4][0][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyGiantdJumpingRightTile()
+{
+    return itsEnemyRightTilesList[4][1][0];
+}
+
+QPixmap *TileSet::getItsEnemyGiantHittedRightTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyRightTilesList[4][2][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyRightTilesList[4][2][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyGiantRunningLeftTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyLeftTilesList[4][0][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyLeftTilesList[4][0][1];
+    }
+    else
+    {
+        return itsNoTextureTile;
+    }
+}
+
+QPixmap *TileSet::getItsEnemyGiantdJumpingLeftTile()
+{
+    return itsEnemyLeftTilesList[4][1][0];
+}
+
+QPixmap *TileSet::getItsEnemyGiantHittedLeftTile(unsigned short aFrame)
+{
+    if(aFrame == 0)
+    {
+        return itsEnemyLeftTilesList[4][2][0];
+    }
+    else if (aFrame == 1)
+    {
+        return itsEnemyLeftTilesList[4][2][1];
     }
     else
     {
