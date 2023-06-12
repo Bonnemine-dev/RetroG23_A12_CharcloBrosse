@@ -27,8 +27,8 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 
-#define TILESET_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/ressources/tileset_exclu.png"
-#define LEVEL_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/ressources/level1.json"
+#define TILESET_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/tileset0.png"
+#define LEVEL_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/level1.json"
 
 enum MenuState {
     MAINMENU,
@@ -53,6 +53,7 @@ enum EnemyType{
 
 enum BlockType{
     BRICK,
-    GROUND
+    GROUND,
+    OBSTACLE
 };
 #endif // TYPEDEF_H
