@@ -1,0 +1,4 @@
+<map id="Game" name="Game">
+<area shape="rect" id="node1" title="Class that represents a game, with all the necessary attributes and all the necessary methods to play..." alt="" coords="12,79,69,104"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,76,31"/>
+</map>
