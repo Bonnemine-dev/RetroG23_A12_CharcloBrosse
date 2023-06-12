@@ -116,8 +116,14 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             if (block == 1){ // if ground block
                 itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile()));
             }
-            if (block == 2){ // if platform block
+            else if (block == 2){ // if platform block
                 itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile())));
+            }
+            if (block == 1){ // if ground block
+                itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile()));
+            }
+            else if (block == 3){ // if platform block
+                itsBlockList.push_back((new Obstacle(col*32, line*32, 32, 32, tileSet->getItsGroundTile())));
             }
         }
     }
@@ -127,6 +133,24 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         std::string type = jsonLine[0].toString().toStdString(); // get the type of the enemy in string
         if (type == "standard"){ // if a standard enemy
             itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyTile())); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
+        else if (type == "giant"){ // if a standard enemy
+            itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsPlayerTile())); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
+        else if (type == "freezer"){ // if a standard enemy
+            itsRemainingEnemies.push_back(new Freezer(32, 32, tileSet->getItsGroundTile())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }

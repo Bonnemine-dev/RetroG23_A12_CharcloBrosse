@@ -20,6 +20,7 @@ SOURCES += \
         level.cpp \
         main.cpp \
         money.cpp \
+        obstacle.cpp \
         player.cpp \
         spawner.cpp \
         standard.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     hmi.h \
     level.h \
     money.h \
+    obstacle.h \
     player.h \
     spawner.h \
     standard.h \

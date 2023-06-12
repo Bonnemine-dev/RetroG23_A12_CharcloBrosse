@@ -51,3 +51,5 @@ Block::Block( short x,  short y,  short height,  short width, QPixmap * sprite)
 
 }
 
+Block::~Block() {}
+

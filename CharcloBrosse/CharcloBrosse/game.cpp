@@ -112,23 +112,33 @@ void Game::checkAllCollid(){
     itsPlayer->setIsOnTheGround(false);
     // qWarning() << "player to block";
     for (Block * block : itsLevel->getItsBlockList()){
-        //        //std::cout<<"Le x de e2 : "<<itsPlayer->getItsX()<<" / le x + width de e1 : "<<block->getItsX() + block->getItsWidth()<<" / soit la condition : "<<(itsPlayer->getItsX() > (block->getItsX() + block->getItsWidth()))<<"\n";
-        if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
+
+        if (Obstacle* obstacle = dynamic_cast<Obstacle*>(block))
         {
-            block->setItsCounter(block->getItsCounter() - 1);
-            block->setItsSprite(itsTileSet->getItsBlockHitTile());
+            if (collid(itsPlayer, obstacle))
+            {
+                colBtwPlayerAndObstacle(itsPlayer, obstacle);
+            }
         }
         else
         {
-            block->setItsState(false);
-            block->setItsSprite(itsTileSet->getItsBlockTile());
-        }
-        if(collid(itsPlayer, block) == true){
-            displayCoord(itsPlayer, block);
-            colBtwPlayerAndBlock(itsPlayer, block);
-            if (isOnTop(itsPlayer, block)){
-                playerGravity = false;
-                itsPlayer->setIsOnTheGround(true);
+            if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
+            {
+                block->setItsCounter(block->getItsCounter() - 1);
+                block->setItsSprite(itsTileSet->getItsBlockHitTile());
+            }
+            else
+            {
+                block->setItsState(false);
+                block->setItsSprite(itsTileSet->getItsBlockTile());
+            }
+            if(collid(itsPlayer, block) == true){
+                displayCoord(itsPlayer, block);
+                colBtwPlayerAndBlock(itsPlayer, block);
+                if (isOnTop(itsPlayer, block)){
+                    playerGravity = false;
+                    itsPlayer->setIsOnTheGround(true);
+                }
             }
         }
     }
@@ -294,6 +304,14 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
         itsLevel->removeEnemy(theEnemy);
 
     }
+}
+
+void Game::colBtwPlayerAndObstacle(Player* thePlayer,Obstacle* theObstacle)
+{
+    thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
+    thePlayer->setX((32*39)/2);
+    thePlayer->setY(32);
+    thePlayer->getItsRect()->moveTo((32*39)/2,32);
 }
 
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
