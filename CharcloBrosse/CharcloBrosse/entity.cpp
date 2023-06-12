@@ -7,7 +7,6 @@
  */
 
 #include "entity.h"
-#include "qdebug.h"
 
 //Methode display()
 void Entity::display(QPainter * painter)

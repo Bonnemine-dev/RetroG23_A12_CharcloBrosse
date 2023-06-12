@@ -60,7 +60,7 @@ private:
 
     double itsEllapsedTime;
 
-    int countJump;
+    unsigned short int itsLoopCounter;
 
     //    DB_Score itsDBScore;
 
@@ -100,6 +100,8 @@ public :
      * @param theDespawner the despawner concerned
      */
     void colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner);
+
+    void colBtwPlayerAndObstacle(Player* thePlayer);
 
     /**
      * @brief Method launched when the player collides with an obstacle
