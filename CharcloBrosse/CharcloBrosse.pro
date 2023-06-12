@@ -1,4 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    CharcloBrosse
+    CharcloBrosse \
+    test_DB_Score \
+    test_DB_Score \
+    test_DB_Score
