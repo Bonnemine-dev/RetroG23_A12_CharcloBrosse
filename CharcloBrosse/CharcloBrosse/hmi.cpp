@@ -46,7 +46,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
 
     // Initialisation des widgets pour le rules menu
     rulesLayout = new QVBoxLayout;
-    rulesText = new QLabel("In this game, the player controls the main character, Charclo, and must navigate through levels composed of platforms and blocks.\n The objective is to defeat all the enemies, collect coins and bills to unlock score multipliers, and complete the levels as quickly as possible. To control Charclo, the player uses the arrow keys to move left or right, and the up arrow key to jump.\n Pressing the \"Escape\" key allows the player to pause the game.");
+    rulesText = new QLabel("In this game, the player controls the main character, Charclo, and must navigate through levels composed of platforms and blocks.\nThe objective is to defeat all the enemies, collect coins and bills to unlock score multipliers, and complete the levels as quickly as possible.\nTo control Charclo, the player uses the arrow keys to move left or right, and the up arrow key to jump.\nPressing the \"Escape\" key allows the player to pause the game.");
     goBackButton = new QPushButton("Go back");
 
     // Initialisation du QLabel pour le highscoreList du main
@@ -55,6 +55,8 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     QFont font = scoresLabel->font();
     font.setPointSize(13);
     scoresLabel->setFont(font);
+    rulesText->setAlignment(Qt::AlignCenter);
+    rulesText->setFont(font);
 
     // Initialisation du QLabel pour le highscoreList du gameover
     scoreLabelGameOver = new QLabel(this);
