@@ -10,10 +10,9 @@
 #define ENEMY_H
 
 #include <QPixmap>
-
+#include "typedef.h"
 #include "entity.h"
 
-enum EnemyType {STANDARD=100, ACCELERATOR=200, JUMPER=300, GIANT=400, FREEZER=500};
 
 /**
  * @class Enemy
