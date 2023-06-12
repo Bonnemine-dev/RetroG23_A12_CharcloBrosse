@@ -7,6 +7,7 @@
  */
 
 #include "level.h"
+#include "typedef.h"
 
 std::vector<Block *> Level::getItsBlockList() const
 {
@@ -111,10 +112,10 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         for (unsigned short col=0; col < jsonLine.size(); col++){ // for each column
             int block = jsonLine[col].toInt(0); // get the block number (0 for nothing, 1 for the ground, 2 for the platform)
             if (block == 1){ // if ground block
-                itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile()));
+                itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile(),GROUND));
             }
             if (block == 2){ // if platform block
-                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile())));
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(),BRICK)));
             }
         }
     }
