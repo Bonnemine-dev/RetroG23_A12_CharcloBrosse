@@ -16,17 +16,17 @@
  * Generate and stock all images from the file specified
  * @param string aFilePath : The path to the file which contains all images (tileset)
  */
-TileSet::TileSet(const std::string aFilePath)
+TileSet::TileSet(std::string aTileSetFilePath, std::string aBackgroundFilePath)
 {
     //< Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
-    QString filePath = QString::fromStdString(aFilePath);
-    QPixmap tileset(filePath);
+    QString tileSetFilePath = QString::fromStdString(aTileSetFilePath);
+    QPixmap tileset(tileSetFilePath);
     //> Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
 
     //< Vérification de l'ouverture du fichier et lancement d'une exception si non
     if(tileset.isNull())
     {
-       throw std::string("File unfound (Tileset::Tileset(const std::string aFilePath)");
+       throw std::string("Tileset file unfound (Tileset::Tileset(const std::string aFilePath)");
     }
     else
     {
@@ -44,16 +44,31 @@ TileSet::TileSet(const std::string aFilePath)
         //> Chargement et stockage de chaque image une par une en précisant leur position et leur taille (possibilité de mettre des constantes à termes)
     }
     //> Vérification de l'ouverture du fichier et lancement d'une exception si non
+
+
+
+    //< Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
+    QString backgroundFilePath = QString::fromStdString(aBackgroundFilePath);
+    QPixmap background(backgroundFilePath);
+    //> Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
+
+    //< Vérification de l'ouverture du fichier et lancement d'une exception si non
+    if(background.isNull())
+    {
+       throw std::string("Background file unfound (Tileset::Tileset(const std::string aFilePath)");
+    }
+    else
+    {
+        // Chargement et stockage du background
+        itsBackground = new QPixmap(background);
+
+    }
+    //> Vérification de l'ouverture du fichier et lancement d'une exception si non
 }
 
-/**
- * @brief Tileset::getItsPlayerTile() function implementation
- * @return QPixmap* : A pointer to the image of the Player
- */
-QPixmap* TileSet::getItsPlayerTile()
-{
-    return itsPlayerTile;
-}
+
+
+
 
 /**
  * @brief Tileset::getItsBlockTile() function implementation
@@ -68,7 +83,7 @@ QPixmap* TileSet::getItsBlockTile()
  * @brief Tileset::getItsBlockHitTile() function implementation
  * @return QPixmap* : A pointer to the image of a Block in a hit state
  */
-QPixmap* TileSet::getItsBlockHitTile()
+QPixmap* TileSet::getItsBlockHittedTile()
 {
     return itsBlockTilesList[1];
 }
@@ -82,23 +97,7 @@ QPixmap *TileSet::getItsGroundTile()
     return itsGroundTile;
 }
 
-/**
- * @brief Tileset::getItsEnemyTile() function implementation
- * @return QPixmap* : A pointer to the image of an Enemy in normal state
- */
-QPixmap* TileSet::getItsEnemyTile()
-{
-    return itsEnemyTilesList[0];
-}
 
-/**
- * @brief Tileset::getItsEnemyHitTile() function implementation
- * @return QPixmap* : A pointer to the image of an Enemy in hit state
- */
-QPixmap* TileSet::getItsEnemyHitTile()
-{
-    return itsEnemyTilesList[1];
-}
 
 /**
  * @brief Tileset::getItsSpawnerTile(unsigned short index) function implementation
