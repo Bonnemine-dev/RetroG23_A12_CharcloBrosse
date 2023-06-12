@@ -73,7 +73,7 @@ void Game::gameLoop()
         itsHMI->stopGame();
     }
     unsigned int elapsedTime = timer.nsecsElapsed();
-//    qWarning() << "Game loop execution time in nanoseconds : " << elapsedTime;
+    qWarning() << "Game loop execution time in nanoseconds : " << elapsedTime;
 }
 
 
@@ -92,15 +92,17 @@ void Game::checkAllCollid(){
     bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
     itsPlayer->setIsOnTheGround(false);
     for (Block * block : itsLevel->getItsBlockList()){
-        if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
-        {
-            block->setItsCounter(block->getItsCounter() - 1);
-            block->setItsSprite(itsTileSet->getItsBlockHitTile());
-        }
-        else
-        {
-            block->setItsState(false);
-            block->setItsSprite(itsTileSet->getItsBlockTile());
+        if(block->getItsType() == BRICK){
+            if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
+            {
+                block->setItsCounter(block->getItsCounter() - 1);
+                block->setItsSprite(itsTileSet->getItsBlockHitTile());
+            }
+            else
+            {
+                block->setItsState(false);
+                block->setItsSprite(itsTileSet->getItsBlockTile());
+            }
         }
         if(collid(itsPlayer, block) == true){
             colBtwPlayerAndBlock(itsPlayer, block);

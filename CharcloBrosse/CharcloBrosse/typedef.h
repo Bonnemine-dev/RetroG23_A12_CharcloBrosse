@@ -51,4 +51,8 @@ enum EnemyType{
     FREEZER=500
 };
 
+enum BlockType{
+    BRICK,
+    GROUND
+};
 #endif // TYPEDEF_H
