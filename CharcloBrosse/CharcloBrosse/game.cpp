@@ -20,7 +20,7 @@
 Game::Game()
 {
     itsTileSet = new TileSet(TILESET_FILE_PATH);
-    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
+    itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerTile());
     itsLevel = new Level(LEVEL_FILE_PATH,itsTileSet);
     itsHMI = new HMI(itsLevel, itsPlayer, this);
     itsEllapsedTime = 0;
@@ -151,7 +151,7 @@ void Game::checkAllCollid(){
                 }
             }
             for (Block * block : itsLevel->getItsBlockList()){
-                if (collid(enemy1, block)){
+                if (collid(enemy1, block) && (block->getItsType() == BRICK || block->getItsType() == GROUND)){
                     if (isOnTop(enemy1, block)){
                         gravityList[i1] = false;
                     }
