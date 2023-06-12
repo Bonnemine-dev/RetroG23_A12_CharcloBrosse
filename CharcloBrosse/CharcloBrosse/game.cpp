@@ -177,7 +177,7 @@ void Game::checkAllCollid(){
                 }
             }
             for (Block * block : itsLevel->getItsBlockList()){
-                if (collid(enemy1, block) && (block->getItsType() == BRICK || block->getItsType() == GROUND)){
+                if (collid(enemy1, block) && (block->getItsType() == BRICK || block->getItsType() == GROUND || block->getItsType() == POW)){
                     if (isOnTop(enemy1, block)){
                         gravityList[i1] = false;
                     }
@@ -262,6 +262,12 @@ void Game::colBtwPlayerAndObstacle(Player* thePlayer)
     thePlayer->setItsNextMove(NONE);
 }
 
+void Game::colBtwPlayerAndBlockPOW(Block *theBlockPOW)
+{
+    theBlockPOW->setItsState(true);
+    theBlockPOW->setItsSprite(itsTileSet->getItsPOWBlockHittedTile());
+}
+
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
 {
     if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
@@ -332,9 +338,19 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsYSpeed() < STILL)
     {
-        thePlayer->setItsRemaningJumpMove(0);//à remplacer par STILL pour l'instant inverse la vitesse
-        theBlock->setItsState(true);
-        theBlock->setItsCounter((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME);
+        // Si le bloc est un bloc POW
+        if(theBlock->getItsType() == POW)
+        {
+            // On appelle la méthode qui gère cette collision
+            colBtwPlayerAndBlockPOW(theBlock);
+        }
+        else // Sinon c'est un bloc normal
+        {
+            thePlayer->setItsRemaningJumpMove(0);//à remplacer par STILL pour l'instant inverse la vitesse
+            theBlock->setItsState(true);
+            theBlock->setItsCounter((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME);
+        }
+
     }
     if(thePlayer->getItsRect()->bottom() == theBlock->getItsRect()->top())//le joueur est sur un block
     {

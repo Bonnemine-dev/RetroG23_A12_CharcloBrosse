@@ -120,6 +120,9 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             else if (block == 3){ // if obstacle
                 itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsObstacleTile(),OBSTACLE)));
             }
+            else if (block == 4){ // if block_POW
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsPOWBlockTile(), POW)));
+            }
         }
     }
 

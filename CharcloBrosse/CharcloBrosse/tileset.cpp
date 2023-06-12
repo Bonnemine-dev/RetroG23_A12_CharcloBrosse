@@ -712,12 +712,12 @@ QPixmap *TileSet::getItsGroundTile()
 
 QPixmap *TileSet::getItsPOWBlockTile()
 {
-    return itsBlockTilesList[0];
+    return itsPOWTilesList[0];
 }
 
 QPixmap *TileSet::getItsPOWBlockHittedTile()
 {
-    return itsBlockTilesList[1];
+    return itsPOWTilesList[1];
 }
 
 QPixmap *TileSet::getItsObstacleTile()

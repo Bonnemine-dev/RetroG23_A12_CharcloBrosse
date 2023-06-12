@@ -117,6 +117,11 @@ public :
     void colBtwPlayerAndObstacle(Player* thePlayer,Obstacle* theObstacle);
 
     /**
+     * @brief Method launched when the player collides with the bottom of a blockPOW
+     */
+    void colBtwPlayerAndBlockPOW(Block* theBLockPOW);
+
+    /**
      * @brief checks whether a level is finished. If the player has no more lives
      * or if there are no more enemies to appear.
      * @return true if the level are finished, false else.
