@@ -19,12 +19,13 @@
 
 Game::Game()
 {
+
     //Définition du tileset pour la partie en cours, TILESET_FILE_PATH = le chemin vers le fichier .png du tileset
-    itsTileSet = new TileSet(TILESET_FILE_PATH,BACKGROUND_FILE_PATH);
+    itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Création du joueur pour la partie en cours
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
     //Dénition et création du niveau pour la partie, LEVEL_FILE_PATH = le chemin vers le fichier .json du niveau
-    itsLevel = new Level(LEVEL_FILE_PATH,itsTileSet);
+    itsLevel = nullptr;
     //Création de l'interface homme machine lié au jeu
     itsHMI = new HMI(itsLevel, itsPlayer, this);
     //Definition de la variable du temps écoulé pour l'appartion des ennemies
@@ -40,17 +41,13 @@ Game::Game()
 
 void Game::onGameStart(){
     currentLevel = 1;
-    currentTier = 1;
-    std::string tileSetFileName = ":/ressources/tileset0.png";//+ std::to_string(((int) currentTier)-1) + ".png";
-    std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
-    itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
+    itsTileSet = new TileSet(TILESET_FILE_PATH);
     itsPlayer->setItsLivesNb(3);
     itsScore = 0;
     openLevel();
     itsHMI->setLevel(itsLevel);
     itsHMI->displayLevelNumber();
     itsEllapsedTime = 0;
-    itsMoney = 0;
     gameLoop();
     running = true;
 }
@@ -90,14 +87,12 @@ void Game::gameLoop()
         itsLoopCounter--;
 
         if(isLevelFinished()){
-            if (currentTier != checkTier()){
-                currentTier = checkTier();
-                delete itsTileSet;
-                std::string tileSetFileName = ":/ressources/tileset0.png";//+ std::to_string(((int) currentTier)-1) + ".png";
-                std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
-                itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
-            }
             if (currentLevel != MAX_LEVEL){
+                if (currentTier != checkTier()){
+                    currentTier = checkTier();
+                    delete itsTileSet;
+                    itsTileSet = new TileSet(":/ressources/tileset0.png");
+                }
                 currentLevel++;
                 openLevel();
                 itsHMI->setLevel(itsLevel);
@@ -106,11 +101,8 @@ void Game::gameLoop()
                 itsEllapsedTime = 0;
             }
             else{
-                openLevel();
-                itsHMI->setLevel(itsLevel);
-                itsHMI->displayLevelNumber();
-                itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-                itsEllapsedTime = 0;
+                currentLevel = 1;
+                itsHMI->stopGame();
             }
         }
 
@@ -360,7 +352,7 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
         if(enemy->getItsYSpeed() == 0)
         {
             // Si l'ennemi n'est pas KO
-            if((enemy->getItsState() && true))
+            if((enemy->getItsState() == true))
             {
                 // L'ennemi deveint KO
                 enemy->setItsState(false);
@@ -498,7 +490,7 @@ void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
 {
     if (theMoney->getItsMoneyType()==RED)
     {
-        setItsMoney(getItsMoney()+1);
+        setItsMoney(getItsMoney()+11);
     }
     else if (theMoney->getItsMoneyType()==YELLOW)
     {

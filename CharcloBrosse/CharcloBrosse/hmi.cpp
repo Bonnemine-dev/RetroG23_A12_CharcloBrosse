@@ -296,14 +296,26 @@ void HMI::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
-
     if (itsLevel != nullptr && itsLevel->isActive() && shouldDraw){
         QPainter * painter = new QPainter(this);
-        painter->setOpacity(0.8);
-        std::string cheminBG = itsGame->getCheminBG();
-        QPixmap bg(QString::fromStdString(cheminBG));
-        painter->drawPixmap(this->rect(), bg);
-        painter->setOpacity(1.0);
+
+        // Dessin du background
+        QString cheminBG = QString::fromStdString(itsGame->getCheminBG());
+        qDebug() << "Chemin du background: " << cheminBG;
+        if (QFile::exists(cheminBG)) {
+            QPixmap bg(cheminBG);
+            if (!bg.isNull()) {
+                painter->setOpacity(0.8);
+                painter->drawPixmap(this->rect(), bg);
+                painter->setOpacity(1.0);
+            } else {
+                qDebug() << "Erreur lors de la lecture de l'image";
+            }
+        } else {
+            qDebug() << "Le fichier n'existe pas";
+        }
+
+        // Dessin du reste du jeu
         painter->setFont(QFont("VT323", 18));
         painter->drawText(10, 20, QString("Score: %1").arg(itsGame->getItsScore())); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
         painter->drawText(10, 40, QString("Lives: %1").arg(itsGame->getItsPlayer()->getItsLivesNb()));
@@ -321,10 +333,11 @@ void HMI::paintEvent(QPaintEvent *event)
             painter->drawText(1230, 30, QString("00%1").arg(itsLevelTimer->remainingTime()/1000));
         }
 
-        painter->end();
+        delete painter;
     }
 
 }
+
 void HMI::clearPaintings() {
     shouldDraw = false;
     update();

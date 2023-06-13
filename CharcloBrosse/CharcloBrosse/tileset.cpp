@@ -68,7 +68,7 @@ std::array<QPixmap *, 2> *TileSet::getItsDespawnerTilesList()
     return &itsDespawnerTilesList;
 }
 
-TileSet::TileSet(std::string aTileSetFilePath, std::string aBackgroundFilePath)
+TileSet::TileSet(std::string aTileSetFilePath)
 {
     //< Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
     QString tileSetFilePath = QString::fromStdString(aTileSetFilePath);
@@ -283,22 +283,8 @@ TileSet::TileSet(std::string aTileSetFilePath, std::string aBackgroundFilePath)
     //> Vérification de l'ouverture du fichier et lancement d'une exception si non
 
 
-
-    //< Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
-    QString backgroundFilePath = QString::fromStdString(aBackgroundFilePath);
-    QPixmap background(backgroundFilePath);
-    //> Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
-
     //< Vérification de l'ouverture du fichier et lancement d'une exception si non
-    if(background.isNull())
-    {
-       throw std::string("Background file unfound (Tileset::Tileset(const std::string aFilePath)");
-    }
-    else
-    {
-       // Chargement et stockage du background
-       itsBackground = new QPixmap(background);
-    }
+
     //> Vérification de l'ouverture du fichier et lancement d'une exception si non
 }
     /*{
@@ -488,11 +474,8 @@ TileSet::TileSet(std::string aTileSetFilePath, std::string aBackgroundFilePath)
 
 
 
-    //< Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
-    QString backgroundFilePath = QString::fromStdString(aBackgroundFilePath);
-    QPixmap background(backgroundFilePath);
-    //> Conversion en QString car le constructeur QPixmap() ne prend pas de string en paramètre
 
+<<<<<<< HEAD
     //< Vérification de l'ouverture du fichier et lancement d'une exception si non
     if(background.isNull())
     {
@@ -506,6 +489,12 @@ TileSet::TileSet(std::string aTileSetFilePath, std::string aBackgroundFilePath)
     //> Vérification de l'ouverture du fichier et lancement d'une exception si non
 }*/
 /*
+=======
+
+
+}
+
+>>>>>>> dev
 QPixmap *TileSet::getItsPlayerRunningRightTile(unsigned short aFrame)
 {
     if(aFrame == 0)

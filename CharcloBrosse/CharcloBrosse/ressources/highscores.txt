@@ -1,7 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 bonnemine,800
 Bonsoir,400
 =======
+=======
+Samuel,1300
+Erwan !,1100
+>>>>>>> dev
 dcshbdcksh,900
 J'ai win,900
 Salut c mo,900
@@ -10,6 +15,7 @@ Bonsoir,400
 tombo,200
 tombo,200
 erwan,200
+<<<<<<< HEAD
 erwan,100
 >>>>>>> dev
 Tabliblu,100
@@ -19,6 +25,8 @@ erwan,100
 erwan,100
 uuuu,100
 Samuel,50
+=======
+>>>>>>> dev
 =======
 >>>>>>> dev
 =======
