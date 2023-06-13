@@ -6,5 +6,6 @@
         <file>ressources/VT323-Regular.ttf</file>
         <file>ressources/background0.png</file>
         <file>ressources/tileset0.png</file>
+        <file>ressources/background1.png</file>
     </qresource>
 </RCC>
