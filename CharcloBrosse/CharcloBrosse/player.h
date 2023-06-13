@@ -106,7 +106,6 @@ public:
      * @return The "is on the ground" status.
      */
     bool getIsOnTheGround() const;
-
     unsigned short getItsRemaningJumpMove() const;
     void setItsRemaningJumpMove(unsigned short newItsRemaningJumpMove);
     void setItsCurrentMove(MoveX newItsCurrentMove);

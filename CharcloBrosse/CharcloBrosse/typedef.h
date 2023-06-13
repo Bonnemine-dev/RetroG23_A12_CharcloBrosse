@@ -17,7 +17,7 @@
 
 #define STANDARD_ENEMY_SPEED 5 //Speed for the standard ennemie in blocks per second
 #define GIANT_ENEMY_SPEED 3 //Speed for the giant ennemie in blocks per second
-#define ACCELERATOR_ENEMY_SPEED 5 //Speed for the accelerator ennemie in blocks per second
+#define ACCELERATOR_ENEMY_SPEED 4 //Speed for the accelerator ennemie in blocks per second
 #define KO_TIME 3//The Duration for the KO in seconds
 
 #define TIME_FOR_ANIMATION_CYCLE 150//The Duration for the a cycle for each animation
@@ -42,6 +42,7 @@
 #define MAX_LIFE 3
 #define MAX_LEVEL 2
 
+#define HIGHSCORES_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 enum MenuState {
     MAINMENU,
     PAUSEMENU,
@@ -58,19 +59,24 @@ enum MoveX {
 enum EnemyType{
     STANDARD=100,
     ACCELERATOR=200,
-    JUMPER=300,
-    GIANT=400,
-    FREEZER=500
+    GIANT=400
 };
 
 enum BlockType{
     BRICK,
     GROUND,
-    OBSTACLE
+    OBSTACLE,
+    POW
 };
 
 enum Direction{
     EAST,
     WEST
+};
+
+enum MoneyType{
+    RED = 1,
+    YELLOW = 3,
+    BILL = 5
 };
 #endif // TYPEDEF_H

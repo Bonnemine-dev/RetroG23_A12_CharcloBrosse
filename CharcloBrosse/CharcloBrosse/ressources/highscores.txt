@@ -4,6 +4,8 @@ Bonsoir,400
 =======
 dcshbdcksh,900
 J'ai win,900
+Salut c mo,900
+HEY,900
 Bonsoir,400
 tombo,200
 tombo,200
@@ -11,6 +13,9 @@ erwan,100
 >>>>>>> dev
 Tabliblu,100
 erwan,100
+<<<<<<< HEAD
 erwan,100
 uuuu,100
 Samuel,50
+=======
+>>>>>>> dev

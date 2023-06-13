@@ -39,7 +39,7 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
-    DB_Score *DBSCORE;
+    DB_Score *DBSCORE; ///< The object that we use for database methods.
 
     MenuState state; ///< Current state of the HMI.
 
@@ -53,12 +53,15 @@ private:
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
 
-    QVBoxLayout *mainLayout; ///< Main layout for the HMI.
+    QVBoxLayout *mainLayout; ///< Main layout for the main menu.
+    QHBoxLayout *middleLayout; ///< Layout for the middle section of the main menu.
+    QVBoxLayout *leftLayout; ///< Layout for the left section of the main menu.
+    QVBoxLayout *rightLayout; ///< Layout for the right section of the main menu.
     QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
     QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
     QVBoxLayout *rulesLayout; ///< Rules layout for the HMI.
-    QVBoxLayout *levelLayout;
+    QVBoxLayout *levelLayout; ///< Layout for displaying level n°.
 
     QLabel *gameTitleLabel; ///< Label for displaying "Chaclo Brosse".
     QLabel *rulesText; ///< Label for displaying game rules.
@@ -88,6 +91,11 @@ private:
      * @brief itsStartLevelTimer the timer to display the level number only during 1 seconds
      */
     QTimer *itsStartLevelTimer;
+    /**
+     * @brief itsLevelTimer the timer for the maximum time to do a level
+     */
+    QTimer *itsLevelTimer;
+
 
 
     /**
@@ -102,6 +110,11 @@ private:
     void clearPaintings();
 
     bool shouldDraw = true; ///< Boolean indicating whether drawing should be performed or not.
+
+    /**
+     * @brief timeRemaining the time reamaining to do the level (only use to pause game)
+     */
+    long long timeRemaining;
 public:
     /**
      * @brief Constructor of the HMI class.
@@ -173,6 +186,11 @@ private slots:
      * @brief startLevel display the level number before the level;
      */
     void startLevel();
+
+    /**
+     * @brief levelTimeout terminate the level when the time is ellapsed
+     */
+    void levelTimeout();
 
 
 public slots:
