@@ -74,7 +74,7 @@ private:
     /**
      * @brief currentTier the current money tier
      */
-    short currentTier = 0;
+    short currentTier = 1;
 
     //    DB_Score itsDBScore;
 
@@ -91,7 +91,7 @@ private:
     */
     bool isBlockPOWHitted;
 
-    std::string cheminBG = ":/ressources/background0.png";
+    std::string cheminBG =":/ressources/background0.png";
 
 public :
     /**

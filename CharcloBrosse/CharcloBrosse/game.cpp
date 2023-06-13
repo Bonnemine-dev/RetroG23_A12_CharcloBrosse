@@ -19,7 +19,7 @@
 
 Game::Game()
 {
-    itsTileSet = new TileSet(TILESET_FILE_PATH, BACKGROUND_FILE_PATH);
+    itsTileSet = new TileSet(TILESET_FILE_PATH);
     itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerRunningRightTile(1));
     itsLevel = nullptr;
     itsHMI = new HMI(nullptr, itsPlayer, this);
@@ -83,9 +83,7 @@ void Game::gameLoop()
                 if (currentTier != checkTier()){
                     currentTier = checkTier();
                     delete itsTileSet;
-                    std::string tileSetFileName = ":/ressources/tileset" + std::to_string(((int) currentTier)-1) + ".png";
-                    std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
-                    itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
+                    itsTileSet = new TileSet(":/ressources/tileset0.png");
                 }
                 currentLevel++;
                 openLevel();

@@ -41,7 +41,7 @@ public:
      * Generate and stock all images from the file specified
      * @param string aFilePath : The path to the file which contains all images (tileset)
      */
-    TileSet(std::string aTileSetFilePath, std::string aBackgroundFilePath);
+    TileSet(std::string aTileSetFilePath);
 
     /**
      * @brief Tileset::getItsPlayerRunningRightTile(unsigned short aFrame) function declaration
