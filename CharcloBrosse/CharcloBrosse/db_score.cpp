@@ -3,6 +3,7 @@
 #include <sstream>
 #include <utility>
 #include "db_score.h"
+#include "typedef.h"
 
 DB_Score::DB_Score()
 {
@@ -14,7 +15,7 @@ std::vector<std::pair<std::string, unsigned int>> DB_Score::loadScores()
     std::vector<std::pair<std::string, unsigned int>> scores;
 
     // Ouvre le fichier en mode lecture.
-    std::ifstream file("../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt");
+    std::ifstream file(HIGHSCORES_FILE_PATH);
 
     if (file.is_open())
     {
@@ -54,7 +55,7 @@ std::vector<std::pair<std::string, unsigned int>> DB_Score::loadScores()
 void DB_Score::saveScore(std::string theName, unsigned int theScore) {
     std::vector<std::pair<std::string, unsigned int>> scores;
 
-    std::ifstream ifs("../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt");
+    std::ifstream ifs(HIGHSCORES_FILE_PATH);
     std::string line;
     while (std::getline(ifs, line)) {
         std::istringstream iss(line);
@@ -77,7 +78,7 @@ void DB_Score::saveScore(std::string theName, unsigned int theScore) {
     if (scores.size() > 10) {
         scores.resize(10);
     }
-    std::ofstream ofs("../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt");
+    std::ofstream ofs(HIGHSCORES_FILE_PATH);
     for (const auto &score : scores) {
         ofs << score.first << "," << score.second << std::endl;
     }
@@ -88,7 +89,7 @@ void DB_Score::saveScore(std::string theName, unsigned int theScore) {
 bool DB_Score::isInTop10(unsigned int theScore) {
     std::vector<std::pair<std::string, unsigned int>> scores;
 
-    std::ifstream ifs("../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt");
+    std::ifstream ifs(HIGHSCORES_FILE_PATH);
     std::string line;
     while (std::getline(ifs, line)) {
         std::istringstream iss(line);
