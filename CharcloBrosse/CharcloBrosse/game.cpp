@@ -19,61 +19,87 @@
 
 Game::Game()
 {
-    itsTileSet = new TileSet(TILESET_FILE_PATH);
-    itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerTile());
-    itsLevel = new Level(LEVEL_FILE_PATH,itsTileSet);
-    itsHMI = new HMI(itsLevel, itsPlayer, this);
+    itsTileSet = new TileSet(TILESET_FILE_PATH, BACKGROUND_FILE_PATH);
+    itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerRunningRightTile(1));
+    itsLevel = nullptr;
+    itsHMI = new HMI(nullptr, itsPlayer, this);
     itsEllapsedTime = 0;
     itsHMI->show();
     itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+    running = false;
 }
 // Connexion des signaux et slots
 
 void Game::onGameStart(){
-    itsLevel->activate();
-    itsHMI->refreshAll();
+    currentLevel = 1;
+    itsPlayer->setItsLivesNb(3);
+    itsScore = 0;
+    openLevel();
+    itsHMI->setLevel(itsLevel);
+    itsHMI->displayLevelNumber();
     itsEllapsedTime = 0;
     gameLoop();
+    running = true;
 }
 
 void Game::gameLoop()
 {
-    QElapsedTimer timer;
-    timer.restart();
-    if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-    itsEllapsedTime += 0.001;
+    if(running){
+        QElapsedTimer timer;
+        timer.restart();
+        if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+        itsEllapsedTime += 0.001;
 
-    if (itsLevel->getItsRemainingEnemies().size() > 0){
-        unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
-        if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(pos))
-        {
-            Enemy * enemy = itsLevel->getItsRemainingEnemies().at(pos);
-            Sides side = itsLevel->getItsEnemyAppearsSides().at(pos);
-            switch(side){
-            case LEFT:
-                itsLevel->getItsSpawnerList().at(0)->appears(enemy);
-                enemy->setItsXSpeed(RIGHT_X);
-                break;
-            case RIGHT:
-                itsLevel->getItsSpawnerList().at(1)->appears(enemy);
-                enemy->setItsXSpeed(LEFT_X);
-                break;
+        if (itsLevel->getItsRemainingEnemies().size() > 0){
+            unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
+            if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(pos))
+            {
+                Enemy * enemy = itsLevel->getItsRemainingEnemies().at(pos);
+                Sides side = itsLevel->getItsEnemyAppearsSides().at(pos);
+                switch(side){
+                case LEFT:
+                    itsLevel->getItsSpawnerList().at(0)->appears(enemy);
+                    enemy->setItsXSpeed(RIGHT_X);
+                    break;
+                case RIGHT:
+                    itsLevel->getItsSpawnerList().at(1)->appears(enemy);
+                    enemy->setItsXSpeed(LEFT_X);
+                    break;
+                }
+
+                itsLevel->appears(enemy);
+                itsEllapsedTime = 0;
             }
+        }
+        checkAllCollid();
+        moveAll();
+        if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
+        itsLoopCounter--;
 
-            itsLevel->appears(enemy);
-            itsEllapsedTime = 0;
+        if(isLevelFinished()){
+            if (currentLevel != MAX_LEVEL){
+                currentLevel++;
+                openLevel();
+                itsHMI->setLevel(itsLevel);
+                itsHMI->displayLevelNumber();
+                itsPlayer->setX((32*39)/2);
+                itsPlayer->setY(250);
+                itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+                itsEllapsedTime = 0;
+            }
+            else{
+                currentLevel = 1;
+                itsHMI->stopGame();
+
+            }
+        }
+
+        if(itsPlayer->getItsLivesNb() == 0)
+        {
+            currentLevel = 1;
+            itsHMI->stopGame();
         }
     }
-    checkAllCollid();
-    moveAll();
-    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
-    itsLoopCounter--;
-    if((itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty()) || itsPlayer->getItsLivesNb() == 0)
-    {
-        itsHMI->stopGame();
-    }
-    unsigned int elapsedTime = timer.nsecsElapsed();
-    qWarning() << "Game loop execution time in nanoseconds : " << elapsedTime;
 }
 
 
@@ -111,8 +137,8 @@ void Game::checkAllCollid(){
         if(block->getItsType() == BRICK){
             if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
             {
-                block->setItsCounter(block->getItsCounter() - 1);
-                block->setItsSprite(itsTileSet->getItsBlockHitTile());
+                block->setItsCounter(block->getItsCounter() - 1) ;
+                block->setItsSprite(itsTileSet->getItsBlockHittedTile());
             }
             else
             {
@@ -203,15 +229,15 @@ void Game::checkAllCollid(){
                 {
                 case STANDARD:
                     enemy1->setItsState(true);
-                    enemy1->setItsSprite(itsTileSet->getItsEnemyTile());
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyStandardRunningRightTile(0));
                     break;
                 case GIANT:
                     enemy1->setItsState(true);
-                    enemy1->setItsSprite(itsTileSet->getItsPlayerTile());
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
                     break;
                 case ACCELERATOR:
                     enemy1->setItsState(true);
-                    enemy1->setItsSprite(itsTileSet->getItsGroundTile());
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
                     break;
                 default:
                     break;
@@ -244,7 +270,10 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 void Game::colBtwPlayerAndObstacle(Player* thePlayer)
 {
     thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
@@ -273,15 +302,49 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
     {
         if(theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() == 0)
         {
-            theEnemy->setItsState(false);
-            theEnemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
-            theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+            switch (theEnemy->getItsType())
+            {
+            case STANDARD:
+                theEnemy->setItsState(false);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardHittedRightTile(0));
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case GIANT:
+                theEnemy->setItsState(false);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantHittedRightTile(0));
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case ACCELERATOR:
+                theEnemy->setItsState(false);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1HittedRightTile(0));
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
+                accelerator->addItsSpeedState();
+                break;
+            }
         }
         else if(!theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() < (KO_TIME * NUMBER_LOOP_PER_SECOND)-((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME)-1)//+1 car problème de précision
         {
-            theEnemy->setItsState(true);
-            theEnemy->setItsSprite(itsTileSet->getItsEnemyTile());
-            theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+            switch (theEnemy->getItsType())
+            {
+            case STANDARD:
+                theEnemy->setItsState(true);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardHittedLeftTile(0));
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case GIANT:
+                theEnemy->setItsState(true);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case ACCELERATOR:
+                theEnemy->setItsState(true);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            default:
+                break;
+            }
         }
     }
     theEnemy->setIsOnTheGround(true);
@@ -318,7 +381,6 @@ void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
     if ((theEnemy->getItsX() <= theEnemy->getItsWidth()) ||(theEnemy->getItsX() >= WIDTH*32-theEnemy->getItsWidth())) {
         theDespawner->disappear(theEnemy);
     }
-
 }
 
 void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
@@ -396,12 +458,11 @@ void Game::moveAll(){
             }
             break;
         case ACCELERATOR:
-            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(ACCELERATOR_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/((ACCELERATOR_ENEMY_SPEED+accelerator->getItsSpeedState())*BLOCK_SIZE))) == 0)
             {
                 enemy->move();
             }
-            break;
-        default:
             break;
         }
     }
@@ -442,9 +503,26 @@ void Game::onRightKeyReleased()
 void Game::onGamePaused()
 {
     isInPause = true;
+    running = false;
+    itsLevel->desactivate();
 }
 
 void Game::onGameResumed()
 {
     isInPause = false;
+    running = true;
+    itsLevel->activate();
+}
+
+void Game::openLevel(){
+    std::string fileName = "://ressources/level" + std::to_string(currentLevel) + ".json";
+    if (itsLevel != nullptr){
+        delete itsLevel;
+        itsLevel = nullptr;
+    }
+    itsLevel = new Level(fileName, itsTileSet);
+}
+
+bool Game::isLevelFinished(){
+    return itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty();
 }

@@ -31,11 +31,11 @@ std::vector<Despawner *> Level::getItsDespawnerList() const
 
 void Level::display(QPainter *painter)
 {
-    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
-        itsEnemiesList.at(i)->display(painter);
-    }
     for (unsigned short i = 0; i < itsBlockList.size(); i++){ // affiche tout les blocs
         itsBlockList.at(i)->display(painter);
+    }
+    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
+        itsEnemiesList.at(i)->display(painter);
     }
     for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
         itsSpawnerList.at(i)->display(painter);
@@ -118,7 +118,11 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
                 itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(),BRICK)));
             }
             else if (block == 3){ // if obstacle
+<<<<<<< HEAD
                 itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsEnemyHitTile(),OBSTACLE)));
+=======
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsObstacleTile(),OBSTACLE)));
+>>>>>>> dev
             }
         }
     }
@@ -127,7 +131,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         QJsonArray jsonLine = Enemies[line].toArray(); // get the array
         std::string type = jsonLine[0].toString().toStdString(); // get the type of the enemy in string
         if (type == "standard"){ // if a standard enemy
-            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyTile())); // create the enemy and add it to the list
+            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyStandardRunningRightTile(0))); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
@@ -136,7 +140,11 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             }
         }
         else if (type == "giant"){ // if a giant enemy
+<<<<<<< HEAD
             itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsPlayerTile())); // create the enemy and add it to the list
+=======
+            itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsEnemyGiantRunningRightTile(0))); // create the enemy and add it to the list
+>>>>>>> dev
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
@@ -188,4 +196,9 @@ void Level::activate(){
 
 bool Level::isActive(){
     return active;
+}
+
+void Level::desactivate()
+{
+    active = false;
 }

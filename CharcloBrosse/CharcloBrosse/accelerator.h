@@ -19,7 +19,7 @@
  */
 class Accelerator : public Enemy
 {
-    short itsSpeedState = 0; ///< The Speed State when accelerator comes up.
+    short itsSpeedState = 1; ///< The Speed State when accelerator comes up.
 public:
     /**
      * @brief Constructor of the Accelerator class.
@@ -29,10 +29,8 @@ public:
      */
     Accelerator(short height,  short width, QPixmap * sprite);
 
-    /**
-     * @brief upSpeed method is called when the accelerator is raised in order to increase its speed.
-     */
-    void upSpeed();
+    void addItsSpeedState();
+    short getItsSpeedState() const;
 };
 
 #endif // ACCELERATOR_H

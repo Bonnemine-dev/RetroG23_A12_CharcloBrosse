@@ -93,3 +93,5 @@ Enemy::Enemy( short height,  short width, QPixmap * sprite)
     itsState = true;
 }
 
+Enemy::~Enemy() {}
+

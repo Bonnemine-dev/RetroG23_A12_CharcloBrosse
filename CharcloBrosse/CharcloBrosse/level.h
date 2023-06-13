@@ -161,6 +161,7 @@ public:
     void appears(Enemy * enemy);
     void activate();
     bool isActive();
+    void desactivate();
 };
 
 #endif // LEVEL_H

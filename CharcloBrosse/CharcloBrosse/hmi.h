@@ -39,7 +39,7 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
-    DB_Score *DBSCORE;
+    DB_Score *DBSCORE; ///< The object that we use for database methods.
 
     MenuState state; ///< Current state of the HMI.
 
@@ -53,11 +53,15 @@ private:
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
 
-    QVBoxLayout *mainLayout; ///< Main layout for the HMI.
+    QVBoxLayout *mainLayout; ///< Main layout for the main menu.
+    QHBoxLayout *middleLayout; ///< Layout for the middle section of the main menu.
+    QVBoxLayout *leftLayout; ///< Layout for the left section of the main menu.
+    QVBoxLayout *rightLayout; ///< Layout for the right section of the main menu.
     QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
     QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
     QVBoxLayout *rulesLayout; ///< Rules layout for the HMI.
+    QVBoxLayout *levelLayout; ///< Layout for displaying level n°.
 
     QLabel *gameTitleLabel; ///< Label for displaying "Chaclo Brosse".
     QLabel *rulesText; ///< Label for displaying game rules.
@@ -74,10 +78,20 @@ private:
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
     QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
 
+    /**
+     * @brief itsLevelNumberText the text to display the the current level before launch it
+     */
+    QLabel *itsLevelNumberText;
+
     Level *itsLevel; ///< Pointer to the current level object.
     Player *itsPlayer; ///< Pointer to the player object.
     Game *itsGame; ///< Pointer to the game object.
     QTimer *itsTimer; ///< Timer for game updates.
+    /**
+     * @brief itsStartLevelTimer the timer to display the level number only during 1 seconds
+     */
+    QTimer *itsStartLevelTimer;
+
 
     /**
      * @brief Redefinition of the paintEvent method to perform custom drawings.
@@ -102,6 +116,14 @@ public:
      * @brief Destructor of the HMI class.
      */
     virtual ~HMI();
+
+    void setLevel(Level * level);
+
+    /**
+     * @brief displayLevelNumber display th current level number at the screen
+     * Display the current number of the level during one seconds
+     */
+    void displayLevelNumber();
 private slots:
     /**
      * @brief Displays the main menu.
@@ -149,6 +171,12 @@ private slots:
      * @brief Leaves the game.
      */
     void leave();
+
+    /**
+     * @brief startLevel display the level number before the level;
+     */
+    void startLevel();
+
 
 public slots:
     /**
