@@ -30,8 +30,10 @@
 #define GRAVITY 1 // gravity value
 
 #define TILESET_FILE_PATH ":/ressources/tileset0.png"
-#define BACKGROUND_FILE_PATH ":/ressources/background0.png"
+#define BACKGROUND1_FILE_PATH ":/ressources/background0.png"
+#define BACKGROUND2_FILE_PATH ":/ressources/background1.png"
 #define LEVEL_FILE_PATH ":/ressources/level1.json"
+
 
 #define MAX_LEVEL 4
 

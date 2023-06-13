@@ -91,7 +91,7 @@ private:
     */
     bool isBlockPOWHitted;
 
-    std::string cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background0.png";
+    QString cheminBG;
 
 public :
     /**
@@ -242,7 +242,7 @@ public :
 
     TileSet *getItsTileSet() const;
 
-    std::string getCheminBG() const;
+    QString getCheminBG() const;
 
 public slots:
     /**

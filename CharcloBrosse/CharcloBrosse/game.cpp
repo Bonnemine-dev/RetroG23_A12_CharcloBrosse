@@ -47,6 +47,7 @@ void Game::onGameStart(){
 
 void Game::gameLoop()
 {
+    checkTier();
     if(running){
         QElapsedTimer timer;
         timer.restart();
@@ -145,7 +146,7 @@ TileSet *Game::getItsTileSet() const
     return itsTileSet;
 }
 
-std::string Game::getCheminBG() const
+QString Game::getCheminBG() const
 {
     return cheminBG;
 }
@@ -513,27 +514,27 @@ int Game::checkTier()
 {
     if (itsMoney >= 100)
     {
-        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background1.png";
+        cheminBG = BACKGROUND2_FILE_PATH;
         return 5; // Quatrième palier
     }
     else if (itsMoney >= 50)
     {
-        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background1.png";
+        cheminBG = BACKGROUND2_FILE_PATH;
         return 4; // Troisième palier
     }
     else if (itsMoney >= 25)
     {
-        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background1.png";
+        cheminBG = BACKGROUND2_FILE_PATH;
         return 3; // Deuxième palier
     }
     else if (itsMoney >= 10)
     {
-        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background1.png";
+        cheminBG = BACKGROUND2_FILE_PATH;
         return 2; // Premier palier
     }
     else
     {
-        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background0.png";
+        cheminBG = BACKGROUND1_FILE_PATH;
         return 1; // Pas encore de palier atteint
     }
 }
