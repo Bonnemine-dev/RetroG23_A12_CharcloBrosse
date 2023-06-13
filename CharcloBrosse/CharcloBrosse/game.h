@@ -66,6 +66,7 @@ private:
 
     unsigned short int itsLoopCounter;
 
+
 public :
     /**
      * @brief Checks all possible collisions in the current game state
@@ -164,6 +165,8 @@ public :
     void onGameResumed();
 
     void onGameStart();
+
+    int checkTier();
 
     unsigned int getItsScore() const;
 
