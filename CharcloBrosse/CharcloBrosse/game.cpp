@@ -44,6 +44,10 @@ void Game::onGameStart(){
 
 void Game::gameLoop()
 {
+    if(resetAcceleration)
+    {
+        itsAcceleration = 5;
+    }
     if(running){
         QElapsedTimer timer;
         timer.restart();
@@ -390,7 +394,7 @@ bool Game::collid(Entity * entity1, Entity * entity2){
 
 
 void Game::moveAll(){
-    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(PLAYERMAXSPEED*BLOCK_SIZE)) == 0)//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
+    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/((PLAYERMAXSPEED-itsAcceleration)*BLOCK_SIZE)) == 0)//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
     {
         itsPlayer->move();
     }
@@ -422,14 +426,26 @@ void Game::moveAll(){
 
 void Game::onLeftKeyPressed()
 {
+    resetAcceleration = false;
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(LEFT_X);
-    /*    else */itsPlayer->setItsNextMove(LEFT_X);
+    itsPlayer->setItsNextMove(LEFT_X);
+    if (itsAcceleration>0)
+    {
+        itsAcceleration -= 1;
+    }
+    std::cout<<"itsAcceleration : "<<itsAcceleration<<std::endl;
 }
 
 void Game::onRightKeyPressed()
 {
+    resetAcceleration = false;
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(RIGHT_X);
-    /*    else */itsPlayer->setItsNextMove(RIGHT_X);
+    itsPlayer->setItsNextMove(RIGHT_X);
+    if (itsAcceleration>0)
+    {
+        itsAcceleration -= 1;
+    }
+    std::cout<<"itsAcceleration : "<<itsAcceleration<<std::endl;
 }
 
 void Game::onUpKeyPressed()
@@ -438,18 +454,33 @@ void Game::onUpKeyPressed()
         itsPlayer->setItsYSpeed(-1);
         itsPlayer->setItsRemaningJumpMove(PLAYER_JUMP_HEIGHT*BLOCK_SIZE);
     }
+
+//    if(itsPlayer->getIsOnTheGround()){
+//        itsPlayer->setItsYSpeed(-5);
+//        QElapsedTimer jumpTimer;
+//        jumpTimer.start();
+//        startJump = jumpTimer.elapsed();
+//        if (jumpTimer.elapsed() <= (startJump+2))
+//        {
+//            itsPlayer->setItsYSpeed(-5);
+//        }
+//        itsPlayer->setItsYSpeed(5);
+//        //itsPlayer->setItsRemaningJumpMove(PLAYER_JUMP_HEIGHT*BLOCK_SIZE);
+//    }
 }
 
 void Game::onLeftKeyReleased()
 {
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(NONE);
-    /*    else */itsPlayer->setItsNextMove(NONE);
+    itsPlayer->setItsNextMove(NONE);
+    resetAcceleration = true;
 }
 
 void Game::onRightKeyReleased()
 {
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(NONE);
-    /*    else */itsPlayer->setItsNextMove(NONE);
+    itsPlayer->setItsNextMove(NONE);
+    resetAcceleration = true;
 }
 
 void Game::onGamePaused()

@@ -70,6 +70,12 @@ private:
 
     bool running;
 
+    short itsAcceleration = 9;
+
+    bool resetAcceleration = true;
+
+    double startJump = 0;
+
 public :
     /**
      * @brief Checks all possible collisions in the current game state
