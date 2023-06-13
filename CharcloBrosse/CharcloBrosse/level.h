@@ -103,6 +103,8 @@ private:
      */
     std::vector<Sides> itsEnemyAppearsSides;
 
+    int itsTimerTime;
+
     bool active;
 
 public:
@@ -157,6 +159,7 @@ public:
     void activate();
     bool isActive();
     void desactivate();
+    int getItsTimerTime() const;
 };
 
 #endif // LEVEL_H

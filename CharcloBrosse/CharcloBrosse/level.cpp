@@ -79,6 +79,11 @@ std::vector<Enemy *> Level::getItsRemainingEnemies() const
     return itsRemainingEnemies;
 }
 
+int Level::getItsTimerTime() const
+{
+    return itsTimerTime;
+}
+
 Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelFilePath)
 {
     // open the file and parse it
@@ -105,6 +110,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     QJsonArray Enemies = jsonRoot.value("enemies").toArray(); // reccupère la liste des ennemis
     itsMinDelay = jsonRoot.value("minDelay").toInt(0); // get the minimum delay of appartition of an enemy
     itsMaxDelay = jsonRoot.value("maxDelay").toInt(0); // get the maximun delay of appartition of an enemy
+    itsTimerTime = jsonRoot.value("timer").toInt(0); // get the time to finish a level
 
     // compute the data
     for (unsigned short line=0; line < level.size(); line++){ // for each line of the level
