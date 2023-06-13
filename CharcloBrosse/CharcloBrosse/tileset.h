@@ -59,6 +59,7 @@ public:
      */
     TileSet(std::string aTileSetFilePath);
 
+
 //    /**
 //     * @brief Tileset::getItsPlayerRunningRightTile(unsigned short aFrame) function declaration
 //     * @return QPixmap* : A pointer to the image of the Player while is running in right direction at the frame wanted
@@ -391,6 +392,7 @@ public:
      * @brief Tileset::getItsBackground() function declaration
      * @return QPixmap* : A pointer to the background image
      */
+
     QPixmap* getItsBackground();
     std::array<QPixmap *, 12> *getItsPlayerTilesList();
     std::array<QPixmap *, 12> *getItsEnnemyStandardTilesList();
@@ -400,6 +402,7 @@ public:
     std::array<std::array<QPixmap *, 2> *, 3> *getItsMoneyTilesList();
     std::array<QPixmap *, 2> *getItsSpawnerTilesList();
     std::array<QPixmap *, 2> *getItsDespawnerTilesList();
+
 };
 
 #endif // TILESET_H

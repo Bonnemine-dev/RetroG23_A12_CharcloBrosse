@@ -19,7 +19,6 @@
 
 Game::Game()
 {
-
     //Définition du tileset pour la partie en cours, TILESET_FILE_PATH = le chemin vers le fichier .png du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Création du joueur pour la partie en cours
@@ -54,6 +53,7 @@ void Game::onGameStart(){
 
 void Game::gameLoop()
 {
+    checkTier();
     if(running){
         QElapsedTimer timer;
         timer.restart();
@@ -150,13 +150,17 @@ TileSet *Game::getItsTileSet() const
     return itsTileSet;
 }
 
-std::string Game::getCheminBG() const
+QString Game::getCheminBG() const
 {
     return cheminBG;
 }
 
-void Game::checkAllCollid(){
+short Game::getCurrentTier() const
+{
+    return currentTier;
+}
 
+void Game::checkAllCollid(){
     //Définie si la gravité doit être appliqué de base.
     //oui si le joueur n'a pas un saut en cours d'execution non sinon.
 
@@ -492,7 +496,7 @@ void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
 {
     if (theMoney->getItsMoneyType()==RED)
     {
-        setItsMoney(getItsMoney()+11);
+        setItsMoney(getItsMoney()+1);
     }
     else if (theMoney->getItsMoneyType()==YELLOW)
     {
@@ -527,40 +531,43 @@ bool Game::collid(Entity * entity1, Entity * entity2){
     return true;
 }
 
+int Game::checkTier()
+{
+    if (itsMoney >= 100)
+    {
+        cheminBG = BACKGROUND2_FILE_PATH;
+        return 5; // Quatrième palier
+    }
+    else if (itsMoney >= 50)
+    {
+        cheminBG = BACKGROUND2_FILE_PATH;
+        return 4; // Troisième palier
+    }
+    else if (itsMoney >= 25)
+    {
+        cheminBG = BACKGROUND2_FILE_PATH;
+        return 3; // Deuxième palier
+    }
+    else if (itsMoney >= 10)
+    {
+        cheminBG = BACKGROUND2_FILE_PATH;
+        return 2; // Premier palier
+    }
+    else
+    {
+        cheminBG = BACKGROUND1_FILE_PATH;
+        return 1; // Pas encore de palier atteint
+    }
+}
+
+
+
 
 //void Game::updateAnimation(Entity *theEntity)
 //{
 //    dynamic_cast<Block*>(theEntity)->increment();
 //}
 
-int Game::checkTier()
-{
-    if (itsMoney >= 100)
-    {
-        cheminBG = ":/ressources/background1.png";
-        return 5; // Quatrième palier
-    }
-    else if (itsMoney >= 50)
-    {
-        cheminBG = ":/ressources/background1.png";
-        return 4; // Troisième palier
-    }
-    else if (itsMoney >= 25)
-    {
-        cheminBG = ":/ressources/background1.png";
-        return 3; // Deuxième palier
-    }
-    else if (itsMoney >= 10)
-    {
-        cheminBG = ":/ressources/background1.png";
-        return 2; // Premier palier
-    }
-    else
-    {
-        cheminBG = ":/ressources/background0.png";
-        return 1; // Pas encore de palier atteint
-    }
-}
 
 
 void Game::moveAll(){

@@ -81,12 +81,13 @@ private:
 
     bool running;
 
+
     /**
     * @brief Boolean which represent the state of the BlockPOW, false if it is not hitted, true if it is hitted.
     */
     bool isBlockPOWHitted;
 
-    std::string cheminBG =":/ressources/background0.png";
+    QString cheminBG;
 
 public :
     /**
@@ -237,7 +238,9 @@ public :
 
     TileSet *getItsTileSet() const;
 
-    std::string getCheminBG() const;
+    QString getCheminBG() const;
+
+    short getCurrentTier() const;
 
 public slots:
     /**

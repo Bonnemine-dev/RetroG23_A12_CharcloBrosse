@@ -300,7 +300,7 @@ void HMI::paintEvent(QPaintEvent *event)
         QPainter * painter = new QPainter(this);
 
         // Dessin du background
-        QString cheminBG = QString::fromStdString(itsGame->getCheminBG());
+        QString cheminBG = itsGame->getCheminBG();
         qDebug() << "Chemin du background: " << cheminBG;
         if (QFile::exists(cheminBG)) {
             QPixmap bg(cheminBG);
@@ -318,8 +318,9 @@ void HMI::paintEvent(QPaintEvent *event)
         // Dessin du reste du jeu
         painter->setFont(QFont("VT323", 18));
         painter->drawText(10, 20, QString("Score: %1").arg(itsGame->getItsScore())); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
-        painter->drawText(10, 40, QString("Lives: %1").arg(itsGame->getItsPlayer()->getItsLivesNb()));
-        painter->drawText(10, 60, QString("Wallet: %1").arg(itsGame->getItsMoney()));
+        painter->drawText(10, 40, QString("Multiplier: %1").arg(itsGame->getCurrentTier()));
+        painter->drawText(10, 60, QString("Lives: %1").arg(itsGame->getItsPlayer()->getItsLivesNb()));
+        painter->drawText(10, 80, QString("Wallet: %1").arg(itsGame->getItsMoney()));
         itsLevel->display(painter);
         itsPlayer->display(painter);
         painter->setFont(QFont("VT323", 28));

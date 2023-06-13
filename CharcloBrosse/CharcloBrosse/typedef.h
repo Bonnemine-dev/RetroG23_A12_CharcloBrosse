@@ -32,16 +32,16 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 
+
 #define TILESET_FILE_PATH "://ressources/tileset0.png"
-#define BACKGROUND_FILE_PATH "://ressources/background0.png"
+#define BACKGROUND1_FILE_PATH ":/ressources/background0.png"
+#define BACKGROUND2_FILE_PATH ":/ressources/background1.png"
 #define LEVEL_FILE_PATH "://ressources/level1.json"
 #define FONT_PATH "://ressources/PressStart2P-Regular.ttf"
-#define HIGHSCORES_FILE_PATH "/Users/bonnemine/Library/Mobile Documents/com~apple~CloudDocs/BUT_1 /S2/SAE2/SAE1256/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
+#define HIGHSCORES_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 
 #define MAX_LEVEL 4
 #define MAX_LIFE 3
-
-
 
 enum MenuState {
     MAINMENU,
