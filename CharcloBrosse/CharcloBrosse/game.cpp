@@ -46,10 +46,6 @@ void Game::onGameStart(){
 
 void Game::gameLoop()
 {
-    if(resetAcceleration)
-    {
-        itsAcceleration = 5;
-    }
     if(running){
         QElapsedTimer timer;
         timer.restart();
@@ -110,6 +106,11 @@ void Game::gameLoop()
             itsHMI->stopGame();
         }
     }
+    if(resetAcceleration)
+    {
+        itsAcceleration = 5;
+    }
+    std::cout<<"itsAcceleration : "<<itsAcceleration<<std::endl;
 }
 
 
@@ -556,7 +557,6 @@ void Game::onLeftKeyPressed()
     {
         itsAcceleration -= 1;
     }
-    std::cout<<"itsAcceleration : "<<itsAcceleration<<std::endl;
 }
 
 void Game::onRightKeyPressed()
@@ -568,11 +568,15 @@ void Game::onRightKeyPressed()
     {
         itsAcceleration -= 1;
     }
-    std::cout<<"itsAcceleration : "<<itsAcceleration<<std::endl;
 }
 
 void Game::onUpKeyPressed()
 {
+    resetAcceleration = false;
+    if (itsAcceleration>0)
+    {
+        itsAcceleration -= 1;
+    }
     if(itsPlayer->getIsOnTheGround()){
         itsPlayer->setItsYSpeed(-1);
         itsPlayer->setItsRemaningJumpMove(PLAYER_JUMP_HEIGHT*BLOCK_SIZE);
@@ -594,6 +598,7 @@ void Game::onUpKeyPressed()
 
 void Game::onLeftKeyReleased()
 {
+    resetAcceleration = false;
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(NONE);
     itsPlayer->setItsNextMove(NONE);
     resetAcceleration = true;
