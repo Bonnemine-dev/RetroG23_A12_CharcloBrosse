@@ -81,6 +81,11 @@ private:
 
     bool running;
 
+
+    short itsAcceleration = 9;
+
+    bool resetAcceleration = true;
+
     /**
     * @brief Boolean which represent the state of the BlockPOW, false if it is not hitted, true if it is hitted.
     */
