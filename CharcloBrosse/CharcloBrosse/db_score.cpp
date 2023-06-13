@@ -52,7 +52,17 @@ std::vector<std::pair<std::string, unsigned int>> DB_Score::loadScores()
 
 void DB_Score::saveScore(std::string theName, unsigned int theScore) {
     std::vector<std::pair<std::string, unsigned int>> scores;
+
+    // Création du flux de fichier
     std::ifstream ifs(HIGHSCORES_FILE_PATH);
+    if (!ifs)
+    {
+        // Le fichier n'existe pas, donc on le crée
+        std::ofstream ofs(HIGHSCORES_FILE_PATH);
+        ofs.close();
+        ifs.open(HIGHSCORES_FILE_PATH);
+    }
+
     std::string line;
     while (std::getline(ifs, line)) {
         std::istringstream iss(line);
@@ -75,13 +85,15 @@ void DB_Score::saveScore(std::string theName, unsigned int theScore) {
     if (scores.size() > 10) {
         scores.resize(10);
     }
+
+    // Ouverture du flux de sortie, cette fois-ci pour écrire dans le fichier
     std::ofstream ofs(HIGHSCORES_FILE_PATH);
     for (const auto &score : scores) {
         ofs << score.first << "," << score.second << std::endl;
     }
     ofs.close();
-
 }
+
 
 bool DB_Score::isInTop10(unsigned int theScore) {
     std::vector<std::pair<std::string, unsigned int>> scores;
