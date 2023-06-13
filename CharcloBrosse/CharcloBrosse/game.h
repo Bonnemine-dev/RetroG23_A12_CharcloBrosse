@@ -71,6 +71,11 @@ private:
      */
     short currentLevel;
 
+    /**
+     * @brief currentTier the current money tier
+     */
+    short currentTier = 0;
+
     //    DB_Score itsDBScore;
 
 
@@ -122,7 +127,11 @@ public :
      */
     void colBtwPlayerAndObstacle(Player* thePlayer,Obstacle* theObstacle);
 
-
+    /**
+     * @brief Method launched when the player collides with money
+     * @param thePlayer
+     * @param theMoney the money concerned
+     */
     void colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney);
 
     /**

@@ -27,6 +27,7 @@
 #include "block.h"
 #include "obstacle.h"
 #include "spawner.h"
+#include "money.h"
 #include "despawner.h"
 #include "typedef.h"
 #include "tileset.h"
@@ -96,7 +97,7 @@ private:
     /**
      * @brief itsMoneyList the list of the money that the player can collect
      */
-    std::vector<Despawner *> itsMoneyList;
+    std::vector<Money *> itsMoneyList;
 
     /**
      * @brief itsEnemyAppearsTimes the delay before the papparition of all the enemies
@@ -152,6 +153,11 @@ public:
      */
     void display(QPainter * painter);
     void removeEnemy(Enemy * enemy);
+    /**
+     * @brief removes the money collected
+     * @param The concerned money
+     */
+    void removeMoney(Money * money);
     unsigned short getItsId() const;
     unsigned short getItsMinDelay() const;
     unsigned short getItsMaxDelay() const;
@@ -162,6 +168,7 @@ public:
     void activate();
     bool isActive();
     void desactivate();
+    std::vector<Money *> getItsMoneyList() const;
 };
 
 #endif // LEVEL_H

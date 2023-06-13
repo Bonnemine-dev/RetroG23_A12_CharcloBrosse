@@ -78,6 +78,13 @@ void Game::gameLoop()
 
         if(isLevelFinished()){
             if (currentLevel != MAX_LEVEL){
+                if (currentTier != checkTier()){
+                    currentTier = checkTier();
+                    delete itsTileSet;
+                    std::string tileSetFileName = ":/ressources/tileset" + std::to_string(((int) currentTier)-1) + ".png";
+                    std::string BackgroundFileName = ":/ressources/background" + std::to_string(((int) currentTier)-1) + ".png";
+                    itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
+                }
                 currentLevel++;
                 openLevel();
                 itsHMI->setLevel(itsLevel);
@@ -263,17 +270,13 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     }
     else//quand l'enemie est KO
     {
-        int tier = checkTier();
-        int multiplier = 1 + (tier * 3); // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
+        int tier = currentTier;
+        int multiplier = tier * 3; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
         itsScore += theEnemy->getItsType() * multiplier;
         itsLevel->removeEnemy(theEnemy);
     }
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 void Game::colBtwPlayerAndObstacle(Player* thePlayer)
 {
     thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
@@ -387,16 +390,17 @@ void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
 {
     if (theMoney->getItsMoneyType()==RED)
     {
-        setItsMoney(getItsMoney()+100);
+        setItsMoney(getItsMoney()+1);
     }
     else if (theMoney->getItsMoneyType()==YELLOW)
     {
-        setItsMoney(getItsMoney()+250);
+        setItsMoney(getItsMoney()+3);
     }
     else
     {
-        setItsMoney(getItsMoney()+500);
+        setItsMoney(getItsMoney()+5);
     }
+    itsLevel->removeMoney(theMoney);
 }
 
 bool Game::isOnTop(Entity * entity1, Entity * entity2){
@@ -424,15 +428,15 @@ bool Game::collid(Entity * entity1, Entity * entity2){
 int Game::checkTier()
 {
     if (itsMoney >= 100)
-        return 4; // Quatrième palier
+        return 5; // Quatrième palier
     else if (itsMoney >= 50)
-        return 3; // Troisième palier
+        return 4; // Troisième palier
     else if (itsMoney >= 25)
-        return 2; // Deuxième palier
+        return 3; // Deuxième palier
     else if (itsMoney >= 10)
-        return 1; // Premier palier
+        return 2; // Premier palier
     else
-        return 0; // Pas encore de palier atteint
+        return 1; // Pas encore de palier atteint
 }
 
 
