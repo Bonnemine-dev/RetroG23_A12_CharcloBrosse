@@ -91,6 +91,11 @@ private:
      * @brief itsStartLevelTimer the timer to display the level number only during 1 seconds
      */
     QTimer *itsStartLevelTimer;
+    /**
+     * @brief itsLevelTimer the timer for the maximum time to do a level
+     */
+    QTimer *itsLevelTimer;
+
 
 
     /**
@@ -105,6 +110,11 @@ private:
     void clearPaintings();
 
     bool shouldDraw = true; ///< Boolean indicating whether drawing should be performed or not.
+
+    /**
+     * @brief timeRemaining the time reamaining to do the level (only use to pause game)
+     */
+    long long timeRemaining;
 public:
     /**
      * @brief Constructor of the HMI class.
@@ -176,6 +186,11 @@ private slots:
      * @brief startLevel display the level number before the level;
      */
     void startLevel();
+
+    /**
+     * @brief levelTimeout terminate the level when the time is ellapsed
+     */
+    void levelTimeout();
 
 
 public slots:

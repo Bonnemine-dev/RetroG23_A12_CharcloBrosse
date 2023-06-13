@@ -182,9 +182,9 @@ TileSet::TileSet(std::string aTileSetFilePath, std::string aBackgroundFilePath)
         itsObstacleTile = new QPixmap(tileset.copy(100, 296, 32, 32));
 
         // Block POW normal
-        itsPOWTilesList[0] = new QPixmap(tileset.copy(1, 329, 32, 32));
+        itsPOWTilesList[0] = new QPixmap(tileset.copy(166, 133, 64, 64));
         // Block POW frappé
-        itsPOWTilesList[1] = new QPixmap(tileset.copy(34, 329, 32, 32));
+        itsPOWTilesList[1] = new QPixmap(tileset.copy(231, 133, 64, 64));
 
 
 
@@ -700,6 +700,7 @@ QPixmap* TileSet::getItsBlockHittedTile()
     return itsBlockTilesList[1];
 }
 
+
 /**
  * @brief Tileset::getItsGroundTile() function implementation
  * @return QPixmap* : A pointer to the image of a ground Block
@@ -711,12 +712,12 @@ QPixmap *TileSet::getItsGroundTile()
 
 QPixmap *TileSet::getItsPOWBlockTile()
 {
-    return itsBlockTilesList[0];
+    return itsPOWTilesList[0];
 }
 
 QPixmap *TileSet::getItsPOWBlockHittedTile()
 {
-    return itsBlockTilesList[1];
+    return itsPOWTilesList[1];
 }
 
 QPixmap *TileSet::getItsObstacleTile()

@@ -163,6 +163,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
                                "}";
 
     itsStartLevelTimer = new QTimer(this);
+    itsLevelTimer = new QTimer(this);
 
     resumeButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     resumeButton->setFont(buttonFont);
@@ -206,6 +207,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     connect(quitToMainButton2, &QPushButton::clicked, this, &HMI::leave);
 
     connect(itsStartLevelTimer, &QTimer::timeout, this, &HMI::startLevel);
+    connect(itsLevelTimer, &QTimer::timeout, this, &HMI::levelTimeout);
 
     // Définir la politique de focus pour permettre la navigation entre les boutons
     startGameButton->setFocusPolicy(Qt::StrongFocus);
@@ -293,14 +295,26 @@ void HMI::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
+
     if (itsLevel != nullptr && itsLevel->isActive() && shouldDraw){
-        unsigned int score = itsGame->getItsScore();
-        short lives = itsGame->getItsPlayer()->getItsLivesNb();
         QPainter * painter = new QPainter(this);
-        painter->drawText(10, 20, QString("Score: %1").arg(score)); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
-        painter->drawText(10, 40, QString("Lives: %1").arg(lives)); // Le texte apparaîtra à 10 pixels du bord gauche et à 40 pixels du haut de l'écran
+        painter->setFont(QFont("VT323", 14));
+        painter->drawText(10, 20, QString("Score: %1").arg(itsGame->getItsScore())); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
+        painter->drawText(10, 40, QString("Lives: %1").arg(itsGame->getItsPlayer()->getItsLivesNb()));
+        painter->drawText(10, 60, QString("Wallet: %1").arg(itsGame->getItsMoney()));
         itsLevel->display(painter);
         itsPlayer->display(painter);
+        painter->setFont(QFont("VT323", 28));
+        if (itsLevelTimer->remainingTime()/1000 > 99){
+            painter->drawText(1230, 30, QString("%1").arg(itsLevelTimer->remainingTime()/1000));
+        }
+        else if (itsLevelTimer->remainingTime()/1000 > 9){
+            painter->drawText(1230, 30, QString("0%1").arg(itsLevelTimer->remainingTime()/1000));
+        }
+        else {
+            painter->drawText(1230, 30, QString("00%1").arg(itsLevelTimer->remainingTime()/1000));
+        }
+
         painter->end();
     }
 
@@ -329,6 +343,8 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
 
 void HMI::displayPauseMenu()
 {
+    timeRemaining = itsLevelTimer->remainingTime();
+    itsLevelTimer->stop();
     itsGame->onGamePaused();
     state = PAUSEMENU;
     resumeButton->setDefault(true);
@@ -375,6 +391,7 @@ void HMI::resume()
     shouldDraw = true;
     displayGame();
     itsGame->onGameResumed();
+    itsLevelTimer->start(timeRemaining);
 }
 
 void HMI::leave()
@@ -395,6 +412,7 @@ void HMI::gameLoop(){
 void HMI::stopGame()
 {
     itsTimer->stop();
+    itsLevelTimer->stop();
 
     if (DBSCORE->isInTop10(itsGame->getItsScore()))
     {
@@ -439,5 +457,14 @@ void HMI::startLevel(){
     itsStartLevelTimer->stop();
     itsLevelNumberText->setText("");
     itsLevel->activate();
+    itsLevelTimer->start(itsLevel->getItsTimerTime()*1000);
     itsGame->spawnPlayer();
+}
+
+void HMI::levelTimeout()
+{
+    itsLevelTimer->stop();
+    itsTimer->stop();
+    itsGame->levelTimeout();
+    stopGame();
 }
