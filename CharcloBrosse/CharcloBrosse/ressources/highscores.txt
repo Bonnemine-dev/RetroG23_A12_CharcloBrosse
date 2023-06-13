@@ -9,13 +9,17 @@ HEY,900
 Bonsoir,400
 tombo,200
 tombo,200
+erwan,200
 erwan,100
 >>>>>>> dev
 Tabliblu,100
+<<<<<<< HEAD
 erwan,100
 <<<<<<< HEAD
 erwan,100
 uuuu,100
 Samuel,50
+=======
+>>>>>>> dev
 =======
 >>>>>>> dev

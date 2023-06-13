@@ -8,6 +8,7 @@
 
 #include "level.h"
 #include "typedef.h"
+#include "accelerator.h"
 
 std::vector<Block *> Level::getItsBlockList() const
 {
@@ -35,22 +36,32 @@ void Level::display(QPainter *painter)
         itsBlockList.at(i)->display(painter);
     }
     for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
-        if(itsEnemiesList.at(i)->getItsType() == STANDARD)dynamic_cast<Standard*>(itsEnemiesList.at(i))->display(painter);
-        else if(itsEnemiesList.at(i)->getItsType() == ACCELERATOR)dynamic_cast<Accelerator*>(itsEnemiesList.at(i))->display(painter);
-        else if(itsEnemiesList.at(i)->getItsType() == GIANT)dynamic_cast<Giant*>(itsEnemiesList.at(i))->display(painter);
-    }
-    for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
-        itsSpawnerList.at(i)->display(painter);
-    }
-    for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
-        itsDespawnerList.at(i)->display(painter);
-    }
-    for (Money * money : itsMoneyList){
-        money->display(painter);
+        if(itsEnemiesList.at(i)->getItsType() == STANDARD)
+        {
+            dynamic_cast<Standard*>(itsEnemiesList.at(i))->display(painter);
+        }
+        else if(itsEnemiesList.at(i)->getItsType() == ACCELERATOR)
+        {
+            dynamic_cast<Accelerator*>(itsEnemiesList.at(i))->display(painter);
+        }
+        else if (itsEnemiesList.at(i)->getItsType() == GIANT)
+        {
+            dynamic_cast<Giant*>(itsEnemiesList.at(i))->display(painter);
+        }
+        for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
+            itsSpawnerList.at(i)->display(painter);
+        }
+        for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
+            itsDespawnerList.at(i)->display(painter);
+        }
+        for (Money * money : itsMoneyList){
+            money->display(painter);
+        }
     }
 }
 
-void Level::removeEnemy(Enemy * enemy) {
+void Level::removeEnemy(Enemy * enemy)
+{
     itsEnemiesList.erase(std::remove(itsEnemiesList.begin(), itsEnemiesList.end(), enemy), itsEnemiesList.end());
 }
 

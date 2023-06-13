@@ -27,13 +27,13 @@ short Accelerator::getItsSpeedState() const
 Accelerator::Accelerator( short height,  short width, std::array<std::array<QPixmap *,12>*, 3>* theSpritesList)
     :Enemy(height, width)
 {
-    itsType = STANDARD;
+    itsType = ACCELERATOR;
     itsSpritesList = theSpritesList;
 }
 
 void Accelerator::display(QPainter *painter)//painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0)->at(2));
 {
-    unsigned short speedstate = itsSpeedState == 1?1:itsSpeedState == 5?2:3;
+    unsigned short speedstate = itsSpeedState == 1?0:itsSpeedState == 5?1:2;
     if(itsState){
         if(isOnTheGround){
             if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/STANDARD_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)

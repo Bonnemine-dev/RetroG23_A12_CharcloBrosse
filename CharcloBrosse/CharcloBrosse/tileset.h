@@ -392,7 +392,6 @@ public:
      * @return QPixmap* : A pointer to the background image
      */
     QPixmap* getItsBackground();
-
     std::array<QPixmap *, 12> *getItsPlayerTilesList();
     std::array<QPixmap *, 12> *getItsEnnemyStandardTilesList();
     std::array<std::array<QPixmap *, 12> *, 3> *getItsEnnemyAcceleratorTilesList();

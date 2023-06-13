@@ -40,13 +40,17 @@ Game::Game()
 
 void Game::onGameStart(){
     currentLevel = 1;
+    currentTier = 1;
+    std::string tileSetFileName = ":/ressources/tileset0.png";//+ std::to_string(((int) currentTier)-1) + ".png";
+    std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
+    itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
     itsPlayer->setItsLivesNb(3);
     itsScore = 0;
     openLevel();
     itsHMI->setLevel(itsLevel);
     itsHMI->displayLevelNumber();
     itsEllapsedTime = 0;
-    //Lancement de la fonction GameLoop
+    itsMoney = 0;
     gameLoop();
     running = true;
 }
@@ -86,14 +90,14 @@ void Game::gameLoop()
         itsLoopCounter--;
 
         if(isLevelFinished()){
+            if (currentTier != checkTier()){
+                currentTier = checkTier();
+                delete itsTileSet;
+                std::string tileSetFileName = ":/ressources/tileset0.png";//+ std::to_string(((int) currentTier)-1) + ".png";
+                std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
+                itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
+            }
             if (currentLevel != MAX_LEVEL){
-                if (currentTier != checkTier()){
-                    currentTier = checkTier();
-                    delete itsTileSet;
-                    std::string tileSetFileName = ":/ressources/tileset" + std::to_string(((int) currentTier)-1) + ".png";
-                    std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
-                    itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
-                }
                 currentLevel++;
                 openLevel();
                 itsHMI->setLevel(itsLevel);
@@ -102,8 +106,11 @@ void Game::gameLoop()
                 itsEllapsedTime = 0;
             }
             else{
-                currentLevel = 1;
-                itsHMI->stopGame();
+                openLevel();
+                itsHMI->setLevel(itsLevel);
+                itsHMI->displayLevelNumber();
+                itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+                itsEllapsedTime = 0;
             }
         }
 
@@ -320,7 +327,7 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     else//quand l'enemie est KO
     {
         int tier = currentTier;
-        int multiplier = tier * 3; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
+        int multiplier = tier; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
         itsScore += theEnemy->getItsType() * multiplier;
         itsLevel->removeEnemy(theEnemy);
     }
@@ -353,7 +360,7 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
         if(enemy->getItsYSpeed() == 0)
         {
             // Si l'ennemi n'est pas KO
-            if((enemy->getItsState() == true))
+            if((enemy->getItsState() && true))
             {
                 // L'ennemi deveint KO
                 enemy->setItsState(false);
@@ -536,22 +543,22 @@ int Game::checkTier()
 {
     if (itsMoney >= 100)
     {
-        cheminBG = ":/ressources/background0.png";
+        cheminBG = ":/ressources/background1.png";
         return 5; // Quatrième palier
     }
     else if (itsMoney >= 50)
     {
-        cheminBG = ":/ressources/background0.png";
+        cheminBG = ":/ressources/background1.png";
         return 4; // Troisième palier
     }
     else if (itsMoney >= 25)
     {
-        cheminBG = ":/ressources/background0.png";
+        cheminBG = ":/ressources/background1.png";
         return 3; // Deuxième palier
     }
     else if (itsMoney >= 10)
     {
-        cheminBG = ":/ressources/background0.png";
+        cheminBG = ":/ressources/background1.png";
         return 2; // Premier palier
     }
     else

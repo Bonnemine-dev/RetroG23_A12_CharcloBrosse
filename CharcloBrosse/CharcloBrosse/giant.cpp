@@ -7,16 +7,19 @@
  */
 
 #include "giant.h"
+#include "QtCore/qdebug.h"
 std::array<QPixmap *,12>* Giant::itsSpritesList = nullptr;
 //Constructeur de Giant
 Giant::Giant( short height,  short width, std::array<QPixmap *,12>* theSpritesList)
     :Enemy(height, width)
 {
-    itsType = STANDARD;
+    itsType = GIANT;
     itsSpritesList = theSpritesList;
 }
 void Giant::display(QPainter *painter)
 {
+    qWarning()<<"Je viends de display le geant";
+
     if(itsState){
         if(isOnTheGround){
             if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/GIANT_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
