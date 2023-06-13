@@ -1,7 +1,16 @@
+/**
+ * @file block.h
+ * @brief Header file for class Block
+ * @author Tom Bonneau
+ * @date 09/06/2023
+ * @version 1.3
+ */
+
 #ifndef BLOCK_H
 #define BLOCK_H
 
 #include "entity.h"
+#include "typedef.h"
 
 /**
  * @class Block
@@ -16,6 +25,7 @@ class Block : public Entity
 private:
     bool itsState = false; ///< State of the block.
     unsigned short itsCounter = 0; ///< Counter associated with the block.
+    BlockType itsType;
 public:
     /**
      * @brief Constructor of the Block class.
@@ -25,7 +35,9 @@ public:
      * @param width Width of the block.
      * @param sprite QPixmap sprite used for the block.
      */
-    Block( short x,  short y,  short height,  short width, QPixmap * sprite);
+    Block( short x,  short y,  short height,  short width, QPixmap * sprite,BlockType theBlockType);
+
+    virtual ~Block();
 
     /**
      * @brief Gets the state of the block.
@@ -50,6 +62,7 @@ public:
      */
     unsigned short getItsCounter() const;
     void setItsCounter(unsigned short newItsCounter);
+    BlockType getItsType() const;
 };
 
 #endif // BLOCK_H

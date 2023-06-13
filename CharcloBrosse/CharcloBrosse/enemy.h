@@ -1,11 +1,18 @@
+/**
+ * @file enemy.h
+ * @brief Header file for class Enemy
+ * @author Tom Bonneau
+ * @date 06/06/2023
+ * @version 1.3
+ */
+
 #ifndef ENEMY_H
 #define ENEMY_H
 
 #include <QPixmap>
-
+#include "typedef.h"
 #include "entity.h"
 
-enum EnemyType {STANDARD=100, ACCELERATOR=200, JUMPER=300, GIANT=400, FREEZER=500};
 
 /**
  * @class Enemy
@@ -20,6 +27,7 @@ protected:
     short itsXSpeed = 0; ///< Speed of the enemy on the X axis.
     short itsYSpeed = 0; ///< Speed of the enemy on the Y axis.
     bool itsState = true; ///< State of the enemy.
+    short itsNumberLoopKO = 0;
     EnemyType itsType; ///< Type of the enemy.
     bool isOnTheGround = true; ///< True is the player is on the ground .
 public:
@@ -33,6 +41,9 @@ public:
      * @param sprite QPixmap sprite used for the enemy.
      */
     Enemy( short height,  short width, QPixmap * sprite);
+
+    virtual ~Enemy(); // Ajoutez un destructeur virtuel
+
     /**
      * @brief Gets the speed of the enemy on the X axis.
      * @return The speed on the X axis.
@@ -88,6 +99,8 @@ public:
      * @return The "is on the ground" status.
      */
     bool getIsOnTheGround() const;
+    short getItsNumberLoopKO() const;
+    void setItsNumberLoopKO(short newItsNumberLoopKO);
 };
 
 #endif // ENEMY_H

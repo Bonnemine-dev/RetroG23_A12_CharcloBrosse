@@ -1,3 +1,10 @@
+/**
+ * @file level.h
+ * @brief Header file for class Level
+ * @author Kevin Simon
+ * @date 09/06/2023
+ * @version 1.5
+ */
 
 #ifndef LEVEL_H
 #define LEVEL_H
@@ -15,8 +22,12 @@
 #include "entity.h"
 #include "enemy.h"
 #include "standard.h"
+#include "giant.h"
+#include "accelerator.h"
 #include "block.h"
+#include "obstacle.h"
 #include "spawner.h"
+#include "money.h"
 #include "despawner.h"
 #include "typedef.h"
 #include "tileset.h"
@@ -84,6 +95,11 @@ private:
     std::vector<Despawner *> itsDespawnerList;
 
     /**
+     * @brief itsMoneyList the list of the money that the player can collect
+     */
+    std::vector<Money *> itsMoneyList;
+
+    /**
      * @brief itsEnemyAppearsTimes the delay before the papparition of all the enemies
      */
     std::vector<unsigned short> itsEnemyAppearsTimes;
@@ -92,6 +108,8 @@ private:
      * @brief itsEnemyAppearsSides the side of apparition for all the enemies
      */
     std::vector<Sides> itsEnemyAppearsSides;
+
+    int itsTimerTime;
 
     bool active;
 
@@ -137,6 +155,11 @@ public:
      */
     void display(QPainter * painter);
     void removeEnemy(Enemy * enemy);
+    /**
+     * @brief removes the money collected
+     * @param The concerned money
+     */
+    void removeMoney(Money * money);
     unsigned short getItsId() const;
     unsigned short getItsMinDelay() const;
     unsigned short getItsMaxDelay() const;
@@ -146,6 +169,9 @@ public:
     void appears(Enemy * enemy);
     void activate();
     bool isActive();
+    void desactivate();
+    int getItsTimerTime() const;
+    std::vector<Money *> getItsMoneyList() const;
 };
 
 #endif // LEVEL_H

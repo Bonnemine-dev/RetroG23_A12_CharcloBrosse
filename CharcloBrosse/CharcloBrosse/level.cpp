@@ -1,5 +1,13 @@
+/**
+ * @file level.cpp
+ * @brief Source file for class Level
+ * @author Kevin Simon
+ * @date 05/06/2023
+ * @version 1.1
+ */
 
 #include "level.h"
+#include "typedef.h"
 
 std::vector<Block *> Level::getItsBlockList() const
 {
@@ -26,19 +34,26 @@ void Level::display(QPainter *painter)
     for (unsigned short i = 0; i < itsBlockList.size(); i++){ // affiche tout les blocs
         itsBlockList.at(i)->display(painter);
     }
+    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
+        itsEnemiesList.at(i)->display(painter);
+    }
     for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
         itsSpawnerList.at(i)->display(painter);
     }
     for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
         itsDespawnerList.at(i)->display(painter);
     }
-    for (unsigned short i = 0; i < itsEnemiesList.size(); i++){ // affiche tout les ennemis
-        itsEnemiesList.at(i)->display(painter);
+    for (Money * money : itsMoneyList){
+        money->display(painter);
     }
 }
 
 void Level::removeEnemy(Enemy * enemy) {
     itsEnemiesList.erase(std::remove(itsEnemiesList.begin(), itsEnemiesList.end(), enemy), itsEnemiesList.end());
+}
+
+void Level::removeMoney(Money * money) {
+    itsMoneyList.erase(std::remove(itsMoneyList.begin(), itsMoneyList.end(), money), itsMoneyList.end());
 }
 
 unsigned short Level::getItsId() const
@@ -71,6 +86,17 @@ std::vector<Enemy *> Level::getItsRemainingEnemies() const
     return itsRemainingEnemies;
 }
 
+
+int Level::getItsTimerTime() const
+{
+    return itsTimerTime;
+}
+
+std::vector<Money *> Level::getItsMoneyList() const
+{
+    return itsMoneyList;
+}
+
 Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelFilePath)
 {
     // open the file and parse it
@@ -95,11 +121,10 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     itsId = jsonRoot.value("id").toInt(0); // reccupere l'id du niveau
     QJsonArray level = jsonRoot.value("level").toArray(); // reccupère la liste des blocs
     QJsonArray Enemies = jsonRoot.value("enemies").toArray(); // reccupère la liste des ennemis
+    QJsonArray Moneys = jsonRoot.value("moneys").toArray();
     itsMinDelay = jsonRoot.value("minDelay").toInt(0); // get the minimum delay of appartition of an enemy
     itsMaxDelay = jsonRoot.value("maxDelay").toInt(0); // get the maximun delay of appartition of an enemy
-    qWarning() << itsMinDelay;
-    qWarning() << itsMaxDelay;
-
+    itsTimerTime = jsonRoot.value("timer").toInt(0); // get the time to finish a level
 
     // compute the data
     for (unsigned short line=0; line < level.size(); line++){ // for each line of the level
@@ -107,10 +132,16 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         for (unsigned short col=0; col < jsonLine.size(); col++){ // for each column
             int block = jsonLine[col].toInt(0); // get the block number (0 for nothing, 1 for the ground, 2 for the platform)
             if (block == 1){ // if ground block
-                itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile()));
+                itsBlockList.push_back(new Block(col*32, line*32, 32, 32, tileSet->getItsGroundTile(),GROUND));
             }
-            if (block == 2){ // if platform block
-                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile())));
+            else if (block == 2){ // if platform block
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsBlockTile(),BRICK)));
+            }
+            else if (block == 3){ // if obstacle
+                itsBlockList.push_back((new Block(col*32, line*32, 32, 32, tileSet->getItsObstacleTile(),OBSTACLE)));
+            }
+            else if (block == 4){ // if block_POW
+                itsBlockList.push_back((new Block(col*32, line*32, 64, 64, tileSet->getItsPOWBlockTile(), POW)));
             }
         }
     }
@@ -119,7 +150,25 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         QJsonArray jsonLine = Enemies[line].toArray(); // get the array
         std::string type = jsonLine[0].toString().toStdString(); // get the type of the enemy in string
         if (type == "standard"){ // if a standard enemy
-            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyTile())); // create the enemy and add it to the list
+            itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnemyStandardRunningRightTile(0))); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
+        else if (type == "giant"){ // if a giant enemy
+            itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsEnemyGiantRunningRightTile(0))); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
+        else if (type == "accelerator"){ // if an accelerator enemy
+            itsRemainingEnemies.push_back(new Accelerator(32, 32, tileSet->getItsEnemyAccelerator1RunningRightTile(0))); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
@@ -130,16 +179,33 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     }
 
     if (itsRemainingEnemies.size() > 1){
-            for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
-                unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
-                itsEnemyAppearsTimes.push_back(temp); // compute the delay
+        for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
+            unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
+            itsEnemyAppearsTimes.push_back(temp); // compute the delay
+        }
+        // std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
+    }
+    else {
+        itsEnemyAppearsTimes.push_back(itsMaxDelay);
+    }
+
+    for (unsigned short line=0; line < Moneys.size(); line++){
+            QJsonArray jsonLine = Moneys[line].toArray();
+            int type = jsonLine[0].toInt(0);
+            int x = jsonLine[1].toInt(0);
+            int y = jsonLine[2].toInt(0);
+            switch (type) {
+            case 0:
+                itsMoneyList.push_back(new Money(RED, x, y, 32, 32, tileSet->getItsRedCoinTile(0)));
+                break;
+            case 1:
+                itsMoneyList.push_back(new Money(YELLOW, x, y, 32, 32, tileSet->getItsYellowCoinTile(0)));
+                break;
+            case 2:
+                itsMoneyList.push_back(new Money(BILL, x, y, 32, 32, tileSet->getItsBillTile(0)));
+                break;
             }
-            std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
         }
-        else {
-            itsEnemyAppearsTimes.push_back(itsMaxDelay);
-        }
-    std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
 
     itsSpawnerList.push_back(new Spawner(0, 32*3, 96, 64, tileSet->getItsSpawnerTile(0)));
     itsSpawnerList.push_back(new Spawner(32*38, 32*3, 96, 64, tileSet->getItsSpawnerTile(1)));
@@ -151,19 +217,10 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
 }
 
 void Level::appears(Enemy * enemy){
-    for (std::vector<Enemy *>::iterator it=itsRemainingEnemies.begin(); it != itsRemainingEnemies.end(); it++){ // scan the ennemies list
-        if ((*it)==enemy){ //if it's the good enemy
-            qWarning() << "apparition";
-            itsRemainingEnemies.erase(it); // remove from the list
-            qWarning() << "apparition";
-            itsEnemiesList.push_back(*it);
-            qWarning() << "apparition";
-            itsEnemyAppearsTimes.erase(itsEnemyAppearsTimes.begin());
-            qWarning() << "apparition";
-            itsEnemyAppearsSides.erase(itsEnemyAppearsSides.begin());
-            break;
-        }
-    }
+    itsRemainingEnemies.pop_back();
+    itsEnemiesList.push_back(enemy);
+    itsEnemyAppearsTimes.pop_back();
+    itsEnemyAppearsSides.pop_back();
 }
 
 void Level::activate(){
@@ -172,4 +229,9 @@ void Level::activate(){
 
 bool Level::isActive(){
     return active;
+}
+
+void Level::desactivate()
+{
+    active = false;
 }

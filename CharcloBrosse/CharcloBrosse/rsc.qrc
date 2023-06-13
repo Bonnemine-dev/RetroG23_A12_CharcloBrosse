@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ressources/level1.json</file>
+        <file>ressources/level2.json</file>
+        <file>ressources/PressStart2P-Regular.ttf</file>
+        <file>ressources/VT323-Regular.ttf</file>
+        <file>ressources/background0.png</file>
+        <file>ressources/tileset0.png</file>
+        <file>ressources/level3.json</file>
+        <file>ressources/level4.json</file>
+        <file>ressources/background1.png</file>
+    </qresource>
+</RCC>

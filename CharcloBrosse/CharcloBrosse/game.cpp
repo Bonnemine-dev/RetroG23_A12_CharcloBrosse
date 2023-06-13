@@ -1,3 +1,11 @@
+/**
+ * @file game.cpp
+ * @brief Source file for class Game
+ * @author Arthur Ancien
+ * @date 05/06/2023
+ * @version 1.2
+ */
+
 #include <chrono>
 #include <QObject>
 #include "game.h"
@@ -6,77 +14,100 @@
 #include <QElapsedTimer>
 #include <QDebug>
 #include <iostream>
-
-void displayCoord(Entity * entity1, Entity * entity2){
-    qWarning() << entity1->getItsY();
-    qWarning() << entity2->getItsY();
-
-    //    qWarning() << "trop a droite : " << (entity2->getItsX() > entity1->getItsX() + entity1->getItsWidth());
-    //    qWarning() << "trop a gauche : " << (entity2->getItsX() + entity2->getItsWidth() < entity1->getItsX());
-    //    qWarning() << "trop en bas : " << (entity2->getItsY() > entity1->getItsY() + entity1->getItsHeight());
-    //    qWarning() << "trop en haut : " << (entity2->getItsY() + entity2->getItsHeight() < entity1->getItsY());
-}
+#include <QThread>
 
 
 Game::Game()
 {
-    itsTileSet = new TileSet("../../CharcloBrosse/CharcloBrosse/ressources/tilsetCharclo.png");
-    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTile());
-    itsLevel = new Level("../../CharcloBrosse/CharcloBrosse/ressources/oneenemy.json",itsTileSet);
-    itsHMI = new HMI(itsLevel, itsPlayer, this);
+    itsTileSet = new TileSet(TILESET_FILE_PATH);
+    itsPlayer = new Player((32*39)/2, (32*18), 64, 32, itsTileSet->getItsPlayerRunningRightTile(1));
+    itsLevel = nullptr;
+    itsHMI = new HMI(nullptr, itsPlayer, this);
     itsEllapsedTime = 0;
     itsHMI->show();
-    countJump = 0;
+    itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+    running = false;
+    isBlockPOWHitted = false;
+
 }
 // Connexion des signaux et slots
 
 void Game::onGameStart(){
-    itsLevel->activate();
-    itsHMI->refreshAll();
+    currentLevel = 1;
+    itsTileSet = new TileSet(TILESET_FILE_PATH);
+    itsPlayer->setItsLivesNb(3);
+    itsScore = 0;
+    openLevel();
+    itsHMI->setLevel(itsLevel);
+    itsHMI->displayLevelNumber();
     itsEllapsedTime = 0;
+    gameLoop();
+    running = true;
 }
 
 void Game::gameLoop()
 {
-    //    QElapsedTimer timer;
-    //    timer.start();
+    if(running){
+        QElapsedTimer timer;
+        timer.restart();
+        if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+        itsEllapsedTime += 0.001;
 
-    itsEllapsedTime += 0.16;//0.16
+        if (itsLevel->getItsRemainingEnemies().size() > 0){
+            unsigned short pos = itsLevel->getItsRemainingEnemies().size()-1;
+            if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(pos))
+            {
+                Enemy * enemy = itsLevel->getItsRemainingEnemies().at(pos);
+                Sides side = itsLevel->getItsEnemyAppearsSides().at(pos);
+                switch(side){
+                case LEFT:
+                    itsLevel->getItsSpawnerList().at(0)->appears(enemy);
+                    enemy->setItsXSpeed(RIGHT_X);
+                    break;
+                case RIGHT:
+                    itsLevel->getItsSpawnerList().at(1)->appears(enemy);
+                    enemy->setItsXSpeed(LEFT_X);
+                    break;
+                }
 
-
-    if(!itsLevel->getItsEnemiesList().empty())std::cout<<"L'état du enemy : "<<itsLevel->getItsEnemiesList().at(itsLevel->getItsEnemiesList().size()-1)->getItsState()<<"\n";
-
-    if(!(itsLevel->getItsEnemyAppearsTimes().empty()) && itsEllapsedTime >= itsLevel->getItsEnemyAppearsTimes().at(0))
-    {
-        std::cout<<"Je passe dans la condition pour faire apparaitre un enemy \n";
-        Enemy * enemy = itsLevel->getItsRemainingEnemies().at(0);
-        Sides side = itsLevel->getItsEnemyAppearsSides().at(0);
-        switch(side){
-        case LEFT:
-            itsLevel->getItsSpawnerList().at(0)->appears(enemy);
-            break;
-        case RIGHT:
-            itsLevel->getItsSpawnerList().at(1)->appears(enemy);
-            break;
+                itsLevel->appears(enemy);
+                itsEllapsedTime = 0;
+            }
         }
-        itsLevel->appears(enemy);
-        itsEllapsedTime = 0;
-    }
+        checkAllCollid();
+        moveAll();
+        if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
+        itsLoopCounter--;
 
-    //system("clear");
-    checkAllCollid();
-    //    //std::cout<<"Est sur une platforme : "<<itsPlayer->getIsOnTheGround()<<"\n";
-    moveAll();
-    itsHMI->refreshAll();
-    std::cout<<"count jump = "<<countJump<<"\n";
-    countJump = (countJump != 0?countJump = countJump - 1:countJump);
-    //    qint64 elapsed = timer.nsecsElapsed(); // Temps écoulé en nanosecondes
-    //    //std::cout << "Temps écoulé:" << elapsed << "nanosecondes";
-    std::cout<<" taille de la list d'ennemies\n";
-    if((itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty()) || itsPlayer->getItsLivesNb() == 0)
+        if(isLevelFinished()){
+            if (currentLevel != MAX_LEVEL){
+                if (currentTier != checkTier()){
+                    currentTier = checkTier();
+                    delete itsTileSet;
+                    itsTileSet = new TileSet(":/ressources/tileset0.png");
+                }
+                currentLevel++;
+                openLevel();
+                itsHMI->setLevel(itsLevel);
+                itsHMI->displayLevelNumber();
+                itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+                itsEllapsedTime = 0;
+            }
+            else{
+                currentLevel = 1;
+                itsHMI->stopGame();
+            }
+        }
+
+        if(itsPlayer->getItsLivesNb() == 0)
+        {
+            currentLevel = 1;
+            itsHMI->stopGame();
+        }
+    }
+    if(resetAcceleration)
     {
-        std::cout<<"Je passe pas la condition de list vide\n";
-        itsHMI->stopGame();
+        itsAcceleration = 5;
     }
 }
 
@@ -91,49 +122,83 @@ Player *Game::getItsPlayer() const
     return itsPlayer;
 }
 
+
+unsigned int Game::getItsMoney() const
+{
+    return itsMoney;
+}
+
+void Game::setItsMoney(unsigned int newItsMoney)
+{
+    itsMoney = newItsMoney;
+}
+void Game::spawnPlayer()
+{
+    itsPlayer->setItsYSpeed(0);
+    itsPlayer->setItsXSpeed(0);
+    itsPlayer->setX((32*39)/2);
+    itsPlayer->setY((32*18));
+}
+
+TileSet *Game::getItsTileSet() const
+{
+    return itsTileSet;
+}
+
+std::string Game::getCheminBG() const
+{
+    return cheminBG;
+}
+
 void Game::checkAllCollid(){
+    //isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
     // player to block
-    bool playerGravity = countJump == 0;
+    bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
     itsPlayer->setIsOnTheGround(false);
-    // qWarning() << "player to block";
-    for (Block * block : itsLevel->getItsBlockList()){
-        //        //std::cout<<"Le x de e2 : "<<itsPlayer->getItsX()<<" / le x + width de e1 : "<<block->getItsX() + block->getItsWidth()<<" / soit la condition : "<<(itsPlayer->getItsX() > (block->getItsX() + block->getItsWidth()))<<"\n";
-        if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
+
+    for (Block * block : itsLevel->getItsBlockList())
+    {
+        if (block->getItsType() == OBSTACLE && collid(itsPlayer, block))
         {
-            block->setItsCounter(block->getItsCounter() - 1);
-            block->setItsSprite(itsTileSet->getItsBlockHitTile());
+            colBtwPlayerAndObstacle(itsPlayer);
+
         }
-        else
+
+        if(block->getItsType() == BRICK)
         {
-            block->setItsState(false);
-            block->setItsSprite(itsTileSet->getItsBlockTile());
+            if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
+            {
+                block->setItsCounter(block->getItsCounter() - 1) ;
+                block->setItsSprite(itsTileSet->getItsBlockHittedTile());
+            }
+            else
+            {
+                block->setItsState(false);
+                block->setItsSprite(itsTileSet->getItsBlockTile());
+            }
         }
-        if(collid(itsPlayer, block) == true){
-            displayCoord(itsPlayer, block);
+        if(collid(itsPlayer, block) == true)
+        {
             colBtwPlayerAndBlock(itsPlayer, block);
-            if (isOnTop(itsPlayer, block)){
+            if (isOnTop(itsPlayer, block))
+            {
                 playerGravity = false;
                 itsPlayer->setIsOnTheGround(true);
             }
         }
     }
-
-    /*    for(unsigned int i = 0; i < itsLevel->getItsBlockList().size(); i++){
-    //        Block * block = itsLevel->getItsBlockList().at(i);
-    //        if(collid(itsPlayer, block)){
-    //            qWarning() << "collid";
-    //            colBtwPlayerAndBlock(itsPlayer, block);
-    //            if (isOnTop(itsPlayer, block)){
-    //                playerGravity = false;
-    //            }
-    //        }
-    //    }
-    */
-
-    if (playerGravity){
+    for (Money * money : itsLevel->getItsMoneyList()){
+        if(collid(itsPlayer,money))
+        {
+            colBtwPlayerAndMoney(itsPlayer,money);
+        }
+    }
+    if (playerGravity)
+    {
         itsPlayer->setItsYSpeed(GRAVITY);
     }
-    else {
+    else
+    {
         itsPlayer->setItsYSpeed(itsPlayer->getItsYSpeed() > STILL?STILL:itsPlayer->getItsYSpeed());
     }
 
@@ -142,100 +207,167 @@ void Game::checkAllCollid(){
     if (enemyList.size()>0){
         // player to enemy
 
-        qWarning() << "player to enemy";
-        for(Enemy * enemy : enemyList){
-            std::cout<<"#1";
-            if(collid(itsPlayer, enemy)){
-                std::cout<<"#2";
-                std::cout<<"collision entre player et ennemy\n";
-                colBtwPlayerAndEnemy(itsPlayer, enemy);
-            }
+        bool gravityList[enemyList.size()];
+        for (unsigned short i = 0; i < enemyList.size(); i++){
+            gravityList[i] = true;
         }
 
-        // enemy to block
-        qWarning() << "enemy to block";
-        for(Enemy * enemy : enemyList){
-            bool enemyGravity = true;
+        for (unsigned short i1 = 0; i1 < enemyList.size(); i1++){
+
+            Enemy * enemy1 = enemyList.at(i1);
+            if (collid(itsPlayer, enemy1)){
+                colBtwPlayerAndEnemy(itsPlayer, enemy1);
+            }
+
+            for (Despawner * despawner : itsLevel->getItsDespawnerList()){
+                if(collid(enemy1, despawner)){
+                    colBtwEnemyAndDespawner(enemy1, despawner);
+                }
+            }
             for (Block * block : itsLevel->getItsBlockList()){
-                if (collid(enemy, block)){
-                    colBtwEnemyAndBlock(enemy, block);
-                    if(!enemy->getItsState())
-                    {
-                        enemy->setItsSprite(itsTileSet->getItsEnemyHitTile());
+                if (collid(enemy1, block) && (block->getItsType() == BRICK || block->getItsType() == GROUND || block->getItsType() == POW)){
+                    if (isOnTop(enemy1, block)){
+                        gravityList[i1] = false;
                     }
-                    else
-                    {
-                        enemy->setItsSprite(itsTileSet->getItsEnemyTile());
-                    }
-                    if (isOnTop(enemy, block)){
-                        enemyGravity = false;
+                    colBtwEnemyAndBlock(enemy1, block);
+                }
+            }
+            if (enemyList.size() >= 2 &&  (itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0){
+                for (unsigned int i2 = i1+1; i2 < enemyList.size(); i2++){
+                    Enemy * enemy2 = enemyList.at(i2);
+                    if (enemy1 != enemy2 && collid(enemy1, enemy2)){
+                        qWarning()<<itsLoopCounter;
+                        colBtwEnemyAndEnemy(enemy1, enemy2);
+                        if (isOnTop(enemy1, enemy2)){
+                            gravityList[i1] = false;
+                        }
+                        else if (isOnTop(enemy2, enemy1)){
+                            gravityList[i2] = false;
+                        }
                     }
                 }
             }
-            if (enemyGravity){
-                std::cout<<"La gravité est appliqué\n";
-                enemy->setItsYSpeed(GRAVITY);
+            if (gravityList[i1]){
+                enemy1->setItsYSpeed(GRAVITY);
             }
             else{
-                enemy->setItsYSpeed(STILL);
+                enemy1->setItsYSpeed(STILL);
             }
-        }
-
-        // enemy to enemy
-        qWarning() << "enemy to enemy";
-        if (enemyList.size() >= 2){
-            for (std::vector<Enemy *>::iterator it1 = enemyList.begin(); it1 < (enemyList.end()--); it1++){
-                qWarning() << "enemy1";
-                for (std::vector<Enemy *>::iterator it2 = it1++; it2 < enemyList.end(); it2++){
-                    qWarning() << "enemy2";
-                    Enemy * enemy1 = *it1;
-                    Enemy * enemy2 = *it2;
-                    if (collid(enemy1, enemy2)){
-                        colBtwEnemyAndEnemy(enemy1, enemy2);
-                    }
-                }
-            }
-        }
-
-        // enemy et despawner
-        qWarning() << "enemy to despawner";
-        for (Enemy * enemy : enemyList){
-            for (Despawner * despawner : itsLevel->getItsDespawnerList()){
-                if(collid(enemy, despawner)){
-                    std::cout<<"je passe par la méthode colbtwenemyanddespawner\n";
-                        colBtwEnemyAndDespawner(enemy, despawner);
+            if(enemy1->getItsNumberLoopKO() != 0)enemy1->setItsNumberLoopKO(enemy1->getItsNumberLoopKO()-1);
+            else
+            {
+                switch (enemy1->getItsType())
+                {
+                case STANDARD:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyStandardRunningRightTile(0));
+                    break;
+                case GIANT:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
+                    break;
+                case ACCELERATOR:
+                    enemy1->setItsState(true);
+                    enemy1->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
+                    break;
+                default:
+                    break;
                 }
             }
         }
     }
 }
 
+
 void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
 {
-    std::cout<<"je suis dans la fonction qui crash\n";
-    std::cout<<"#3";
-    if(theEnemy->getItsState()&&std::cout<<"#4")//quand l'ennemie n'est PAS KO
+
+    if(theEnemy->getItsState())//quand l'ennemie n'est PAS KO
     {
         thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
-        thePlayer->setX((32*39)/2);
-        thePlayer->setY(32);
-        thePlayer->getItsRect()->moveTo((32*39)/2,32);
+        thePlayer->setX((BLOCK_SIZE*39)/2);
+        thePlayer->setY(0);
+        thePlayer->getItsRect()->moveTo((BLOCK_SIZE*39)/2,32);
+        thePlayer->setItsRemaningJumpMove(0);
+        thePlayer->setItsCurrentMove(NONE);
+        thePlayer->setItsNextMove(NONE);
     }
     else//quand l'enemie est KO
     {
-        itsScore += theEnemy->getItsType();
+        int tier = currentTier;
+        int multiplier = tier; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
+        itsScore += theEnemy->getItsType() * multiplier;
         itsLevel->removeEnemy(theEnemy);
+    }
+}
 
+void Game::colBtwPlayerAndObstacle(Player* thePlayer)
+{
+    thePlayer->setItsLivesNb(thePlayer->getItsLivesNb() - 1);
+    thePlayer->setX((32*39)/2);
+    thePlayer->setY(0);
+    thePlayer->getItsRect()->moveTo((32*39)/2,32);
+    thePlayer->setItsCurrentMove(NONE);
+    thePlayer->setItsNextMove(NONE);
+}
+
+// Fonction appelé dans la collision entre le joueur et le bloc
+void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
+{
+    // Le bloc POW passe à l'état frappé dans la gameLoop.
+    isBlockPOWHitted = true;
+    // Le saut du joueur est stoppé.
+    thePlayer->setItsRemaningJumpMove(0);
+    // L'état du bloc POW passe à true.
+    theBlockPOW->setItsState(true);
+    // L'image du bloc POW est modifié.
+    theBlockPOW->setItsSprite(itsTileSet->getItsPOWBlockHittedTile());
+    // On parcours tous les ennemis présent sur le terrain
+    for (Enemy * enemy : itsLevel->getItsEnemiesList())
+    {
+        // Les ennemis qui sont en train dde sauter ou tomber ne sont pas concerné.
+        if(enemy->getItsYSpeed() == 0)
+        {
+            // Si l'ennemi n'est pas KO
+            if((enemy->getItsState() == true))
+            {
+                // L'ennemi deveint KO
+                enemy->setItsState(false);
+                // L'image de l'ennemi est modifié
+                enemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1HittedRightTile(0));
+                // La loop de durée de KO est démarré
+                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                // Si l'ennemi est de type ACCELERATEUR il a un comportement spécial.
+                if(enemy->getItsType() == ACCELERATOR)
+                {
+                    // L'état d'accélération est modifié
+                    Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+                    accelerator->addItsSpeedState();
+                }
+            }
+            // Si l'ennemi est KO
+            else if((enemy->getItsState() == false))
+            {
+                // L'ennemi redevient vivant
+                enemy->setItsState(true);
+                // L'image de l'ennemi est modifié
+                enemy->setItsSprite(itsTileSet->getItsEnemyStandardRunningRightTile(0));
+                // La loop de durée de KO est stopppé
+                enemy->setItsNumberLoopKO(0);
+            }
+        }
     }
 }
 
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
 {
-    if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
-    {
-        theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
+    if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
+        if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
+        {
+            theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
+        }
+        theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
     }
-    theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
 }
 
 void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
@@ -243,7 +375,52 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
     theEnemy->setItsYSpeed(STILL);
     if(theBlock->getItsState())
     {
-        theEnemy->setItsState(false);
+        if(theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() == 0)
+        {
+            switch (theEnemy->getItsType())
+            {
+            case STANDARD:
+                theEnemy->setItsState(false);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardHittedRightTile(0));
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case GIANT:
+                theEnemy->setItsState(false);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantHittedRightTile(0));
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case ACCELERATOR:
+                theEnemy->setItsState(false);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1HittedRightTile(0));
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
+                accelerator->addItsSpeedState();
+                break;
+            }
+        }
+        else if(!theEnemy->getItsState() && theEnemy->getItsNumberLoopKO() < (KO_TIME * NUMBER_LOOP_PER_SECOND)-((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME)-1)//+1 car problème de précision
+        {
+            switch (theEnemy->getItsType())
+            {
+            case STANDARD:
+                theEnemy->setItsState(true);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardRunningLeftTile(0));
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case GIANT:
+                theEnemy->setItsState(true);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case ACCELERATOR:
+                theEnemy->setItsState(true);
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            default:
+                break;
+            }
+        }
     }
     theEnemy->setIsOnTheGround(true);
 }
@@ -252,9 +429,21 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsYSpeed() < STILL)
     {
-        countJump = 0;//à remplacer par STILL pour l'instant inverse la vitesse
-        theBlock->setItsState(true);
-        theBlock->setItsCounter(BLOCK_HIT_TIME);
+        // Si le bloc est un bloc POW et qu'il n'a pas été frappé.
+        if((theBlock->getItsType() == POW) == (isBlockPOWHitted == false))
+        {
+            // On appelle la méthode correspondante.
+            colBtwPlayerAndBlockPOW(thePlayer, theBlock);
+        }
+        // Sinon c'est on bloc normal.
+        else
+        {
+            thePlayer->setItsRemaningJumpMove(0);//à remplacer par STILL pour l'instant inverse la vitesse
+            theBlock->setItsState(true);
+            theBlock->setItsCounter((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME);
+        }
+
+
     }
     if(thePlayer->getItsRect()->bottom() == theBlock->getItsRect()->top())//le joueur est sur un block
     {
@@ -265,110 +454,215 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
     if((thePlayer->getItsRect()->top() < theBlock->getItsRect()->bottom()) && (thePlayer->getItsRect()->bottom() > theBlock->getItsRect()->top())){
         if((thePlayer->getItsRect()->right() == theBlock->getItsRect()->left()))
         {
-            thePlayer->setItsXSpeed(thePlayer->getItsXSpeed() > 0?0:thePlayer->getItsXSpeed());
+            thePlayer->setItsCurrentMove(NONE);
         }
         else if((thePlayer->getItsRect()->left() == theBlock->getItsRect()->right()))
         {
-            thePlayer->setItsXSpeed(thePlayer->getItsXSpeed() < 0?0:thePlayer->getItsXSpeed());
+            thePlayer->setItsCurrentMove(NONE);
         }
     }
 }
 
 void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
 {
-    theDespawner->disappear(theEnemy);
+    if ((theEnemy->getItsX() <= theEnemy->getItsWidth()) ||(theEnemy->getItsX() >= WIDTH*32-theEnemy->getItsWidth())) {
+        theDespawner->disappear(theEnemy);
+    }
 }
 
-bool Game::isOnTop(Entity * entity, Block * block){
-    return entity->getItsY() + entity->getItsHeight() <= block->getItsY();
+void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
+{
+    if (theMoney->getItsMoneyType()==RED)
+    {
+        setItsMoney(getItsMoney()+1);
+    }
+    else if (theMoney->getItsMoneyType()==YELLOW)
+    {
+        setItsMoney(getItsMoney()+3);
+    }
+    else
+    {
+        setItsMoney(getItsMoney()+5);
+    }
+    itsLevel->removeMoney(theMoney);
+}
+
+bool Game::isOnTop(Entity * entity1, Entity * entity2){
+    return entity1->getItsY() + entity1->getItsHeight() <= entity2->getItsY();
 }
 
 bool Game::collid(Entity * entity1, Entity * entity2){
 
-    //std::cout<<"La height du player = "<<entity1->getItsHeight()<<"\n";
-    //std::cout<<"La width du player = "<<entity1->getItsWidth()<<"\n";
-    //std::cout<<"Le Y du player : "<<entity1->getItsY()<<"\n";
-    //std::cout<<"Le X du player : "<<entity1->getItsX()<<"\n";
-
-    //std::cout<<"Est trop à droite : "<<(entity1->getItsX() > (entity2->getItsX() + entity2->getItsWidth()))<<"\n";
-    //std::cout<<"Car le coté d de pl : "<<entity1->getItsX()<<" est plus grand que le coté g de bl : "<<(entity2->getItsX() + entity2->getItsWidth())<<"\n";
     if(entity1->getItsX() > (entity2->getItsX() + entity2->getItsWidth())){      // trop à droite
-        // qWarning() << "trop à droite";
-        //std::cout<<"Trop à droite\n";
         return false;
     }
-    //std::cout<<"Est trop à gauche : "<<((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX())<<"\n";
     if((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX()){ // trop à gauche
-        // qWarning() << "trop à gauche";
-        //std::cout<<"Trop à gauche\n";
         return false;
     }
-    //std::cout<<"Est trop en bas : "<<(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight()))<<"\n";
     if(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight())){ // trop en bas
-        // qWarning() << "trop en bas";
-        //std::cout<<"Trop en bas\n";
         return false;
     }
 
-    //std::cout<<"Le Y + H de player : "<<(entity1->getItsY() + entity1->getItsHeight())<<" / le Y du block : "<<entity2->getItsY()<<" / soit la condition : "<<((entity1->getItsY() + entity1->getItsHeight()) > entity2->getItsY())<<"\n";
     if((entity1->getItsY() + entity1->getItsHeight()) < entity2->getItsY()){  // trop en haut
-        // qWarning() << "trop en haut";
-        //        //std::cout<<"La height du player = "<<entity1->getItsHeight()<<"\n";
-        //        //std::cout<<"La width du player = "<<entity1->getItsWidth()<<"\n";
-        //        //std::cout<<"Le Y du player : "<<entity1->getItsY()<<"\n";
-        //std::cout<<"Trop en haut\n";
         return false;
     }
-    //std::cout<<"En collision\n";
     return true;
 }
 
+int Game::checkTier()
+{
+    if (itsMoney >= 100)
+    {
+        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background1.png";
+        return 5; // Quatrième palier
+    }
+    else if (itsMoney >= 50)
+    {
+        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background1.png";
+        return 4; // Troisième palier
+    }
+    else if (itsMoney >= 25)
+    {
+        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background1.png";
+        return 3; // Deuxième palier
+    }
+    else if (itsMoney >= 10)
+    {
+        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background1.png";
+        return 2; // Premier palier
+    }
+    else
+    {
+        cheminBG = "C:/Users/erwan/retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/ressources/background0.png";
+        return 1; // Pas encore de palier atteint
+    }
+}
+
+
 
 void Game::moveAll(){
-    itsPlayer->move();
-    if(!itsLevel->getItsEnemiesList().empty()){//à revoir cette condition est pas propre
-    for (Enemy * enemy : itsLevel->getItsEnemiesList()){
-        enemy->move();
+    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/((PLAYERMAXSPEED-itsAcceleration)*BLOCK_SIZE)) == 0)//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
+    {
+        itsPlayer->move();
     }
+    for (Enemy * enemy : itsLevel->getItsEnemiesList()){
+        switch (enemy->getItsType())
+        {
+        case STANDARD:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case GIANT:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(GIANT_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case ACCELERATOR:
+            Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/((ACCELERATOR_ENEMY_SPEED+accelerator->getItsSpeedState())*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        }
     }
 }
 
 void Game::onLeftKeyPressed()
 {
-    itsPlayer->setItsXSpeed(-PLAYERMAXSPEED);
+    resetAcceleration = false;
+    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(LEFT_X);
+    itsPlayer->setItsNextMove(LEFT_X);
+    if (itsAcceleration>0)
+    {
+        itsAcceleration -= 1;
+    }
 }
 
 void Game::onRightKeyPressed()
 {
-    itsPlayer->setItsXSpeed(PLAYERMAXSPEED);
-    //std::cout<<"appuie du right : "<<itsPlayer->getItsXSpeed()<<"\n";
+    resetAcceleration = false;
+    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(RIGHT_X);
+    itsPlayer->setItsNextMove(RIGHT_X);
+    if (itsAcceleration>0)
+    {
+        itsAcceleration -= 1;
+    }
 }
 
 void Game::onUpKeyPressed()
 {
-    std::cout<<itsPlayer->getIsOnTheGround()<<" / est sur le sol? passe par upkey\n";
-    if(itsPlayer->getIsOnTheGround()){
-        itsPlayer->setItsYSpeed(-PLAYERMAXSPEED);
-        countJump = 6*32;
+    resetAcceleration = false;
+    if (itsAcceleration>0)
+    {
+        itsAcceleration -= 1;
     }
+    if(itsPlayer->getIsOnTheGround()){
+        itsPlayer->setItsYSpeed(-1);
+        itsPlayer->setItsRemaningJumpMove(PLAYER_JUMP_HEIGHT*BLOCK_SIZE);
+    }
+
+//    if(itsPlayer->getIsOnTheGround()){
+//        itsPlayer->setItsYSpeed(-5);
+//        QElapsedTimer jumpTimer;
+//        jumpTimer.start();
+//        startJump = jumpTimer.elapsed();
+//        if (jumpTimer.elapsed() <= (startJump+2))
+//        {
+//            itsPlayer->setItsYSpeed(-5);
+//        }
+//        itsPlayer->setItsYSpeed(5);
+//        //itsPlayer->setItsRemaningJumpMove(PLAYER_JUMP_HEIGHT*BLOCK_SIZE);
+//    }
 }
 
 void Game::onLeftKeyReleased()
 {
-    itsPlayer->setItsXSpeed(STILL);
+    resetAcceleration = false;
+    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(NONE);
+    itsPlayer->setItsNextMove(NONE);
+    resetAcceleration = true;
 }
 
 void Game::onRightKeyReleased()
 {
-    itsPlayer->setItsXSpeed(STILL);
+    //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(NONE);
+    itsPlayer->setItsNextMove(NONE);
+    resetAcceleration = true;
 }
 
 void Game::onGamePaused()
 {
     isInPause = true;
+    running = false;
+    itsLevel->desactivate();
 }
 
 void Game::onGameResumed()
 {
     isInPause = false;
+    running = true;
+    itsLevel->activate();
+}
+
+void Game::openLevel(){
+    std::string fileName = "://ressources/level" + std::to_string(currentLevel) + ".json";
+    if (itsLevel != nullptr){
+        delete itsLevel;
+        itsLevel = nullptr;
+    }
+    itsLevel = new Level(fileName, itsTileSet);
+}
+
+void Game::levelTimeout()
+{
+    itsLevel->desactivate();
+    running = false;
+}
+
+bool Game::isLevelFinished(){
+    return itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty();
 }
