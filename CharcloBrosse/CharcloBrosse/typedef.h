@@ -29,11 +29,11 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 
-#define TILESET_FILE_PATH "://ressources/tileset0.png"
-#define BACKGROUND_FILE_PATH "://ressources/background0.png"
-#define LEVEL_FILE_PATH "://ressources/level1.json"
+#define TILESET_FILE_PATH ":/ressources/tileset0.png"
+#define BACKGROUND_FILE_PATH ":/ressources/background0.png"
+#define LEVEL_FILE_PATH ":/ressources/level1.json"
 
-#define MAX_LEVEL 2
+#define MAX_LEVEL 4
 
 #define HIGHSCORES_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 enum MenuState {

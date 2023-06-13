@@ -34,12 +34,17 @@ Game::Game()
 
 void Game::onGameStart(){
     currentLevel = 1;
+    currentTier = 1;
+    std::string tileSetFileName = ":/ressources/tileset0.png";//+ std::to_string(((int) currentTier)-1) + ".png";
+    std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
+    itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
     itsPlayer->setItsLivesNb(3);
     itsScore = 0;
     openLevel();
     itsHMI->setLevel(itsLevel);
     itsHMI->displayLevelNumber();
     itsEllapsedTime = 0;
+    itsMoney = 0;
     gameLoop();
     running = true;
 }
@@ -79,14 +84,14 @@ void Game::gameLoop()
         itsLoopCounter--;
 
         if(isLevelFinished()){
+            if (currentTier != checkTier()){
+                currentTier = checkTier();
+                delete itsTileSet;
+                std::string tileSetFileName = ":/ressources/tileset0.png";//+ std::to_string(((int) currentTier)-1) + ".png";
+                std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
+                itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
+            }
             if (currentLevel != MAX_LEVEL){
-                if (currentTier != checkTier()){
-                    currentTier = checkTier();
-                    delete itsTileSet;
-                    std::string tileSetFileName = ":/ressources/tileset" + std::to_string(((int) currentTier)-1) + ".png";
-                    std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
-                    itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
-                }
                 currentLevel++;
                 openLevel();
                 itsHMI->setLevel(itsLevel);
@@ -95,8 +100,11 @@ void Game::gameLoop()
                 itsEllapsedTime = 0;
             }
             else{
-                currentLevel = 1;
-                itsHMI->stopGame();
+                openLevel();
+                itsHMI->setLevel(itsLevel);
+                itsHMI->displayLevelNumber();
+                itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+                itsEllapsedTime = 0;
             }
         }
 
