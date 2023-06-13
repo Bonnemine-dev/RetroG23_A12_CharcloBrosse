@@ -17,6 +17,7 @@
 #include "hmi.h"
 #include "tileset.h"
 #include "level.h"
+#include "money.h"
 
 
 //#include "DB_Score.h"
@@ -47,6 +48,10 @@ private:
      */
     unsigned int itsScore=0;
     /**
+     * @brief Money amount in the wallet.
+     */
+    unsigned int itsMoney=0;
+    /**
      * @brief Pointer to the Level object representing the current level of the game.
      */
     Level* itsLevel;
@@ -66,7 +71,13 @@ private:
      */
     short currentLevel;
 
+    /**
+     * @brief currentTier the current money tier
+     */
+    short currentTier = 0;
+
     //    DB_Score itsDBScore;
+
 
     bool running;
 
@@ -133,6 +144,16 @@ public :
     void colBtwPlayerAndBlockPOW(Player* thePlayer, Block* theBLockPOW);
 
     /**
+     * @brief Method launched when the player collides with money
+     * @param thePlayer
+     * @param theMoney the money concerned
+     */
+    void colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney);
+
+
+
+
+    /**
      * @brief checks whether a level is finished. If the player has no more lives
      * or if there are no more enemies to appear.
      * @return true if the level are finished, false else.
@@ -186,15 +207,26 @@ public :
      */
     void onGameStart();
 
+    int checkTier();
     /**
      * @brief openLevel open a level file and parse it
      * Open the current level file to get the level info and display it
      */
     void openLevel();
 
+
     unsigned int getItsScore() const;
 
     Player *getItsPlayer() const;
+
+    unsigned int getItsMoney() const;
+    void setItsMoney(unsigned int newItsMoney);
+
+    /**
+     * @brief spawnPlayer set the player position to spawn
+     */
+    void spawnPlayer();
+
 
 public slots:
     /**

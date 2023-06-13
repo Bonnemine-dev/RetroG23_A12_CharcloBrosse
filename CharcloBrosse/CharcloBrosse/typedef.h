@@ -35,6 +35,7 @@
 
 #define MAX_LEVEL 2
 
+#define HIGHSCORES_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 enum MenuState {
     MAINMENU,
     PAUSEMENU,

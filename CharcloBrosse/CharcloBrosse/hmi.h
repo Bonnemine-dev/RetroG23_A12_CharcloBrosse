@@ -39,7 +39,7 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
-    DB_Score *DBSCORE;
+    DB_Score *DBSCORE; ///< The object that we use for database methods.
 
     MenuState state; ///< Current state of the HMI.
 
@@ -53,12 +53,15 @@ private:
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
 
-    QVBoxLayout *mainLayout; ///< Main layout for the HMI.
+    QVBoxLayout *mainLayout; ///< Main layout for the main menu.
+    QHBoxLayout *middleLayout; ///< Layout for the middle section of the main menu.
+    QVBoxLayout *leftLayout; ///< Layout for the left section of the main menu.
+    QVBoxLayout *rightLayout; ///< Layout for the right section of the main menu.
     QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
     QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
     QVBoxLayout *rulesLayout; ///< Rules layout for the HMI.
-    QVBoxLayout *levelLayout;
+    QVBoxLayout *levelLayout; ///< Layout for displaying level n°.
 
     QLabel *gameTitleLabel; ///< Label for displaying "Chaclo Brosse".
     QLabel *rulesText; ///< Label for displaying game rules.

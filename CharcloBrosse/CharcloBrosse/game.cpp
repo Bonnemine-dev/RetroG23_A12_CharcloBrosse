@@ -80,19 +80,23 @@ void Game::gameLoop()
 
         if(isLevelFinished()){
             if (currentLevel != MAX_LEVEL){
+                if (currentTier != checkTier()){
+                    currentTier = checkTier();
+                    delete itsTileSet;
+                    std::string tileSetFileName = ":/ressources/tileset" + std::to_string(((int) currentTier)-1) + ".png";
+                    std::string BackgroundFileName = ":/ressources/background" + std::to_string(((int) currentTier)-1) + ".png";
+                    itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
+                }
                 currentLevel++;
                 openLevel();
                 itsHMI->setLevel(itsLevel);
                 itsHMI->displayLevelNumber();
-                itsPlayer->setX((32*39)/2);
-                itsPlayer->setY(250);
                 itsLoopCounter = NUMBER_LOOP_PER_SECOND;
                 itsEllapsedTime = 0;
             }
             else{
                 currentLevel = 1;
                 itsHMI->stopGame();
-
             }
         }
 
@@ -115,16 +119,36 @@ Player *Game::getItsPlayer() const
     return itsPlayer;
 }
 
+
+unsigned int Game::getItsMoney() const
+{
+    return itsMoney;
+}
+
+void Game::setItsMoney(unsigned int newItsMoney)
+{
+    itsMoney = newItsMoney;
+}
+void Game::spawnPlayer()
+{
+    itsPlayer->setItsYSpeed(0);
+    itsPlayer->setItsXSpeed(0);
+    itsPlayer->setX((32*39)/2);
+    itsPlayer->setY((32*18));
+}
+
 void Game::checkAllCollid(){
     //isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
     // player to block
     bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
     itsPlayer->setIsOnTheGround(false);
+
     for (Block * block : itsLevel->getItsBlockList())
     {
         if (block->getItsType() == OBSTACLE && collid(itsPlayer, block))
         {
             colBtwPlayerAndObstacle(itsPlayer);
+
         }
 
         if(block->getItsType() == BRICK)
@@ -150,8 +174,12 @@ void Game::checkAllCollid(){
             }
         }
     }
-
-
+    for (Money * money : itsLevel->getItsMoneyList()){
+        if(collid(itsPlayer,money))
+        {
+            colBtwPlayerAndMoney(itsPlayer,money);
+        }
+    }
     if (playerGravity)
     {
         itsPlayer->setItsYSpeed(GRAVITY);
@@ -160,6 +188,7 @@ void Game::checkAllCollid(){
     {
         itsPlayer->setItsYSpeed(itsPlayer->getItsYSpeed() > STILL?STILL:itsPlayer->getItsYSpeed());
     }
+
     std::vector<Enemy *> enemyList = itsLevel->getItsEnemiesList();
 
     if (enemyList.size()>0){
@@ -252,9 +281,10 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     }
     else//quand l'enemie est KO
     {
-        itsScore += theEnemy->getItsType();
+        int tier = currentTier;
+        int multiplier = tier * 3; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
+        itsScore += theEnemy->getItsType() * multiplier;
         itsLevel->removeEnemy(theEnemy);
-
     }
 }
 
@@ -366,12 +396,12 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 break;
             case GIANT:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             case ACCELERATOR:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             default:
@@ -427,6 +457,23 @@ void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
     }
 }
 
+void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
+{
+    if (theMoney->getItsMoneyType()==RED)
+    {
+        setItsMoney(getItsMoney()+1);
+    }
+    else if (theMoney->getItsMoneyType()==YELLOW)
+    {
+        setItsMoney(getItsMoney()+3);
+    }
+    else
+    {
+        setItsMoney(getItsMoney()+5);
+    }
+    itsLevel->removeMoney(theMoney);
+}
+
 bool Game::isOnTop(Entity * entity1, Entity * entity2){
     return entity1->getItsY() + entity1->getItsHeight() <= entity2->getItsY();
 }
@@ -448,6 +495,21 @@ bool Game::collid(Entity * entity1, Entity * entity2){
     }
     return true;
 }
+
+int Game::checkTier()
+{
+    if (itsMoney >= 100)
+        return 5; // Quatrième palier
+    else if (itsMoney >= 50)
+        return 4; // Troisième palier
+    else if (itsMoney >= 25)
+        return 3; // Deuxième palier
+    else if (itsMoney >= 10)
+        return 2; // Premier palier
+    else
+        return 1; // Pas encore de palier atteint
+}
+
 
 
 void Game::moveAll(){
