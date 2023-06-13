@@ -1,33 +1,10 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-bonnemine,800
-Bonsoir,400
-=======
-=======
+bonnemine,6800
 Samuel,1300
 Erwan !,1100
->>>>>>> dev
-dcshbdcksh,900
-J'ai win,900
-Salut c mo,900
+>>>>>>> dev,1100
 HEY,900
+dcshbdcksh,900
+Salut c mo,900
+J'ai win,900
+bonnemine,800
 Bonsoir,400
-tombo,200
-tombo,200
-erwan,200
-<<<<<<< HEAD
-erwan,100
->>>>>>> dev
-Tabliblu,100
-<<<<<<< HEAD
-erwan,100
-<<<<<<< HEAD
-erwan,100
-uuuu,100
-Samuel,50
-=======
->>>>>>> dev
-=======
->>>>>>> dev
-=======
->>>>>>> dev

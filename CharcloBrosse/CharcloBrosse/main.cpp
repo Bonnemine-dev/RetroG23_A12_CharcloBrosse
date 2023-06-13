@@ -1,6 +1,7 @@
 #include "game.h"
 #include<QFontDatabase>
 #include <QApplication>
+#include <iostream>
 
 
 int main(int argc, char *argv[])
@@ -20,8 +21,12 @@ int main(int argc, char *argv[])
     }
     try {
         Game game;
-    } catch (std::string &e) {
-    } catch (std::exception &e){
+        // Autres actions de gestion des erreurs si nécessaires
+    } catch (const std::runtime_error& e) {
+        // Gérer les autres exceptions de type std::exception
+        std::cerr <<"Erreur : " + std::string(e.what());
+        return 1;
+        // Autres actions de gestion des erreurs si nécessaires
     }
     return a.exec();
 }

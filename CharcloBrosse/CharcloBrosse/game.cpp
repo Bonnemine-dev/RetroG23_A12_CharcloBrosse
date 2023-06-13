@@ -259,7 +259,13 @@ void Game::checkAllCollid(){
             if (enemyList.size() >= 2 &&  (itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0){
                 for (unsigned int i2 = i1+1; i2 < enemyList.size(); i2++){
                     Enemy * enemy2 = enemyList.at(i2);
-                    if (enemy1 != enemy2 && collid(enemy1, enemy2)){
+                    if(enemy1->getItsRect()->intersected(*enemy2->getItsRect()).height() > 1 && enemy1->getItsRect()->intersected(*enemy2->getItsRect()).width() > 1)
+                    {
+                        qWarning()<<"two entities are inside each other";
+                        itsLevel->getItsDespawnerList().at(0)->disappear(enemy2);
+
+                    }
+                    else if (collid(enemy1, enemy2)){
                         colBtwEnemyAndEnemy(enemy1, enemy2);
                         if (isOnTop(enemy1, enemy2)){
                             gravityList[i1] = false;
@@ -508,14 +514,14 @@ bool Game::collid(Entity * entity1, Entity * entity2){
     if(entity1->getItsX() > (entity2->getItsX() + entity2->getItsWidth())){      // trop à droite
         return false;
     }
-    if((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX()){ // trop à gauche
+    else if((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX()){ // trop à gauche
         return false;
     }
-    if(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight())){ // trop en bas
+    else if(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight())){ // trop en bas
         return false;
     }
 
-    if((entity1->getItsY() + entity1->getItsHeight()) < entity2->getItsY()){  // trop en haut
+    else if((entity1->getItsY() + entity1->getItsHeight()) < entity2->getItsY()){  // trop en haut
         return false;
     }
     return true;
