@@ -8,5 +8,6 @@
         <file>ressources/tileset0.png</file>
         <file>ressources/level3.json</file>
         <file>ressources/level4.json</file>
+        <file>ressources/background1.png</file>
     </qresource>
 </RCC>

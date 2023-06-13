@@ -523,22 +523,22 @@ int Game::checkTier()
 {
     if (itsMoney >= 100)
     {
-        cheminBG = ":/ressources/background0.png";
+        cheminBG = ":/ressources/background1.png";
         return 5; // Quatrième palier
     }
     else if (itsMoney >= 50)
     {
-        cheminBG = ":/ressources/background0.png";
+        cheminBG = ":/ressources/background1.png";
         return 4; // Troisième palier
     }
     else if (itsMoney >= 25)
     {
-        cheminBG = ":/ressources/background0.png";
+        cheminBG = ":/ressources/background1.png";
         return 3; // Deuxième palier
     }
     else if (itsMoney >= 10)
     {
-        cheminBG = ":/ressources/background0.png";
+        cheminBG = ":/ressources/background1.png";
         return 2; // Premier palier
     }
     else
