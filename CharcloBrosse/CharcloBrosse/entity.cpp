@@ -8,6 +8,7 @@
 
 #include "entity.h"
 
+unsigned short* Entity::itsLoopCounter;
 //Methode display()
 void Entity::display(QPainter * painter)
 {

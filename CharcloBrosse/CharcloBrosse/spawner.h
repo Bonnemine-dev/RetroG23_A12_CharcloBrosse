@@ -25,7 +25,7 @@ class Spawner : public Entity
 {
 private:
     Direction itsDirection;
-    static std::array<QPixmap *,2>* itsSprite;
+    static std::array<QPixmap *,2>* itsSpritesList;
 public:
     /**
      * @brief Constructor of the Spawner class.
@@ -35,7 +35,7 @@ public:
      * @param width Width of the spawner.
      * @param sprite Sprite used for the spawner.
      */
-    Spawner( short x,  short y,  short height,  short width, std::array<QPixmap *,2>* sprite, Direction theDirection);
+    Spawner( short x,  short y,  short height,  short width, std::array<QPixmap *,2>* theSpritesList, Direction theDirection);
     void display(QPainter *painter);
 
     /**

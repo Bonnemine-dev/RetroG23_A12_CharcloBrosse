@@ -19,14 +19,11 @@
 
 Game::Game()
 {
-    qWarning()<<"je suis au debut deu constructeur de game";
     //Définition du tileset pour la partie en cours, TILESET_FILE_PATH = le chemin vers le fichier .png du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH,BACKGROUND_FILE_PATH);
     //Création du joueur pour la partie en cours
-    qWarning()<<"game#2";
-    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList());
+    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
     //Dénition et création du niveau pour la partie, LEVEL_FILE_PATH = le chemin vers le fichier .json du niveau
-    qWarning()<<"game#3";
     itsLevel = new Level(LEVEL_FILE_PATH,itsTileSet);
     //Création de l'interface homme machine lié au jeu
     itsHMI = new HMI(itsLevel, itsPlayer, this);
@@ -37,8 +34,6 @@ Game::Game()
     //Définition de la variable qui compte le nombre de fois ou la game loop s'execute, sert à coordonner les vitesses (definie à NUMBER_LOOP_PER_SECOND)
     itsLoopCounter = NUMBER_LOOP_PER_SECOND;
     running = false;
-    qWarning()<<"je suis au bout deu constructeur de game";
-
 }
 
 void Game::onGameStart(){
@@ -56,7 +51,6 @@ void Game::onGameStart(){
 
 void Game::gameLoop()
 {
-    qWarning()<<"je rentre dans la gameloop";
     //Définition du compteur qui sert à compter le temps écoulé
     //lors de l'excution de la fonction GameLoop
     QElapsedTimer timer;
@@ -64,7 +58,6 @@ void Game::gameLoop()
     timer.restart();
     //Condition qui vérifie que : le compteur du nombre de fois que la gameloop est executé
     //est à 0 si oui la remet à NUMBER_LOOP_PER_SECOND sinon ne fait rien
-    if(itsPlayer->getItsAnimCounter() == 0)itsPlayer->setItsAnimCounter(200);
     if(itsLoopCounter == 0)itsLoopCounter = NUMBER_LOOP_PER_SECOND;
     //Incrémente de 0.001 le temps écoulé
     itsEllapsedTime += 0.001;
@@ -99,7 +92,6 @@ void Game::gameLoop()
     //par le nombre de FPS souhaité, est égal à 0. Soit la condition vrai "nombre de FPS" par secondes
     if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/FPS) == 0)itsHMI->refreshAll();
     //Decrémente le nombre de tours de loop pour pour le cycle suivant
-    itsPlayer->setItsAnimCounter(itsPlayer->getItsAnimCounter()-1);
     itsLoopCounter--;
     //Condition qui vérifie que : il ne reste plus d'ennemies ni en jeu ni en list d'attente, ou alors que le joueur n'a plus de vies
     if((itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty()) || itsPlayer->getItsLivesNb() == 0)
@@ -140,7 +132,7 @@ void Game::checkAllCollid(){
             //Si OUI :
             if(block->getItsCounter() != 0)
             {
-                //Decremente le compteur du temps restant depuis le deernier touché
+                //Decremente le compteur du temps restant depuis le dernier touché
                 block->setItsCounter(block->getItsCounter() - 1);
             }
             //Si NON :

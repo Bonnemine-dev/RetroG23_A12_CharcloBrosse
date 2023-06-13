@@ -31,8 +31,7 @@ private:
     unsigned short itsRemaningJumpMove = 0;
     MoveX itsCurrentMove = NONE;
     MoveX itsNextMove = NONE;
-    short itsAnimCounter = 0;
-    static std::array<QPixmap*, 12>* itsSprite; ///< ----------refaire-------------------refaire-------------------refaire---------
+    static std::array<QPixmap*, 12>* itsSpritesList; ///< ----------refaire-------------------refaire-------------------refaire---------
     //short itsMaxXSpeed = 0; ///< Maximum speed of the player on the X axis.
     //short itsMaxYSpeed = 0; ///< Maximum speed of the player on the Y axis.
     //bool itsState = true; ///< State of the player.
@@ -45,7 +44,7 @@ public:
      * @param width Width of the player.
      * @param sprite QPixmap sprite used for the player.
      */
-    Player(short x,  short y,  short height,  short width, std::array<QPixmap*, 12>* sprites);
+    Player(short x,  short y,  short height,  short width, std::array<QPixmap*, 12>* theSpritesList,unsigned short* theLoopCounter);
 
 
     void display(QPainter *painter);

@@ -8,13 +8,13 @@
 
 #include "despawner.h"
 
-std::array<QPixmap *,2>* Despawner::itsSprite = nullptr;
+std::array<QPixmap *,2>* Despawner::itsSpritesList = nullptr;
 //Constructeur
-Despawner::Despawner(Spawner * spawner,  short x,  short y,  short height,  short width, std::array<QPixmap *,2>* sprite, Direction theDirection)
+Despawner::Despawner(Spawner * spawner,  short x,  short y,  short height,  short width, std::array<QPixmap *,2>* theSpritesList, Direction theDirection)
     :Entity(x, y, height, width)
 {
     itsSpawner = spawner;
-    itsSprite = sprite;
+    itsSpritesList = theSpritesList;
     itsDirection = theDirection;
 }
 
@@ -27,6 +27,6 @@ void Despawner::disappear(Enemy *enemy)
 }
 void Despawner::display(QPainter *painter)
 {
-    if(itsDirection == EAST)painter->drawPixmap(itsX, itsY, *itsSprite->at(0));
-    else painter->drawPixmap(itsX, itsY, *itsSprite->at(1));
+    if(itsDirection == EAST)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0));
+    else painter->drawPixmap(itsX, itsY, *itsSpritesList->at(1));
 }

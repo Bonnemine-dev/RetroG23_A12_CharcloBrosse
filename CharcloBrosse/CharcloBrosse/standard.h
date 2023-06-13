@@ -20,7 +20,7 @@
 class Standard : public Enemy
 {
 private:
-    static std::array<QPixmap *,12>* itsSprite;
+    static std::array<QPixmap *,12>* itsSpritesList;
 public:
     /**
      * @brief Constructor of the Standard class.
@@ -28,7 +28,7 @@ public:
      * @param width Width of the standard enemy.
      * @param sprite Sprite used for the standard enemy.
      */
-    Standard(short height,  short width, std::array<QPixmap *,12>* sprite);
+    Standard(short height,  short width, std::array<QPixmap *,12>* theSpritesList);
     void display(QPainter *painter);
 };
 

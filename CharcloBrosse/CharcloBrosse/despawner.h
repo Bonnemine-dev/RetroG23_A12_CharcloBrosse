@@ -26,7 +26,7 @@ class Despawner : public Entity
 private:
     Direction itsDirection;
     Spawner * itsSpawner; ///< The associated spawner.
-    static std::array<QPixmap *,2>* itsSprite;
+    static std::array<QPixmap *,2>* itsSpritesList;
 public:
     /**
      * @brief Constructor of the Despawner class.
@@ -37,7 +37,7 @@ public:
      * @param width Width of the despawner.
      * @param sprite Sprite used for the despawner.
      */
-    Despawner(Spawner * spawner,  short x,  short y,  short height,  short width, std::array<QPixmap *,2>* sprite, Direction theDirection);
+    Despawner(Spawner * spawner,  short x,  short y,  short height,  short width, std::array<QPixmap *,2>* theSpritesList, Direction theDirection);
     void display(QPainter *painter);
 
     /**

@@ -27,6 +27,7 @@ protected:
     QRect itsRect; ///< Rectangle representing the entity's dimensions and position.
     short itsX;
     short itsY;
+    static unsigned short *itsLoopCounter;
 public:
     /**
      * @brief Constructor of the Entity class.

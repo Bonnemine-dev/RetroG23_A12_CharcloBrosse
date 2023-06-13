@@ -21,17 +21,16 @@
 class TileSet
 {
 private:
-    std::array<QPixmap*, 12>* itsPlayerTilesList = new std::array<QPixmap*, 12>;
-    std::array<QPixmap*, 12>* itsEnnemyStandardTilesList = new std::array<QPixmap*, 12>;
-    std::array<std::array<QPixmap*, 12>*, 3>* itsEnnemyAcceleratorTilesList;
-    std::array<QPixmap*, 12>* itsEnnemyGiantTilesList = new std::array<QPixmap*, 12>;
-    std::array<QPixmap*, 4>* itsBlockTilesList = new std::array<QPixmap*, 4>;
-    std::array<QPixmap*, 2>* itsPowTilesList = new std::array<QPixmap*, 2>;
-    QPixmap* itsNoTextureTile = new QPixmap;
-    QPixmap* itsBackground = new QPixmap;
-    std::array<std::array<QPixmap*, 2>*, 3>* itsMoneyTilesList = new std::array<std::array<QPixmap*, 2>*, 3>;
-    std::array<QPixmap*, 2>* itsSpawnerTilesList = new std::array<QPixmap*, 2>;
-    std::array<QPixmap*, 2>* itsDespawnerTilesList = new std::array<QPixmap*, 2>;
+    static std::array<QPixmap*, 12> itsPlayerTilesList;
+    static std::array<QPixmap*, 12> itsEnnemyStandardTilesList;
+    static std::array<std::array<QPixmap*, 12>*, 3> itsEnnemyAcceleratorTilesList;
+    static std::array<QPixmap*, 12> itsEnnemyGiantTilesList;
+    static std::array<QPixmap*, 6> itsBlockTilesList;
+    static QPixmap *itsNoTextureTile;
+    static QPixmap *itsBackground;
+    static std::array<std::array<QPixmap*, 2>*, 3> itsMoneyTilesList;
+    static std::array<QPixmap*, 2> itsSpawnerTilesList;
+    static std::array<QPixmap*, 2> itsDespawnerTilesList;
 
 
 //    std::array<QPixmap*, >* itsPlayerTilesList;
@@ -394,15 +393,14 @@ public:
      */
     QPixmap* getItsBackground();
 
-    std::array<QPixmap *, 12> *getItsPlayerTilesList() const;
-    std::array<QPixmap *, 12> *getItsEnnemyStandardTilesList() const;
-    std::array<std::array<QPixmap *, 12> *, 3> *getItsEnnemyAcceleratorTilesList() const;
-    std::array<QPixmap *, 12> *getItsEnnemyGiantTilesList() const;
-    std::array<QPixmap *, 4> *getItsBlockTilesList() const;
-    std::array<QPixmap *, 2> *getItsPowTilesList() const;
-    std::array<std::array<QPixmap *, 2> *, 3> *getItsMoneyTilesList() const;
-    std::array<QPixmap *, 2> *getItsSpawnerTilesList() const;
-    std::array<QPixmap *, 2> *getItsDespawnerTilesList() const;
+    std::array<QPixmap *, 12> *getItsPlayerTilesList();
+    std::array<QPixmap *, 12> *getItsEnnemyStandardTilesList();
+    std::array<std::array<QPixmap *, 12> *, 3> *getItsEnnemyAcceleratorTilesList();
+    std::array<QPixmap *, 12> *getItsEnnemyGiantTilesList();
+    std::array<QPixmap *, 6> *getItsBlockTilesList();
+    std::array<std::array<QPixmap *, 2> *, 3> *getItsMoneyTilesList();
+    std::array<QPixmap *, 2> *getItsSpawnerTilesList();
+    std::array<QPixmap *, 2> *getItsDespawnerTilesList();
 };
 
 #endif // TILESET_H

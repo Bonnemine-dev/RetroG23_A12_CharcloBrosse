@@ -20,7 +20,7 @@
 class Accelerator : public Enemy
 {
 private:
-    static std::array<std::array<QPixmap *,12>*, 3>* itsSprite;
+    static std::array<std::array<QPixmap *,12>*, 3>* itsSpritesList;
     short itsSpeedState = 1; ///< The Speed State when accelerator comes up.
 public:
     /**
@@ -29,7 +29,7 @@ public:
      * @param width Width of the accelerator enemy.
      * @param sprite Sprite used for the accelerator enemy.
      */
-    Accelerator(short height,  short width, std::array<std::array<QPixmap *,12>*, 3>* sprite);
+    Accelerator(short height,  short width, std::array<std::array<QPixmap *,12>*, 3>* theSpritesList);
     void display(QPainter *painter);
     void addItsSpeedState();
     short getItsSpeedState() const;

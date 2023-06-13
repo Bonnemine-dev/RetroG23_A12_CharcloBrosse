@@ -1,7 +1,7 @@
 #include "player.h"
 #include <iostream>
 
-std::array<QPixmap*, 12>* Player::itsSprite = nullptr;
+std::array<QPixmap*, 12>* Player::itsSpritesList = nullptr;
 
 //Methode move
 void Player::move()
@@ -21,24 +21,24 @@ void Player::move()
 void Player::display(QPainter * painter)
 {
     if(isOnTheGround){
-        if(itsAnimCounter > 100)
+        if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/PLAYERMAXSPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
         {
-            if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSprite->at(0));
-            else if(itsCurrentMove == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSprite->at(6));
-            else painter->drawPixmap(itsX, itsY, *itsSprite->at(1));
+            if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0));
+            else if(itsCurrentMove == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSpritesList->at(6));
+            else painter->drawPixmap(itsX, itsY, *itsSpritesList->at(1));
         }
         else
         {
-            if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSprite->at(1));
-            else if(itsCurrentMove == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSprite->at(7));
-            else painter->drawPixmap(itsX, itsY, *itsSprite->at(1));
+            if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(1));
+            else if(itsCurrentMove == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSpritesList->at(7));
+            else painter->drawPixmap(itsX, itsY, *itsSpritesList->at(1));
         }
     }
     else
     {
-        if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSprite->at(2));
-        else if(itsCurrentMove == LEFT_X)painter->drawPixmap(itsX, itsY, *itsSprite->at(8));
-        else painter->drawPixmap(itsX, itsY, *itsSprite->at(8));
+        if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(2));
+        else if(itsCurrentMove == LEFT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(8));
+        else painter->drawPixmap(itsX, itsY, *itsSpritesList->at(8));
     }
 }
 //Setter itsXSpeed
@@ -110,20 +110,12 @@ void Player::setItsNextMove(MoveX newItsNextMove)
     itsNextMove = newItsNextMove;
 }
 
-short Player::getItsAnimCounter() const
-{
-    return itsAnimCounter;
-}
 
-void Player::setItsAnimCounter(short newItsAnimCounter)
-{
-    itsAnimCounter = newItsAnimCounter;
-}
-
-Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 12> *sprites)
+Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 12> *theSpritesList,unsigned short* theLoopCounter)
     : Entity(x, y, height, width)
 {
-    itsSprite = sprites;
+    itsSpritesList = theSpritesList;
     itsLivesNb = MAX_LIFE;
+    itsLoopCounter = theLoopCounter;
 }
 

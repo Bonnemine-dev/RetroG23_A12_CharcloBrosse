@@ -2,12 +2,12 @@
 #include "typedef.h"
 #include <iostream>
 
-std::array<QPixmap *,2>* Spawner::itsSprite = nullptr;
+std::array<QPixmap *,2>* Spawner::itsSpritesList = nullptr;
 //Constructeur
-Spawner::Spawner( short x,  short y,  short height,  short width, std::array<QPixmap *,2>* sprite, Direction theDirection)
+Spawner::Spawner( short x,  short y,  short height,  short width, std::array<QPixmap *,2>* theSpritesList, Direction theDirection)
     :Entity(x, y, height, width)
 {
-    itsSprite = sprite;
+    itsSpritesList = theSpritesList;
     itsDirection = theDirection;
 }
 
@@ -21,7 +21,7 @@ void Spawner::appears(Enemy * enemy)
 }
 void Spawner::display(QPainter *painter)
 {
-    if(itsDirection == EAST)painter->drawPixmap(itsX, itsY, *itsSprite->at(0));
-    else painter->drawPixmap(itsX, itsY, *itsSprite->at(1));
+    if(itsDirection == EAST)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0));
+    else painter->drawPixmap(itsX, itsY, *itsSpritesList->at(1));
 }
 

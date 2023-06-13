@@ -26,7 +26,7 @@ private:
     bool itsState = false; ///< State of the block.
     unsigned short itsCounter = 0; ///< Counter associated with the block.
     BlockType itsType;
-    static std::array<QPixmap*, 4>* itsSprite; ///< ----------refaire-------------------refaire-------------------refaire---------
+    static std::array<QPixmap*, 6>* itsSpritesList; ///< ----------refaire-------------------refaire-------------------refaire---------
 public:
     /**
      * @brief Constructor of the Block class.
@@ -36,7 +36,7 @@ public:
      * @param width Width of the block.
      * @param sprite QPixmap sprite used for the block.
      */
-    Block(short x,  short y,  short height,  short width, std::array<QPixmap *, 4> *sprite, BlockType theBlockType);
+    Block(short x,  short y,  short height,  short width, std::array<QPixmap *, 6>* theSpritesList, BlockType theBlockType);
     Block( short x,  short y,  short height,  short width, BlockType theBlockType);
 
     virtual ~Block();
