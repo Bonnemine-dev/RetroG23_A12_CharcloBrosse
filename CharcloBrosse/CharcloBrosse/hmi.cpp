@@ -300,7 +300,8 @@ void HMI::paintEvent(QPaintEvent *event)
     if (itsLevel != nullptr && itsLevel->isActive() && shouldDraw){
         QPainter * painter = new QPainter(this);
         painter->setOpacity(0.8);
-        QPixmap bg(":/ressources/background0.png");
+        std::string cheminBG = itsGame->getCheminBG();
+        QPixmap bg(QString::fromStdString(cheminBG));
         painter->drawPixmap(this->rect(), bg);
         painter->setOpacity(1.0);
         painter->setFont(QFont("VT323", 18));

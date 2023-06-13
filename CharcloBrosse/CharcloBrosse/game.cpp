@@ -147,6 +147,11 @@ TileSet *Game::getItsTileSet() const
     return itsTileSet;
 }
 
+std::string Game::getCheminBG() const
+{
+    return cheminBG;
+}
+
 void Game::checkAllCollid(){
     //isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
     // player to block
@@ -509,15 +514,30 @@ bool Game::collid(Entity * entity1, Entity * entity2){
 int Game::checkTier()
 {
     if (itsMoney >= 100)
+    {
+        cheminBG = ":/ressources/background0.png";
         return 5; // Quatrième palier
+    }
     else if (itsMoney >= 50)
+    {
+        cheminBG = ":/ressources/background0.png";
         return 4; // Troisième palier
+    }
     else if (itsMoney >= 25)
+    {
+        cheminBG = ":/ressources/background0.png";
         return 3; // Deuxième palier
+    }
     else if (itsMoney >= 10)
+    {
+        cheminBG = ":/ressources/background0.png";
         return 2; // Premier palier
+    }
     else
+    {
+        cheminBG = ":/ressources/background0.png";
         return 1; // Pas encore de palier atteint
+    }
 }
 
 

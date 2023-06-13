@@ -91,6 +91,8 @@ private:
     */
     bool isBlockPOWHitted;
 
+    std::string cheminBG = ":/ressources/background0.png";
+
 public :
     /**
      * @brief Checks all possible collisions in the current game state
@@ -239,6 +241,8 @@ public :
 
 
     TileSet *getItsTileSet() const;
+
+    std::string getCheminBG() const;
 
 public slots:
     /**
