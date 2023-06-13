@@ -297,7 +297,7 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     else//quand l'enemie est KO
     {
         int tier = currentTier;
-        int multiplier = tier * 3; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
+        int multiplier = tier; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
         itsScore += theEnemy->getItsType() * multiplier;
         itsLevel->removeEnemy(theEnemy);
     }

@@ -117,7 +117,7 @@ bool DB_Score::isInTop10(unsigned int theScore) {
 
         // Vérifier si le score est dans le top 10
         isInTop10 = std::any_of(scores.begin(), scores.end(), [&theScore](const std::pair<std::string, unsigned int>& pair){
-            return pair.second == theScore;
+            return pair.second < theScore;
         });
     }
 
