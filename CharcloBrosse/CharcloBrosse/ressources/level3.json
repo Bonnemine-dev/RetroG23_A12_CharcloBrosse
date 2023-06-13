@@ -24,7 +24,7 @@
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ],
-"enemies" : [["standard", "left"], ["standard", "right"], ["standard", "left"], ["standard", "right"]],
+"enemies" : [["standard", "left"], ["accelerator", "right"], ["standard", "left"], ["standard", "right"]],
 "moneys" : [[0, 32, 544], [1, 32, 64]],
 "minDelay" : 2,
 "maxDelay" : 10,

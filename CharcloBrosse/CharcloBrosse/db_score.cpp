@@ -13,10 +13,8 @@ DB_Score::DB_Score()
 std::vector<std::pair<std::string, unsigned int>> DB_Score::loadScores()
 {
     std::vector<std::pair<std::string, unsigned int>> scores;
-
     // Ouvre le fichier en mode lecture.
     std::ifstream file(HIGHSCORES_FILE_PATH);
-
     if (file.is_open())
     {
         std::string line;
@@ -54,7 +52,6 @@ std::vector<std::pair<std::string, unsigned int>> DB_Score::loadScores()
 
 void DB_Score::saveScore(std::string theName, unsigned int theScore) {
     std::vector<std::pair<std::string, unsigned int>> scores;
-
     std::ifstream ifs(HIGHSCORES_FILE_PATH);
     std::string line;
     while (std::getline(ifs, line)) {
@@ -88,7 +85,6 @@ void DB_Score::saveScore(std::string theName, unsigned int theScore) {
 
 bool DB_Score::isInTop10(unsigned int theScore) {
     std::vector<std::pair<std::string, unsigned int>> scores;
-
     std::ifstream ifs(HIGHSCORES_FILE_PATH);
     std::string line;
     while (std::getline(ifs, line)) {

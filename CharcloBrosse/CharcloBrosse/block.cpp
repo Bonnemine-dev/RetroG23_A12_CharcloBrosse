@@ -10,6 +10,7 @@
 
 #include "typedef.h"
 
+std::array<QPixmap*, 6>* Block::itsSpritesList = nullptr;
 //Getter du itsState
 bool Block::getItsState() const
 {
@@ -50,8 +51,48 @@ BlockType Block::getItsType() const
     return itsType;
 }
 
-Block::Block( short x,  short y,  short height,  short width, QPixmap * sprite,BlockType theBlockType)
-    : Entity(x, y, height, width, sprite)
+void Block::display(QPainter *painter)
+{
+    if(itsType == BRICK)
+    {
+        if(itsState)
+        {
+            painter->drawPixmap(itsX, itsY, *itsSpritesList->at(1));
+        }
+        else
+        {
+            painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0));
+        }
+    }
+    else if(itsType == OBSTACLE)
+    {
+        painter->drawPixmap(itsX, itsY, *itsSpritesList->at(3));
+    }
+    else if(itsType == GROUND)
+    {
+       painter->drawPixmap(itsX, itsY, *itsSpritesList->at(2));
+    }
+    else
+    {
+       if(itsState)
+       {
+            painter->drawPixmap(itsX, itsY, *itsSpritesList->at(5));
+       }
+       else
+       {
+            painter->drawPixmap(itsX, itsY, *itsSpritesList->at(4));
+       }
+    }
+}
+
+Block::Block( short x,  short y,  short height,  short width, std::array<QPixmap *, 6>* theSpritesList,BlockType theBlockType)
+    : Entity(x, y, height, width)
+{
+    itsType = theBlockType;
+    itsSpritesList = theSpritesList;
+}
+Block::Block( short x,  short y,  short height,  short width,BlockType theBlockType)
+    : Entity(x, y, height, width)
 {
     itsType = theBlockType;
 }

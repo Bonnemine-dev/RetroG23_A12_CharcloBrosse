@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    int id = QFontDatabase::addApplicationFont(":/ressources/PressStart2P-Regular.ttf");
+    int id = QFontDatabase::addApplicationFont(FONT_PATH);
     if (id != -1)
     {
         QStringList fontFamilies = QFontDatabase::applicationFontFamilies(id);

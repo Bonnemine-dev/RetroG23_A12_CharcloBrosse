@@ -87,11 +87,16 @@ void Enemy::setItsNumberLoopKO(short newItsNumberLoopKO)
     itsNumberLoopKO = newItsNumberLoopKO;
 }
 
-Enemy::Enemy( short height,  short width, QPixmap * sprite)
-    : Entity(0, 0, height, width, sprite)
+Enemy::Enemy(short height,  short width)
+    : Entity(0, 0, height, width)
 {
     itsState = true;
 }
 
 Enemy::~Enemy() {}
+
+void Enemy::display(QPainter *painter)
+{
+
+}
 

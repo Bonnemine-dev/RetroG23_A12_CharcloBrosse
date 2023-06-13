@@ -20,6 +20,9 @@
 #define ACCELERATOR_ENEMY_SPEED 4 //Speed for the accelerator ennemie in blocks per second
 #define KO_TIME 3//The Duration for the KO in seconds
 
+#define TIME_FOR_ANIMATION_CYCLE 150//The Duration for the a cycle for each animation
+#define NUMBER_IMAGE_PER_ANIMATION 2//number of image ffor an animation
+
 #define FPS 60 //Define the number of frame per seconds
 #define BLOCK_HIT_TIME 100 //The time that a block are hit in milliseconds
 #define BLOCK_SIZE 32 //the number of pixels for each side for all blocks
@@ -29,15 +32,17 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 
-#define TILESET_FILE_PATH ":/ressources/tileset0.png"
+
+#define TILESET_FILE_PATH "://ressources/tileset0.png"
 #define BACKGROUND1_FILE_PATH ":/ressources/background0.png"
 #define BACKGROUND2_FILE_PATH ":/ressources/background1.png"
-#define LEVEL_FILE_PATH ":/ressources/level1.json"
-
+#define LEVEL_FILE_PATH "://ressources/level1.json"
+#define FONT_PATH "://ressources/PressStart2P-Regular.ttf"
+#define HIGHSCORES_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 
 #define MAX_LEVEL 4
+#define MAX_LIFE 3
 
-#define HIGHSCORES_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 enum MenuState {
     MAINMENU,
     PAUSEMENU,
@@ -62,5 +67,16 @@ enum BlockType{
     GROUND,
     OBSTACLE,
     POW
+};
+
+enum Direction{
+    EAST,
+    WEST
+};
+
+enum MoneyType{
+    RED = 1,
+    YELLOW = 3,
+    BILL = 5
 };
 #endif // TYPEDEF_H

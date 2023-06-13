@@ -10,12 +10,12 @@
 #define MONEY_H
 
 #include "entity.h"
+#include "typedef.h"
 
 /**
  * @enum MoneyType
  * @brief Enumeration representing the types of money.
  */
-enum MoneyType {RED = 1, YELLOW = 3, BILL = 5};
 
 /**
  * @class Money
@@ -23,6 +23,8 @@ enum MoneyType {RED = 1, YELLOW = 3, BILL = 5};
  */
 class Money : public Entity
 {
+private:
+    static std::array<std::array<QPixmap*, 2>*, 3>* itsSpritesList;
     MoneyType itsMoneyType; /**< The type of money. */
 
 public:
@@ -35,13 +37,14 @@ public:
      * @param width The width of the money object.
      * @param sprite The sprite image of the money object.
      */
-    Money(MoneyType type, short x, short y, short height, short width, QPixmap *sprite);
+    Money(MoneyType type, short x, short y, short height, short width, std::array<std::array<QPixmap*, 2>*, 3>* theSpritesList);
 
     /**
      * @brief Getter for the money type.
      * @return The type of money.
      */
     MoneyType getItsMoneyType() const;
+    void display(QPainter *painter);
 };
 
 #endif // MONEY_H
