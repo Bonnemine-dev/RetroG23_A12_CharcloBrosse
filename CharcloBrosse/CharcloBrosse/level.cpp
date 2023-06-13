@@ -161,6 +161,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             }
         }
         else if (type == "giant"){ // if a giant enemy
+            qWarning()<<"Je viends de créer le geant";
             itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsEnnemyGiantTilesList())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner

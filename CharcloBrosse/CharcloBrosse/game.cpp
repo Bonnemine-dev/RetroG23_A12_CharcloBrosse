@@ -117,7 +117,6 @@ void Game::gameLoop()
     {
         itsAcceleration = 5;
     }
-    std::cout<<"itsAcceleration : "<<itsAcceleration<<std::endl;
 }
 
 
