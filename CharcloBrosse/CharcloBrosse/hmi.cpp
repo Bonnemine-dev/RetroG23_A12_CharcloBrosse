@@ -295,13 +295,13 @@ void HMI::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
+
     if (itsLevel != nullptr && itsLevel->isActive() && shouldDraw){
-        unsigned int score = itsGame->getItsScore();
-        short lives = itsGame->getItsPlayer()->getItsLivesNb();
         QPainter * painter = new QPainter(this);
         painter->setFont(QFont("VT323", 14));
-        painter->drawText(10, 20, QString("Score: %1").arg(score)); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
-        painter->drawText(10, 40, QString("Lives: %1").arg(lives)); // Le texte apparaîtra à 10 pixels du bord gauche et à 40 pixels du haut de l'écran
+        painter->drawText(10, 20, QString("Score: %1").arg(itsGame->getItsScore())); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
+        painter->drawText(10, 40, QString("Lives: %1").arg(itsGame->getItsPlayer()->getItsLivesNb()));
+        painter->drawText(10, 60, QString("Wallet: %1").arg(itsGame->getItsMoney()));
         itsLevel->display(painter);
         itsPlayer->display(painter);
         painter->setFont(QFont("VT323", 28));

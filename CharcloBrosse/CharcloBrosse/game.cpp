@@ -27,6 +27,8 @@ Game::Game()
     itsHMI->show();
     itsLoopCounter = NUMBER_LOOP_PER_SECOND;
     running = false;
+    isBlockPOWHitted = false;
+
 }
 // Connexion des signaux et slots
 
@@ -78,6 +80,13 @@ void Game::gameLoop()
 
         if(isLevelFinished()){
             if (currentLevel != MAX_LEVEL){
+                if (currentTier != checkTier()){
+                    currentTier = checkTier();
+                    delete itsTileSet;
+                    std::string tileSetFileName = ":/ressources/tileset" + std::to_string(((int) currentTier)-1) + ".png";
+                    std::string BackgroundFileName = ":/ressources/background" + std::to_string(((int) currentTier)-1) + ".png";
+                    itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
+                }
                 currentLevel++;
                 openLevel();
                 itsHMI->setLevel(itsLevel);
@@ -110,6 +119,16 @@ Player *Game::getItsPlayer() const
     return itsPlayer;
 }
 
+
+unsigned int Game::getItsMoney() const
+{
+    return itsMoney;
+}
+
+void Game::setItsMoney(unsigned int newItsMoney)
+{
+    itsMoney = newItsMoney;
+}
 void Game::spawnPlayer()
 {
     itsPlayer->setItsYSpeed(0);
@@ -119,15 +138,21 @@ void Game::spawnPlayer()
 }
 
 void Game::checkAllCollid(){
+    //isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
     // player to block
     bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
     itsPlayer->setIsOnTheGround(false);
-    for (Block * block : itsLevel->getItsBlockList()){
+
+    for (Block * block : itsLevel->getItsBlockList())
+    {
         if (block->getItsType() == OBSTACLE && collid(itsPlayer, block))
         {
             colBtwPlayerAndObstacle(itsPlayer);
+
         }
-        if(block->getItsType() == BRICK){
+
+        if(block->getItsType() == BRICK)
+        {
             if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
             {
                 block->setItsCounter(block->getItsCounter() - 1) ;
@@ -149,8 +174,12 @@ void Game::checkAllCollid(){
             }
         }
     }
-
-
+    for (Money * money : itsLevel->getItsMoneyList()){
+        if(collid(itsPlayer,money))
+        {
+            colBtwPlayerAndMoney(itsPlayer,money);
+        }
+    }
     if (playerGravity)
     {
         itsPlayer->setItsYSpeed(GRAVITY);
@@ -159,6 +188,7 @@ void Game::checkAllCollid(){
     {
         itsPlayer->setItsYSpeed(itsPlayer->getItsYSpeed() > STILL?STILL:itsPlayer->getItsYSpeed());
     }
+
     std::vector<Enemy *> enemyList = itsLevel->getItsEnemiesList();
 
     if (enemyList.size()>0){
@@ -182,7 +212,7 @@ void Game::checkAllCollid(){
                 }
             }
             for (Block * block : itsLevel->getItsBlockList()){
-                if (collid(enemy1, block) && (block->getItsType() == BRICK || block->getItsType() == GROUND)){
+                if (collid(enemy1, block) && (block->getItsType() == BRICK || block->getItsType() == GROUND || block->getItsType() == POW)){
                     if (isOnTop(enemy1, block)){
                         gravityList[i1] = false;
                     }
@@ -251,9 +281,10 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     }
     else//quand l'enemie est KO
     {
-        itsScore += theEnemy->getItsType();
+        int tier = currentTier;
+        int multiplier = tier * 3; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
+        itsScore += theEnemy->getItsType() * multiplier;
         itsLevel->removeEnemy(theEnemy);
-
     }
 }
 
@@ -265,6 +296,54 @@ void Game::colBtwPlayerAndObstacle(Player* thePlayer)
     thePlayer->getItsRect()->moveTo((32*39)/2,32);
     thePlayer->setItsCurrentMove(NONE);
     thePlayer->setItsNextMove(NONE);
+}
+
+// Fonction appelé dans la collision entre le joueur et le bloc
+void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
+{
+    // Le bloc POW passe à l'état frappé dans la gameLoop.
+    isBlockPOWHitted = true;
+    // Le saut du joueur est stoppé.
+    thePlayer->setItsRemaningJumpMove(0);
+    // L'état du bloc POW passe à true.
+    theBlockPOW->setItsState(true);
+    // L'image du bloc POW est modifié.
+    theBlockPOW->setItsSprite(itsTileSet->getItsPOWBlockHittedTile());
+    // On parcours tous les ennemis présent sur le terrain
+    for (Enemy * enemy : itsLevel->getItsEnemiesList())
+    {
+        // Les ennemis qui sont en train dde sauter ou tomber ne sont pas concerné.
+        if(enemy->getItsYSpeed() == 0)
+        {
+            // Si l'ennemi n'est pas KO
+            if((enemy->getItsState() == true))
+            {
+                // L'ennemi deveint KO
+                enemy->setItsState(false);
+                // L'image de l'ennemi est modifié
+                enemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1HittedRightTile(0));
+                // La loop de durée de KO est démarré
+                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                // Si l'ennemi est de type ACCELERATEUR il a un comportement spécial.
+                if(enemy->getItsType() == ACCELERATOR)
+                {
+                    // L'état d'accélération est modifié
+                    Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+                    accelerator->addItsSpeedState();
+                }
+            }
+            // Si l'ennemi est KO
+            else if((enemy->getItsState() == false))
+            {
+                // L'ennemi redevient vivant
+                enemy->setItsState(true);
+                // L'image de l'ennemi est modifié
+                enemy->setItsSprite(itsTileSet->getItsEnemyStandardRunningRightTile(0));
+                // La loop de durée de KO est stopppé
+                enemy->setItsNumberLoopKO(0);
+            }
+        }
+    }
 }
 
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
@@ -312,17 +391,17 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
             {
             case STANDARD:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardHittedLeftTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyStandardRunningLeftTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             case GIANT:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             case ACCELERATOR:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             default:
@@ -337,9 +416,21 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsYSpeed() < STILL)
     {
-        thePlayer->setItsRemaningJumpMove(0);//à remplacer par STILL pour l'instant inverse la vitesse
-        theBlock->setItsState(true);
-        theBlock->setItsCounter((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME);
+        // Si le bloc est un bloc POW et qu'il n'a pas été frappé.
+        if((theBlock->getItsType() == POW) == (isBlockPOWHitted == false))
+        {
+            // On appelle la méthode correspondante.
+            colBtwPlayerAndBlockPOW(thePlayer, theBlock);
+        }
+        // Sinon c'est on bloc normal.
+        else
+        {
+            thePlayer->setItsRemaningJumpMove(0);//à remplacer par STILL pour l'instant inverse la vitesse
+            theBlock->setItsState(true);
+            theBlock->setItsCounter((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME);
+        }
+
+
     }
     if(thePlayer->getItsRect()->bottom() == theBlock->getItsRect()->top())//le joueur est sur un block
     {
@@ -366,6 +457,23 @@ void Game::colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner)
     }
 }
 
+void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
+{
+    if (theMoney->getItsMoneyType()==RED)
+    {
+        setItsMoney(getItsMoney()+1);
+    }
+    else if (theMoney->getItsMoneyType()==YELLOW)
+    {
+        setItsMoney(getItsMoney()+3);
+    }
+    else
+    {
+        setItsMoney(getItsMoney()+5);
+    }
+    itsLevel->removeMoney(theMoney);
+}
+
 bool Game::isOnTop(Entity * entity1, Entity * entity2){
     return entity1->getItsY() + entity1->getItsHeight() <= entity2->getItsY();
 }
@@ -387,6 +495,21 @@ bool Game::collid(Entity * entity1, Entity * entity2){
     }
     return true;
 }
+
+int Game::checkTier()
+{
+    if (itsMoney >= 100)
+        return 5; // Quatrième palier
+    else if (itsMoney >= 50)
+        return 4; // Troisième palier
+    else if (itsMoney >= 25)
+        return 3; // Deuxième palier
+    else if (itsMoney >= 10)
+        return 2; // Premier palier
+    else
+        return 1; // Pas encore de palier atteint
+}
+
 
 
 void Game::moveAll(){

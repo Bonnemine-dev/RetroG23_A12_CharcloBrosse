@@ -17,6 +17,7 @@
 #include "hmi.h"
 #include "tileset.h"
 #include "level.h"
+#include "money.h"
 
 
 //#include "DB_Score.h"
@@ -47,6 +48,10 @@ private:
      */
     unsigned int itsScore=0;
     /**
+     * @brief Money amount in the wallet.
+     */
+    unsigned int itsMoney=0;
+    /**
      * @brief Pointer to the Level object representing the current level of the game.
      */
     Level* itsLevel;
@@ -66,9 +71,20 @@ private:
      */
     short currentLevel;
 
+    /**
+     * @brief currentTier the current money tier
+     */
+    short currentTier = 0;
+
     //    DB_Score itsDBScore;
 
+
     bool running;
+
+    /**
+    * @brief Boolean which represent the state of the BlockPOW, false if it is not hitted, true if it is hitted.
+    */
+    bool isBlockPOWHitted;
 
 public :
     /**
@@ -115,6 +131,27 @@ public :
      * @param theObstacle the obstacle concerned
      */
     void colBtwPlayerAndObstacle(Player* thePlayer,Obstacle* theObstacle);
+
+    /**
+     * @brief Method launched when the player collides with the bottom of a blockPOW.
+     *
+     * It switches the state of all enemies that are already on the game screen except enemies that are not on the ground.
+     *
+     * @param Player* thePlayer : A pointeur to the player in collid.
+     * @param Block* theBLockPOW : A pointeur to the blocPOWr in collid.
+     * @return void : No return.
+     */
+    void colBtwPlayerAndBlockPOW(Player* thePlayer, Block* theBLockPOW);
+
+    /**
+     * @brief Method launched when the player collides with money
+     * @param thePlayer
+     * @param theMoney the money concerned
+     */
+    void colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney);
+
+
+
 
     /**
      * @brief checks whether a level is finished. If the player has no more lives
@@ -170,6 +207,7 @@ public :
      */
     void onGameStart();
 
+    int checkTier();
     /**
      * @brief openLevel open a level file and parse it
      * Open the current level file to get the level info and display it
@@ -186,10 +224,14 @@ public :
 
     Player *getItsPlayer() const;
 
+    unsigned int getItsMoney() const;
+    void setItsMoney(unsigned int newItsMoney);
+
     /**
      * @brief spawnPlayer set the player position to spawn
      */
     void spawnPlayer();
+
 
 public slots:
     /**
