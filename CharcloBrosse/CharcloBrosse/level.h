@@ -94,6 +94,11 @@ private:
     std::vector<Despawner *> itsDespawnerList;
 
     /**
+     * @brief itsMoneyList the list of the money that the player can collect
+     */
+    std::vector<Despawner *> itsMoneyList;
+
+    /**
      * @brief itsEnemyAppearsTimes the delay before the papparition of all the enemies
      */
     std::vector<unsigned short> itsEnemyAppearsTimes;
