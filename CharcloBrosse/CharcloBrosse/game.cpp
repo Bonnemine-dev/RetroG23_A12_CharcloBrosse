@@ -339,7 +339,7 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
         if(enemy->getItsYSpeed() == 0)
         {
             // Si l'ennemi n'est pas KO
-            if((enemy->getItsState() == true))
+            if((enemy->getItsState() && true))
             {
                 // L'ennemi deveint KO
                 enemy->setItsState(false);
