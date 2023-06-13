@@ -80,6 +80,11 @@ private:
      */
     QLabel *itsLevelNumberText;
 
+    /**
+     * @brief itsLevelTimerText the text to display the current remaining timer
+     */
+    QLabel *itsLevelTimerText;
+
     Level *itsLevel; ///< Pointer to the current level object.
     Player *itsPlayer; ///< Pointer to the player object.
     Game *itsGame; ///< Pointer to the game object.
@@ -88,6 +93,11 @@ private:
      * @brief itsStartLevelTimer the timer to display the level number only during 1 seconds
      */
     QTimer *itsStartLevelTimer;
+    /**
+     * @brief itsLevelTimer the timer for the maximum time to do a level
+     */
+    QTimer *itsLevelTimer;
+
 
 
     /**
@@ -173,6 +183,11 @@ private slots:
      * @brief startLevel display the level number before the level;
      */
     void startLevel();
+
+    /**
+     * @brief levelTimeout terminate the level when the time is ellapsed
+     */
+    void levelTimeout();
 
 
 public slots:

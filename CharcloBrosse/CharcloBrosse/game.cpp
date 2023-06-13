@@ -470,6 +470,12 @@ void Game::openLevel(){
     itsLevel = new Level(fileName, itsTileSet);
 }
 
+void Game::levelTimeout()
+{
+    itsLevel->desactivate();
+    running = false;
+}
+
 bool Game::isLevelFinished(){
     return itsLevel->getItsEnemiesList().empty() && itsLevel->getItsRemainingEnemies().empty();
 }

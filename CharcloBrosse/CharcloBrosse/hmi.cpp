@@ -145,6 +145,10 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
                                "}";
 
     itsStartLevelTimer = new QTimer(this);
+    itsLevelTimer = new QTimer(this);
+    itsLevelTimerText = new QLabel(this);
+    itsLevelTimerText->setAlignment(Qt::AlignTop|Qt::AlignRight);
+    gameLayout->addWidget(itsLevelTimerText);
 
     resumeButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     resumeButton->setFixedWidth(300);
@@ -179,6 +183,7 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
     connect(quitToMainButton2, &QPushButton::clicked, this, &HMI::leave);
 
     connect(itsStartLevelTimer, &QTimer::timeout, this, &HMI::startLevel);
+    connect(itsLevelTimer, &QTimer::timeout, this, &HMI::levelTimeout);
 
     // Définir la politique de focus pour permettre la navigation entre les boutons
     startGameButton->setFocusPolicy(Qt::StrongFocus);
@@ -265,6 +270,10 @@ void HMI::paintEvent(QPaintEvent *event)
         itsLevel->display(painter);
         itsPlayer->display(painter);
         painter->end();
+        int min = (itsLevelTimer->remainingTime()/1000)/60;
+        int sec = (itsLevelTimer->remainingTime()/1000)%60;
+        std::string text = std::to_string(min) + " min " + std::to_string(sec);
+        itsLevelTimerText->setText(QString::fromStdString(text));
     }
 
 }
@@ -389,4 +398,13 @@ void HMI::displayLevelNumber(){
 void HMI::startLevel(){
     itsLevelNumberText->setText("");
     itsLevel->activate();
+    itsLevelTimer->start(itsLevel->getItsTimerTime()*1000);
+}
+
+void HMI::levelTimeout()
+{
+    itsLevelTimer->stop();
+    itsTimer->stop();
+    itsGame->levelTimeout();
+    stopGame();
 }

@@ -176,6 +176,12 @@ public :
      */
     void openLevel();
 
+    /**
+     * @brief levelTimeout when the time to do the level is ellapsed
+     * end the game when the time is ellapsed
+     */
+    void levelTimeout();
+
     unsigned int getItsScore() const;
 
     Player *getItsPlayer() const;
