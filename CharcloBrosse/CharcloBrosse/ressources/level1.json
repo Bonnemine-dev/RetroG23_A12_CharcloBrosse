@@ -26,7 +26,7 @@
 
 "moneys" : [[0,200,100]],
 "enemies" : [["standard", "left"],["giant", "right"],["accelerator", "left"]],
-
 "minDelay" : 2,
-"maxDelay" : 10
+"maxDelay" : 10,
+"timer" : 300
 }
