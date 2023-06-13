@@ -240,6 +240,8 @@ public :
 
     QString getCheminBG() const;
 
+    short getCurrentTier() const;
+
 public slots:
     /**
      * @brief corresponds to the game loop, depending on the time the player is not dead.

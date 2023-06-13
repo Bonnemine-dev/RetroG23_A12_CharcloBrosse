@@ -155,6 +155,11 @@ QString Game::getCheminBG() const
     return cheminBG;
 }
 
+short Game::getCurrentTier() const
+{
+    return currentTier;
+}
+
 void Game::checkAllCollid(){
     //Définie si la gravité doit être appliqué de base.
     //oui si le joueur n'a pas un saut en cours d'execution non sinon.
