@@ -116,16 +116,19 @@ Player *Game::getItsPlayer() const
 }
 
 void Game::checkAllCollid(){
-    isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
+    //isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
     // player to block
     bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
     itsPlayer->setIsOnTheGround(false);
-    for (Block * block : itsLevel->getItsBlockList()){
+    for (Block * block : itsLevel->getItsBlockList())
+    {
         if (block->getItsType() == OBSTACLE && collid(itsPlayer, block))
         {
             colBtwPlayerAndObstacle(itsPlayer);
         }
-        if(block->getItsType() == BRICK){
+
+        if(block->getItsType() == BRICK)
+        {
             if(block->getItsCounter() != 0)//changement de la tuile quand elle est frappé
             {
                 block->setItsCounter(block->getItsCounter() - 1) ;
@@ -265,62 +268,51 @@ void Game::colBtwPlayerAndObstacle(Player* thePlayer)
     thePlayer->setItsNextMove(NONE);
 }
 
+// Fonction appelé dans la collision entre le joueur et le bloc
 void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
 {
+    // Le bloc POW passe à l'état frappé dans la gameLoop.
     isBlockPOWHitted = true;
+    // Le saut du joueur est stoppé.
     thePlayer->setItsRemaningJumpMove(0);
+    // L'état du bloc POW passe à true.
     theBlockPOW->setItsState(true);
+    // L'image du bloc POW est modifié.
     theBlockPOW->setItsSprite(itsTileSet->getItsPOWBlockHittedTile());
+    // On parcours tous les ennemis présent sur le terrain
     for (Enemy * enemy : itsLevel->getItsEnemiesList())
     {
-        if((enemy->getItsState() == true) && /*il me faut une condition ici*/)
+        // Les ennemis qui sont en train dde sauter ou tomber ne sont pas concerné.
+        if(enemy->getItsYSpeed() == 0)
         {
-            switch (enemy->getItsType())
+            // Si l'ennemi n'est pas KO
+            if((enemy->getItsState() == true))
             {
-            case STANDARD:
+                // L'ennemi deveint KO
                 enemy->setItsState(false);
-                enemy->setItsSprite(itsTileSet->getItsEnemyStandardHittedRightTile(0));
-                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
-                break;
-            case GIANT:
-                enemy->setItsState(false);
-                enemy->setItsSprite(itsTileSet->getItsEnemyGiantHittedRightTile(0));
-                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
-                break;
-            case ACCELERATOR:
-                enemy->setItsState(false);
+                // L'image de l'ennemi est modifié
                 enemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1HittedRightTile(0));
+                // La loop de durée de KO est démarré
                 enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
-                Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
-                accelerator->addItsSpeedState();
-                break;
+                // Si l'ennemi est de type ACCELERATEUR il a un comportement spécial.
+                if(enemy->getItsType() == ACCELERATOR)
+                {
+                    // L'état d'accélération est modifié
+                    Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+                    accelerator->addItsSpeedState();
+                }
             }
-        }
-        else if((enemy->getItsState() == false) && (enemy->getItsNumberLoopKO() < (KO_TIME * NUMBER_LOOP_PER_SECOND)-((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME)-1))
-        {
-            switch (enemy->getItsType())
+            // Si l'ennemi est KO
+            else if((enemy->getItsState() == false))
             {
-            case STANDARD:
+                // L'ennemi redevient vivant
                 enemy->setItsState(true);
+                // L'image de l'ennemi est modifié
                 enemy->setItsSprite(itsTileSet->getItsEnemyStandardRunningRightTile(0));
-                enemy->setItsNumberLoopKO(0);//+2 car problème de précision
-                std::cout << "ici" << std::endl;
-                break;
-            case GIANT:
-                enemy->setItsState(true);
-                enemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
-                enemy->setItsNumberLoopKO(0);//+2 car problème de précision
-                break;
-            case ACCELERATOR:
-                enemy->setItsState(true);
-                enemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
-                enemy->setItsNumberLoopKO(0);//+2 car problème de précision
-                break;
-            default:
-                break;
+                // La loop de durée de KO est stopppé
+                enemy->setItsNumberLoopKO(0);
             }
         }
-
     }
 }
 
@@ -394,10 +386,13 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsYSpeed() < STILL)
     {
+        // Si le bloc est un bloc POW et qu'il n'a pas été frappé.
         if((theBlock->getItsType() == POW) == (isBlockPOWHitted == false))
         {
+            // On appelle la méthode correspondante.
             colBtwPlayerAndBlockPOW(thePlayer, theBlock);
         }
+        // Sinon c'est on bloc normal.
         else
         {
             thePlayer->setItsRemaningJumpMove(0);//à remplacer par STILL pour l'instant inverse la vitesse

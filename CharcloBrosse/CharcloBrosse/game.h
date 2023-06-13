@@ -122,7 +122,13 @@ public :
     void colBtwPlayerAndObstacle(Player* thePlayer,Obstacle* theObstacle);
 
     /**
-     * @brief Method launched when the player collides with the bottom of a blockPOW
+     * @brief Method launched when the player collides with the bottom of a blockPOW.
+     *
+     * It switches the state of all enemies that are already on the game screen except enemies that are not on the ground.
+     *
+     * @param Player* thePlayer : A pointeur to the player in collid.
+     * @param Block* theBLockPOW : A pointeur to the blocPOWr in collid.
+     * @return void : No return.
      */
     void colBtwPlayerAndBlockPOW(Player* thePlayer, Block* theBLockPOW);
 
