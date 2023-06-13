@@ -84,7 +84,7 @@ void Game::gameLoop()
                     currentTier = checkTier();
                     delete itsTileSet;
                     std::string tileSetFileName = ":/ressources/tileset" + std::to_string(((int) currentTier)-1) + ".png";
-                    std::string BackgroundFileName = ":/ressources/background" + std::to_string(((int) currentTier)-1) + ".png";
+                    std::string BackgroundFileName = ":/ressources/background0.png";// + std::to_string(((int) currentTier)-1) + ".png";
                     itsTileSet = new TileSet(tileSetFileName, BackgroundFileName);
                 }
                 currentLevel++;
@@ -135,6 +135,11 @@ void Game::spawnPlayer()
     itsPlayer->setItsXSpeed(0);
     itsPlayer->setX((32*39)/2);
     itsPlayer->setY((32*18));
+}
+
+TileSet *Game::getItsTileSet() const
+{
+    return itsTileSet;
 }
 
 void Game::checkAllCollid(){

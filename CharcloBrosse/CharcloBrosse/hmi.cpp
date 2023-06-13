@@ -3,6 +3,7 @@
 #include <vector>
 #include <QInputDialog>
 #include <QDir>
+#include <QBuffer>
 #include "hmi.h"
 #include "game.h"
 
@@ -298,7 +299,11 @@ void HMI::paintEvent(QPaintEvent *event)
 
     if (itsLevel != nullptr && itsLevel->isActive() && shouldDraw){
         QPainter * painter = new QPainter(this);
-        painter->setFont(QFont("VT323", 14));
+        painter->setOpacity(0.8);
+        QPixmap bg(":/ressources/background0.png");
+        painter->drawPixmap(this->rect(), bg);
+        painter->setOpacity(1.0);
+        painter->setFont(QFont("VT323", 18));
         painter->drawText(10, 20, QString("Score: %1").arg(itsGame->getItsScore())); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
         painter->drawText(10, 40, QString("Lives: %1").arg(itsGame->getItsPlayer()->getItsLivesNb()));
         painter->drawText(10, 60, QString("Wallet: %1").arg(itsGame->getItsMoney()));
