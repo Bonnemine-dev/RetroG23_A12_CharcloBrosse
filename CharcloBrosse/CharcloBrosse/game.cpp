@@ -317,12 +317,12 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 break;
             case GIANT:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             case ACCELERATOR:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             default:

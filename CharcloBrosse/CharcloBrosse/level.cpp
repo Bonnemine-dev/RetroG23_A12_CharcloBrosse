@@ -145,7 +145,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             }
         }
         else if (type == "accelerator"){ // if an accelerator enemy
-            itsRemainingEnemies.push_back(new Accelerator(32, 32, tileSet->getItsGroundTile())); // create the enemy and add it to the list
+            itsRemainingEnemies.push_back(new Accelerator(32, 32, tileSet->getItsEnemyAccelerator1RunningRightTile(0))); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
