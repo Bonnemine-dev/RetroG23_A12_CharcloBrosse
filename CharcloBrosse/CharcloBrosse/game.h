@@ -180,6 +180,11 @@ public :
 
     Player *getItsPlayer() const;
 
+    /**
+     * @brief spawnPlayer set the player position to spawn
+     */
+    void spawnPlayer();
+
 public slots:
     /**
      * @brief corresponds to the game loop, depending on the time the player is not dead.

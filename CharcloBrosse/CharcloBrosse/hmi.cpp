@@ -436,6 +436,8 @@ void HMI::displayLevelNumber(){
 }
 
 void HMI::startLevel(){
+    itsStartLevelTimer->stop();
     itsLevelNumberText->setText("");
     itsLevel->activate();
+    itsGame->spawnPlayer();
 }
