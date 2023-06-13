@@ -89,15 +89,12 @@ void Game::gameLoop()
                 openLevel();
                 itsHMI->setLevel(itsLevel);
                 itsHMI->displayLevelNumber();
-                itsPlayer->setX((32*39)/2);
-                itsPlayer->setY(250);
                 itsLoopCounter = NUMBER_LOOP_PER_SECOND;
                 itsEllapsedTime = 0;
             }
             else{
                 currentLevel = 1;
                 itsHMI->stopGame();
-
             }
         }
 
@@ -120,6 +117,7 @@ Player *Game::getItsPlayer() const
     return itsPlayer;
 }
 
+
 unsigned int Game::getItsMoney() const
 {
     return itsMoney;
@@ -128,6 +126,13 @@ unsigned int Game::getItsMoney() const
 void Game::setItsMoney(unsigned int newItsMoney)
 {
     itsMoney = newItsMoney;
+}
+void Game::spawnPlayer()
+{
+    itsPlayer->setItsYSpeed(0);
+    itsPlayer->setItsXSpeed(0);
+    itsPlayer->setX((32*39)/2);
+    itsPlayer->setY((32*18));
 }
 
 void Game::checkAllCollid(){
@@ -337,12 +342,12 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 break;
             case GIANT:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             case ACCELERATOR:
                 theEnemy->setItsState(true);
-                theEnemy->setItsSprite(itsTileSet->getItsEnemyGiantRunningRightTile(0));
+                theEnemy->setItsSprite(itsTileSet->getItsEnemyAccelerator1RunningRightTile(0));
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             default:
