@@ -34,6 +34,7 @@ Game::Game()
 
 void Game::onGameStart(){
     currentLevel = 1;
+    itsTileSet = new TileSet(TILESET_FILE_PATH);
     itsPlayer->setItsLivesNb(3);
     itsScore = 0;
     openLevel();
@@ -474,7 +475,7 @@ void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
 {
     if (theMoney->getItsMoneyType()==RED)
     {
-        setItsMoney(getItsMoney()+1);
+        setItsMoney(getItsMoney()+11);
     }
     else if (theMoney->getItsMoneyType()==YELLOW)
     {

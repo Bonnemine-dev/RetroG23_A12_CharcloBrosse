@@ -1,3 +1,4 @@
+Samuel,1300
 Erwan !,1100
 dcshbdcksh,900
 J'ai win,900
@@ -7,4 +8,3 @@ Bonsoir,400
 tombo,200
 tombo,200
 erwan,200
-erwan,100
