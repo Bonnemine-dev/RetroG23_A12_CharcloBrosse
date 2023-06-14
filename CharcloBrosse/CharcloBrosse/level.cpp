@@ -200,11 +200,11 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
             unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
             itsEnemyAppearsTimes.push_back(temp); // compute the delay
         }
-        // std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
     }
     else {
         itsEnemyAppearsTimes.push_back(2);
     }
+    std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
 
     for (unsigned short line=0; line < Moneys.size(); line++){
             QJsonArray jsonLine = Moneys[line].toArray();
