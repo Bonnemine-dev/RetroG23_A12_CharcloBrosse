@@ -11,5 +11,6 @@
         <file>ressources/level5.json</file>
         <file>ressources/background1.png</file>
         <file>ressources/tileset1.png</file>
+        <file>ressources/level6.json</file>
     </qresource>
 </RCC>
