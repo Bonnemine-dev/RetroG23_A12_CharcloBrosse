@@ -31,6 +31,7 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 #define COMBO_RANGE_TIME 1500//The time in ms when a combo are possible
+#define DISTANCE_FOR_MAX_GRAVITY 96 //define the number of pixel that the player have to make fore reach his max gravity : 576 pixels/s
 
 #define TILESET_FILE_PATH "://ressources/tileset0.png"
 #define TILESET2_FILE_PATH "://ressources/tileset1.png"
@@ -46,6 +47,8 @@
 #define LEVEL_FILE_PATH "://ressources/level1.json"
 #define FONT_PATH "://ressources/PressStart2P-Regular.ttf"
 #define HIGHSCORES_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
+
+
 
 #define MAX_LEVEL 5
 #define MAX_LIFE 3

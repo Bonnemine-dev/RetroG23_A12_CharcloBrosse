@@ -217,7 +217,8 @@ void Game::checkAllCollid(){
     //isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
     // player to block
 
-    bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
+    //Met la gravité si le joueur n'est pas en train de sauter et il est en falling
+    //rdibitoire : est en train de sauter ou n'est pas en falling mod
     //définie le joueur comme n'étant pas sur un bloc
     itsPlayer->setIsOnTheGround(false);
     if(itsPlayer->getItsRemaningComboTicks() != 0)
@@ -253,7 +254,6 @@ void Game::checkAllCollid(){
             //Condition qui vérifie que : le joueur est sur le bloc
             if (isOnTop(itsPlayer, block)){
                 //Change la varible qui définie si oui ou non le joueur doit subir la gravité
-                playerGravity = false;
                 //Définie l'attribut boolean du joueur à vrai, cet attribut est
                 //vrai si il est sur une surface faux si il est dans le vide
                 itsPlayer->setIsOnTheGround(true);
@@ -273,17 +273,8 @@ void Game::checkAllCollid(){
     //------------------------------Fin de la vérification des collisions entre joueur et money -------------------------------------------------------
 
     //------------------------------Début de l'application de la gravitée ou pas pour le joueur -------------------------------------------------------
-    if (playerGravity)
-    {
-        //Définie la vitesse du joueur sur l'axe des absices à 1
-        itsPlayer->setItsYSpeed(GRAVITY);
-    }
-    else
-    {
-        //Définie la vitesse du joueur sur l'axe des absices à 0 si sa vitesse est positif
-        //et ne la change pas si elle est négatif
-        itsPlayer->setItsYSpeed(itsPlayer->getItsYSpeed() > STILL?STILL:itsPlayer->getItsYSpeed());
-    }
+    //si il n'est pas sur un bloc et qu'il n'est pas en pleine chute et qu'il n'est pas en plein saut
+
     //------------------------------Fin de l'application de la gravitée ou pas pour le joueur -------------------------------------------------------
 
     //------------------------------Début de la vérification des collisions avec les ennemies -------------------------------------------------------
@@ -400,6 +391,14 @@ void Game::checkAllCollid(){
                 }
             }
         }
+    }
+    if(!itsPlayer->getIsOnTheGround() && itsPlayer->getItsRemaningFallMove() == 0xFFFF)
+    {
+        itsPlayer->setItsRemaningFallMove(DISTANCE_FOR_MAX_GRAVITY);
+    }
+    else if(itsPlayer->getIsOnTheGround())
+    {
+        itsPlayer->setItsRemaningFallMove(0xFFFF);
     }
 }
 
@@ -623,7 +622,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     //vrai si le haut du joueur égale le bas du joueur et que le joueur est en pleine ascenssion soit le joueur vien de taper un block avec sa tête
-    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsYSpeed() < STILL)
+    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsRemaningJumpMove() != 0)
     {
         // Si le bloc est un bloc POW et qu'il n'a pas été frappé.
         if(theBlock->getItsType() == POW && !isBlockPOWHitted)
@@ -754,8 +753,9 @@ void Game::moveAll(){
     //vrai si le game loop à fait assez de tour valeur définie avec la speed du player
     if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(PLAYERMAXSPEED*BLOCK_SIZE)) == 0)//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
     {
-        itsPlayer->move();
+        itsPlayer->moveX();
     }
+    itsPlayer->moveY();
     //Parcours tous les enemy du niveau
     for (Enemy * enemy : itsLevel->getItsEnemiesList()){
         //Case pour tous les type d'enemy

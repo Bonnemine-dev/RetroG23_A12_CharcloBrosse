@@ -29,6 +29,7 @@ private:
     short itsYSpeed = 0; /** @brief Speed of the player on the Y axis. */
     bool isOnTheGround = false; /** @brief True is the player is on the ground .*/
     unsigned short itsRemaningJumpMove = 0; /** @brief the jump size counter */
+    unsigned short itsRemaningFallMove = 0xFFFF;
     unsigned short itsRemaningComboTicks = 0; /** @brief the combo ticks counter */
     unsigned short comboValue = 0;
     MoveX itsCurrentMove = NONE; /** @brief the current move on the X axis */
@@ -62,10 +63,14 @@ public:
     bool getItsState() const;
 
     /**
-     * @brief Moves the player.
+     * @brief Moves the player on ordinate.
      */
-    void move();
+    void moveX();
 
+    /**
+     * @brief Moves the player on abscisse.
+     */
+    void moveY();
     /**
      * @brief Sets the speed of the player on the X axis.
      * @param newItsXSpeed The new speed on the X axis.
@@ -147,6 +152,8 @@ public:
     void setItsRemaningComboTicks(unsigned short newItsRemaningComboTicks);
     unsigned short getComboValue() const;
     void setComboValue(unsigned short newComboValue);
+    unsigned short getItsRemaningFallMove() const;
+    void setItsRemaningFallMove(unsigned short newItsRemaningFallMove);
 };
 
 #endif // PLAYER_H
