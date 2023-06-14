@@ -42,6 +42,14 @@ class Game : public QObject{
 
 private:
     /**
+     * @brief The number of ennemies that were killed by the player
+     */
+    unsigned short nbEnemyKilled = 0;
+    /**
+     * @brief The number of levels finished
+     */
+    unsigned short nbLevelPassed = 0;
+    /**
      * @brief The combo that is involed when the player does multiple kills in a raw
      */
     unsigned short itsCombo = 0;
@@ -330,6 +338,18 @@ public :
      * @return the combo
      */
     unsigned short getItsCombo() const;
+
+    /**
+     * @brief getNbEnemyKilled gets the number of enemies that were killed by the player
+     * @return the combo
+     */
+    unsigned short getNbEnemyKilled() const;
+
+    /**
+     * @brief getNbLevelPassed gets the number of finished levels
+     * @return the combo
+     */
+    unsigned short getNbLevelPassed() const;
 
 public slots:
     /**

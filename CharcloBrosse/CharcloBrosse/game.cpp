@@ -125,7 +125,7 @@ void Game::gameLoop()
                 //Vrai si le palier actuel est différent du palier auquel il doit être
                 //Incrémentation du niveau actuel
                 currentLevel++;
-
+                nbLevelPassed++;
             }
             if (currentTier != checkTier()){
                 // modification du pallier
@@ -215,6 +215,16 @@ short Game::getCurrentTier() const
 unsigned short Game::getItsCombo() const
 {
     return itsCombo;
+}
+
+unsigned short Game::getNbEnemyKilled() const
+{
+    return nbEnemyKilled;
+}
+
+unsigned short Game::getNbLevelPassed() const
+{
+    return nbLevelPassed;
 }
 
 void Game::checkAllCollid(){
@@ -427,6 +437,7 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
         int multiplier = tier; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
         itsCombo = thePlayer->getComboValue();
         itsScore += theEnemy->getItsType() * multiplier * itsCombo;
+        nbEnemyKilled++;
         itsLevel->removeEnemy(theEnemy);
     }
 }

@@ -43,7 +43,7 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     quitToMainButton2 = new QPushButton("Leave the game");
     gameOverLabel = new QLabel("GAME OVER", this);
     gameOverLabel->setAlignment(Qt::AlignCenter);  // Centre le texte dans le QLabel
-    QFont gameOverFont = gameOverLabel->font();
+    QFont gameOverFont = arcadeFont;
     gameOverFont.setPointSize(56);
     gameOverLabel->setFont(gameOverFont);
 
@@ -105,7 +105,7 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     gameOverLayout->addWidget(scoreLabelGameOver, 0, Qt::AlignCenter);
     gameOverLayout->addWidget(quitToMainButton2, 0, Qt::AlignCenter);
     QFont fontGO = scoreLabelGameOver->font();
-    fontGO.setPointSize(30);
+    fontGO.setPointSize(20);
     scoreLabelGameOver->setFont(fontGO);
 
     // Ajout des widgets au layout gaming
@@ -493,7 +493,14 @@ void HMI::displayPauseMenu()
 void HMI::displayGameOverMenu()
 {
     clearPaintings();
-    scoreLabelGameOver->setText(QString("Score: %1").arg(itsGame->getItsScore()));
+    scoreLabelGameOver->setText(QString("Score: %1\n"
+                                        "Enemies killed: %2\n"
+                                        "Passed levels: %3\n"
+                                        "Money collected: %4")
+                                .arg(itsGame->getItsScore())
+                                .arg(itsGame->getNbEnemyKilled())
+                                .arg(itsGame->getNbLevelPassed())
+                                .arg(itsGame->getItsMoney()));
     state = GAMEOVER;
     stackedWidget->setCurrentWidget(gameOverMenuWidget);
 }
