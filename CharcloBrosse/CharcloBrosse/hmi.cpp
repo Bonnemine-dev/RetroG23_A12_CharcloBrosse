@@ -64,7 +64,9 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     font.setPointSize(18);
     scoresLabel->setFont(font);
     rulesText->setAlignment(Qt::AlignCenter);
+    font.setPointSize(15);
     rulesText->setFont(font);
+    font.setPointSize(18);
 
     // initialisation du QLabel pour le numero de niveau
     itsLevelNumberText = new QLabel(this);
