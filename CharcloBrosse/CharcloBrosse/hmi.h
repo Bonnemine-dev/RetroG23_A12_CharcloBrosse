@@ -67,12 +67,13 @@ private:
 
     QLabel *gameTitleLabel; /** @brief  Label for displaying "Chaclo Brosse". */
     QLabel *rulesText; /** @brief  Label for displaying game rules. */
-    QLabel *congratulationsMessage; /** @brief Label to display a congrat message */
+    QVBoxLayout *gameOverTop10Layout; /** @brief Layout for displaying GameOver Layout with Top 10 submit */
+
+    QLabel *congratulationsMessage; /** @brief Label for displaying the congratulation message */
 
     QLabel *scoresLabel; /** @brief  Label for displaying scores. */
     QLabel *scoreLabelGameOver; /** @brief  Label for displaying scores in the game over screen. */
     QLabel *gameOverLabel; /** @brief  Label for displaying "Game Over" text. */
-
 
     QPushButton *startGameButton; /** @brief  Button for starting the game. */
     QPushButton *rulesButton; /** @brief  Button for displaying game rules. */
@@ -81,9 +82,8 @@ private:
     QPushButton *quitToMainButton; /** @brief  Button for going to the main menu. */
     QPushButton *quitToMainButton2; /** @brief  Button for going to the main menu from the game over menu. */
     QPushButton *goBackButton; /** @brief  Button for going back to the previous screen (main menu). */
-    QPushButton *submitScoreButton; /** @brief Button to submit a top 10 score */
-
-    QLineEdit *nameInput; /** @brief input text for the top 10 name */
+    QPushButton *submitScoreButton; /** @brief Button to submit our score */
+    QLineEdit *nameInput;/** @brief text entry to submit our name */
 
     /**
      * @brief itsLevelNumberText the text to display the the current level before launch it
