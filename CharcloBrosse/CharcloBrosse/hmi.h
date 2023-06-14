@@ -223,6 +223,9 @@ public slots:
      */
     void stopGame();
 
+    /**
+     * @brief Submits the score after clicking on the submit button.
+     */
     void submitScore();
 
 };
