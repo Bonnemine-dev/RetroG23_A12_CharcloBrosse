@@ -19,6 +19,8 @@
 
 Game::Game()
 {
+    //Définition du tileset pour la partie en cours, TILESET_FILE_PATH = le chemin vers le fichier .png du tileset
+    itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Création du joueur pour la partie en cours
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
     //Création de l'interface homme machine lié au jeu
