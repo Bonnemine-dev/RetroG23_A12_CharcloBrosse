@@ -8,7 +8,7 @@
 #include "game.h"
 
 
-HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget(parent), itsLevel(level), itsPlayer(player), itsGame(game)
+HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPlayer(player), itsGame(game)
 {
     DBSCORE = nullptr;
 

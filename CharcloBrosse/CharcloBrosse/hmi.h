@@ -120,7 +120,7 @@ public:
      * @brief Constructor of the HMI class.
      * @param parent The parent widget.
      */
-    HMI(Level *itsLevel, Player *itsPlayer, Game * game, QWidget *parent = nullptr);
+    HMI(Player *itsPlayer, Game * game, QWidget *parent = nullptr);
 
     /**
      * @brief Destructor of the HMI class.
