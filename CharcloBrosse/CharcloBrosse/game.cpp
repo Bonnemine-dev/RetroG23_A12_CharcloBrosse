@@ -87,6 +87,7 @@ void Game::gameLoop()
         itsLoopCounter--;
 
         if(isLevelFinished()){
+            itsScore += itsHMI->getTimerRemainingTime();
             if (currentLevel != MAX_LEVEL){
                 if (currentTier != checkTier()){
                     currentTier = checkTier();

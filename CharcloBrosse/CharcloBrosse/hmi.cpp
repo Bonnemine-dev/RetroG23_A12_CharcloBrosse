@@ -473,6 +473,11 @@ void HMI::displayLevelNumber(){
     itsStartLevelTimer->start(1000);
 }
 
+int HMI::getTimerRemainingTime()
+{
+    return itsLevelTimer->remainingTime()/1000;
+}
+
 void HMI::startLevel(){
     itsStartLevelTimer->stop();
     itsLevelNumberText->setText("");

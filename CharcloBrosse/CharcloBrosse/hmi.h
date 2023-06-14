@@ -134,6 +134,12 @@ public:
      * Display the current number of the level during one seconds
      */
     void displayLevelNumber();
+
+    /**
+     * @brief getTimerRemainingTime get the remaining time of the current level timer
+     * @return the time remaining in secondes
+     */
+    int getTimerRemainingTime();
 private slots:
     /**
      * @brief Displays the main menu.
