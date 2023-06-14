@@ -429,7 +429,6 @@ public:
      * @brief Tileset::getItsBackground() function declaration
      * @return QPixmap* : A pointer to the background image
      */
-
     QPixmap* getItsBackground();
     /**
      * @brief getItsPlayerTilesList gets itsPlayerList
@@ -452,11 +451,19 @@ public:
      */
     std::array<QPixmap *, 12> *getItsEnnemyGiantTilesList();
     /**
+     * @brief getItsEnnemyJumperTilesList
+     * @return
+     */
+    std::array<QPixmap *, 12> *getItsEnnemyJumperTilesList();
+    /**
+     * @brief getItsEnnemyFreezerTilesList
+     * @return
+     */
+    std::array<QPixmap *, 12> *getItsEnnemyFreezerTilesList();
+    /**
      * @brief getItsBlockTilesList gets itsBlockTilesList
      * @return the list of all the blocks sprites
      */
-    std::array<QPixmap *, 12> *getItsEnnemyJumperTilesList();
-    std::array<QPixmap *, 12> *getItsEnnemyFreezerTilesList();
     std::array<QPixmap *, 6> *getItsBlockTilesList();
     /**
      * @brief getItsMoneyTilesList gets itsMoneyTilesList

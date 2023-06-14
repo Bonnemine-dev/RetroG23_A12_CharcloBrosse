@@ -40,6 +40,8 @@ Game::Game()
 void Game::onGameStart(){
     //Niveau actuel
     currentLevel = 1;
+    //Money
+    itsMoney = 0;
     //Création du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Initialisation du nombre de vies
@@ -119,34 +121,28 @@ void Game::gameLoop()
             //vrai si le niveau actuel n'est pas le niveau maximum
             if (currentLevel != MAX_LEVEL){
                 //Vrai si le palier actuel est différent du palier auquel il doit être
-                if (currentTier != checkTier()){
-                    //Vérification des collisions
-                    currentTier = checkTier();
-                    //Suppression du tileset actuel
-                    delete itsTileSet;
-                    //création du nouveau tileset
-                    itsTileSet = new TileSet(":/ressources/tileset0.png");
-                }
                 //Incrémentation du niveau actuel
                 currentLevel++;
-                //ouverture du niveau
-                openLevel();
-                //Initialisation de l'IHM avec le premier niveau
-                itsHMI->setLevel(itsLevel);
-                //Affichage du numéro du niveau
-                itsHMI->displayLevelNumber();
-                //Réinitialisation du compteur du nombre de boucle dans le cycle
-                itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-                //Réinitialisation du temps écoulé
-                itsEllapsedTime = 0;
+
             }
-            else
-            {
-                //Définition du niveau actuel
-                currentLevel = 1;
-                //Arret du jeu car mort
-                itsHMI->stopGame();
+            if (currentTier != checkTier()){
+                // modification du pallier
+                currentTier = checkTier();
+                //Suppression du tileset actuel
+                delete itsTileSet;
+                //création du nouveau tileset
+                itsTileSet = new TileSet(":/ressources/tileset0.png");
             }
+            //ouverture du niveau
+            openLevel();
+            //Initialisation de l'IHM avec le premier niveau
+            itsHMI->setLevel(itsLevel);
+            //Affichage du numéro du niveau
+            itsHMI->displayLevelNumber();
+            //Réinitialisation du compteur du nombre de boucle dans le cycle
+            itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+            //Réinitialisation du temps écoulé
+            itsEllapsedTime = 0;
             openLevel();
             itsHMI->setLevel(itsLevel);
             itsHMI->displayLevelNumber();
@@ -544,7 +540,7 @@ void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
             }
         }
         //Arette l'application si une collision étrange est detecté
-        else qFatal()<<"collision impossible";
+        else qFatal("collision impossible");
     }
 }
 
