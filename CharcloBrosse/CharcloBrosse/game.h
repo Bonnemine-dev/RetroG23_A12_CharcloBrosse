@@ -181,12 +181,10 @@ public :
 
     /**
      * @brief Method launched when the player collides with money
-     * @param thePlayer
      * @param theMoney the money concerned
-     * @see Player
      * @see Money
      */
-    void colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney);
+    void colBtwPlayerAndMoney(Money* theMoney);
 
 
 

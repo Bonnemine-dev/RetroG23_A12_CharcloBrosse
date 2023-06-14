@@ -18,6 +18,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QStackedWidget>
+#include <QLineEdit>
 #include "level.h"
 #include "player.h"
 #include "typedef.h"
@@ -42,12 +43,14 @@ private:
 
     MenuState state; /** @brief  Current state of the HMI. */
 
+
     QStackedWidget *stackedWidget; /** @brief  Widget for stacking different screens. */
     QWidget *mainMenuWidget; /** @brief  Widget for the main menu screen. */
     QWidget *pauseMenuWidget; /** @brief  Widget for the pause menu screen. */
     QWidget *gameMenuWidget; /** @brief  Widget for the game screen. */
     QWidget *gameOverMenuWidget; /** @brief  Widget for the game over screen. */
     QWidget *rulesMenuWidget; /** @brief  Widget for the game rules screen. */
+    QWidget *gameOverTop10MenuWidget; /** @brief Widget for the game over screen with top 10 add score */
 
     void keyPressEvent(QKeyEvent* event); /** @brief  Handles key press events. */
     void keyReleaseEvent(QKeyEvent* event); /** @brief  Handles key release events. */
@@ -64,10 +67,12 @@ private:
 
     QLabel *gameTitleLabel; /** @brief  Label for displaying "Chaclo Brosse". */
     QLabel *rulesText; /** @brief  Label for displaying game rules. */
+    QLabel *congratulationsMessage; /** @brief Label to display a congrat message */
 
     QLabel *scoresLabel; /** @brief  Label for displaying scores. */
     QLabel *scoreLabelGameOver; /** @brief  Label for displaying scores in the game over screen. */
     QLabel *gameOverLabel; /** @brief  Label for displaying "Game Over" text. */
+
 
     QPushButton *startGameButton; /** @brief  Button for starting the game. */
     QPushButton *rulesButton; /** @brief  Button for displaying game rules. */
@@ -76,6 +81,9 @@ private:
     QPushButton *quitToMainButton; /** @brief  Button for going to the main menu. */
     QPushButton *quitToMainButton2; /** @brief  Button for going to the main menu from the game over menu. */
     QPushButton *goBackButton; /** @brief  Button for going back to the previous screen (main menu). */
+    QPushButton *submitScoreButton; /** @brief Button to submit a top 10 score */
+
+    QLineEdit *nameInput; /** @brief input text for the top 10 name */
 
     /**
      * @brief itsLevelNumberText the text to display the the current level before launch it
@@ -157,6 +165,7 @@ private slots:
      */
     void displayGameOverMenu();
 
+    void displayGameOverMenuTOP10();
     /**
          * @brief Displays the game screen.
      */
@@ -213,6 +222,9 @@ public slots:
      * @brief Stops the game and performs necessary cleanup.
      */
     void stopGame();
+
+    void submitScore();
+
 };
 
 

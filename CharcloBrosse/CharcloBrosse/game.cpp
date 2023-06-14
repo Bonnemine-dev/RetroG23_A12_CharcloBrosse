@@ -45,13 +45,13 @@ void Game::onGameStart(){
     itsHMI->setLevel(itsLevel);
     itsHMI->displayLevelNumber();
     itsEllapsedTime = 0;
+    checkTier();
     gameLoop();
     running = true;
 }
 
 void Game::gameLoop()
 {
-    checkTier();
     if(running){
         QElapsedTimer timer;
         timer.restart();
@@ -87,22 +87,18 @@ void Game::gameLoop()
         if(isLevelFinished()){
             itsScore += itsHMI->getTimerRemainingTime();
             if (currentLevel != MAX_LEVEL){
-                if (currentTier != checkTier()){
-                    currentTier = checkTier();
-                    delete itsTileSet;
-                    itsTileSet = new TileSet(":/ressources/tileset0.png");
-                }
                 currentLevel++;
-                openLevel();
-                itsHMI->setLevel(itsLevel);
-                itsHMI->displayLevelNumber();
-                itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-                itsEllapsedTime = 0;
             }
-            else{
-                currentLevel = 1;
-                itsHMI->stopGame();
+            if (currentTier != checkTier()){
+                currentTier = checkTier();
+                delete itsTileSet;
+                itsTileSet = new TileSet(":/ressources/tileset0.png");
             }
+            openLevel();
+            itsHMI->setLevel(itsLevel);
+            itsHMI->displayLevelNumber();
+            itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+            itsEllapsedTime = 0;
         }
 
         if(itsPlayer->getItsLivesNb() == 0)
