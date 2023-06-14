@@ -534,8 +534,6 @@ void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
                 theSecondEnemy->setItsXSpeed(RIGHT_X);
             }
         }
-        //Arette l'application si une collision étrange est detecté
-        else qFatal("collision impossible");
     }
 }
 
