@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <iostream>
 #include <vector>
-#include <QInputDialog>
 #include <QDir>
 #include <QBuffer>
 #include "hmi.h"
@@ -107,7 +106,6 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     fontGO.setPointSize(30);
     scoreLabelGameOver->setFont(fontGO);
 
-
     // Ajout des widgets au layout gaming
     gameLayout->addWidget(itsLevelNumberText);
 
@@ -163,6 +161,7 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
                                "color: rgba(255, 0, 0, 0.5);"
                                "}";
 
+    // les timers
     itsStartLevelTimer = new QTimer(this);
     itsLevelTimer = new QTimer(this);
 
@@ -187,6 +186,9 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     goBackButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     goBackButton->setFont(buttonFont);
     goBackButton->setFixedWidth(400);
+    buttonFont.setPointSize(25);
+    scoresLabel->setFont(buttonFont);
+    buttonFont.setPointSize(40);
 
     // ajustement de la taille de la fenetre
     setFixedSize(20*32*2, 11*32*2);
@@ -229,6 +231,50 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
         label->setStyleSheet("QLabel { color : white; }");
     }
 
+
+    // Pour l'ajout des scores pas dans un Qinputdialog super cool
+    // Ajout dans la liste des déclarations dans votre constructeur HMI
+    gameOverTop10MenuWidget = new QWidget;
+
+    // Ajout dans votre fonction d'initialisation
+    gameOverTop10Layout = new QVBoxLayout;
+    nameInput = new QLineEdit;
+    submitScoreButton = new QPushButton("Submit Score");
+    congratulationsMessage = new QLabel;
+
+    gameOverTop10Layout->addWidget(congratulationsMessage, 0, Qt::AlignCenter);
+    gameOverTop10Layout->addWidget(nameInput, 0, Qt::AlignCenter);
+    gameOverTop10Layout->addWidget(submitScoreButton, 0, Qt::AlignCenter);
+
+    gameOverTop10MenuWidget->setLayout(gameOverTop10Layout);
+    stackedWidget->addWidget(gameOverTop10MenuWidget);
+
+    // style
+    congratulationsMessage->setText("Congratulations, you have reached the top 10!");
+    congratulationsMessage->setStyleSheet("QLabel { color : blue; }");
+    congratulationsMessage->setFont(buttonFont);
+    congratulationsMessage->setAlignment(Qt::AlignCenter);
+
+    submitScoreButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
+    submitScoreButton->setFont(buttonFont);
+    submitScoreButton->setFixedWidth(400);
+
+    submitScoreButton->setFocusPolicy(Qt::StrongFocus);
+
+    gameOverTop10MenuWidget->setStyleSheet("background-color: black;");
+
+    nameInput->setFont(buttonFont);
+    nameInput->setFixedWidth(400);
+    nameInput->setStyleSheet("QLineEdit { color: white; }");
+    nameInput->setText(QDir::home().dirName());
+    nameInput->setMaxLength(5);
+
+    // Connecter le signal du bouton à l'emplacement approprié
+    connect(submitScoreButton, &QPushButton::clicked, this, &HMI::submitScore);
+
+    // Assurez-vous que votre bouton de soumission et votre champ de saisie ont une politique de focus pour permettre la navigation.
+    nameInput->setFocusPolicy(Qt::StrongFocus);
+    submitScoreButton->setFocusPolicy(Qt::StrongFocus);
 }
 
 HMI::~HMI()
@@ -342,6 +388,7 @@ void HMI::paintEvent(QPaintEvent *event)
 
         // Dessin du background
         QString cheminBG = itsGame->getCheminBG();
+        qDebug() << "Chemin du background: " << cheminBG;
         if (QFile::exists(cheminBG)) {
             QPixmap bg(cheminBG);
             if (!bg.isNull()) {
@@ -395,7 +442,6 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
     for (const auto &score : highscores) {
         scoresText += QString::number(rank) + ". " + QString::fromStdString(score.first) + ": " + QString::number(score.second) + "\n";
         rank++;
-
     }
 
     scoresLabel->setText(scoresText);
@@ -418,6 +464,14 @@ void HMI::displayGameOverMenu()
     scoreLabelGameOver->setText(QString("Score: %1").arg(itsGame->getItsScore()));
     state = GAMEOVER;
     stackedWidget->setCurrentWidget(gameOverMenuWidget);
+}
+
+void HMI::displayGameOverMenuTOP10()
+{
+    clearPaintings();
+    scoreLabelGameOver->setText(QString("Score: %1").arg(itsGame->getItsScore()));
+    state = GAMEOVER_TOP10;
+    stackedWidget->setCurrentWidget(gameOverTop10MenuWidget);
 }
 
 void HMI::displayGame()
@@ -476,25 +530,12 @@ void HMI::stopGame()
 
     if (DBSCORE->isInTop10(itsGame->getItsScore()))
     {
-        QInputDialog dialog(this);
-        dialog.setModal(true);
-        dialog.setWindowTitle(tr("Score Input"));
-        dialog.setLabelText(tr("You made it to the top 10! Enter your name:"));
-        dialog.setInputMode(QInputDialog::TextInput);
-        dialog.setTextValue(QDir::home().dirName());
-
-        QLineEdit *lineEdit = dialog.findChild<QLineEdit *>();
-        if (lineEdit) {
-            lineEdit->setMaxLength(10);
-        }
-
-        if (dialog.exec() == QDialog::Accepted && !dialog.textValue().isEmpty()) {
-            std::string name = dialog.textValue().toStdString();
-            DBSCORE->saveScore(name, itsGame->getItsScore());
-        }
+        displayGameOverMenuTOP10();
     }
-
-    displayGameOverMenu();
+    else
+    {
+        displayGameOverMenu();
+    }
 }
 
 
@@ -532,4 +573,16 @@ void HMI::levelTimeout()
     itsTimer->stop();
     itsGame->levelTimeout();
     stopGame();
+}
+
+void HMI::submitScore()
+{
+    std::string name = nameInput->text().toStdString();
+    DBSCORE->saveScore(name, itsGame->getItsScore());
+
+    // Clear le champ de saisie pour une utilisation future
+    nameInput->clear();
+
+    // Affichez ensuite le menu Game Over classique
+    displayGameOverMenu();
 }

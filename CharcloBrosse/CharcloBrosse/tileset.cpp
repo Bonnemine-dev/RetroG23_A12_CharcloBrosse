@@ -15,6 +15,8 @@ std::array<QPixmap*, 12> TileSet::itsPlayerTilesList;
 std::array<QPixmap*, 12> TileSet::itsEnnemyStandardTilesList;
 std::array<std::array<QPixmap*, 12>*, 3> TileSet::itsEnnemyAcceleratorTilesList;
 std::array<QPixmap*, 12> TileSet::itsEnnemyGiantTilesList;
+std::array<QPixmap*, 12> TileSet::itsEnnemyFreezerTilesList;
+std::array<QPixmap*, 12> TileSet::itsEnnemyJumperTilesList;
 std::array<QPixmap*, 6> TileSet::itsBlockTilesList;
 QPixmap* TileSet::itsNoTextureTile;
 QPixmap* TileSet::itsBackground;
@@ -46,6 +48,16 @@ std::array<std::array<QPixmap *, 12> *, 3> *TileSet::getItsEnnemyAcceleratorTile
 std::array<QPixmap *, 12> *TileSet::getItsEnnemyGiantTilesList()
 {
     return &itsEnnemyGiantTilesList;
+}
+
+std::array<QPixmap *, 12> *TileSet::getItsEnnemyJumperTilesList()
+{
+    return &itsEnnemyJumperTilesList;
+}
+
+std::array<QPixmap *, 12> *TileSet::getItsEnnemyFreezerTilesList()
+{
+    return &itsEnnemyFreezerTilesList;
 }
 
 std::array<QPixmap *, 6> *TileSet::getItsBlockTilesList()
@@ -142,7 +154,7 @@ TileSet::TileSet(std::string aTileSetFilePath)
        itsEnnemyStandardTilesList.at(10) = new QPixmap(tileset.copy(100, 67, 32, 32).transformed(mirror));
        itsEnnemyStandardTilesList.at(11) = new QPixmap(tileset.copy(133, 67, 32, 32).transformed(mirror));
 
-       for (size_t i = 0; i < itsEnnemyAcceleratorTilesList.size(); i++)
+       for (unsigned short i = 0; i < itsEnnemyAcceleratorTilesList.size(); i++)
        {
            itsEnnemyAcceleratorTilesList.at(i) = new std::array<QPixmap*, 12>;
        }
@@ -233,6 +245,54 @@ TileSet::TileSet(std::string aTileSetFilePath)
        itsEnnemyGiantTilesList.at(11) = new QPixmap(tileset.copy(133, 199, 32, 96).transformed(mirror));
 
 
+
+       // Ennemi droite Jumper court
+       itsEnnemyJumperTilesList.at(0) = new QPixmap(tileset.copy(166, 232, 32, 32));
+       itsEnnemyJumperTilesList.at(1) = new QPixmap(tileset.copy(199, 232, 32, 32));
+       // Ennemi droite Jumper tombe
+       itsEnnemyJumperTilesList.at(2) = new QPixmap(tileset.copy(232, 232, 32, 32));
+       itsEnnemyJumperTilesList.at(3) = nullptr;
+       // Ennemi droite Jumper immobilisé
+       itsEnnemyJumperTilesList.at(4) = new QPixmap(tileset.copy(265, 232, 32, 32));
+       itsEnnemyJumperTilesList.at(5) = new QPixmap(tileset.copy(298, 232, 32, 32));
+
+
+       // Ennemi gauche Jumper court
+       itsEnnemyJumperTilesList.at(6) = new QPixmap(tileset.copy(166, 232, 32, 32).transformed(mirror));
+       itsEnnemyJumperTilesList.at(7) = new QPixmap(tileset.copy(199, 232, 32, 32).transformed(mirror));
+       // Ennemi gauche Jumper tombe
+       itsEnnemyJumperTilesList.at(8) = new QPixmap(tileset.copy(232, 232, 32, 32).transformed(mirror));
+       itsEnnemyJumperTilesList.at(9) = nullptr;
+       // Ennemi gauche Jumper immobilisé
+       itsEnnemyJumperTilesList.at(10) = new QPixmap(tileset.copy(265, 232, 32, 32).transformed(mirror));
+       itsEnnemyJumperTilesList.at(11) = new QPixmap(tileset.copy(298, 232, 32, 32).transformed(mirror));
+
+
+
+       // Ennemi droite Freezer court
+       itsEnnemyFreezerTilesList.at(0) = new QPixmap(tileset.copy(166, 199, 32, 32));
+       itsEnnemyFreezerTilesList.at(1) = new QPixmap(tileset.copy(199, 199, 32, 32));
+       // Ennemi droite Freezer tombe
+       itsEnnemyFreezerTilesList.at(2) = new QPixmap(tileset.copy(232, 199, 32, 32));
+       itsEnnemyFreezerTilesList.at(3) = nullptr;
+       // Ennemi droite Freezer immobilisé
+       itsEnnemyFreezerTilesList.at(4) = new QPixmap(tileset.copy(265, 199, 32, 32));
+       itsEnnemyFreezerTilesList.at(5) = new QPixmap(tileset.copy(298, 199, 32, 32));
+
+
+       // Ennemi gauche Freezer court
+       itsEnnemyFreezerTilesList.at(6) = new QPixmap(tileset.copy(166, 232, 32, 32).transformed(mirror));
+       itsEnnemyFreezerTilesList.at(7) = new QPixmap(tileset.copy(199, 199, 32, 32).transformed(mirror));
+       // Ennemi gauche Freezer tombe
+       itsEnnemyFreezerTilesList.at(8) = new QPixmap(tileset.copy(232, 199, 32, 32).transformed(mirror));
+       itsEnnemyFreezerTilesList.at(9) = nullptr;
+       // Ennemi gauche Freezer immobilisé
+       itsEnnemyFreezerTilesList.at(10) = new QPixmap(tileset.copy(265, 199, 32, 32).transformed(mirror));
+       itsEnnemyFreezerTilesList.at(11) = new QPixmap(tileset.copy(298, 199, 32, 32).transformed(mirror));
+
+
+
+
        // Block normal
        itsBlockTilesList.at(0) = new QPixmap(tileset.copy(1, 296, 32, 32));
        // Block frappé
@@ -245,9 +305,9 @@ TileSet::TileSet(std::string aTileSetFilePath)
        itsBlockTilesList.at(3) = new QPixmap(tileset.copy(100, 296, 32, 32));
 
        // Block POW normal
-       itsBlockTilesList.at(4) = new QPixmap(tileset.copy(165, 132, 64, 64));
+       itsBlockTilesList.at(4) = new QPixmap(tileset.copy(165, 133, 64, 64));
        // Block POW frappé
-       itsBlockTilesList.at(5) = new QPixmap(tileset.copy(230, 132, 64, 64));
+       itsBlockTilesList.at(5) = new QPixmap(tileset.copy(231, 133, 64, 64));
 
 
 
@@ -272,7 +332,7 @@ TileSet::TileSet(std::string aTileSetFilePath)
        itsSpawnerTilesList.at(1) = new QPixmap(tileset.copy(231, 2, 64, 96));
 
        // Dispawner gauche
-       itsDespawnerTilesList.at(0) = new QPixmap(tileset.copy(295, 2, 64, 96));
+       itsDespawnerTilesList.at(0) = new QPixmap(tileset.copy(296, 2, 64, 96));
        // Dispawner droite
        itsDespawnerTilesList.at(1) = new QPixmap(tileset.copy(361, 2, 64, 96));
 
@@ -1044,9 +1104,3 @@ QPixmap *TileSet::getItsNoTextureTile()
 {
     return itsNoTextureTile;
 }
-
-QPixmap *TileSet::getItsBackground()
-{
-    return itsBackground;
-}
-
