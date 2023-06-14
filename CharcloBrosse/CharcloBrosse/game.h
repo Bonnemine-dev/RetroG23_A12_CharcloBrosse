@@ -42,7 +42,11 @@ class Game : public QObject{
 
 private:
     /**
-     * @brief the path of the tilset of the current tier
+     * @brief The combo that is involed when the player does multiple kills in a raw
+     */
+    unsigned short itsCombo = 0;
+    /**
+     * @brief The path of the tilset of the current tier
      */
     std::string tileSetPath;
     /**
@@ -320,6 +324,13 @@ public :
      * @return the multiplier
      */
     short getCurrentTier() const;
+
+    /**
+     * @brief getItsCombo gets the current combo
+     * @return the combo
+     */
+    unsigned short getItsCombo() const;
+
 public slots:
     /**
      * @brief corresponds to the game loop, depending on the time the player is not dead.

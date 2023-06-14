@@ -64,6 +64,8 @@ void Game::onGameStart(){
 void Game::gameLoop()
 {
     if(running){
+        // pour avoir le combo qui s'enleve des qu'il est finit
+        itsCombo = itsPlayer->getComboValue();
         //création du timer
         QElapsedTimer timer;
         //démarrage du time
@@ -208,6 +210,11 @@ QString Game::getCheminBG() const
 short Game::getCurrentTier() const
 {
     return currentTier;
+}
+
+unsigned short Game::getItsCombo() const
+{
+    return itsCombo;
 }
 
 void Game::checkAllCollid(){
@@ -418,7 +425,8 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
         thePlayer->setComboValue(thePlayer->getComboValue() + 1);
         int tier = currentTier;
         int multiplier = tier; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
-        itsScore += theEnemy->getItsType() * multiplier * thePlayer->getComboValue();
+        itsCombo = thePlayer->getComboValue();
+        itsScore += theEnemy->getItsType() * multiplier * itsCombo;
         itsLevel->removeEnemy(theEnemy);
     }
 }
