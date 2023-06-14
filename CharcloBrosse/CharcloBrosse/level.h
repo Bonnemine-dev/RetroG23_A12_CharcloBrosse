@@ -128,6 +128,10 @@ public:
     Level(std::string levelFilePath, TileSet * tileSet);
 
     /**
+     * @brief ~Level the destructor of the level class
+     */
+    ~Level();
+    /**
      * @brief getItsBlockList getter for itsBlockList
      * @return the list of all blocks
      * @see Level::itsBlockList

@@ -230,6 +230,16 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     active = false;
 }
 
+Level::~Level()
+{
+    itsRemainingEnemies.clear();
+    itsEnemiesList.clear();
+    itsBlockList.clear();
+    itsSpawnerList.clear();
+    itsDespawnerList.clear();
+    itsMoneyList.clear();
+}
+
 void Level::appears(Enemy * enemy){
     itsRemainingEnemies.pop_back();
     itsEnemiesList.push_back(enemy);
