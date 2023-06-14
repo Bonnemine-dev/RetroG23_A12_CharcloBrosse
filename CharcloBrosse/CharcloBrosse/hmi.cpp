@@ -186,8 +186,9 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     goBackButton->setStyleSheet(buttonStyle + buttonFocusedStyle + buttonHoverStyle);
     goBackButton->setFont(buttonFont);
     goBackButton->setFixedWidth(400);
-
+    buttonFont.setPointSize(25);
     scoresLabel->setFont(buttonFont);
+    buttonFont.setPointSize(40);
 
     // ajustement de la taille de la fenetre
     setFixedSize(20*32*2, 11*32*2);
