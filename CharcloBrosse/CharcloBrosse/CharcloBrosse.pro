@@ -9,27 +9,35 @@ CONFIG += c++17 rtti
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        accelerator.cpp \
         block.cpp \
+        db_score.cpp \
         enemy.cpp \
         entity.cpp \
         despawner.cpp \
         game.cpp \
+        giant.cpp \
         hmi.cpp \
         level.cpp \
         main.cpp \
+        money.cpp \
         player.cpp \
         spawner.cpp \
         standard.cpp \
         tileset.cpp
 
 HEADERS += \
+    accelerator.h \
     block.h \
+    db_score.h \
     enemy.h \
     entity.h \
     despawner.h \
     game.h \
+    giant.h \
     hmi.h \
     level.h \
+    money.h \
     player.h \
     spawner.h \
     standard.h \

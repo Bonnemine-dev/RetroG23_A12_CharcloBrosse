@@ -1,0 +1,5 @@
+<map id="Obstacle" name="Obstacle">
+<area shape="rect" id="node1" title=" " alt="" coords="5,152,80,177"/>
+<area shape="rect" id="node2" href="$d2/df8/class_block.html" title="Class representing a block entity in a game. This class inherits from the Entity class and provides a..." alt="" coords="15,79,70,104"/>
+<area shape="rect" id="node3" href="$d2/d96/class_entity.html" title="Abstract Class representing a game entity. This class provides a generic representation for an entity..." alt="" coords="15,5,71,31"/>
+</map>

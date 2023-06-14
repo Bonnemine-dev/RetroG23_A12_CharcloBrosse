@@ -8,10 +8,11 @@
 
 #include "entity.h"
 
+unsigned short* Entity::itsLoopCounter;
 //Methode display()
 void Entity::display(QPainter * painter)
 {
-    painter->drawPixmap(itsX, itsY, *itsSprite);
+//    painter->drawPixmap(itsX, itsY, *itsSprite);
 }
 
 //Gette itsRect
@@ -34,25 +35,20 @@ void Entity::setY( short newY)
     itsRect.moveTo(itsX,itsY);
 }
 
-//Change la position du sprite en fonction de celle de la hit box
-void Entity::moveTo()
-{
-}
-
 //Constructeur
-void Entity::setItsSprite(QPixmap *newItsSprite)
-{
-    itsSprite = newItsSprite;
-}
 
-Entity::Entity(short x,  short y,  short height,  short width, QPixmap * sprite)
+Entity::Entity(short x,  short y,  short height,  short width)
 {
-    itsSprite = sprite;
     itsX = x;
     itsY = y;
     itsRect.moveTo(x,y);
     itsRect.setHeight(height);
     itsRect.setWidth(width);
+}
+
+Entity::~Entity()
+{
+
 }
 
 //Getter getItsX

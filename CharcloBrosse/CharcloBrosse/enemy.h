@@ -1,9 +1,8 @@
 /**
  * @file enemy.h
  * @brief Header file for class Enemy
- * @author Tom Bonneau
  * @date 06/06/2023
- * @version 1.3
+ * @version 2.0
  */
 
 #ifndef ENEMY_H
@@ -16,20 +15,25 @@
 
 /**
  * @class Enemy
- * @brief Class representing an enemy entity in a game.
+ * @brief Abstract Class representing an enemy entity in a game.
  * This class inherits from the Entity class and provides additional characteristics
  * for an enemy entity, including speed in both X and Y directions, a state, and a type.
  * @date June 2023
+ * @see Entity
+ * @see <a href="https://doc.qt.io/qt-6/qrect.html" target="_blank">QRect</a>
+ * @see <a href="https://doc.qt.io/qt-5/qpainter.html" target="_blank">QPainter</a>
+ * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>
+ * @see EnemyType
  */
 class Enemy : public Entity
 {
 protected:
-    short itsXSpeed = 0; ///< Speed of the enemy on the X axis.
-    short itsYSpeed = 0; ///< Speed of the enemy on the Y axis.
-    bool itsState = true; ///< State of the enemy.
-    short itsNumberLoopKO = 0;
-    EnemyType itsType; ///< Type of the enemy.
-    bool isOnTheGround = true; ///< True is the player is on the ground .
+    short itsXSpeed = 0; /** @brief Speed of the enemy on the X axis. */
+    short itsYSpeed = 0; /** @brief Speed of the enemy on the Y axis. */
+    bool itsState = true; /** @brief State of the enemy. */
+    short itsNumberLoopKO = 0; /** @brief The number of loop passed where the enemy is KO */
+    EnemyType itsType; /** * @brief Type of the enemy. * @see EnemyType */
+    bool isOnTheGround = true; /** * @brief True is the player is on the ground . */
 public:
     /**
      * @brief Constructor of the Enemy class.
@@ -40,7 +44,20 @@ public:
      * @param width Width of the enemy.
      * @param sprite QPixmap sprite used for the enemy.
      */
-    Enemy( short height,  short width, QPixmap * sprite);
+    Enemy( short height,  short width);
+
+    /**
+     * @brief The virtual destructor of the Enemy class
+     */
+    virtual ~Enemy(); // Ajoutez un destructeur virtuel
+
+    /**
+     * @brief Display the current sprite at the screen
+     * @param painter A pointer to a painter associated to th screen where to display
+     * @see <a href="https://doc.qt.io/qt-5/qpainter.html" target="_blank">QPainter</a>
+     */
+    virtual void display(QPainter * painter);
+
     /**
      * @brief Gets the speed of the enemy on the X axis.
      * @return The speed on the X axis.
@@ -62,6 +79,7 @@ public:
     /**
      * @brief Gets the type of the enemy.
      * @return The type of the enemy.
+     * @see EnemyType
      */
     EnemyType getItsType() const;
 
@@ -83,6 +101,9 @@ public:
      */
     void setItsState(bool newItsState);
 
+    /**
+     * @brief Change the coorfinates of the enemy
+     */
     void move();
 
     /**
@@ -96,7 +117,15 @@ public:
      * @return The "is on the ground" status.
      */
     bool getIsOnTheGround() const;
+    /**
+     * @brief Gets the number of loop where the enemy is KO
+     * @return "itsNumberLoopKO"
+     */
     short getItsNumberLoopKO() const;
+    /**
+     * @brief Sets the "itsNumberLoopKO" of the entity.
+     * @param newItsNumberLoopKO The new "itsNumberLoopKO" status.
+     */
     void setItsNumberLoopKO(short newItsNumberLoopKO);
 };
 

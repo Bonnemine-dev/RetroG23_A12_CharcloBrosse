@@ -1,0 +1,21 @@
+<map id="enemy.h" name="enemy.h">
+<area shape="rect" id="node1" title="Header file for class Enemy." alt="" coords="522,5,594,31"/>
+<area shape="rect" id="node2" href="$db/d46/accelerator_8h.html" title="Header file for class Accelerator." alt="" coords="77,152,175,177"/>
+<area shape="rect" id="node5" href="$de/d09/level_8h.html" title="Header file for class Level." alt="" coords="325,225,383,251"/>
+<area shape="rect" id="node11" href="$da/dc6/despawner_8h.html" title=" " alt="" coords="199,152,293,177"/>
+<area shape="rect" id="node13" href="$d8/d26/enemy_8cpp.html" title="Source file for class Enemy." alt="" coords="863,79,949,104"/>
+<area shape="rect" id="node14" href="$dc/ddb/giant_8h.html" title=" " alt="" coords="527,79,589,104"/>
+<area shape="rect" id="node16" href="$d7/d85/spawner_8h.html" title="Header file for class Spawner." alt="" coords="356,79,437,104"/>
+<area shape="rect" id="node18" href="$df/d9b/standard_8h.html" title="Header file for class Standard." alt="" coords="646,79,729,104"/>
+<area shape="rect" id="node3" href="$da/dc6/accelerator_8cpp.html" title="Source file for class Accelerator." alt="" coords="5,225,116,251"/>
+<area shape="rect" id="node4" href="$d2/d57/level_8cpp.html" title="Source file for class Level." alt="" coords="174,299,246,324"/>
+<area shape="rect" id="node6" href="$d2/dd5/game_8h.html" title="Header file for class Game." alt="" coords="353,372,419,397"/>
+<area shape="rect" id="node10" href="$df/dd5/hmi_8h.html" title="Header file for class HMI." alt="" coords="293,299,348,324"/>
+<area shape="rect" id="node7" href="$df/dd9/game_8cpp.html" title="Source file for class Game." alt="" coords="353,445,432,471"/>
+<area shape="rect" id="node8" href="$d2/d19/hmi_8cpp.html" title=" " alt="" coords="261,445,329,471"/>
+<area shape="rect" id="node9" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="457,445,531,471"/>
+<area shape="rect" id="node12" href="$df/dce/despawner_8cpp.html" title="Source file for class Block." alt="" coords="191,225,301,251"/>
+<area shape="rect" id="node15" href="$db/d37/giant_8cpp.html" title="Source file for class Giant." alt="" coords="489,152,563,177"/>
+<area shape="rect" id="node17" href="$d3/dbe/spawner_8cpp.html" title=" " alt="" coords="369,152,464,177"/>
+<area shape="rect" id="node19" href="$df/d92/standard_8cpp.html" title="Source file for class Standard." alt="" coords="639,152,736,177"/>
+</map>

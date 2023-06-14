@@ -57,8 +57,16 @@ void Enemy::move()
     if(itsState)
     {
         itsX += itsXSpeed;
-        if(itsX == -1)itsX = 32*39;
-        else if(itsX == (32*39)+1)itsX = 0;
+        if(itsX == -1 && itsXSpeed == LEFT_X)
+        {
+            itsX = 32*39;
+            itsY += 0;
+        }
+        else if(itsX == (32*39)+1 && itsXSpeed == RIGHT_X)
+        {
+            itsX = 0;
+            itsY += 0;
+        }
         itsY += itsYSpeed;
         itsRect.moveTo(itsX,itsY);
     }
@@ -87,9 +95,16 @@ void Enemy::setItsNumberLoopKO(short newItsNumberLoopKO)
     itsNumberLoopKO = newItsNumberLoopKO;
 }
 
-Enemy::Enemy( short height,  short width, QPixmap * sprite)
-    : Entity(0, 0, height, width, sprite)
+Enemy::Enemy(short height,  short width)
+    : Entity(0, 0, height, width)
 {
     itsState = true;
+}
+
+Enemy::~Enemy() {}
+
+void Enemy::display(QPainter *painter)
+{
+
 }
 
