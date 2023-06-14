@@ -7,8 +7,9 @@
         <file>ressources/background0.png</file>
         <file>ressources/level3.json</file>
         <file>ressources/level4.json</file>
-        <file>ressources/background1.png</file>
         <file>ressources/tileset0.png</file>
         <file>ressources/level5.json</file>
+        <file>ressources/background1.png</file>
+        <file>ressources/tileset1.png</file>
     </qresource>
 </RCC>
