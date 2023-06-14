@@ -1,7 +1,6 @@
 /**
  * @file money.h
  * @brief Header file for class Money
- * @author Tom Bonneau
  * @date 10/06/2023
  * @version 2.0
  */
@@ -13,19 +12,19 @@
 #include "typedef.h"
 
 /**
- * @enum MoneyType
- * @brief Enumeration representing the types of money.
- */
-
-/**
  * @class Money
  * @brief Class representing money objects in the game.
+ * @see Entity
+ * @see <a href="https://doc.qt.io/qt-6/qrect.html" target="_blank">QRect</a>
+ * @see <a href="https://doc.qt.io/qt-5/qpainter.html" target="_blank">QPainter</a>
+ * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>
+ * @see MoneyType
  */
 class Money : public Entity
 {
 private:
-    static std::array<std::array<QPixmap*, 2>*, 3>* itsSpritesList;
-    MoneyType itsMoneyType; /**< The type of money. */
+    static std::array<std::array<QPixmap*, 2>*, 3>* itsSpritesList; /** @brief the list of all the sprites of the money @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a> */
+    MoneyType itsMoneyType; /** @brief The type of money. * @see MoneyType*/
 
 public:
     /**
@@ -35,15 +34,22 @@ public:
      * @param y The y-coordinate of the money object.
      * @param height The height of the money object.
      * @param width The width of the money object.
-     * @param sprite The sprite image of the money object.
+     * @param theSpritesList the list of all the sprites of the money
+     * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>
      */
     Money(MoneyType type, short x, short y, short height, short width, std::array<std::array<QPixmap*, 2>*, 3>* theSpritesList);
 
     /**
      * @brief Getter for the money type.
      * @return The type of money.
+     * @see MoneyType
      */
     MoneyType getItsMoneyType() const;
+    /**
+     * @brief display display the current sprite at the screen
+     * @param painter a pointer to a painter associated to th screen where to display
+     * @see <a href="https://doc.qt.io/qt-5/qpainter.html" target="_blank">QPainter</a>
+     */
     void display(QPainter *painter);
 };
 

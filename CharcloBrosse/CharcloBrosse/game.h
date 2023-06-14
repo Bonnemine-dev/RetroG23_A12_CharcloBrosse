@@ -1,9 +1,8 @@
 /**
  * @file game.h
  * @brief Header file for class Game
- * @author Arthur Ancien
  * @date 09/06/2023
- * @version 1.7
+ * @version 2.0
  */
 
 #ifndef GAME_H
@@ -29,6 +28,13 @@
  * to play. from the beginning to the end of the game.
  * @date June 2023
  * @author Arthur ANCIEN
+ * @see TileSet
+ * @see Player
+ * @see Level
+ * @see HMI
+ * @see Entity
+ * @see <a href="https://doc.qt.io/qt-6/qrect.html" target="_blank">QRect</a>
+ * @see <a href="https://doc.qt.io/qt-6/qstring.html" target="_blank">QString</a>
  */
 class Game : public QObject{
 
@@ -37,10 +43,12 @@ class Game : public QObject{
 private:
     /**
      * @brief Pointer to the TileSet object used in the game.
+     * @see TileSet
      */
     TileSet* itsTileSet;
     /**
      * @brief Pointer to the Player object representing the player in the game.
+     * @see Player
      */
     Player* itsPlayer;
     /**
@@ -53,17 +61,28 @@ private:
     unsigned int itsMoney=0;
     /**
      * @brief Pointer to the Level object representing the current level of the game.
+     * @see Level
      */
     Level* itsLevel = nullptr;
     /**
      * @brief Pointer to the HMI (Human-Machine Interface) object used in the game.
+     * @see HMI
      */
     HMI* itsHMI;
 
+    /**
+     * @brief isInPause cuurent pause state of the game
+     */
     bool isInPause;
 
+    /**
+     * @brief itsEllapsedTime the ellapsed time since the mast appirtion of an enemy
+     */
     double itsEllapsedTime;
 
+    /**
+     * @brief itsLoopCounter the current number of loop pased
+     */
     unsigned short int itsLoopCounter;
 
     /**
@@ -78,15 +97,20 @@ private:
 
     //    DB_Score itsDBScore;
 
-
+    /**
+     * @brief running the current state of the game (running : a party has stared)
+     */
     bool running;
-
 
     /**
     * @brief Boolean which represent the state of the BlockPOW, false if it is not hitted, true if it is hitted.
     */
     bool isBlockPOWHitted;
 
+    /**
+     * @brief cheminBG the path to the current backgroud
+     * @see @see <a href="https://doc.qt.io/qt-6/qstring.html" target="_blank">QString</a>
+     */
     QString cheminBG;
 
 public :
@@ -99,41 +123,48 @@ public :
      * @brief Method launched when a player collides with an enemy
      * @param thePlayer the player concerned
      * @param theEnemy the enemy concerned
+     * @see Player
+     * @see Enemy
      */
     void colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy);
     /**
      * @brief Method launched when an enemy collides with an other enemy
      * @param theFirstEnemy one of the enemies concerned
      * @param theSecondEnemy the other enemies concerned
+     * @see Enemy
      */
     void colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy);
     /**
      * @brief Method launched when an enemy collides with a block
      * @param theEnemy the enemy concerned
      * @param theBlock the block concerned
+     * @see Enemy
+     * @see Block
      */
     void colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock);
     /**
      * @brief Method launched when a player collides with a block
      * @param thePlayer the player concerned
      * @param theBlock the block concerned
+     * @see Player
+     * @see Block
      */
     void colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock);
     /**
      * @brief Method launched when an enemy collides with a despawner
      * @param theEnemy the enemy concerned
      * @param theDespawner the despawner concerned
+     * @see Enemy
+     * @see DespawnerS
      */
     void colBtwEnemyAndDespawner(Enemy* theEnemy, Despawner* theDespawner);
 
-    void colBtwPlayerAndObstacle(Player* thePlayer);
-
     /**
      * @brief Method launched when the player collides with an obstacle
-     * @param thePlayer
-     * @param theObstacle the obstacle concerned
+     * @param thePlayer the player concerned
+     * @see Player
      */
-    void colBtwPlayerAndObstacle(Player* thePlayer,Obstacle* theObstacle);
+    void colBtwPlayerAndObstacle(Player* thePlayer);
 
     /**
      * @brief Method launched when the player collides with the bottom of a blockPOW.
@@ -143,6 +174,8 @@ public :
      * @param Player* thePlayer : A pointeur to the player in collid.
      * @param Block* theBLockPOW : A pointeur to the blocPOWr in collid.
      * @return void : No return.
+     * @see Player
+     * @see Block
      */
     void colBtwPlayerAndBlockPOW(Player* thePlayer, Block* theBLockPOW);
 
@@ -150,6 +183,8 @@ public :
      * @brief Method launched when the player collides with money
      * @param thePlayer
      * @param theMoney the money concerned
+     * @see Player
+     * @see Money
      */
     void colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney);
 
@@ -167,8 +202,20 @@ public :
      */
     void moveAll();
 
+    /**
+     * @brief isOnTop checks if an entity is on top of another
+     * @param entity1 the entity to verify is is on top
+     * @param entity2 the other entity
+     * @return true if the first entity is on top of the second
+     */
     bool isOnTop(Entity * entity1, Entity * entity2);
 
+    /**
+     * @brief collid checks if two entities are colliding
+     * @param entity1 the first entity
+     * @param entity2 the second entity
+     * @return true is the entites are colliding
+     */
     bool collid(Entity * entity1, Entity * entity2);
 
     /**
@@ -223,11 +270,28 @@ public :
      */
     void levelTimeout();
 
+    /**
+     * @brief getItsScore get the current score of the game
+     * @return the score
+     */
     unsigned int getItsScore() const;
 
+    /**
+     * @brief getItsPlayer get the current player
+     * @return  the player
+     * @see Player
+     */
     Player *getItsPlayer() const;
 
+    /**
+     * @brief getItsMoney get the current amout of money
+     * @return the amout of money earned
+     */
     unsigned int getItsMoney() const;
+    /**
+     * @brief setItsMoney set the current amount of money
+     * @param newItsMoney the new amount of money
+     */
     void setItsMoney(unsigned int newItsMoney);
 
     /**
@@ -235,11 +299,24 @@ public :
      */
     void spawnPlayer();
 
-
+    /**
+     * @brief getItsTileSet gets the current tileSet (theme)
+     * @return the tileset
+     * @see tileSet
+     */
     TileSet *getItsTileSet() const;
 
+    /**
+     * @brief getCheminBG get the path to the current background
+     * @return the path
+     * @see <a href="https://doc.qt.io/qt-6/qstring.html" target="_blank">QString</a>
+     */
     QString getCheminBG() const;
 
+    /**
+     * @brief getCurrentTier gets the current multiplier of the score
+     * @return the multiplier
+     */
     short getCurrentTier() const;
 public slots:
     /**

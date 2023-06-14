@@ -1,9 +1,8 @@
 /**
  * @file hmi.h
  * @brief Header file for class HMI
- * @author Erwan GODELLE
  * @date 09/06/2023
- * @version 1.6
+ * @version 2.0
  */
 
 #ifndef HMI_H
@@ -39,54 +38,54 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
-    DB_Score *DBSCORE; ///< The object that we use for database methods.
+    DB_Score *DBSCORE; /** @brief  The object that we use for database methods. */
 
-    MenuState state; ///< Current state of the HMI.
+    MenuState state; /** @brief  Current state of the HMI. */
 
-    QStackedWidget *stackedWidget; ///< Widget for stacking different screens.
-    QWidget *mainMenuWidget; ///< Widget for the main menu screen.
-    QWidget *pauseMenuWidget; ///< Widget for the pause menu screen.
-    QWidget *gameMenuWidget; ///< Widget for the game screen.
-    QWidget *gameOverMenuWidget; ///< Widget for the game over screen.
-    QWidget *rulesMenuWidget; ///< Widget for the game rules screen.
+    QStackedWidget *stackedWidget; /** @brief  Widget for stacking different screens. */
+    QWidget *mainMenuWidget; /** @brief  Widget for the main menu screen. */
+    QWidget *pauseMenuWidget; /** @brief  Widget for the pause menu screen. */
+    QWidget *gameMenuWidget; /** @brief  Widget for the game screen. */
+    QWidget *gameOverMenuWidget; /** @brief  Widget for the game over screen. */
+    QWidget *rulesMenuWidget; /** @brief  Widget for the game rules screen. */
 
-    void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
-    void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
+    void keyPressEvent(QKeyEvent* event); /** @brief  Handles key press events. */
+    void keyReleaseEvent(QKeyEvent* event); /** @brief  Handles key release events. */
 
-    QVBoxLayout *mainLayout; ///< Main layout for the main menu.
-    QHBoxLayout *middleLayout; ///< Layout for the middle section of the main menu.
-    QVBoxLayout *leftLayout; ///< Layout for the left section of the main menu.
-    QVBoxLayout *rightLayout; ///< Layout for the right section of the main menu.
-    QVBoxLayout *pauseLayout; ///< Pause layout for the HMI.
-    QVBoxLayout *gameOverLayout; ///< Gameover layout for the HMI.
-    QVBoxLayout *gameLayout; ///< Game layout for the HMI.
-    QVBoxLayout *rulesLayout; ///< Rules layout for the HMI.
-    QVBoxLayout *levelLayout; ///< Layout for displaying level n°.
+    QVBoxLayout *mainLayout; /** @brief  Main layout for the main menu. */
+    QHBoxLayout *middleLayout; /** @brief  Layout for the middle section of the main menu. */
+    QVBoxLayout *leftLayout; /** @brief  Layout for the left section of the main menu. */
+    QVBoxLayout *rightLayout; /** @brief  Layout for the right section of the main menu. */
+    QVBoxLayout *pauseLayout; /** @brief  Pause layout for the HMI. */
+    QVBoxLayout *gameOverLayout; /** @brief  Gameover layout for the HMI. */
+    QVBoxLayout *gameLayout; /** @brief  Game layout for the HMI. */
+    QVBoxLayout *rulesLayout; /** @brief  Rules layout for the HMI. */
+    QVBoxLayout *levelLayout; /** @brief  Layout for displaying level n°. */
 
-    QLabel *gameTitleLabel; ///< Label for displaying "Chaclo Brosse".
-    QLabel *rulesText; ///< Label for displaying game rules.
+    QLabel *gameTitleLabel; /** @brief  Label for displaying "Chaclo Brosse". */
+    QLabel *rulesText; /** @brief  Label for displaying game rules. */
 
-    QLabel *scoresLabel; ///< Label for displaying scores.
-    QLabel *scoreLabelGameOver; ///< Label for displaying scores in the game over screen.
-    QLabel *gameOverLabel; ///< Label for displaying "Game Over" text.
+    QLabel *scoresLabel; /** @brief  Label for displaying scores. */
+    QLabel *scoreLabelGameOver; /** @brief  Label for displaying scores in the game over screen. */
+    QLabel *gameOverLabel; /** @brief  Label for displaying "Game Over" text. */
 
-    QPushButton *startGameButton; ///< Button for starting the game.
-    QPushButton *rulesButton; ///< Button for displaying game rules.
-    QPushButton *quitGameButton; ///< Button for quitting the game.
-    QPushButton *resumeButton; ///< Button for resuming the game.
-    QPushButton *quitToMainButton; ///< Button for going to the main menu.
-    QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
-    QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
+    QPushButton *startGameButton; /** @brief  Button for starting the game. */
+    QPushButton *rulesButton; /** @brief  Button for displaying game rules. */
+    QPushButton *quitGameButton; /** @brief  Button for quitting the game. */
+    QPushButton *resumeButton; /** @brief  Button for resuming the game. */
+    QPushButton *quitToMainButton; /** @brief  Button for going to the main menu. */
+    QPushButton *quitToMainButton2; /** @brief  Button for going to the main menu from the game over menu. */
+    QPushButton *goBackButton; /** @brief  Button for going back to the previous screen (main menu). */
 
     /**
      * @brief itsLevelNumberText the text to display the the current level before launch it
      */
     QLabel *itsLevelNumberText;
 
-    Level *itsLevel = nullptr; ///< Pointer to the current level object.
-    Player *itsPlayer; ///< Pointer to the player object.
-    Game *itsGame; ///< Pointer to the game object.
-    QTimer *itsTimer; ///< Timer for game updates.
+    Level *itsLevel = nullptr; /** @brief  Pointer to the current level object. */
+    Player *itsPlayer; /** @brief  Pointer to the player object. */
+    Game *itsGame; /** @brief  Pointer to the game object. */
+    QTimer *itsTimer; /** @brief  Timer for game updates. */
     /**
      * @brief itsStartLevelTimer the timer to display the level number only during 1 seconds
      */
@@ -109,7 +108,7 @@ private:
      */
     void clearPaintings();
 
-    bool shouldDraw = true; ///< Boolean indicating whether drawing should be performed or not.
+    bool shouldDraw = true; /** @brief  Boolean indicating whether drawing should be performed or not. */
 
     /**
      * @brief timeRemaining the time reamaining to do the level (only use to pause game)
