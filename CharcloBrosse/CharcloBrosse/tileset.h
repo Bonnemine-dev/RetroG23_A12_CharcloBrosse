@@ -25,6 +25,8 @@ private:
     static std::array<QPixmap*, 12> itsEnnemyStandardTilesList;
     static std::array<std::array<QPixmap*, 12>*, 3> itsEnnemyAcceleratorTilesList;
     static std::array<QPixmap*, 12> itsEnnemyGiantTilesList;
+    static std::array<QPixmap*, 12> itsEnnemyJumperTilesList;
+    static std::array<QPixmap*, 12> itsEnnemyFreezerTilesList;
     static std::array<QPixmap*, 6> itsBlockTilesList;
     static QPixmap *itsNoTextureTile;
     static QPixmap *itsBackground;
@@ -393,11 +395,13 @@ public:
      * @return QPixmap* : A pointer to the background image
      */
 
-    QPixmap* getItsBackground();
+
     std::array<QPixmap *, 12> *getItsPlayerTilesList();
     std::array<QPixmap *, 12> *getItsEnnemyStandardTilesList();
     std::array<std::array<QPixmap *, 12> *, 3> *getItsEnnemyAcceleratorTilesList();
     std::array<QPixmap *, 12> *getItsEnnemyGiantTilesList();
+    std::array<QPixmap *, 12> *getItsEnnemyJumperTilesList();
+    std::array<QPixmap *, 12> *getItsEnnemyFreezerTilesList();
     std::array<QPixmap *, 6> *getItsBlockTilesList();
     std::array<std::array<QPixmap *, 2> *, 3> *getItsMoneyTilesList();
     std::array<QPixmap *, 2> *getItsSpawnerTilesList();
