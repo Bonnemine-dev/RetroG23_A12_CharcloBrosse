@@ -245,9 +245,9 @@ TileSet::TileSet(std::string aTileSetFilePath)
        itsBlockTilesList.at(3) = new QPixmap(tileset.copy(100, 296, 32, 32));
 
        // Block POW normal
-       itsBlockTilesList.at(4) = new QPixmap(tileset.copy(1, 329, 32, 32));
+       itsBlockTilesList.at(4) = new QPixmap(tileset.copy(165, 132, 64, 64));
        // Block POW frappé
-       itsBlockTilesList.at(5) = new QPixmap(tileset.copy(34, 329, 32, 32));
+       itsBlockTilesList.at(5) = new QPixmap(tileset.copy(230, 132, 64, 64));
 
 
 
