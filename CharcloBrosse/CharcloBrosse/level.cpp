@@ -207,7 +207,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         }
         else if (type == "freezer")
         { // if an accelerator enemy
-            itsRemainingEnemies.push_back(new Freezer(32, 32, tileSet->getItsEnnemyStandardTilesList())); // create the enemy and add it to the list
+            itsRemainingEnemies.push_back(new Freezer(32, 32, tileSet->getItsEnnemyFreezerTilesList())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
@@ -217,7 +217,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         }
         else if (type == "jumper")
         { // if an accelerator enemy
-            itsRemainingEnemies.push_back(new Jumper(32, 32, tileSet->getItsEnnemyStandardTilesList())); // create the enemy and add it to the list
+            itsRemainingEnemies.push_back(new Jumper(32, 32, tileSet->getItsEnnemyJumperTilesList())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }

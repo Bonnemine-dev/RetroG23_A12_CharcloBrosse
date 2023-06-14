@@ -35,11 +35,6 @@ void Entity::setY( short newY)
     itsRect.moveTo(itsX,itsY);
 }
 
-//Change la position du sprite en fonction de celle de la hit box
-void Entity::moveTo()
-{
-}
-
 //Constructeur
 
 Entity::Entity(short x,  short y,  short height,  short width)

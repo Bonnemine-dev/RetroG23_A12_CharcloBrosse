@@ -265,7 +265,7 @@ void Game::checkAllCollid(){
     {
         if(collid(itsPlayer,money))
         {
-            colBtwPlayerAndMoney(itsPlayer,money);
+            colBtwPlayerAndMoney(money);
         }
     }
     //------------------------------Fin de la vérification des collisions entre joueur et money -------------------------------------------------------
