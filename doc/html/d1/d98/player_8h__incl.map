@@ -1,9 +1,9 @@
-<map id="player.h" name="player.h">
-<area shape="rect" id="node1" title="Header file for class Player." alt="" coords="201,5,269,31"/>
-<area shape="rect" id="node2" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="108,79,173,104"/>
-<area shape="rect" id="node6" href="$d3/d0b/typedef_8h.html" title="Header file for general definition." alt="" coords="198,79,273,104"/>
-<area shape="rect" id="node7" title=" " alt="" coords="297,79,347,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,152,79,177"/>
-<area shape="rect" id="node4" title=" " alt="" coords="103,152,179,177"/>
-<area shape="rect" id="node5" title=" " alt="" coords="203,152,262,177"/>
+<map id="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/player.h" name="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/player.h">
+<area shape="rect" id="node1" title="Header file for class Player." alt="" coords="135,5,335,60"/>
+<area shape="rect" id="node2" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="108,108,173,133"/>
+<area shape="rect" id="node6" href="$d3/d0b/typedef_8h.html" title="Header file for general definition." alt="" coords="198,108,273,133"/>
+<area shape="rect" id="node7" title=" " alt="" coords="297,108,347,133"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,181,79,207"/>
+<area shape="rect" id="node4" title=" " alt="" coords="103,181,179,207"/>
+<area shape="rect" id="node5" title=" " alt="" coords="203,181,262,207"/>
 </map>

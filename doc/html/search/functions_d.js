@@ -19,5 +19,6 @@ var searchData=
   ['spawner_16',['Spawner',['../d0/d0f/class_spawner.html#ac5c1f2cccad17941fe09092370ba4916',1,'Spawner']]],
   ['spawnplayer_17',['spawnPlayer',['../dd/d1f/class_game.html#a01f40da303470b3efaa7ef3b0d681332',1,'Game']]],
   ['standard_18',['Standard',['../de/df2/class_standard.html#abdac76a4fc1b4d69127d3244ac4e0b8c',1,'Standard']]],
-  ['stopgame_19',['stopGame',['../d5/dce/class_h_m_i.html#a0a39bd9029a08eb2979cf2326ef82701',1,'HMI']]]
+  ['stopgame_19',['stopGame',['../d5/dce/class_h_m_i.html#a0a39bd9029a08eb2979cf2326ef82701',1,'HMI']]],
+  ['submitscore_20',['submitScore',['../d5/dce/class_h_m_i.html#aad8b57742a6744900a0062a6f684e247',1,'HMI']]]
 ];

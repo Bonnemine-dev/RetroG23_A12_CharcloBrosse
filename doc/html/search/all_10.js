@@ -27,5 +27,6 @@ var searchData=
   ['standard_2eh_24',['standard.h',['../df/d9b/standard_8h.html',1,'']]],
   ['standard_5fenemy_5fspeed_25',['STANDARD_ENEMY_SPEED',['../d3/d0b/typedef_8h.html#aa298bf501a46ed1db6f65da7ee0fb522',1,'typedef.h']]],
   ['still_26',['STILL',['../d3/d0b/typedef_8h.html#aa52251bdb6bf38a4eb9bb6ea74715e1a',1,'typedef.h']]],
-  ['stopgame_27',['stopGame',['../d5/dce/class_h_m_i.html#a0a39bd9029a08eb2979cf2326ef82701',1,'HMI']]]
+  ['stopgame_27',['stopGame',['../d5/dce/class_h_m_i.html#a0a39bd9029a08eb2979cf2326ef82701',1,'HMI']]],
+  ['submitscore_28',['submitScore',['../d5/dce/class_h_m_i.html#aad8b57742a6744900a0062a6f684e247',1,'HMI']]]
 ];

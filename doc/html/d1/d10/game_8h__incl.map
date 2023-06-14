@@ -1,41 +1,42 @@
-<map id="game.h" name="game.h">
-<area shape="rect" id="node1" title="Header file for class Game." alt="" coords="1289,5,1354,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,67,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="364,225,420,251"/>
-<area shape="rect" id="node4" title=" " alt="" coords="568,519,627,544"/>
-<area shape="rect" id="node5" title=" " alt="" coords="1220,79,1284,104"/>
-<area shape="rect" id="node6" href="$d3/d62/player_8h.html" title="Header file for class Player." alt="" coords="693,225,761,251"/>
-<area shape="rect" id="node12" href="$df/dd5/hmi_8h.html" title="Header file for class HMI." alt="" coords="843,79,898,104"/>
-<area shape="rect" id="node22" href="$de/d09/level_8h.html" title="Header file for class Level." alt="" coords="1511,152,1569,177"/>
-<area shape="rect" id="node36" href="$db/dd7/money_8h.html" title="Header file for class Money." alt="" coords="1775,372,1847,397"/>
-<area shape="rect" id="node38" href="$d0/d61/tileset_8h.html" title="Header file for class TileSet." alt="" coords="601,225,669,251"/>
-<area shape="rect" id="node7" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="1149,445,1214,471"/>
-<area shape="rect" id="node10" href="$d3/d0b/typedef_8h.html" title="Header file for general definition." alt="" coords="1728,445,1803,471"/>
-<area shape="rect" id="node11" title=" " alt="" coords="660,299,711,324"/>
-<area shape="rect" id="node8" title=" " alt="" coords="1690,519,1763,544"/>
-<area shape="rect" id="node9" title=" " alt="" coords="1143,519,1219,544"/>
-<area shape="rect" id="node13" title=" " alt="" coords="1099,152,1173,177"/>
-<area shape="rect" id="node14" title=" " alt="" coords="1197,152,1283,177"/>
-<area shape="rect" id="node15" title=" " alt="" coords="479,299,534,324"/>
-<area shape="rect" id="node16" title=" " alt="" coords="355,152,418,177"/>
-<area shape="rect" id="node17" title=" " alt="" coords="442,152,542,177"/>
-<area shape="rect" id="node18" title=" " alt="" coords="566,152,669,177"/>
-<area shape="rect" id="node19" title=" " alt="" coords="693,152,787,177"/>
-<area shape="rect" id="node20" title=" " alt="" coords="811,152,930,177"/>
-<area shape="rect" id="node21" title=" " alt="" coords="954,152,1075,177"/>
-<area shape="rect" id="node39" href="$d8/df1/db__score_8h.html" title=" " alt="" coords="193,152,279,177"/>
-<area shape="rect" id="node23" title=" " alt="" coords="1861,225,1915,251"/>
-<area shape="rect" id="node24" title=" " alt="" coords="1939,225,2058,251"/>
-<area shape="rect" id="node25" title=" " alt="" coords="955,225,1053,251"/>
-<area shape="rect" id="node26" title=" " alt="" coords="1077,225,1168,251"/>
-<area shape="rect" id="node27" title=" " alt="" coords="1294,225,1386,251"/>
-<area shape="rect" id="node28" title=" " alt="" coords="1411,225,1477,251"/>
-<area shape="rect" id="node29" href="$d7/dfd/enemy_8h.html" title="Header file for class Enemy." alt="" coords="1252,372,1324,397"/>
-<area shape="rect" id="node30" href="$df/d9b/standard_8h.html" title="Header file for class Standard." alt="" coords="1247,299,1329,324"/>
-<area shape="rect" id="node31" href="$dc/ddb/giant_8h.html" title=" " alt="" coords="1361,299,1423,324"/>
-<area shape="rect" id="node32" href="$db/d46/accelerator_8h.html" title="Header file for class Accelerator." alt="" coords="1477,299,1574,324"/>
-<area shape="rect" id="node33" href="$de/d40/block_8h.html" title="Header file for class Block." alt="" coords="1619,372,1683,397"/>
-<area shape="rect" id="node34" href="$d3/dc8/obstacle_8h.html" title=" " alt="" coords="1704,225,1787,251"/>
-<area shape="rect" id="node35" href="$d7/d85/spawner_8h.html" title="Header file for class Spawner." alt="" coords="1141,299,1222,324"/>
-<area shape="rect" id="node37" href="$da/dc6/despawner_8h.html" title=" " alt="" coords="837,225,931,251"/>
+<map id="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/game.h" name="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/game.h">
+<area shape="rect" id="node1" title="Header file for class Game." alt="" coords="1015,5,1262,45"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,93,67,119"/>
+<area shape="rect" id="node3" title=" " alt="" coords="2389,240,2445,265"/>
+<area shape="rect" id="node4" title=" " alt="" coords="292,533,351,559"/>
+<area shape="rect" id="node5" title=" " alt="" coords="2651,93,2715,119"/>
+<area shape="rect" id="node6" href="$d3/d62/player_8h.html" title="Header file for class Player." alt="" coords="1599,240,1667,265"/>
+<area shape="rect" id="node12" href="$df/dd5/hmi_8h.html" title="Header file for class HMI." alt="" coords="1761,93,1815,119"/>
+<area shape="rect" id="node23" href="$de/d09/level_8h.html" title="Header file for class Level." alt="" coords="992,167,1051,192"/>
+<area shape="rect" id="node37" href="$db/dd7/money_8h.html" title="Header file for class Money." alt="" coords="1405,387,1477,412"/>
+<area shape="rect" id="node39" href="$d0/d61/tileset_8h.html" title="Header file for class TileSet." alt="" coords="1743,240,1811,265"/>
+<area shape="rect" id="node7" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="937,460,1002,485"/>
+<area shape="rect" id="node10" href="$d3/d0b/typedef_8h.html" title="Header file for general definition." alt="" coords="1467,460,1541,485"/>
+<area shape="rect" id="node11" title=" " alt="" coords="1743,313,1793,339"/>
+<area shape="rect" id="node8" title=" " alt="" coords="793,533,866,559"/>
+<area shape="rect" id="node9" title=" " alt="" coords="1098,533,1174,559"/>
+<area shape="rect" id="node13" title=" " alt="" coords="1789,167,1862,192"/>
+<area shape="rect" id="node14" title=" " alt="" coords="1938,167,2025,192"/>
+<area shape="rect" id="node15" title=" " alt="" coords="1870,313,1925,339"/>
+<area shape="rect" id="node16" title=" " alt="" coords="2049,167,2111,192"/>
+<area shape="rect" id="node17" title=" " alt="" coords="2135,167,2235,192"/>
+<area shape="rect" id="node18" title=" " alt="" coords="2259,167,2362,192"/>
+<area shape="rect" id="node19" title=" " alt="" coords="1177,167,1271,192"/>
+<area shape="rect" id="node20" title=" " alt="" coords="1295,167,1414,192"/>
+<area shape="rect" id="node21" title=" " alt="" coords="1438,167,1559,192"/>
+<area shape="rect" id="node22" title=" " alt="" coords="1583,167,1662,192"/>
+<area shape="rect" id="node40" href="$d8/df1/db__score_8h.html" title=" " alt="" coords="2489,167,2575,192"/>
+<area shape="rect" id="node24" title=" " alt="" coords="413,240,467,265"/>
+<area shape="rect" id="node25" title=" " alt="" coords="491,240,610,265"/>
+<area shape="rect" id="node26" title=" " alt="" coords="634,240,731,265"/>
+<area shape="rect" id="node27" title=" " alt="" coords="756,240,847,265"/>
+<area shape="rect" id="node28" title=" " alt="" coords="871,240,963,265"/>
+<area shape="rect" id="node29" title=" " alt="" coords="988,240,1055,265"/>
+<area shape="rect" id="node30" href="$d7/dfd/enemy_8h.html" title="Header file for class Enemy." alt="" coords="1100,387,1172,412"/>
+<area shape="rect" id="node31" href="$df/d9b/standard_8h.html" title="Header file for class Standard." alt="" coords="1281,313,1364,339"/>
+<area shape="rect" id="node32" href="$dc/ddb/giant_8h.html" title=" " alt="" coords="1073,313,1135,339"/>
+<area shape="rect" id="node33" href="$db/d46/accelerator_8h.html" title="Header file for class Accelerator." alt="" coords="1159,313,1257,339"/>
+<area shape="rect" id="node34" href="$de/d40/block_8h.html" title="Header file for class Block." alt="" coords="972,387,1036,412"/>
+<area shape="rect" id="node35" href="$d3/dc8/obstacle_8h.html" title=" " alt="" coords="1079,240,1161,265"/>
+<area shape="rect" id="node36" href="$d7/d85/spawner_8h.html" title="Header file for class Spawner." alt="" coords="694,313,775,339"/>
+<area shape="rect" id="node38" href="$da/dc6/despawner_8h.html" title=" " alt="" coords="243,240,338,265"/>
 </map>

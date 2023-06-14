@@ -1,9 +1,9 @@
-<map id="db_score.h" name="db_score.h">
-<area shape="rect" id="node1" title=" " alt="" coords="103,5,189,31"/>
-<area shape="rect" id="node2" href="$d6/d6d/db__score_8cpp.html" title=" " alt="" coords="45,79,145,104"/>
-<area shape="rect" id="node3" href="$df/dd5/hmi_8h.html" title="Header file for class HMI." alt="" coords="169,79,224,104"/>
-<area shape="rect" id="node4" href="$d2/dd5/game_8h.html" title="Header file for class Game." alt="" coords="125,152,191,177"/>
-<area shape="rect" id="node6" href="$d2/d19/hmi_8cpp.html" title=" " alt="" coords="208,225,276,251"/>
-<area shape="rect" id="node5" href="$df/dd9/game_8cpp.html" title="Source file for class Game." alt="" coords="5,225,84,251"/>
-<area shape="rect" id="node7" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="109,225,183,251"/>
+<map id="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/db_score.h" name="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/db_score.h">
+<area shape="rect" id="node1" title=" " alt="" coords="228,5,428,60"/>
+<area shape="rect" id="node2" href="$d6/d6d/db__score_8cpp.html" title=" " alt="" coords="107,108,307,163"/>
+<area shape="rect" id="node3" href="$df/dd5/hmi_8h.html" title="Header file for class HMI." alt="" coords="331,115,567,155"/>
+<area shape="rect" id="node4" href="$d2/dd5/game_8h.html" title="Header file for class Game." alt="" coords="237,211,483,251"/>
+<area shape="rect" id="node6" href="$d2/d19/hmi_8cpp.html" title=" " alt="" coords="453,299,653,353"/>
+<area shape="rect" id="node5" href="$df/dd9/game_8cpp.html" title="Source file for class Game." alt="" coords="5,299,205,353"/>
+<area shape="rect" id="node7" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="229,299,429,353"/>
 </map>

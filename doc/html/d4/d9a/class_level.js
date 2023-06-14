@@ -1,6 +1,7 @@
 var class_level =
 [
     [ "Level", "d4/d9a/class_level.html#a3090ac4b05c74f14711abe14c1b588ea", null ],
+    [ "~Level", "d4/d9a/class_level.html#a249eac1e8f19ff44134efa5e986feaca", null ],
     [ "activate", "d4/d9a/class_level.html#aead593139211eb99aedeb54b1d47d928", null ],
     [ "appears", "d4/d9a/class_level.html#a33162b68568d1eeb8b6749e2567974f5", null ],
     [ "desactivate", "d4/d9a/class_level.html#aee2b742acf89453e3076c68298227112", null ],

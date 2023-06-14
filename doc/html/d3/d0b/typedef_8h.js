@@ -44,6 +44,7 @@ var typedef_8h =
       [ "MAINMENU", "d3/d0b/typedef_8h.html#aa3041ae4242c0dd57a126d17505443b2a4308178099d62c4081c711b763591792", null ],
       [ "PAUSEMENU", "d3/d0b/typedef_8h.html#aa3041ae4242c0dd57a126d17505443b2a7bca23f82600fa37641638b2f70e77c0", null ],
       [ "GAMEOVER", "d3/d0b/typedef_8h.html#aa3041ae4242c0dd57a126d17505443b2a42495cc178524da331d4681864c72b72", null ],
+      [ "GAMEOVER_TOP10", "d3/d0b/typedef_8h.html#aa3041ae4242c0dd57a126d17505443b2ad8b66679734bfc50bff5099351b7c066", null ],
       [ "GAME", "d3/d0b/typedef_8h.html#aa3041ae4242c0dd57a126d17505443b2ad50cf309d7568040619ed26ee6835a84", null ]
     ] ],
     [ "MoneyType", "d3/d0b/typedef_8h.html#ab5a40911776567945acc637d43315f12", [

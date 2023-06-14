@@ -9,7 +9,7 @@ var class_game =
     [ "colBtwPlayerAndBlock", "dd/d1f/class_game.html#a3cecae07bb579b9aa62aace4134a25d0", null ],
     [ "colBtwPlayerAndBlockPOW", "dd/d1f/class_game.html#a0e46676cc71e11f51c00079e73091a9b", null ],
     [ "colBtwPlayerAndEnemy", "dd/d1f/class_game.html#a13f9e6e0836a508045e81f9907bb3bc9", null ],
-    [ "colBtwPlayerAndMoney", "dd/d1f/class_game.html#af07f1648ca9ead1b6316672d9ec48059", null ],
+    [ "colBtwPlayerAndMoney", "dd/d1f/class_game.html#a1f716693d760ba95f2987b2e2d7f8b33", null ],
     [ "colBtwPlayerAndObstacle", "dd/d1f/class_game.html#a4ff280a4005202116e6156362a1b830b", null ],
     [ "collid", "dd/d1f/class_game.html#a2477925f0eca4e9d15ccb6861d799f8f", null ],
     [ "gameLoop", "dd/d1f/class_game.html#aede5f46c8c7bbbaf8459eeec397a11e7", null ],
