@@ -47,7 +47,7 @@
 #define FONT_PATH "://ressources/PressStart2P-Regular.ttf"
 #define HIGHSCORES_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 
-#define MAX_LEVEL 5
+#define MAX_LEVEL 6
 #define MAX_LIFE 3
 
 /**
