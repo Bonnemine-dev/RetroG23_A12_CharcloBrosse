@@ -22,7 +22,7 @@ void Player::moveX()
     }
     else
     {
-        if(itsRemaningJumpMove == 0)itsRemaningWalkMove = 0xFFFF;
+        if(itsRemaningJumpMove == 0 && itsRemaningFallMove == 0xFFFF)itsRemaningWalkMove = 0xFFFF;
     }
     itsRect.moveTo(itsX,itsY);
 }
