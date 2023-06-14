@@ -23,10 +23,8 @@ Game::Game()
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Création du joueur pour la partie en cours
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
-    //Dénition et création du niveau pour la partie, LEVEL_FILE_PATH = le chemin vers le fichier .json du niveau
-    itsLevel = nullptr;
     //Création de l'interface homme machine lié au jeu
-    itsHMI = new HMI(itsLevel, itsPlayer, this);
+    itsHMI = new HMI(itsPlayer, this);
     //Definition de la variable du temps écoulé pour l'appartion des ennemies
     itsEllapsedTime = 0;
     //Affichage du jeu
@@ -47,13 +45,13 @@ void Game::onGameStart(){
     itsHMI->setLevel(itsLevel);
     itsHMI->displayLevelNumber();
     itsEllapsedTime = 0;
+    checkTier();
     gameLoop();
     running = true;
 }
 
 void Game::gameLoop()
 {
-    checkTier();
     if(running){
         QElapsedTimer timer;
         timer.restart();
@@ -87,23 +85,20 @@ void Game::gameLoop()
         itsLoopCounter--;
 
         if(isLevelFinished()){
+            itsScore += itsHMI->getTimerRemainingTime();
             if (currentLevel != MAX_LEVEL){
-                if (currentTier != checkTier()){
-                    currentTier = checkTier();
-                    delete itsTileSet;
-                    itsTileSet = new TileSet(":/ressources/tileset0.png");
-                }
                 currentLevel++;
-                openLevel();
-                itsHMI->setLevel(itsLevel);
-                itsHMI->displayLevelNumber();
-                itsLoopCounter = NUMBER_LOOP_PER_SECOND;
-                itsEllapsedTime = 0;
             }
-            else{
-                currentLevel = 1;
-                itsHMI->stopGame();
+            if (currentTier != checkTier()){
+                currentTier = checkTier();
+                delete itsTileSet;
+                itsTileSet = new TileSet(":/ressources/tileset0.png");
             }
+            openLevel();
+            itsHMI->setLevel(itsLevel);
+            itsHMI->displayLevelNumber();
+            itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+            itsEllapsedTime = 0;
         }
 
         if(itsPlayer->getItsLivesNb() == 0)
@@ -153,6 +148,11 @@ TileSet *Game::getItsTileSet() const
 QString Game::getCheminBG() const
 {
     return cheminBG;
+}
+
+short Game::getCurrentTier() const
+{
+    return currentTier;
 }
 
 void Game::checkAllCollid(){
@@ -258,7 +258,13 @@ void Game::checkAllCollid(){
             if (enemyList.size() >= 2 &&  (itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0){
                 for (unsigned int i2 = i1+1; i2 < enemyList.size(); i2++){
                     Enemy * enemy2 = enemyList.at(i2);
-                    if (enemy1 != enemy2 && collid(enemy1, enemy2)){
+                    if(enemy1->getItsRect()->intersected(*enemy2->getItsRect()).height() > 1 && enemy1->getItsRect()->intersected(*enemy2->getItsRect()).width() > 1)
+                    {
+                        qWarning()<<"two entities are inside each other";
+                        itsLevel->getItsDespawnerList().at(0)->disappear(enemy2);
+
+                    }
+                    else if (collid(enemy1, enemy2)){
                         colBtwEnemyAndEnemy(enemy1, enemy2);
                         if (isOnTop(enemy1, enemy2)){
                             gravityList[i1] = false;
@@ -507,14 +513,14 @@ bool Game::collid(Entity * entity1, Entity * entity2){
     if(entity1->getItsX() > (entity2->getItsX() + entity2->getItsWidth())){      // trop à droite
         return false;
     }
-    if((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX()){ // trop à gauche
+    else if((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX()){ // trop à gauche
         return false;
     }
-    if(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight())){ // trop en bas
+    else if(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight())){ // trop en bas
         return false;
     }
 
-    if((entity1->getItsY() + entity1->getItsHeight()) < entity2->getItsY()){  // trop en haut
+    else if((entity1->getItsY() + entity1->getItsHeight()) < entity2->getItsY()){  // trop en haut
         return false;
     }
     return true;
