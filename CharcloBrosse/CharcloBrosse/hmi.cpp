@@ -233,7 +233,48 @@ HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget
 
 HMI::~HMI()
 {
+    delete startGameButton;
+    delete rulesButton;
+    delete quitGameButton;
+    delete gameTitleLabel;
+
+    delete resumeButton;
+    delete quitToMainButton;
+
+    delete quitToMainButton2;
+    delete gameOverLabel;
+
+    delete itsLevelNumberText;
+    delete scoresLabel;
+    delete scoreLabelGameOver;
+
+    delete rulesText;
+    delete goBackButton;
+
+    delete mainLayout;
+    delete middleLayout;
+    delete leftLayout;
+    delete rightLayout;
+    delete pauseLayout;
+    delete gameOverLayout;
+    delete gameLayout;
+    delete rulesLayout;
+
+    delete mainMenuWidget;
+    delete pauseMenuWidget;
+    delete gameMenuWidget;
+    delete gameOverMenuWidget;
+    delete rulesMenuWidget;
+
+    delete stackedWidget;
+
+    delete itsStartLevelTimer;
+    delete itsLevelTimer;
+    delete itsTimer;
+
+    delete DBSCORE;
 }
+
 
 void HMI::keyPressEvent(QKeyEvent *event)
 {
