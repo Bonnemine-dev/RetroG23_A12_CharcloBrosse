@@ -54,7 +54,7 @@ private:
     /**
      * @brief Pointer to the Level object representing the current level of the game.
      */
-    Level* itsLevel;
+    Level* itsLevel = nullptr;
     /**
      * @brief Pointer to the HMI (Human-Machine Interface) object used in the game.
      */

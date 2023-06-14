@@ -83,7 +83,7 @@ private:
      */
     QLabel *itsLevelNumberText;
 
-    Level *itsLevel; ///< Pointer to the current level object.
+    Level *itsLevel = nullptr; ///< Pointer to the current level object.
     Player *itsPlayer; ///< Pointer to the player object.
     Game *itsGame; ///< Pointer to the game object.
     QTimer *itsTimer; ///< Timer for game updates.
