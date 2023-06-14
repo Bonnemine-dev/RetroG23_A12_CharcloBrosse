@@ -30,6 +30,7 @@ private:
     bool isOnTheGround = false; /** @brief True is the player is on the ground .*/
     unsigned short itsRemaningJumpMove = 0; /** @brief the jump size counter */
     unsigned short itsRemaningFallMove = 0xFFFF;
+    unsigned short itsRemaningWalkMove = 0;
     unsigned short itsRemaningComboTicks = 0; /** @brief the combo ticks counter */
     unsigned short comboValue = 0;
     MoveX itsCurrentMove = NONE; /** @brief the current move on the X axis */
@@ -154,6 +155,8 @@ public:
     void setComboValue(unsigned short newComboValue);
     unsigned short getItsRemaningFallMove() const;
     void setItsRemaningFallMove(unsigned short newItsRemaningFallMove);
+    void setItsRemaningWalkMove(unsigned short newItsRemaningWalkMove);
+    unsigned short getItsRemaningWalkMove() const;
 };
 
 #endif // PLAYER_H

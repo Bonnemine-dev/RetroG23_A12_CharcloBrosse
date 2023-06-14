@@ -7,44 +7,26 @@ std::array<QPixmap*, 12>* Player::itsSpritesList = nullptr;
 //Methode move
 void Player::moveX()
 {
+    qInfo()<<"remaning walk = "<<itsRemaningWalkMove;
+    //Si le mouvement actuel est différent du prochain mouvement et que le joueur est sur le sol alors égalise les deux valeurs
     if(itsCurrentMove != itsNextMove && isOnTheGround)itsCurrentMove = itsNextMove;
-
-    itsX += itsCurrentMove;
-    if(itsX == -1)itsX = 32*39;
-    else if(itsX == (32*39)+1)itsX = 0;
-
-    itsRect.moveTo(itsX,itsY);
-}
-/*
-    //vrai si le joueur tombe dans le vide ou qu'un saut est déclenché
-    if(itsPlayer->getItsRemaningJumpMove() != 0 || itsPlayer->getItsRemaningFallMove() != 0)
+    if(itsCurrentMove != NONE)
     {
-        if(itsPlayer->getItsRemaningFallMove() != 0 && itsLoopCounter % (int(float(-2.492)*float(itsPlayer->getItsRemaningFallMove())+float(578.492))) == 0)
+        if(*itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(int(float(-8.258)*float(itsRemaningWalkMove)+float(328.258)))) == 0)
         {
-            qInfo()<<"Je rentre dans le move";
-            qInfo()<<itsPlayer->getItsYSpeed();
-            qInfo()<<itsPlayer->getItsRemaningFallMove();
-            itsPlayer->setItsYSpeed(1);
-            itsPlayer->moveY();
-        }
-        else if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(int(float(2.492)*float(itsPlayer->getItsRemaningJumpMove())+float(97.509)))) == 0)//soit vrai tous les 96 tours de loop sois une vitesse de 10 pixels secondes
-        {
-            itsPlayer->moveY();
+            itsX += itsCurrentMove;
+            if(itsX == -1)itsX = 32*39;
+            else if(itsX == (32*39)+1)itsX = 0;
+            if(isOnTheGround)itsRemaningWalkMove -= (itsRemaningWalkMove != 0?1:0);
         }
     }
     else
     {
+        if(itsRemaningJumpMove == 0)itsRemaningWalkMove = 0xFFFF;
+    }
+    itsRect.moveTo(itsX,itsY);
+}
 
-    }
-    if(itsPlayer->getItsRemaningJumpMove() == 0 && itsLoopCounter % (NUMBER_LOOP_PER_SECOND/320) == 0)
-    {
-        itsPlayer->moveY();
-    }
-    else if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(int(float(2.492)*float(itsPlayer->getItsRemaningJumpMove())+float(97.509)))) == 0)//soit vrai tous les 96 tours de loop sois une vitesse de 10 pixels secondes
-    {
-        itsPlayer->moveY();
-    }
-*/
 void Player::moveY()
 {
     //Vrai si le joueur est dans un saut
@@ -53,7 +35,7 @@ void Player::moveY()
         //Pour x égale le nombre de pixel que doit parcourir encore le joueur la fonction "2.492*x+97.509" donne la vitesse à la quelle doit se déplacer le joueur
         //Soit pour un nombre restant de 192 pixels à parcourir la vitesse est de 576 pixels par secondes
         //Et pour un nombre restant de 1 pixels à parcourir la vitesse est de 100 pixels par secondes
-        if(*itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(int(float(2.492)*float(itsRemaningJumpMove)+float(97.509)))) == 0)
+        if(*itsLoopCounter % (NUMBER_LOOP_PER_SECOND/int(float(100)+(float(90.537)*log(itsRemaningJumpMove)))) == 0)
 //        if((*itsLoopCounter * 1000) % ((NUMBER_LOOP_PER_SECOND*1000)/(2701*itsRemaningJumpMove+57298)) == 0)
         {
             //enleve 1 à l'axe Y soit monte l'entité de 1 pixel sur l'écran
@@ -199,6 +181,16 @@ unsigned short Player::getItsRemaningFallMove() const
 void Player::setItsRemaningFallMove(unsigned short newItsRemaningFallMove)
 {
     itsRemaningFallMove = newItsRemaningFallMove;
+}
+
+void Player::setItsRemaningWalkMove(unsigned short newItsRemaningWalkMove)
+{
+    itsRemaningWalkMove = newItsRemaningWalkMove;
+}
+
+unsigned short Player::getItsRemaningWalkMove() const
+{
+    return itsRemaningWalkMove;
 }
 
 Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 12> *theSpritesList,unsigned short* theLoopCounter)

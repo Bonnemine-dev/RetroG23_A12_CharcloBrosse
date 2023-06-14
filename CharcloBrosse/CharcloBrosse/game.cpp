@@ -447,6 +447,7 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
     isBlockPOWHitted = true;
     // Le saut du joueur est stoppé.
     thePlayer->setItsRemaningJumpMove(0);
+    thePlayer->setItsRemaningFallMove(DISTANCE_FOR_MAX_GRAVITY/2);
     // L'état du bloc POW passe à true.
     theBlockPOW->setItsState(true);
     // L'image du bloc POW est modifié.
@@ -635,6 +636,7 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
         {
             //Arrette le saut du joueur
             thePlayer->setItsRemaningJumpMove(0);
+            thePlayer->setItsRemaningFallMove(DISTANCE_FOR_MAX_GRAVITY/2);
             //Met l'état du block à true soit : touché
             theBlock->setItsState(true);
             //Démarre le compteur du block pour le temps qu'il doit passé à true
@@ -751,10 +753,7 @@ int Game::checkTier()
 
 void Game::moveAll(){
     //vrai si le game loop à fait assez de tour valeur définie avec la speed du player
-    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(PLAYERMAXSPEED*BLOCK_SIZE)) == 0)//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
-    {
-        itsPlayer->moveX();
-    }
+    itsPlayer->moveX();
     itsPlayer->moveY();
     //Parcours tous les enemy du niveau
     for (Enemy * enemy : itsLevel->getItsEnemiesList()){
@@ -798,12 +797,14 @@ void Game::onLeftKeyPressed()
 {
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(LEFT_X);
     itsPlayer->setItsNextMove(LEFT_X);
+    if(itsPlayer->getItsRemaningWalkMove() == 0xFFFF)itsPlayer->setItsRemaningWalkMove(BLOCK_SIZE);
 }
 
 void Game::onRightKeyPressed()
 {
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(RIGHT_X);
     itsPlayer->setItsNextMove(RIGHT_X);
+    if(itsPlayer->getItsRemaningWalkMove() == 0xFFFF)itsPlayer->setItsRemaningWalkMove(BLOCK_SIZE);
 }
 
 void Game::onUpKeyPressed()
