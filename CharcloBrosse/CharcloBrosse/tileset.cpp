@@ -267,14 +267,14 @@ TileSet::TileSet(std::string aTileSetFilePath)
        itsMoneyTilesList.at(2)->at(1) = new QPixmap(tileset.copy(331, 100, 32, 32));
 
        // Spawner gauche
-       itsSpawnerTilesList.at(0) = new QPixmap(tileset.copy(1, 362, 32, 32));//new QPixmap(tileset.copy(166, 2, 64, 96));
+       itsSpawnerTilesList.at(0) = new QPixmap(tileset.copy(166, 2, 64, 96));
        // Spawner droite
-       itsSpawnerTilesList.at(1) = new QPixmap(tileset.copy(1, 362, 32, 32));//new QPixmap(tileset.copy(231, 2, 64, 96));
+       itsSpawnerTilesList.at(1) = new QPixmap(tileset.copy(231, 2, 64, 96));
 
        // Dispawner gauche
-       itsDespawnerTilesList.at(0) = new QPixmap(tileset.copy(1, 362, 32, 32));//new QPixmap(tileset.copy(295, 2, 64, 96));
+       itsDespawnerTilesList.at(0) = new QPixmap(tileset.copy(295, 2, 64, 96));
        // Dispawner droite
-       itsDespawnerTilesList.at(1) = new QPixmap(tileset.copy(1, 362, 32, 32));//new QPixmap(tileset.copy(361, 2, 64, 96));
+       itsDespawnerTilesList.at(1) = new QPixmap(tileset.copy(361, 2, 64, 96));
 
        // Texture par default
        itsNoTextureTile = new QPixmap(tileset.copy(1, 362, 32, 32));

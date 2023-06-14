@@ -453,72 +453,64 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
 }
 
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
-//{
-//    if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
-
-//        //ennemie1 à droite et ennemie2 à gauche [E2][E1]
-//        if(theFirstEnemy->getItsRect()->left() <= theSecondEnemy->getItsRect()->right() && theFirstEnemy->getItsRect()->left() + 16 >= theSecondEnemy->getItsRect()->right())
-//        {
-//            if(theFirstEnemy->getItsXSpeed() == theSecondEnemy->getItsXSpeed())
-//            {
-//                if(theFirstEnemy->getItsXSpeed() == RIGHT_X)
-//                {
-//                    theSecondEnemy->setItsXSpeed(LEFT_X);
-//                }
-//                else
-//                {
-//                    theFirstEnemy->setItsXSpeed(RIGHT_X);
-//                }
-//            }
-//            else
-//            {
-//                theFirstEnemy->setItsXSpeed(RIGHT_X);
-//                theSecondEnemy->setItsXSpeed(LEFT_X);
-//            }
-//        }//ennemie1 à droite et ennemie2 à gauche [E1][E2]
-//        else if(theFirstEnemy->getItsRect()->right() <= theSecondEnemy->getItsRect()->left() && theFirstEnemy->getItsRect()->right() + 16 >= theSecondEnemy->getItsRect()->left())
-//        {
-//            if(theFirstEnemy->getItsXSpeed() == theSecondEnemy->getItsXSpeed())
-//            {
-//                if(theFirstEnemy->getItsXSpeed() == RIGHT_X)
-//                {
-//                    theFirstEnemy->setItsXSpeed(LEFT_X);
-//                }
-//                else
-//                {
-//                    theSecondEnemy->setItsXSpeed(RIGHT_X);
-//                }
-//            }
-//            else
-//            {
-//                theFirstEnemy->setItsXSpeed(LEFT_X);
-//                theSecondEnemy->setItsXSpeed(RIGHT_X);
-//            }
-//        }
-//        else
-//        {
-//            qInfo() <<"enemy1-X = "<<theFirstEnemy->getItsRect()->x();
-//            qInfo() <<"enemy1-Y = "<<theFirstEnemy->getItsRect()->y();
-
-//            qInfo() <<"enemy2-X = "<<theSecondEnemy->getItsRect()->x();
-//            qInfo() <<"enemy2-Y = "<<theSecondEnemy->getItsRect()->y();
-
-//            qInfo() <<"enemy1-top = "<<theFirstEnemy->getItsRect()->top();
-//            qInfo() <<"enemy2-bottom= "<<theSecondEnemy->getItsRect()->bottom();
-//            qInfo() <<"T/F : "<<isOnTop(theSecondEnemy, theFirstEnemy);
-//            //            qFatal()<<"collision impossible";
-//        }
-//    }
-//}
 {
     if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
-        if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
+
+        //ennemie1 à droite et ennemie2 à gauche [E2][E1]
+        if(theFirstEnemy->getItsRect()->left() <= theSecondEnemy->getItsRect()->right() && theFirstEnemy->getItsRect()->left() + 16 >= theSecondEnemy->getItsRect()->right())
         {
-            theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
+            if(theFirstEnemy->getItsXSpeed() == theSecondEnemy->getItsXSpeed())
+            {
+                if(theFirstEnemy->getItsXSpeed() == RIGHT_X)
+                {
+                    theSecondEnemy->setItsXSpeed(LEFT_X);
+                }
+                else
+                {
+                    theFirstEnemy->setItsXSpeed(RIGHT_X);
+                }
+            }
+            else
+            {
+                theFirstEnemy->setItsXSpeed(RIGHT_X);
+                theSecondEnemy->setItsXSpeed(LEFT_X);
+            }
+        }//ennemie1 à droite et ennemie2 à gauche [E1][E2]
+        else if(theFirstEnemy->getItsRect()->right() <= theSecondEnemy->getItsRect()->left() && theFirstEnemy->getItsRect()->right() + 16 >= theSecondEnemy->getItsRect()->left())
+        {
+            if(theFirstEnemy->getItsXSpeed() == theSecondEnemy->getItsXSpeed())
+            {
+                if(theFirstEnemy->getItsXSpeed() == RIGHT_X)
+                {
+                    theFirstEnemy->setItsXSpeed(LEFT_X);
+                }
+                else
+                {
+                    theSecondEnemy->setItsXSpeed(RIGHT_X);
+                }
+            }
+            else
+            {
+                theFirstEnemy->setItsXSpeed(LEFT_X);
+                theSecondEnemy->setItsXSpeed(RIGHT_X);
+            }
         }
-        theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
+        else
+        {
+            qInfo() <<"enemy1-X = "<<theFirstEnemy->getItsRect()->x();
+            qInfo() <<"enemy1-Y = "<<theFirstEnemy->getItsRect()->y();
+
+            qInfo() <<"enemy2-X = "<<theSecondEnemy->getItsRect()->x();
+            qInfo() <<"enemy2-Y = "<<theSecondEnemy->getItsRect()->y();
+
+            qInfo() <<"enemy1-top = "<<theFirstEnemy->getItsRect()->top();
+            qInfo() <<"enemy2-bottom= "<<theSecondEnemy->getItsRect()->bottom();
+            qInfo() <<"T/F : "<<isOnTop(theSecondEnemy, theFirstEnemy);
+            //            qFatal()<<"collision impossible";
+        }
     }
 }
+
 void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 {
     theEnemy->setItsYSpeed(STILL);
