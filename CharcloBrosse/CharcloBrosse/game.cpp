@@ -709,19 +709,19 @@ int Game::checkTier()
     //Vrai si le wallet de la game est supérieur ou égale à 100
     if (itsMoney >= 100)
     {
-        cheminBG = BACKGROUND2_FILE_PATH;
+        cheminBG = BACKGROUND5_FILE_PATH;
         return 5; // Quatrième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 50
     else if (itsMoney >= 50)
     {
-        cheminBG = BACKGROUND2_FILE_PATH;
+        cheminBG = BACKGROUND4_FILE_PATH;
         return 4; // Troisième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 25
     else if (itsMoney >= 25)
     {
-        cheminBG = BACKGROUND2_FILE_PATH;
+        cheminBG = BACKGROUND3_FILE_PATH;
         return 3; // Deuxième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 10
