@@ -54,7 +54,7 @@ private:
     /**
      * @brief Pointer to the Level object representing the current level of the game.
      */
-    Level* itsLevel;
+    Level* itsLevel = nullptr;
     /**
      * @brief Pointer to the HMI (Human-Machine Interface) object used in the game.
      */
@@ -241,7 +241,6 @@ public :
     QString getCheminBG() const;
 
     short getCurrentTier() const;
-
 public slots:
     /**
      * @brief corresponds to the game loop, depending on the time the player is not dead.

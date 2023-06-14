@@ -48,15 +48,15 @@ void Level::display(QPainter *painter)
         {
             dynamic_cast<Giant*>(itsEnemiesList.at(i))->display(painter);
         }
-        for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
-            itsSpawnerList.at(i)->display(painter);
-        }
-        for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
-            itsDespawnerList.at(i)->display(painter);
-        }
-        for (Money * money : itsMoneyList){
-            money->display(painter);
-        }
+    }
+    for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
+        itsSpawnerList.at(i)->display(painter);
+    }
+    for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
+        itsDespawnerList.at(i)->display(painter);
+    }
+    for (Money * money : itsMoneyList){
+        money->display(painter);
     }
 }
 
@@ -116,11 +116,11 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     QFile jsonFile;
     jsonFile.setFileName(QString(itsLevelFile.c_str())); // spécifie le chemin du fichier à ouvrir
     if (!jsonFile.exists()){ // cerifi que le fichier existe
-        throw std::string("Level file does not exists");
+        throw std::runtime_error("Level file does not exists");
     }
     jsonFile.open(QIODevice::ReadOnly); // tente d'ouvrir le fichier
     if (!jsonFile.isOpen()){ // verifi que le fichier soit ouvert
-        throw std::string("Could not open the level file");
+        throw std::runtime_error("Could not open the level file");
     }
     QString content = jsonFile.readAll(); // copie le contenu du fichier
 

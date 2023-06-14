@@ -8,7 +8,7 @@
 #include "game.h"
 
 
-HMI::HMI(Level * level, Player * player, Game * game, QWidget *parent) : QWidget(parent), itsLevel(level), itsPlayer(player), itsGame(game)
+HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPlayer(player), itsGame(game)
 {
     DBSCORE = nullptr;
 
@@ -512,6 +512,11 @@ void HMI::displayLevelNumber(){
     itsLevelNumberText->setAlignment(Qt::AlignCenter);
 
     itsStartLevelTimer->start(1000);
+}
+
+int HMI::getTimerRemainingTime()
+{
+    return itsLevelTimer->remainingTime()/1000;
 }
 
 void HMI::startLevel(){
