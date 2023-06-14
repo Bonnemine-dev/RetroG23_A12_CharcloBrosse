@@ -9,10 +9,17 @@
 #include "jumper.h"
 #include "typedef.h"
 #include <QDebug>
+#include <iostream>
+#include <ostream>
 
 std::array<QPixmap *,12>* Jumper::itsSpritesList = nullptr;
 
 //Constructeur
+bool Jumper::getJump() const
+{
+    return jump;
+}
+
 Jumper::Jumper(short height,  short width, std::array<QPixmap *,12>* theSpritesList)
     :Enemy(height, width)
 {
@@ -20,9 +27,56 @@ Jumper::Jumper(short height,  short width, std::array<QPixmap *,12>* theSpritesL
     itsSpritesList = theSpritesList;
 }
 
+void Jumper::move()
+{
+    if(jump)
+    {
+        std::cout<<"jump true"<<std::endl;
+        jumpTime--;
+        if(jumpTime>0)
+        {
+            std::cout<<YStart<<std::endl;
+            if(itsY != (YStart - 96))
+            {
+                itsYSpeed = -1;
+            }
+            else
+            {
+                itsYSpeed = 0;
+            }
+            std::cout<<itsY<<std::endl;
+        }
+        else
+        {
+            jump = false;
+        }
+        std::cout<<jumpTime<<std::endl;
+    }
+    else
+    {
+        std::cout<<"jump false"<<std::endl;
+        if(!isOnTheGround)
+        {
+            itsYSpeed = +1;
+        }
+        else
+        {
+            jumpTime++;
+            if(jumpTime >= 200)
+            {
+                jump = true;
+                YStart = itsY;
+            }
+        }
+    }
+    itsX += itsXSpeed;
+    itsY += itsYSpeed;
+    itsRect.moveTo(itsX,itsY);
+}
+
 void Jumper::display(QPainter *painter)
 {
-    qWarning()<<"Le Jumper est display";
+    this->move();
     if(itsState){
         if(isOnTheGround){
             if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/JUMPER_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)

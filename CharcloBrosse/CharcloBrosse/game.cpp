@@ -10,6 +10,7 @@
 #include <QObject>
 #include "game.h"
 #include "typedef.h"
+#include "jumper.h"
 #include <iostream>
 #include <QElapsedTimer>
 #include <QDebug>
@@ -63,6 +64,14 @@ void Game::onGameStart(){
 
 void Game::gameLoop()
 {
+    if(itsPlayer->getIsFrozen())
+    {
+        itsPlayer->setStartFreeze(itsPlayer->getStartFreeze()-1);
+        if(itsPlayer->getStartFreeze() == 0)
+        {
+            itsPlayer->setIsFrozen(false);
+        }
+    }
     if(running){
         //création du timer
         QElapsedTimer timer;
@@ -364,7 +373,14 @@ void Game::checkAllCollid(){
             //------------------------------Début de l'application de la gravité en fonction des vérification efféctué--------------------------------
             if (gravityList[i1])
             {
-                enemy1->setItsYSpeed(GRAVITY);
+                if(enemy1->getItsType() != JUMPER)
+                {
+                    enemy1->setItsYSpeed(GRAVITY);
+                }
+                Jumper* jumperEnemy = dynamic_cast<Jumper*>(enemy1);
+                if (jumperEnemy->getJump() == false) {
+                    jumperEnemy->setItsYSpeed(GRAVITY);
+                }
             }
             else
             {
@@ -409,8 +425,19 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     //Vrai si l'enemy n'est pas KO
     if(theEnemy->getItsState())
     {
-        //cette fonction fait exactement le même chose que ce qui doit être fait quand il touche un enemy pas KO
-        colBtwPlayerAndObstacle(thePlayer);
+        if (theEnemy->getItsType() == FREEZER)
+        {
+            itsLevel->removeEnemy(theEnemy);
+            thePlayer->setIsFrozen(true);
+            thePlayer->setStartFreeze((1000/NUMBER_LOOP_PER_SECOND)*FREEZER_HIT_PLAYER);
+            itsPlayer->setItsCurrentMove(NONE);
+            itsPlayer->setItsNextMove(NONE);
+        }
+        else
+        {
+            //cette fonction fait exactement le même chose que ce qui doit être fait quand il touche un enemy pas KO
+            colBtwPlayerAndObstacle(thePlayer);
+        }
     }
     else//quand l'enemie est KO
     {
@@ -539,8 +566,6 @@ void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
                 theSecondEnemy->setItsXSpeed(RIGHT_X);
             }
         }
-        //Arette l'application si une collision étrange est detecté
-        else qFatal("collision impossible");
     }
 }
 
@@ -763,7 +788,7 @@ int Game::checkTier()
 
 void Game::moveAll(){
     //vrai si le game loop à fait assez de tour valeur définie avec la speed du player
-    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(PLAYERMAXSPEED*BLOCK_SIZE)) == 0)//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
+    if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(PLAYERMAXSPEED*BLOCK_SIZE)) == 0) && (itsPlayer->getIsFrozen() == false))//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
     {
         itsPlayer->move();
     }
@@ -790,12 +815,14 @@ void Game::moveAll(){
                 enemy->move();
             }
             break;
+        //Cas ou l'enemy est de type JUMPER
         case JUMPER:
             if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(JUMPER_ENEMY_SPEED*BLOCK_SIZE))) == 0)
             {
                 enemy->move();
             }
             break;
+        //Cas ou l'enemy est de type FREEZER
         case FREEZER:
             if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(FREEZER_ENEMY_SPEED*BLOCK_SIZE))) == 0)
             {

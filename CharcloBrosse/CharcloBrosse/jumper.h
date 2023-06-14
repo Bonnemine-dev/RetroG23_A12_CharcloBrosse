@@ -21,6 +21,9 @@ class Jumper : public Enemy
 {
 private:
     static std::array<QPixmap *,12>* itsSpritesList;
+    bool jump = false;
+    int jumpTime = 0;
+    short YStart;
 public:
     /**
      * @brief Constructor of the Standard class.
@@ -29,7 +32,9 @@ public:
      * @param sprite Sprite used for the standard enemy.
      */
     Jumper(short height,  short width, std::array<QPixmap *,12>* theSpritesList);
+    void move();
     void display(QPainter *painter);
+    bool getJump() const;
 };
 
 #endif // JUMPER_H

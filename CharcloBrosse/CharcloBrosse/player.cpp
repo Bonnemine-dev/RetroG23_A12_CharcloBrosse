@@ -20,7 +20,11 @@ void Player::move()
 
 void Player::display(QPainter * painter)
 {
-    if(isOnTheGround){
+    if(isFrozen)
+    {
+        painter->drawPixmap(itsX, itsY, *itsSpritesList->at(5));
+    }
+    else if(isOnTheGround){
         if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/PLAYERMAXSPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
         {
             if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0));
@@ -110,6 +114,26 @@ void Player::setItsNextMove(MoveX newItsNextMove)
     itsNextMove = newItsNextMove;
 }
 
+
+void Player::setIsFrozen(bool newIsFrozen)
+{
+    isFrozen = newIsFrozen;
+}
+
+bool Player::getIsFrozen() const
+{
+    return isFrozen;
+}
+
+void Player::setStartFreeze(unsigned short newStartFreeze)
+{
+    startFreeze = newStartFreeze;
+}
+
+unsigned short Player::getStartFreeze() const
+{
+    return startFreeze;
+}
 
 Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 12> *theSpritesList,unsigned short* theLoopCounter)
     : Entity(x, y, height, width)

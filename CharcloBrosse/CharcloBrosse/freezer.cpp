@@ -28,7 +28,6 @@ void Freezer::display(QPainter *painter)
                 if(itsXSpeed == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0));
                 else if(itsXSpeed == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSpritesList->at(6));
                 else painter->drawPixmap(itsX, itsY, *itsSpritesList->at(1));
-                qWarning()<<"Le Freezer est display";
             }
             else
             {
