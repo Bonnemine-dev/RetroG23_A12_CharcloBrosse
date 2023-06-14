@@ -366,6 +366,12 @@ void Game::checkAllCollid(){
                 case ACCELERATOR:
                     enemy1->setItsState(true);
                     break;
+                case JUMPER:
+                    enemy1->setItsState(true);
+                    break;
+                case FREEZER:
+                    enemy1->setItsState(true);
+                    break;
                 default:
                     break;
                 }
@@ -533,6 +539,14 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 dynamic_cast<Accelerator*>(theEnemy)->addItsSpeedState();
                 break;
+            case JUMPER:
+                theEnemy->setItsState(false);
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case FREEZER:
+                theEnemy->setItsState(false);
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
             default:
                 break;
             }
@@ -550,6 +564,14 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             case ACCELERATOR:
+                theEnemy->setItsState(true);
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case JUMPER:
+                theEnemy->setItsState(true);
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case FREEZER:
                 theEnemy->setItsState(true);
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
@@ -704,6 +726,18 @@ void Game::moveAll(){
             break;
         case GIANT:
             if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(GIANT_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case JUMPER:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(JUMPER_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
+        case FREEZER:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(FREEZER_ENEMY_SPEED*BLOCK_SIZE))) == 0)
             {
                 enemy->move();
             }

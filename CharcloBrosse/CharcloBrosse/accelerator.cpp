@@ -8,6 +8,8 @@
 
 
 #include "accelerator.h"
+#include <QDebug>
+
 std::array<std::array<QPixmap *,12>*, 3>* Accelerator::itsSpritesList = nullptr;
 //Add 5 to itsSpeedState
 void Accelerator::addItsSpeedState()
@@ -33,10 +35,11 @@ Accelerator::Accelerator( short height,  short width, std::array<std::array<QPix
 
 void Accelerator::display(QPainter *painter)//painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0)->at(2));
 {
+    qWarning()<<"Le Accelerator est display";
     unsigned short speedstate = itsSpeedState == 1?0:itsSpeedState == 5?1:2;
     if(itsState){
         if(isOnTheGround){
-            if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/STANDARD_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
+            if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/ACCELERATOR_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
             {
                 if(itsXSpeed == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(speedstate)->at(0));
                 else if(itsXSpeed == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSpritesList->at(speedstate)->at(6));
