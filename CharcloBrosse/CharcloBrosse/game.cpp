@@ -148,6 +148,7 @@ void Game::gameLoop()
             itsHMI->displayLevelNumber();
             itsLoopCounter = NUMBER_LOOP_PER_SECOND;
             itsEllapsedTime = 0;
+            isBlockPOWHitted = false;
         }
         if(itsPlayer->getItsLivesNb() == 0)
         {
