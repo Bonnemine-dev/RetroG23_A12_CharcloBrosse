@@ -48,15 +48,15 @@ void Level::display(QPainter *painter)
         {
             dynamic_cast<Giant*>(itsEnemiesList.at(i))->display(painter);
         }
-        for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
-            itsSpawnerList.at(i)->display(painter);
-        }
-        for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
-            itsDespawnerList.at(i)->display(painter);
-        }
-        for (Money * money : itsMoneyList){
-            money->display(painter);
-        }
+    }
+    for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
+        itsSpawnerList.at(i)->display(painter);
+    }
+    for (unsigned short i = 0; i < itsDespawnerList.size(); i++){ // daffiche tout les despwaner
+        itsDespawnerList.at(i)->display(painter);
+    }
+    for (Money * money : itsMoneyList){
+        money->display(painter);
     }
 }
 

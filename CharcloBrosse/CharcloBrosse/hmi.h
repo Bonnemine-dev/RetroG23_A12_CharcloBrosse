@@ -83,7 +83,7 @@ private:
      */
     QLabel *itsLevelNumberText;
 
-    Level *itsLevel; ///< Pointer to the current level object.
+    Level *itsLevel = nullptr; ///< Pointer to the current level object.
     Player *itsPlayer; ///< Pointer to the player object.
     Game *itsGame; ///< Pointer to the game object.
     QTimer *itsTimer; ///< Timer for game updates.
@@ -120,7 +120,7 @@ public:
      * @brief Constructor of the HMI class.
      * @param parent The parent widget.
      */
-    HMI(Level *itsLevel, Player *itsPlayer, Game * game, QWidget *parent = nullptr);
+    HMI(Player *itsPlayer, Game * game, QWidget *parent = nullptr);
 
     /**
      * @brief Destructor of the HMI class.
@@ -134,6 +134,12 @@ public:
      * Display the current number of the level during one seconds
      */
     void displayLevelNumber();
+
+    /**
+     * @brief getTimerRemainingTime get the remaining time of the current level timer
+     * @return the time remaining in secondes
+     */
+    int getTimerRemainingTime();
 private slots:
     /**
      * @brief Displays the main menu.

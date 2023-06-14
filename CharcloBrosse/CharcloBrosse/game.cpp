@@ -23,10 +23,8 @@ Game::Game()
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Création du joueur pour la partie en cours
     itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
-    //Dénition et création du niveau pour la partie, LEVEL_FILE_PATH = le chemin vers le fichier .json du niveau
-    itsLevel = nullptr;
     //Création de l'interface homme machine lié au jeu
-    itsHMI = new HMI(itsLevel, itsPlayer, this);
+    itsHMI = new HMI(itsPlayer, this);
     //Definition de la variable du temps écoulé pour l'appartion des ennemies
     itsEllapsedTime = 0;
     //Affichage du jeu
@@ -87,6 +85,7 @@ void Game::gameLoop()
         itsLoopCounter--;
 
         if(isLevelFinished()){
+            itsScore += itsHMI->getTimerRemainingTime();
             if (currentLevel != MAX_LEVEL){
                 if (currentTier != checkTier()){
                     currentTier = checkTier();
