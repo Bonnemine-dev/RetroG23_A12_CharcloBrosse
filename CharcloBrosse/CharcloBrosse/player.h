@@ -29,6 +29,8 @@ private:
     short itsYSpeed = 0; /** @brief Speed of the player on the Y axis. */
     bool isOnTheGround = false; /** @brief True is the player is on the ground .*/
     unsigned short itsRemaningJumpMove = 0; /** @brief the jump size counter */
+    unsigned short itsRemaningComboTicks = 0; /** @brief the combo ticks counter */
+    unsigned short comboValue = 0;
     MoveX itsCurrentMove = NONE; /** @brief the current move on the X axis */
     MoveX itsNextMove = NONE; /** @brief the next move on the X axis */
     static std::array<QPixmap*, 12>* itsSpritesList; /** @brief the list of the Player sprites * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>*/
@@ -141,6 +143,10 @@ public:
      * @param newItsAnimCounter the new animation counter
      */
     void setItsAnimCounter(short newItsAnimCounter);
+    unsigned short getItsRemaningComboTicks() const;
+    void setItsRemaningComboTicks(unsigned short newItsRemaningComboTicks);
+    unsigned short getComboValue() const;
+    void setComboValue(unsigned short newComboValue);
 };
 
 #endif // PLAYER_H

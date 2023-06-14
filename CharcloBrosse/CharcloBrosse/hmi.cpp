@@ -232,7 +232,7 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     for (QLabel* label: this->findChildren<QLabel*>()) {
         label->setStyleSheet("QLabel { color : white; }");
     }
-
+    scoresLabel->setStyleSheet("QLabel { color : white; border: 2px solid white; padding: 20px;}");
 
     // Pour l'ajout des scores pas dans un Qinputdialog super cool
     // Ajout dans la liste des déclarations dans votre constructeur HMI
@@ -439,15 +439,39 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
     startGameButton->setDefault(true);
     stackedWidget->setCurrentWidget(mainMenuWidget);
 
-    QString scoresText = "Leaderboard :\n\n";
+    QString scoresText = "<html>LEADERBOARD :<br><br>";
     int rank = 1;
     for (const auto &score : highscores) {
-        scoresText += QString::number(rank) + ". " + QString::fromStdString(score.first) + ": " + QString::number(score.second) + "\n";
+        QString line;
+        if (rank == 1) {
+            line = QString("<font color='#FFD700'>%1. %2 %3</font>")
+                   .arg(rank, 2)
+                   .arg(QString::fromStdString(score.first), -5)
+                   .arg(score.second);
+        } else if (rank == 2) {
+            line = QString("<font color='silver'>%1. %2 %3</font>")
+                   .arg(rank, 2)
+                   .arg(QString::fromStdString(score.first), -5)
+                   .arg(score.second);
+        } else if (rank == 3) {
+            line = QString("<font color='#cd7f32'>%1. %2 %3</font>")
+                   .arg(rank, 2)
+                   .arg(QString::fromStdString(score.first), -5)
+                   .arg(score.second);
+        } else {
+            line = QString("%1. %2 %3")
+                   .arg(rank, 2)
+                   .arg(QString::fromStdString(score.first), -5)
+                   .arg(score.second);
+        }
+        scoresText += line + "<br>";
         rank++;
     }
 
+    scoresText += "</html>";
     scoresLabel->setText(scoresText);
 }
+
 
 void HMI::displayPauseMenu()
 {

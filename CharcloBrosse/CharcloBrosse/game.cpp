@@ -220,6 +220,11 @@ void Game::checkAllCollid(){
     bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
     //définie le joueur comme n'étant pas sur un bloc
     itsPlayer->setIsOnTheGround(false);
+    if(itsPlayer->getItsRemaningComboTicks() != 0)
+    {
+        itsPlayer->setItsRemaningComboTicks(itsPlayer->getItsRemaningComboTicks() - 1);
+        if(itsPlayer->getItsRemaningComboTicks() == 0)itsPlayer->setComboValue(0);
+    }
     for (Block * block : itsLevel->getItsBlockList())
     {
         if (block->getItsType() == OBSTACLE && collid(itsPlayer, block))
@@ -409,9 +414,11 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     }
     else//quand l'enemie est KO
     {
+        thePlayer->setItsRemaningComboTicks((1000/NUMBER_LOOP_PER_SECOND)*COMBO_RANGE_TIME);
+        thePlayer->setComboValue(thePlayer->getComboValue() + 1);
         int tier = currentTier;
         int multiplier = tier; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
-        itsScore += theEnemy->getItsType() * multiplier;
+        itsScore += theEnemy->getItsType() * multiplier * thePlayer->getComboValue();
         itsLevel->removeEnemy(theEnemy);
     }
 }
@@ -709,19 +716,19 @@ int Game::checkTier()
     //Vrai si le wallet de la game est supérieur ou égale à 100
     if (itsMoney >= 100)
     {
-        cheminBG = BACKGROUND2_FILE_PATH;
+        cheminBG = BACKGROUND5_FILE_PATH;
         return 5; // Quatrième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 50
     else if (itsMoney >= 50)
     {
-        cheminBG = BACKGROUND2_FILE_PATH;
+        cheminBG = BACKGROUND4_FILE_PATH;
         return 4; // Troisième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 25
     else if (itsMoney >= 25)
     {
-        cheminBG = BACKGROUND2_FILE_PATH;
+        cheminBG = BACKGROUND3_FILE_PATH;
         return 3; // Deuxième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 10
