@@ -735,7 +735,7 @@ int Game::checkTier()
         return 3; // Deuxième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 10
-    else if (itsMoney >= 5)
+    else if (itsMoney >= 10)
     {
         cheminBG = BACKGROUND2_FILE_PATH;
         tileSetPath = TILESET2_FILE_PATH;

@@ -390,7 +390,6 @@ void HMI::paintEvent(QPaintEvent *event)
 
         // Dessin du background
         QString cheminBG = itsGame->getCheminBG();
-        qDebug() << "Chemin du background: " << cheminBG;
         if (QFile::exists(cheminBG)) {
             QPixmap bg(cheminBG);
             if (!bg.isNull()) {
@@ -410,6 +409,7 @@ void HMI::paintEvent(QPaintEvent *event)
         painter->drawText(10, 40, QString("Multiplier: %1").arg(itsGame->getCurrentTier()));
         painter->drawText(10, 60, QString("Lives: %1").arg(itsGame->getItsPlayer()->getItsLivesNb()));
         painter->drawText(10, 80, QString("Wallet: %1").arg(itsGame->getItsMoney()));
+        painter->drawText(1165, 60, QString("Enemies: %1").arg(itsLevel->getItsRemainingEnemies().size() + itsLevel->getItsEnemiesList().size()));
         itsLevel->display(painter);
         itsPlayer->display(painter);
         painter->setFont(QFont("VT323", 28));
