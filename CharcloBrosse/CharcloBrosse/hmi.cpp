@@ -301,7 +301,6 @@ void HMI::paintEvent(QPaintEvent *event)
 
         // Dessin du background
         QString cheminBG = itsGame->getCheminBG();
-        qDebug() << "Chemin du background: " << cheminBG;
         if (QFile::exists(cheminBG)) {
             QPixmap bg(cheminBG);
             if (!bg.isNull()) {

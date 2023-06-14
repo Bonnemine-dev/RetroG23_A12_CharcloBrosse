@@ -474,24 +474,6 @@ TileSet::TileSet(std::string aTileSetFilePath)
 
 
 
-
-<<<<<<< HEAD
-    //< Vérification de l'ouverture du fichier et lancement d'une exception si non
-    if(background.isNull())
-    {
-       throw std::string("Background file unfound (Tileset::Tileset(const std::string aFilePath)");
-    }
-    else
-    {
-        // Chargement et stockage du background
-        itsBackground = new QPixmap(background);
-    }
-    //> Vérification de l'ouverture du fichier et lancement d'une exception si non
-}*/
-/*
-=======
-
-
 }
 
 >>>>>>> dev

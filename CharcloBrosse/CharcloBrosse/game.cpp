@@ -175,7 +175,6 @@ void Game::checkAllCollid(){
         if (block->getItsType() == OBSTACLE && collid(itsPlayer, block))
         {
             colBtwPlayerAndObstacle(itsPlayer);
-
         }
 
         if(block->getItsType() == BRICK)
@@ -206,13 +205,19 @@ void Game::checkAllCollid(){
             }
         }
     }
-    //Condition qui vérifie que : le joueur doit être soumis à la gravité
-    for (Money * money : itsLevel->getItsMoneyList()){
+    //------------------------------Fin de la vérification des collisions avec les blocks -------------------------------------------------------
+
+    //------------------------------Début de la vérification des entre joueur et money -------------------------------------------------------
+    for (Money * money : itsLevel->getItsMoneyList())
+    {
         if(collid(itsPlayer,money))
         {
             colBtwPlayerAndMoney(itsPlayer,money);
         }
     }
+    //------------------------------Fin de la vérification des collisions entre joueur et money -------------------------------------------------------
+
+    //------------------------------Début de l'application de la gravitée ou pas pour le joueur -------------------------------------------------------
     if (playerGravity)
     {
         //Définie la vitesse du joueur sur l'axe des absices à 1
@@ -224,69 +229,136 @@ void Game::checkAllCollid(){
         //et ne la change pas si elle est négatif
         itsPlayer->setItsYSpeed(itsPlayer->getItsYSpeed() > STILL?STILL:itsPlayer->getItsYSpeed());
     }
+    //------------------------------Fin de l'application de la gravitée ou pas pour le joueur -------------------------------------------------------
+
+    //------------------------------Début de la vérification des collisions avec les ennemies -------------------------------------------------------
     //Crée un Vecteur avec tous les ennemies présent dans le niveau
     std::vector<Enemy *> enemyList = itsLevel->getItsEnemiesList();
     //Condition qui vérifie que : il y à au moins une enemie dans le niveau
-    if (enemyList.size()>0){
+    if (enemyList.size()>0)
+    {
+        //------------------------------Début de l'application de la gravité pour les ennemies -------------------------------------------------------
         //Crée un tableau d'une taille égale au nombre d'ennemies dans le niveau.
         //cette varibale est un boolean qui défini si oui ou non l'ennemie doit être soumis à la gravité
         bool gravityList[enemyList.size()];
         //crée une variable qui incrémente de 1 jusqu'à un nombre égale au nombres d'ennemies
-        for (unsigned short i = 0; i < enemyList.size(); i++){
+        for (unsigned short i = 0; i < enemyList.size(); i++)
+        {
             //dans le tableau crée en amont, à l'élément du même numéro que la variable
             //du dessus definie a vrai l'élémément soit : applique la gravité
             gravityList[i] = true;
         }
+        //------------------------------Fin de l'application de la gravité pour les ennemies -------------------------------------------------------
+
+        //------------------------------Parcours tous les ennemies pour vérifier les collisions avec : block, ennemies, player, despawner -----------
         //crée une variable qui incrémente de 1 jusqu'à un nombre égale au nombres d'ennemies
-        for (unsigned short i1 = 0; i1 < enemyList.size(); i1++){
+        for (unsigned short i1 = 0; i1 < enemyList.size(); i1++)
+        {
             //crée une variable de type pointeur vers un ennemie qui prend l'ennemie
             //à l'emplacement égale  à la variable du dessus
             Enemy * enemy1 = enemyList.at(i1);
             //Condition qui vérifie que : une collision à lieu entre le joueur et l'ennemie
-            if (collid(itsPlayer, enemy1)){
+            //------------------------------Début de la vérification des collisions entre joueur et ennemie -------------------------------------------------------
+            if (collid(itsPlayer, enemy1))
+            {
                 colBtwPlayerAndEnemy(itsPlayer, enemy1);
             }
+            //------------------------------Fin de la vérification des collisions entre joueur et ennemie -------------------------------------------------------
 
-            for (Despawner * despawner : itsLevel->getItsDespawnerList()){
-                if(collid(enemy1, despawner)){
+            //------------------------------Début de la vérification des collisions entre despawner et ennemie -------------------------------------------------------
+            for (Despawner * despawner : itsLevel->getItsDespawnerList())
+            {
+                if(collid(enemy1, despawner))
+                {
                     colBtwEnemyAndDespawner(enemy1, despawner);
                 }
             }
-            for (Block * block : itsLevel->getItsBlockList()){
-                if (collid(enemy1, block) && (block->getItsType() == BRICK || block->getItsType() == GROUND || block->getItsType() == POW)){
-                    if (isOnTop(enemy1, block)){
+            //------------------------------Fin de la vérification des collisions entre despawner et ennemie -------------------------------------------------------
+
+            //------------------------------Début de la vérification des collisions entre block et ennemie -------------------------------------------------------
+            for (Block * block : itsLevel->getItsBlockList())
+            {
+                if (block->getItsType() != OBSTACLE && collid(enemy1, block))
+                {
+                    if (isOnTop(enemy1, block))
+                    {
                         gravityList[i1] = false;
                     }
                     colBtwEnemyAndBlock(enemy1, block);
                 }
             }
-            if (enemyList.size() >= 2 &&  (itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0){
-                for (unsigned int i2 = i1+1; i2 < enemyList.size(); i2++){
+            //------------------------------Fin de la vérification des collisions entre block et ennemie -------------------------------------------------------
+
+            if (enemyList.size() > 1)//Si il y a plusieurs ennemies dans le niveau en cours
+            {
+                for (unsigned int i2 = i1+1; i2 < enemyList.size(); i2++)//Selectionne l'ennemies situé à l'emplacement suivant dans la list
+                {
+                    Enemy * enemy2 = enemyList.at(i2);//Création d'un pointeur vers le dexième ennemie donc on à ici toujours deux ennemies différent : enemy1 et enemy2
+
+                        //Sécurité qui permet en cas de détection d'un chevauchement d'ennemies d'en faire respawn 1 au spawner et donc de casser le bug
+//                        if(enemy1->getItsRect()->intersected(*enemy2->getItsRect()).height() > 1 && enemy1->getItsRect()->intersected(*enemy2->getItsRect()).width() > 1)
+//                        {
+//                            qWarning()<<"two entities are inside each other";
+//                            itsLevel->getItsDespawnerList().at(0)->disappear(enemy2);
+//                        }
+                        /*else*/ if (collid(enemy1, enemy2))
+                        {
+                            colBtwEnemyAndEnemy(enemy1, enemy2);
+                            if (isOnTop(enemy1, enemy2))
+                            {
+                                gravityList[i1] = false;
+                            }
+                            else if (isOnTop(enemy2, enemy1))
+                            {
+                                gravityList[i2] = false;
+                            }
+                        }
+
+                }
+            }
+
+            /*
+            if (enemyList.size() >= 2 &&  (itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(STANDARD_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                for (unsigned int i2 = i1+1; i2 < enemyList.size(); i2++)
+                {
                     Enemy * enemy2 = enemyList.at(i2);
                     if(enemy1->getItsRect()->intersected(*enemy2->getItsRect()).height() > 1 && enemy1->getItsRect()->intersected(*enemy2->getItsRect()).width() > 1)
                     {
                         qWarning()<<"two entities are inside each other";
                         itsLevel->getItsDespawnerList().at(0)->disappear(enemy2);
-
                     }
-                    else if (collid(enemy1, enemy2)){
+                    else if (collid(enemy1, enemy2))
+                    {
                         colBtwEnemyAndEnemy(enemy1, enemy2);
-                        if (isOnTop(enemy1, enemy2)){
+                        if (isOnTop(enemy1, enemy2))
+                        {
                             gravityList[i1] = false;
                         }
-                        else if (isOnTop(enemy2, enemy1)){
+                        else if (isOnTop(enemy2, enemy1))
+                        {
                             gravityList[i2] = false;
                         }
                     }
                 }
             }
-            if (gravityList[i1]){
+            */
+
+            //------------------------------Début de l'application de la gravité en fonction des vérification efféctué--------------------------------
+            if (gravityList[i1])
+            {
                 enemy1->setItsYSpeed(GRAVITY);
             }
-            else{
+            else
+            {
                 enemy1->setItsYSpeed(STILL);
             }
-            if(enemy1->getItsNumberLoopKO() != 0)enemy1->setItsNumberLoopKO(enemy1->getItsNumberLoopKO()-1);
+            //------------------------------Fin de l'application de la gravité en fonction des vérification efféctué--------------------------------
+
+            if(enemy1->getItsNumberLoopKO() != 0)
+            {
+                enemy1->setItsNumberLoopKO(enemy1->getItsNumberLoopKO()-1);
+            }
             else
             {
                 switch (enemy1->getItsType())
@@ -389,11 +461,41 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
 {
     if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
-        if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
+//        if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
+//        {
+//            theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
+//        }
+//        theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
+
+        if(theFirstEnemy->getItsRect()->left() <= theSecondEnemy->getItsRect()->right() && theFirstEnemy->getItsRect()->left() + 16 >= theSecondEnemy->getItsRect()->right())
         {
-            theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
+            if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))
+            {
+            theFirstEnemy->setItsXSpeed(RIGHT_X);
+            }
+            theSecondEnemy->setItsXSpeed(LEFT_X);
         }
-        theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
+        else if(theFirstEnemy->getItsRect()->right() <= theSecondEnemy->getItsRect()->left() && theFirstEnemy->getItsRect()->right() + 16 >= theSecondEnemy->getItsRect()->left())
+        {
+            if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))
+            {
+            theSecondEnemy->setItsXSpeed(RIGHT_X);
+            }
+            theFirstEnemy->setItsXSpeed(LEFT_X);
+        }
+        else
+        {
+            qInfo() <<"enemy1-X = "<<theFirstEnemy->getItsRect()->x();
+            qInfo() <<"enemy1-Y = "<<theFirstEnemy->getItsRect()->y();
+
+            qInfo() <<"enemy2-X = "<<theSecondEnemy->getItsRect()->x();
+            qInfo() <<"enemy2-Y = "<<theSecondEnemy->getItsRect()->y();
+
+            qInfo() <<"enemy1-top = "<<theFirstEnemy->getItsRect()->top();
+            qInfo() <<"enemy2-bottom= "<<theSecondEnemy->getItsRect()->bottom();
+            qInfo() <<"T/F : "<<isOnTop(theSecondEnemy, theFirstEnemy);
+//            qFatal()<<"collision impossible";
+        }
     }
 }
 
@@ -510,25 +612,29 @@ void Game::colBtwPlayerAndMoney(Player* thePlayer, Money* theMoney)
 }
 
 bool Game::isOnTop(Entity * entity1, Entity * entity2){
-    return entity1->getItsY() + entity1->getItsHeight() <= entity2->getItsY();
+    return entity1->getItsRect()->bottom() == entity2->getItsRect()->top();
 }
 
-bool Game::collid(Entity * entity1, Entity * entity2){
+bool Game::collid(Entity * entity1, Entity * entity2)
+//{
 
-    if(entity1->getItsX() > (entity2->getItsX() + entity2->getItsWidth())){      // trop à droite
-        return false;
-    }
-    else if((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX()){ // trop à gauche
-        return false;
-    }
-    else if(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight())){ // trop en bas
-        return false;
-    }
+//    if(entity1->getItsX() > (entity2->getItsX() + entity2->getItsWidth())){      // trop à droite
+//        return false;
+//    }
+//    else if((entity1->getItsX() + entity1->getItsWidth()) < entity2->getItsX()){ // trop à gauche
+//        return false;
+//    }
+//    else if(entity1->getItsY() > (entity2->getItsY() + entity2->getItsHeight())){ // trop en bas
+//        return false;
+//    }
 
-    else if((entity1->getItsY() + entity1->getItsHeight()) < entity2->getItsY()){  // trop en haut
-        return false;
-    }
-    return true;
+//    else if((entity1->getItsY() + entity1->getItsHeight()) < entity2->getItsY()){  // trop en haut
+//        return false;
+//    }
+//    return true;
+//}
+{
+    return (entity1->getItsRect()->intersects(*entity2->getItsRect()));
 }
 
 int Game::checkTier()
