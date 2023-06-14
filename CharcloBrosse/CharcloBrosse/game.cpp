@@ -294,24 +294,19 @@ void Game::checkAllCollid(){
                 {
                     Enemy * enemy2 = enemyList.at(i2);//Création d'un pointeur vers le dexième ennemie donc on à ici toujours deux ennemies différent : enemy1 et enemy2
 
-                        //Sécurité qui permet en cas de détection d'un chevauchement d'ennemies d'en faire respawn 1 au spawner et donc de casser le bug
-//                        if(enemy1->getItsRect()->intersected(*enemy2->getItsRect()).height() > 1 && enemy1->getItsRect()->intersected(*enemy2->getItsRect()).width() > 1)
-//                        {
-//                            qWarning()<<"two entities are inside each other";
-//                            itsLevel->getItsDespawnerList().at(0)->disappear(enemy2);
-//                        }
-                        /*else*/ if (collid(enemy1, enemy2))
+                    //Sécurité qui permet en cas de détection d'un chevauchement d'ennemies d'en faire respawn 1 au spawner et donc de casser le bug
+                    if (collid(enemy1, enemy2))
+                    {
+                        colBtwEnemyAndEnemy(enemy1, enemy2);
+                        if (isOnTop(enemy1, enemy2))
                         {
-                            colBtwEnemyAndEnemy(enemy1, enemy2);
-                            if (isOnTop(enemy1, enemy2))
-                            {
-                                gravityList[i1] = false;
-                            }
-                            else if (isOnTop(enemy2, enemy1))
-                            {
-                                gravityList[i2] = false;
-                            }
+                            gravityList[i1] = false;
                         }
+                        else if (isOnTop(enemy2, enemy1))
+                        {
+                            gravityList[i2] = false;
+                        }
+                    }
 
                 }
             }
@@ -458,46 +453,72 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
 }
 
 void Game::colBtwEnemyAndEnemy(Enemy* theFirstEnemy, Enemy* theSecondEnemy)
+//{
+//    if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
+
+//        //ennemie1 à droite et ennemie2 à gauche [E2][E1]
+//        if(theFirstEnemy->getItsRect()->left() <= theSecondEnemy->getItsRect()->right() && theFirstEnemy->getItsRect()->left() + 16 >= theSecondEnemy->getItsRect()->right())
+//        {
+//            if(theFirstEnemy->getItsXSpeed() == theSecondEnemy->getItsXSpeed())
+//            {
+//                if(theFirstEnemy->getItsXSpeed() == RIGHT_X)
+//                {
+//                    theSecondEnemy->setItsXSpeed(LEFT_X);
+//                }
+//                else
+//                {
+//                    theFirstEnemy->setItsXSpeed(RIGHT_X);
+//                }
+//            }
+//            else
+//            {
+//                theFirstEnemy->setItsXSpeed(RIGHT_X);
+//                theSecondEnemy->setItsXSpeed(LEFT_X);
+//            }
+//        }//ennemie1 à droite et ennemie2 à gauche [E1][E2]
+//        else if(theFirstEnemy->getItsRect()->right() <= theSecondEnemy->getItsRect()->left() && theFirstEnemy->getItsRect()->right() + 16 >= theSecondEnemy->getItsRect()->left())
+//        {
+//            if(theFirstEnemy->getItsXSpeed() == theSecondEnemy->getItsXSpeed())
+//            {
+//                if(theFirstEnemy->getItsXSpeed() == RIGHT_X)
+//                {
+//                    theFirstEnemy->setItsXSpeed(LEFT_X);
+//                }
+//                else
+//                {
+//                    theSecondEnemy->setItsXSpeed(RIGHT_X);
+//                }
+//            }
+//            else
+//            {
+//                theFirstEnemy->setItsXSpeed(LEFT_X);
+//                theSecondEnemy->setItsXSpeed(RIGHT_X);
+//            }
+//        }
+//        else
+//        {
+//            qInfo() <<"enemy1-X = "<<theFirstEnemy->getItsRect()->x();
+//            qInfo() <<"enemy1-Y = "<<theFirstEnemy->getItsRect()->y();
+
+//            qInfo() <<"enemy2-X = "<<theSecondEnemy->getItsRect()->x();
+//            qInfo() <<"enemy2-Y = "<<theSecondEnemy->getItsRect()->y();
+
+//            qInfo() <<"enemy1-top = "<<theFirstEnemy->getItsRect()->top();
+//            qInfo() <<"enemy2-bottom= "<<theSecondEnemy->getItsRect()->bottom();
+//            qInfo() <<"T/F : "<<isOnTop(theSecondEnemy, theFirstEnemy);
+//            //            qFatal()<<"collision impossible";
+//        }
+//    }
+//}
 {
     if (!isOnTop(theFirstEnemy, theSecondEnemy) && !isOnTop(theSecondEnemy, theFirstEnemy)){
-//        if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
-//        {
-//            theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
-//        }
-//        theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
-
-        if(theFirstEnemy->getItsRect()->left() <= theSecondEnemy->getItsRect()->right() && theFirstEnemy->getItsRect()->left() + 16 >= theSecondEnemy->getItsRect()->right())
+        if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))//si les deux enemy sont dans des directions différentes
         {
-            if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))
-            {
-            theFirstEnemy->setItsXSpeed(RIGHT_X);
-            }
-            theSecondEnemy->setItsXSpeed(LEFT_X);
+            theFirstEnemy->setItsXSpeed(theFirstEnemy->getItsXSpeed()*(-1));
         }
-        else if(theFirstEnemy->getItsRect()->right() <= theSecondEnemy->getItsRect()->left() && theFirstEnemy->getItsRect()->right() + 16 >= theSecondEnemy->getItsRect()->left())
-        {
-            if((theFirstEnemy->getItsXSpeed() < 0) != (theSecondEnemy->getItsXSpeed() < 0))
-            {
-            theSecondEnemy->setItsXSpeed(RIGHT_X);
-            }
-            theFirstEnemy->setItsXSpeed(LEFT_X);
-        }
-        else
-        {
-            qInfo() <<"enemy1-X = "<<theFirstEnemy->getItsRect()->x();
-            qInfo() <<"enemy1-Y = "<<theFirstEnemy->getItsRect()->y();
-
-            qInfo() <<"enemy2-X = "<<theSecondEnemy->getItsRect()->x();
-            qInfo() <<"enemy2-Y = "<<theSecondEnemy->getItsRect()->y();
-
-            qInfo() <<"enemy1-top = "<<theFirstEnemy->getItsRect()->top();
-            qInfo() <<"enemy2-bottom= "<<theSecondEnemy->getItsRect()->bottom();
-            qInfo() <<"T/F : "<<isOnTop(theSecondEnemy, theFirstEnemy);
-//            qFatal()<<"collision impossible";
-        }
+        theSecondEnemy->setItsXSpeed(theSecondEnemy->getItsXSpeed()*(-1));
     }
 }
-
 void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 {
     theEnemy->setItsYSpeed(STILL);
@@ -725,18 +746,18 @@ void Game::onUpKeyPressed()
         itsPlayer->setItsRemaningJumpMove(PLAYER_JUMP_HEIGHT*BLOCK_SIZE);
     }
 
-//    if(itsPlayer->getIsOnTheGround()){
-//        itsPlayer->setItsYSpeed(-5);
-//        QElapsedTimer jumpTimer;
-//        jumpTimer.start();
-//        startJump = jumpTimer.elapsed();
-//        if (jumpTimer.elapsed() <= (startJump+2))
-//        {
-//            itsPlayer->setItsYSpeed(-5);
-//        }
-//        itsPlayer->setItsYSpeed(5);
-//        //itsPlayer->setItsRemaningJumpMove(PLAYER_JUMP_HEIGHT*BLOCK_SIZE);
-//    }
+    //    if(itsPlayer->getIsOnTheGround()){
+    //        itsPlayer->setItsYSpeed(-5);
+    //        QElapsedTimer jumpTimer;
+    //        jumpTimer.start();
+    //        startJump = jumpTimer.elapsed();
+    //        if (jumpTimer.elapsed() <= (startJump+2))
+    //        {
+    //            itsPlayer->setItsYSpeed(-5);
+    //        }
+    //        itsPlayer->setItsYSpeed(5);
+    //        //itsPlayer->setItsRemaningJumpMove(PLAYER_JUMP_HEIGHT*BLOCK_SIZE);
+    //    }
 }
 
 void Game::onLeftKeyReleased()
