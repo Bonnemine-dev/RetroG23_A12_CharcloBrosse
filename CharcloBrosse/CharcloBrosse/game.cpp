@@ -220,6 +220,11 @@ void Game::checkAllCollid(){
     bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
     //définie le joueur comme n'étant pas sur un bloc
     itsPlayer->setIsOnTheGround(false);
+    if(itsPlayer->getItsRemaningComboTicks() != 0)
+    {
+        itsPlayer->setItsRemaningComboTicks(itsPlayer->getItsRemaningComboTicks() - 1);
+        if(itsPlayer->getItsRemaningComboTicks() == 0)itsPlayer->setComboValue(0);
+    }
     for (Block * block : itsLevel->getItsBlockList())
     {
         if (block->getItsType() == OBSTACLE && collid(itsPlayer, block))
@@ -409,9 +414,11 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     }
     else//quand l'enemie est KO
     {
+        thePlayer->setItsRemaningComboTicks((1000/NUMBER_LOOP_PER_SECOND)*COMBO_RANGE_TIME);
+        thePlayer->setComboValue(thePlayer->getComboValue() + 1);
         int tier = currentTier;
         int multiplier = tier; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
-        itsScore += theEnemy->getItsType() * multiplier;
+        itsScore += theEnemy->getItsType() * multiplier * thePlayer->getComboValue();
         itsLevel->removeEnemy(theEnemy);
     }
 }

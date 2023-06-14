@@ -111,6 +111,26 @@ void Player::setItsNextMove(MoveX newItsNextMove)
 }
 
 
+unsigned short Player::getItsRemaningComboTicks() const
+{
+    return itsRemaningComboTicks;
+}
+
+void Player::setItsRemaningComboTicks(unsigned short newItsRemaningComboTicks)
+{
+    itsRemaningComboTicks = newItsRemaningComboTicks;
+}
+
+unsigned short Player::getComboValue() const
+{
+    return comboValue;
+}
+
+void Player::setComboValue(unsigned short newComboValue)
+{
+    comboValue = newComboValue;
+}
+
 Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 12> *theSpritesList,unsigned short* theLoopCounter)
     : Entity(x, y, height, width)
 {

@@ -30,7 +30,7 @@
 #define PLAYER_JUMP_HEIGHT 6 //define the number of block that a player make when he jump
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
-
+#define COMBO_RANGE_TIME 1500//The time in ms when a combo are possible
 
 #define TILESET_FILE_PATH "://ressources/tileset0.png"
 #define BACKGROUND1_FILE_PATH ":/ressources/background0.png"
