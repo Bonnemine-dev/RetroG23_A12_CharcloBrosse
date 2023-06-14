@@ -1,3 +1,9 @@
+/**
+ * @file cb_score.h
+ * @brief Header file for class DB_Score
+ * @date 09/06/2023
+ * @version 2.0
+ */
 #ifndef DB_SCORE_H
 #define DB_SCORE_H
 #include <vector>

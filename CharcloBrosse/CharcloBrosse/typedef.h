@@ -1,9 +1,8 @@
 /**
  * @file typeDef.h
  * @brief Header file for general definition
- * @author Kevin Simon
  * @date 08/06/2023
- * @version 1.3
+ * @version 2.0
  */
 
 #ifndef TYPEDEF_H
@@ -43,25 +42,38 @@
 #define MAX_LEVEL 4
 #define MAX_LIFE 3
 
+/**
+ * @brief The MenuState enum states of the menu
+ */
 enum MenuState {
     MAINMENU,
     PAUSEMENU,
     GAMEOVER,
+    GAMEOVER_TOP10,
     GAME
 };
 
+/**
+ * @brief The MoveX enum states of the x axes movement
+ */
 enum MoveX {
     NONE = 0,
     RIGHT_X = 1,
     LEFT_X = -1,
 };
 
+/**
+ * @brief The EnemyType enum the enemies types
+ */
 enum EnemyType{
     STANDARD=100,
     ACCELERATOR=200,
     GIANT=400
 };
 
+/**
+ * @brief The BlockType enum the blocks types
+ */
 enum BlockType{
     BRICK,
     GROUND,
@@ -69,14 +81,29 @@ enum BlockType{
     POW
 };
 
+/**
+ * @brief The Direction enum the directions of the spawners
+ */
 enum Direction{
     EAST,
     WEST
 };
 
+/**
+ * @brief The MoneyType enum the types of the money
+ */
 enum MoneyType{
     RED = 1,
     YELLOW = 3,
     BILL = 5
 };
+
+/**
+ * @brief The Sides enum the sides of apparitions of the enemy
+ */
+enum Sides{
+    LEFT,
+    RIGHT
+};
+
 #endif // TYPEDEF_H

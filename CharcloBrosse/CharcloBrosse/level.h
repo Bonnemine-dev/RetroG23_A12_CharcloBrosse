@@ -1,9 +1,8 @@
 /**
  * @file level.h
  * @brief Header file for class Level
- * @author Kevin Simon
  * @date 09/06/2023
- * @version 1.5
+ * @version 2.0
  */
 
 #ifndef LEVEL_H
@@ -32,19 +31,20 @@
 #include "typedef.h"
 #include "tileset.h"
 
-
-enum Sides{
-    LEFT = 0,
-    RIGHT = 1,
-};
 /**
  * @brief The Level class define a level of the game Charclo Brosse
- * Define with the Block list for platforms, displayed enemies, to appears enemies, spawners and dispawners.
+ * Define with the Block list for platforms, displayed enemies, to appears enemies, spawners and dispawners by opening a level file in json.
  * @see Entity
  * @see Block
  * @see Enemy
  * @see Spawner
  * @see Despawner
+ * @see <a href="https://doc.qt.io/qt-5/qfile.html" target="_blank">QFile</a>
+ * @see <a href="https://doc.qt.io/qt-6/qstring.html" target="_blank">QString</a>
+ * @see <a href="https://doc.qt.io/qt-6/qjsondocument.html" target="_blank">QJsonDocument</a>
+ * @see <a href="https://doc.qt.io/qt-6/qjsonobject.html" target="_blank">QJsonObject</a>
+ * @see <a href="https://doc.qt.io/qt-6/qjsonvalue.html" target="_blank">QJsonValue</a>
+ * @see <a href="https://doc.qt.io/qt-6/qjsonarray.html" target="_blank">QJsonArray</a>
  */
 class Level
 {
@@ -109,8 +109,14 @@ private:
      */
     std::vector<Sides> itsEnemyAppearsSides;
 
+    /**
+     * @brief itsTimerTime the time to end the level
+     */
     int itsTimerTime;
 
+    /**
+     * @brief active tell if the level is displayed
+     */
     bool active;
 
 public:
@@ -121,6 +127,10 @@ public:
      */
     Level(std::string levelFilePath, TileSet * tileSet);
 
+    /**
+     * @brief ~Level the destructor of the level class
+     */
+    ~Level();
     /**
      * @brief getItsBlockList getter for itsBlockList
      * @return the list of all blocks
@@ -152,25 +162,76 @@ public:
     /**
      * @brief display display all the entities of the level that have to be displayed
      * @param painter
+     * @see <a href="https://doc.qt.io/qt-5/qpainter.html>QPainter</a>
      */
     void display(QPainter * painter);
+    /**
+     * @brief removeEnemy remove an enemy from the level
+     * @param enemy the enemy to remove
+     */
     void removeEnemy(Enemy * enemy);
     /**
      * @brief removes the money collected
      * @param The concerned money
      */
     void removeMoney(Money * money);
+    /**
+     * @brief getItsId gets the id/number of the level
+     * @return the number of the level
+     */
     unsigned short getItsId() const;
+    /**
+     * @brief getItsMinDelay get the minimum delay of apparition of an enemy
+     * @return the minimum delay
+     */
     unsigned short getItsMinDelay() const;
+    /**
+     * @brief getItsMaxDelay get the maximum delay of apparition of an enemy
+     * @return the maximum delay
+     */
     unsigned short getItsMaxDelay() const;
+    /**
+     * @brief getItsEnemyAppearsTimes get the delay before the apparition of all the ramainings enemies
+     * @return teh list of delay
+     */
     std::vector<unsigned short> getItsEnemyAppearsTimes() const;
+    /**
+     * @brief getItsEnemyAppearsSides gets the sides of apparition of all the reamainings enemies
+     * @return
+     */
     std::vector<Sides> getItsEnemyAppearsSides() const;
+    /**
+     * @brief getItsRemainingEnemies get the enemies in wait to appears
+     * @return the list of ramainings ennemies
+     */
     std::vector<Enemy *> getItsRemainingEnemies() const;
+    /**
+     * @brief appears brings up an enemy
+     * @param enemy the enemy to brings up
+     */
     void appears(Enemy * enemy);
+    /**
+     * @brief activate set the level as activated
+     */
     void activate();
+    /**
+     * @brief isActive get the state of the level
+     * @return true if the level is active, false else
+     */
     bool isActive();
+    /**
+     * @brief desactivate set the level as inactive
+     */
     void desactivate();
+    /**
+     * @brief getItsTimerTime get the time to end the level
+     * @return the time in secondes
+     */
     int getItsTimerTime() const;
+    /**
+     * @brief getItsMoneyList get the list of moneys in the level
+     * @return the list of the moneys
+     */
     std::vector<Money *> getItsMoneyList() const;
 };
 

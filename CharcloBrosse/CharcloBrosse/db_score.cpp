@@ -28,6 +28,9 @@ std::vector<std::pair<std::string, unsigned int>> DB_Score::loadScores()
             getline(ss, name, ',');
             ss >> score;
 
+            // Convertir le nom en majuscules
+            std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+
             // Ajoute la paire au vecteur
             scores.push_back(std::make_pair(name, score));
         }
@@ -48,6 +51,7 @@ std::vector<std::pair<std::string, unsigned int>> DB_Score::loadScores()
 
     return scores;
 }
+
 
 
 void DB_Score::saveScore(std::string theName, unsigned int theScore) {
