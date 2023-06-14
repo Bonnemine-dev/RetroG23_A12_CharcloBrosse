@@ -203,7 +203,7 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         // std::reverse(itsEnemyAppearsTimes.begin(), itsEnemyAppearsTimes.end()); // reverse the list
     }
     else {
-        itsEnemyAppearsTimes.push_back(itsMaxDelay);
+        itsEnemyAppearsTimes.push_back(2);
     }
 
     for (unsigned short line=0; line < Moneys.size(); line++){
