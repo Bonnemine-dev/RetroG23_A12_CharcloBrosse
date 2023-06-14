@@ -54,14 +54,13 @@ void Game::onGameStart(){
     itsHMI->displayLevelNumber();
     //Initialisation
     itsEllapsedTime = 0;
+    checkTier();
     gameLoop();
     running = true;
 }
 
 void Game::gameLoop()
 {
-    checkTier();
-    //Vrai si le jeu est en cours
     if(running){
         //création du timer
         QElapsedTimer timer;
@@ -148,6 +147,11 @@ void Game::gameLoop()
                 //Arret du jeu car mort
                 itsHMI->stopGame();
             }
+            openLevel();
+            itsHMI->setLevel(itsLevel);
+            itsHMI->displayLevelNumber();
+            itsLoopCounter = NUMBER_LOOP_PER_SECOND;
+            itsEllapsedTime = 0;
         }
         if(itsPlayer->getItsLivesNb() == 0)
         {

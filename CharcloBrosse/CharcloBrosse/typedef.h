@@ -47,6 +47,7 @@ enum MenuState {
     MAINMENU,
     PAUSEMENU,
     GAMEOVER,
+    GAMEOVER_TOP10,
     GAME
 };
 
