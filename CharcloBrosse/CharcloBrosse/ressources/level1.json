@@ -23,8 +23,8 @@
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]],
-"moneys" : [[0,200,100]],
-"enemies" : [["accelerator", "left"],["accelerator", "right"],["accelerator", "left"],["accelerator", "left"],["accelerator", "right"],["accelerator", "left"],["standard", "left"],["standard", "right"],["standard", "left"],["accelerator", "left"],["accelerator", "right"],["standard", "left"],["standard", "left"],["standard", "right"],["accelerator", "left"],["accelerator", "left"],["accelerator", "right"],["standard", "left"],["standard", "left"],["standard", "right"],["accelerator", "left"],["accelerator", "left"],["accelerator", "right"],["standard", "left"],["standard", "left"],["standard", "right"],["accelerator", "left"],["accelerator", "left"],["accelerator", "right"],["standard", "left"],["standard", "left"],["standard", "right"],["accelerator", "left"],["accelerator", "left"],["accelerator", "right"],["standard", "left"]],
+"moneys" : [[0, 352, 480], [0, 896, 480]],
+"enemies" : [["standard", "left"]],
 "minDelay" : 2,
 "maxDelay" : 7,
 "timer" : 300
