@@ -19,6 +19,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QStackedWidget>
+#include <QLineEdit>
 #include "level.h"
 #include "player.h"
 #include "typedef.h"
@@ -49,6 +50,7 @@ private:
     QWidget *gameMenuWidget; ///< Widget for the game screen.
     QWidget *gameOverMenuWidget; ///< Widget for the game over screen.
     QWidget *rulesMenuWidget; ///< Widget for the game rules screen.
+    QWidget *gameOverTop10MenuWidget;
 
     void keyPressEvent(QKeyEvent* event); ///< Handles key press events.
     void keyReleaseEvent(QKeyEvent* event); ///< Handles key release events.
@@ -62,9 +64,11 @@ private:
     QVBoxLayout *gameLayout; ///< Game layout for the HMI.
     QVBoxLayout *rulesLayout; ///< Rules layout for the HMI.
     QVBoxLayout *levelLayout; ///< Layout for displaying level n°.
+    QVBoxLayout *gameOverTop10Layout;
 
     QLabel *gameTitleLabel; ///< Label for displaying "Chaclo Brosse".
     QLabel *rulesText; ///< Label for displaying game rules.
+    QLabel *congratulationsMessage;
 
     QLabel *scoresLabel; ///< Label for displaying scores.
     QLabel *scoreLabelGameOver; ///< Label for displaying scores in the game over screen.
@@ -77,13 +81,16 @@ private:
     QPushButton *quitToMainButton; ///< Button for going to the main menu.
     QPushButton *quitToMainButton2; ///< Button for going to the main menu from the game over menu.
     QPushButton *goBackButton; ///< Button for going back to the previous screen (main menu).
+    QPushButton *submitScoreButton;
+
+    QLineEdit *nameInput;
 
     /**
      * @brief itsLevelNumberText the text to display the the current level before launch it
      */
     QLabel *itsLevelNumberText;
 
-    Level *itsLevel; ///< Pointer to the current level object.
+    Level *itsLevel = nullptr; ///< Pointer to the current level object.
     Player *itsPlayer; ///< Pointer to the player object.
     Game *itsGame; ///< Pointer to the game object.
     QTimer *itsTimer; ///< Timer for game updates.
@@ -120,7 +127,7 @@ public:
      * @brief Constructor of the HMI class.
      * @param parent The parent widget.
      */
-    HMI(Level *itsLevel, Player *itsPlayer, Game * game, QWidget *parent = nullptr);
+    HMI(Player *itsPlayer, Game * game, QWidget *parent = nullptr);
 
     /**
      * @brief Destructor of the HMI class.
@@ -134,6 +141,12 @@ public:
      * Display the current number of the level during one seconds
      */
     void displayLevelNumber();
+
+    /**
+     * @brief getTimerRemainingTime get the remaining time of the current level timer
+     * @return the time remaining in secondes
+     */
+    int getTimerRemainingTime();
 private slots:
     /**
      * @brief Displays the main menu.
@@ -152,6 +165,7 @@ private slots:
      */
     void displayGameOverMenu();
 
+    void displayGameOverMenuTOP10();
     /**
          * @brief Displays the game screen.
      */
@@ -208,6 +222,9 @@ public slots:
      * @brief Stops the game and performs necessary cleanup.
      */
     void stopGame();
+
+    void submitScore();
+
 };
 
 
