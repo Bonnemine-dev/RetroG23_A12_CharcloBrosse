@@ -33,6 +33,11 @@
 #define COMBO_RANGE_TIME 1500//The time in ms when a combo are possible
 
 #define TILESET_FILE_PATH "://ressources/tileset0.png"
+#define TILESET2_FILE_PATH "://ressources/tileset1.png"
+#define TILESET3_FILE_PATH "://ressources/tileset1.png"
+#define TILESET4_FILE_PATH "://ressources/tileset1.png"
+#define TILESET5_FILE_PATH "://ressources/tileset1.png"
+
 #define BACKGROUND1_FILE_PATH ":/ressources/background0.png"
 #define BACKGROUND2_FILE_PATH ":/ressources/background1.png"
 #define BACKGROUND3_FILE_PATH ":/ressources/background1.png"

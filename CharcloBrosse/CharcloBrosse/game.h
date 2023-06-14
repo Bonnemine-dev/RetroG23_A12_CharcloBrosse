@@ -41,6 +41,7 @@ class Game : public QObject{
     Q_OBJECT
 
 private:
+    std::string tileSetPath;
     /**
      * @brief Pointer to the TileSet object used in the game.
      * @see TileSet

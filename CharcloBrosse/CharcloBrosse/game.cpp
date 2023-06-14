@@ -131,7 +131,7 @@ void Game::gameLoop()
                 //Suppression du tileset actuel
                 delete itsTileSet;
                 //création du nouveau tileset
-                itsTileSet = new TileSet(":/ressources/tileset0.png");
+                itsTileSet = new TileSet(tileSetPath);
             }
             //ouverture du niveau
             openLevel();
@@ -717,30 +717,35 @@ int Game::checkTier()
     if (itsMoney >= 100)
     {
         cheminBG = BACKGROUND5_FILE_PATH;
+        tileSetPath = TILESET5_FILE_PATH;
         return 5; // Quatrième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 50
     else if (itsMoney >= 50)
     {
         cheminBG = BACKGROUND4_FILE_PATH;
+        tileSetPath = TILESET4_FILE_PATH;
         return 4; // Troisième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 25
     else if (itsMoney >= 25)
     {
         cheminBG = BACKGROUND3_FILE_PATH;
+        tileSetPath = TILESET3_FILE_PATH;
         return 3; // Deuxième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 10
-    else if (itsMoney >= 10)
+    else if (itsMoney >= 5)
     {
         cheminBG = BACKGROUND2_FILE_PATH;
+        tileSetPath = TILESET2_FILE_PATH;
         return 2; // Premier palier
     }
     //Vrai si le wallet de la game est supérieur ou inférieur à 10
     else
     {
         cheminBG = BACKGROUND1_FILE_PATH;
+        tileSetPath = TILESET_FILE_PATH;
         return 1; // Pas encore de palier atteint
     }
 }
