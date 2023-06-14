@@ -192,6 +192,9 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         }
     }
 
+    std::reverse(itsRemainingEnemies.begin(), itsRemainingEnemies.end());
+    std::reverse(itsEnemyAppearsSides.begin(), itsEnemyAppearsSides.end());
+
     if (itsRemainingEnemies.size() > 1){
         for (unsigned int i = 0; i < itsRemainingEnemies.size(); ++i){ // get the delay before apparition for each enemies (in reverse order)
             unsigned short temp = itsMinDelay+((itsMaxDelay - itsMinDelay)/(itsRemainingEnemies.size()-1))*i;
