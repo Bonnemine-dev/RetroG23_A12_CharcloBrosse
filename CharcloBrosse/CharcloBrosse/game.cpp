@@ -387,6 +387,7 @@ void Game::checkAllCollid(){
             //------------------------------Début de l'application de la gravité en fonction des vérification efféctué--------------------------------
             if (gravityList[i1])
             {
+                enemy1->setIsOnTheGround(false);
                 enemy1->setItsYSpeed(GRAVITY);
             }
             else
