@@ -275,11 +275,13 @@ void Game::checkAllCollid(){
             }
         }
         //Condition qui vérifie que : une collision à lieu entre le joueur et le bloc
-        if(collid(itsPlayer, block) == true){
+        if(collid(itsPlayer, block) == true)
+        {
             //Execute la fonction qui gère la collision
             colBtwPlayerAndBlock(itsPlayer, block);
             //Condition qui vérifie que : le joueur est sur le bloc
-            if (isOnTop(itsPlayer, block)){
+            if (isOnTop(itsPlayer, block))
+            {
                 //Change la varible qui définie si oui ou non le joueur doit subir la gravité
                 //Définie l'attribut boolean du joueur à vrai, cet attribut est
                 //vrai si il est sur une surface faux si il est dans le vide
