@@ -419,7 +419,15 @@ void Game::checkAllCollid(){
                     break;
                 case ACCELERATOR:
                     enemy1->setItsState(true);
-                    break;
+                    if (acceleratorDown)
+                    {
+                        // L'état d'accélération est modifié
+                        Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy1);
+                        accelerator->addItsSpeedState();
+                        acceleratorDown = false;
+                        break;
+                    }
+
                 }
             }
         }
@@ -615,6 +623,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 theEnemy->setItsState(false);
                 //Démarrage du compteur,pour le temps de mort
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                acceleratorDown = true;
                 break;
             case JUMPER:
                 theEnemy->setItsState(false);
@@ -665,6 +674,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 // L'état d'accélération est modifié
                 Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
                 accelerator->addItsSpeedState();
+                acceleratorDown = false;
                 break;
             }
         }
