@@ -43,6 +43,8 @@ void Game::onGameStart(){
     currentLevel = 1;
     //Money
     itsMoney = 0;
+    //Reset du block pow
+    isBlockPOWHitted = false;
     //Création du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Initialisation du nombre de vies
@@ -58,7 +60,6 @@ void Game::onGameStart(){
     //Initialisation
     itsEllapsedTime = 0;
     checkTier();
-    gameLoop();
     running = true;
 }
 
