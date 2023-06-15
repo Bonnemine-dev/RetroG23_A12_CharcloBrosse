@@ -45,6 +45,8 @@ void Game::onGameStart(){
     itsMoney = 0;
     //Reset du block pow
     isBlockPOWHitted = false;
+    //Reset du muliplicateur
+    currentTier = 1;
     //Création du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Initialisation du nombre de vies
