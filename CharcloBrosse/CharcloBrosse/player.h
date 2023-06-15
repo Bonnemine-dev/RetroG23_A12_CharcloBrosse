@@ -34,6 +34,8 @@ private:
     MoveX itsCurrentMove = NONE; /** @brief the current move on the X axis */
     MoveX itsNextMove = NONE; /** @brief the next move on the X axis */
     static std::array<QPixmap*, 12>* itsSpritesList; /** @brief the list of the Player sprites * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>*/
+    bool isFrozen = false;/** @brief Boolean which say if player is freeze by freezer or no.*/
+    unsigned short int startFreeze;/** @brief Time when start player freeze.*/
     //short itsMaxXSpeed = 0; /** @brief  Maximum speed of the player on the X axis. */
     //short itsMaxYSpeed = 0; /** @brief  Maximum speed of the player on the Y axis. */
     //bool itsState = true; /** @brief  State of the player. */
@@ -147,6 +149,10 @@ public:
     void setItsRemaningComboTicks(unsigned short newItsRemaningComboTicks);
     unsigned short getComboValue() const;
     void setComboValue(unsigned short newComboValue);
+    void setIsFrozen(bool newIsFrozen);
+    bool getIsFrozen() const;
+    void setStartFreeze(unsigned short newStartFreeze);
+    unsigned short getStartFreeze() const;
 };
 
 #endif // PLAYER_H

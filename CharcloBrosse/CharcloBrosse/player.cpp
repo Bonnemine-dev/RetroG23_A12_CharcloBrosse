@@ -20,6 +20,10 @@ void Player::move()
 
 void Player::display(QPainter * painter)
 {
+    if(isFrozen)
+    {
+        painter->drawPixmap(itsX, itsY, *itsSpritesList->at(5));
+    }
     if(isOnTheGround){
         if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/PLAYERMAXSPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
         {
@@ -129,6 +133,26 @@ unsigned short Player::getComboValue() const
 void Player::setComboValue(unsigned short newComboValue)
 {
     comboValue = newComboValue;
+}
+
+void Player::setIsFrozen(bool newIsFrozen)
+{
+    isFrozen = newIsFrozen;
+}
+
+bool Player::getIsFrozen() const
+{
+    return isFrozen;
+}
+
+void Player::setStartFreeze(unsigned short newStartFreeze)
+{
+    startFreeze = newStartFreeze;
+}
+
+unsigned short Player::getStartFreeze() const
+{
+    return startFreeze;
 }
 
 Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 12> *theSpritesList,unsigned short* theLoopCounter)

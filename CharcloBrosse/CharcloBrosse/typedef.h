@@ -17,6 +17,7 @@
 #define STANDARD_ENEMY_SPEED 5 //Speed for the standard ennemie in blocks per second
 #define GIANT_ENEMY_SPEED 3 //Speed for the giant ennemie in blocks per second
 #define ACCELERATOR_ENEMY_SPEED 4 //Speed for the accelerator ennemie in blocks per second
+#define FREEZER_ENEMY_SPEED 10 //Speed for the freezer ennemie in blocks per second
 #define KO_TIME 3//The Duration for the KO in seconds
 
 #define TIME_FOR_ANIMATION_CYCLE 150//The Duration for the a cycle for each animation
@@ -24,6 +25,7 @@
 
 #define FPS 60 //Define the number of frame per seconds
 #define BLOCK_HIT_TIME 100 //The time that a block are hit in milliseconds
+#define FREEZER_HIT_PLAYER 1000 //The time that a player freeze
 #define BLOCK_SIZE 32 //the number of pixels for each side for all blocks
 
 #define PLAYERMAXSPEED 10 //Speed for the players in blocks per second
@@ -76,7 +78,9 @@ enum MoveX {
 enum EnemyType{
     STANDARD=100,
     ACCELERATOR=200,
-    GIANT=400
+    JUMPER=300,
+    GIANT=400,
+    FREEZER=500,
 };
 
 /**

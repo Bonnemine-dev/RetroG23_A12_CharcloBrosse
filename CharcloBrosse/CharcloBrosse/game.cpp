@@ -63,6 +63,14 @@ void Game::onGameStart(){
 
 void Game::gameLoop()
 {
+    if(itsPlayer->getIsFrozen())
+    {
+        itsPlayer->setStartFreeze(itsPlayer->getStartFreeze()-1);
+        if(itsPlayer->getStartFreeze() == 0)
+        {
+            itsPlayer->setIsFrozen(false);
+        }
+    }
     if(running){
         // pour avoir le combo qui s'enleve des qu'il est finit
         itsCombo = itsPlayer->getComboValue();
@@ -387,6 +395,7 @@ void Game::checkAllCollid(){
             //------------------------------Début de l'application de la gravité en fonction des vérification efféctué--------------------------------
             if (gravityList[i1])
             {
+                enemy1->setIsOnTheGround(false);
                 enemy1->setItsYSpeed(GRAVITY);
             }
             else
@@ -412,6 +421,9 @@ void Game::checkAllCollid(){
                 case ACCELERATOR:
                     enemy1->setItsState(true);
                     break;
+                case FREEZER:
+                    enemy1->setItsState(true);
+                    break;
                 default:
                     break;
                 }
@@ -426,8 +438,19 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     //Vrai si l'enemy n'est pas KO
     if(theEnemy->getItsState())
     {
-        //cette fonction fait exactement le même chose que ce qui doit être fait quand il touche un enemy pas KO
-        colBtwPlayerAndObstacle(thePlayer);
+        if (theEnemy->getItsType() == FREEZER)
+        {
+            itsLevel->removeEnemy(theEnemy);
+            thePlayer->setIsFrozen(true);
+            thePlayer->setStartFreeze((1000/NUMBER_LOOP_PER_SECOND)*FREEZER_HIT_PLAYER);
+            itsPlayer->setItsCurrentMove(NONE);
+            itsPlayer->setItsNextMove(NONE);
+        }
+        else
+        {
+            //cette fonction fait exactement le même chose que ce qui doit être fait quand il touche un enemy pas KO
+            colBtwPlayerAndObstacle(thePlayer);
+        }
     }
     else//quand l'enemie est KO
     {
@@ -599,6 +622,10 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 //Incrémente de 1 l'état de l'accelerator
                 dynamic_cast<Accelerator*>(theEnemy)->addItsSpeedState();
                 break;
+            case FREEZER:
+                theEnemy->setItsState(false);
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
             default:
                 break;
             }
@@ -628,6 +655,10 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 //met l'enemy en vie
                 theEnemy->setItsState(true);
                 //Définie son compteur de temps de mort à un temps légèrement superieur au temps que met un block à redevenir normal
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case FREEZER:
+                theEnemy->setItsState(true);
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
             default:
@@ -771,7 +802,7 @@ int Game::checkTier()
 
 void Game::moveAll(){
     //vrai si le game loop à fait assez de tour valeur définie avec la speed du player
-    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(PLAYERMAXSPEED*BLOCK_SIZE)) == 0)//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
+    if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(PLAYERMAXSPEED*BLOCK_SIZE)) == 0) && (itsPlayer->getIsFrozen() == false))//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
     {
         itsPlayer->move();
     }
@@ -795,6 +826,13 @@ void Game::moveAll(){
             if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(GIANT_ENEMY_SPEED*BLOCK_SIZE))) == 0)
             {
                 //execute sa fonction move
+                enemy->move();
+            }
+            break;
+        //Cas ou l'enemy est de type FREEZER
+        case FREEZER:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(FREEZER_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
                 enemy->move();
             }
             break;
