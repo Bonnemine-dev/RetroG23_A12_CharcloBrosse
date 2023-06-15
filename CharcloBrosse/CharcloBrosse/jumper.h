@@ -22,8 +22,9 @@ class Jumper : public Enemy
 private:
     static std::array<QPixmap *,12>* itsSpritesList;
     bool jump = false;
-    int jumpTime = 0;
-    short YStart;
+    unsigned short itsJumpTime = 640;
+    unsigned short itsRemaningJumpMove = 0;
+    unsigned short itsYStart;
 public:
     /**
      * @brief Constructor of the Standard class.

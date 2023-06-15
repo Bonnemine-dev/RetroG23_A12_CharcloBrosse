@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <iostream>
 #include <ostream>
+#include <cmath>
 
 std::array<QPixmap *,12>* Jumper::itsSpritesList = nullptr;
 
@@ -27,56 +28,49 @@ Jumper::Jumper(short height,  short width, std::array<QPixmap *,12>* theSpritesL
     itsSpritesList = theSpritesList;
 }
 
-void Jumper::move()
+void Jumper::move()//----   96-0.01(x-96)^2
 {
-    if(jump)
+    qInfo()<<"à l'entrée du move : "<<itsYSpeed;
+            qInfo()<<"variable x :"<<itsRemaningJumpMove;
+    qInfo()<<"variable jumpttime :"<<itsJumpTime;
+
+        qInfo()<<int(float(5)+float(0.062)*pow(float(itsRemaningJumpMove-float(96)),2));
+
+            if(itsJumpTime == 0xFFFF && (isOnTheGround || itsRemaningJumpMove != 0))
     {
-        std::cout<<"jump true"<<std::endl;
-        jumpTime--;
-        if(jumpTime>0)
+        if(*itsLoopCounter % (NUMBER_LOOP_PER_SECOND/int(float(30)+float(0.059)*pow(float(itsRemaningJumpMove-float(96)),2))) == 0)
         {
-            std::cout<<YStart<<std::endl;
-            if(itsY != (YStart - 96))
-            {
-                itsYSpeed = -1;
-            }
-            else
-            {
-                itsYSpeed = 0;
-            }
-            std::cout<<itsY<<std::endl;
-        }
-        else
-        {
-            jump = false;
-        }
-        std::cout<<jumpTime<<std::endl;
-    }
-    else
-    {
-        std::cout<<"jump false"<<std::endl;
-        if(!isOnTheGround)
-        {
-            itsYSpeed = +1;
-        }
-        else
-        {
-            jumpTime++;
-            if(jumpTime >= 200)
-            {
-                jump = true;
-                YStart = itsY;
-            }
+                    qInfo()<<" début le saut"<<itsRemaningJumpMove;
+
+            if(itsRemaningJumpMove > 96)itsY--;
+            else itsY++;
+            itsRemaningJumpMove--;
+            if(itsRemaningJumpMove == 0)itsJumpTime = 640;//640
         }
     }
-    itsX += itsXSpeed;
-    itsY += itsYSpeed;
+    else if(*itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(JUMPER_ENEMY_SPEED*BLOCK_SIZE)) == 0)
+    {
+        itsY += itsYSpeed;
+    }
+    if(*itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(JUMPER_ENEMY_SPEED*BLOCK_SIZE)) == 0)
+    {
+
+        itsX += itsXSpeed;
+        if(itsX == -1)itsX = 32*39;
+        else if(itsX == (32*39)+1)itsX = 0;
+
+        itsJumpTime -= (itsJumpTime != 0 && itsJumpTime != 0xFFFF ? 1 : 0);
+        if(itsJumpTime == 0)
+        {
+            itsRemaningJumpMove = 192;
+            itsJumpTime = 0xFFFF;
+        }
+    }
     itsRect.moveTo(itsX,itsY);
 }
 
 void Jumper::display(QPainter *painter)
 {
-    this->move();
     if(itsState){
         if(isOnTheGround){
             if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/JUMPER_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)

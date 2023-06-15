@@ -373,14 +373,8 @@ void Game::checkAllCollid(){
             //------------------------------Début de l'application de la gravité en fonction des vérification efféctué--------------------------------
             if (gravityList[i1])
             {
-                if(enemy1->getItsType() != JUMPER)
-                {
-                    enemy1->setItsYSpeed(GRAVITY);
-                }
-                Jumper* jumperEnemy = dynamic_cast<Jumper*>(enemy1);
-                if (jumperEnemy->getJump() == false) {
-                    jumperEnemy->setItsYSpeed(GRAVITY);
-                }
+                qInfo()<<"mise de sa vitesse à : "<<GRAVITY;
+                enemy1->setItsYSpeed(GRAVITY);
             }
             else
             {
@@ -817,10 +811,7 @@ void Game::moveAll(){
             break;
         //Cas ou l'enemy est de type JUMPER
         case JUMPER:
-            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(JUMPER_ENEMY_SPEED*BLOCK_SIZE))) == 0)
-            {
-                enemy->move();
-            }
+            dynamic_cast<Jumper*>(enemy)->move();
             break;
         //Cas ou l'enemy est de type FREEZER
         case FREEZER:
