@@ -18,8 +18,6 @@ Giant::Giant( short height,  short width, std::array<QPixmap *,12>* theSpritesLi
 }
 void Giant::display(QPainter *painter)
 {
-    qWarning()<<"Je viends de display le geant";
-
     if(itsState){
         if(isOnTheGround){
             if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/GIANT_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
@@ -44,7 +42,7 @@ void Giant::display(QPainter *painter)
     }
     else
     {
-        if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/STANDARD_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
+        if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/GIANT_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
         {
             if(itsXSpeed == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(4));
             else if(itsXSpeed == LEFT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(10));

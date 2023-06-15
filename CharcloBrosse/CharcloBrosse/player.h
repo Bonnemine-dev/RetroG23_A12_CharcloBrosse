@@ -29,6 +29,8 @@ private:
     short itsYSpeed = 0; /** @brief Speed of the player on the Y axis. */
     bool isOnTheGround = false; /** @brief True is the player is on the ground .*/
     unsigned short itsRemaningJumpMove = 0; /** @brief the jump size counter */
+    unsigned short itsRemaningFallMove = 0xFFFF;
+    unsigned short itsRemaningWalkMove = 0;
     unsigned short itsRemaningComboTicks = 0; /** @brief the combo ticks counter */
     unsigned short comboValue = 0;
     MoveX itsCurrentMove = NONE; /** @brief the current move on the X axis */
@@ -36,6 +38,7 @@ private:
     static std::array<QPixmap*, 12>* itsSpritesList; /** @brief the list of the Player sprites * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>*/
     bool isFrozen = false;/** @brief Boolean which say if player is freeze by freezer or no.*/
     unsigned short int startFreeze;/** @brief Time when start player freeze.*/
+
     //short itsMaxXSpeed = 0; /** @brief  Maximum speed of the player on the X axis. */
     //short itsMaxYSpeed = 0; /** @brief  Maximum speed of the player on the Y axis. */
     //bool itsState = true; /** @brief  State of the player. */
@@ -64,10 +67,14 @@ public:
     bool getItsState() const;
 
     /**
-     * @brief Moves the player.
+     * @brief Moves the player on ordinate.
      */
-    void move();
+    void moveX();
 
+    /**
+     * @brief Moves the player on abscisse.
+     */
+    void moveY();
     /**
      * @brief Sets the speed of the player on the X axis.
      * @param newItsXSpeed The new speed on the X axis.
@@ -149,6 +156,10 @@ public:
     void setItsRemaningComboTicks(unsigned short newItsRemaningComboTicks);
     unsigned short getComboValue() const;
     void setComboValue(unsigned short newComboValue);
+    unsigned short getItsRemaningFallMove() const;
+    void setItsRemaningFallMove(unsigned short newItsRemaningFallMove);
+    void setItsRemaningWalkMove(unsigned short newItsRemaningWalkMove);
+    unsigned short getItsRemaningWalkMove() const;
     void setIsFrozen(bool newIsFrozen);
     bool getIsFrozen() const;
     void setStartFreeze(unsigned short newStartFreeze);

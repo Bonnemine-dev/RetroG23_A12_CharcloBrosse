@@ -19,6 +19,7 @@ SOURCES += \
         game.cpp \
         giant.cpp \
         hmi.cpp \
+        jumper.cpp \
         level.cpp \
         main.cpp \
         money.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     game.h \
     giant.h \
     hmi.h \
+    jumper.h \
     level.h \
     money.h \
     player.h \

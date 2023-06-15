@@ -17,8 +17,13 @@
 #define STANDARD_ENEMY_SPEED 5 //Speed for the standard ennemie in blocks per second
 #define GIANT_ENEMY_SPEED 3 //Speed for the giant ennemie in blocks per second
 #define ACCELERATOR_ENEMY_SPEED 4 //Speed for the accelerator ennemie in blocks per second
-#define FREEZER_ENEMY_SPEED 10 //Speed for the freezer ennemie in blocks per second
+
+#define JUMPER_ENEMY_SPEED 4 //Speed for the jumper ennemie in blocks per second
+#define FREEZER_ENEMY_SPEED 15 //Speed for the freezer ennemie in blocks per second
+
 #define KO_TIME 3//The Duration for the KO in seconds
+
+#define DISTANCE_JUMPER_JUMP 20 //the number of block thath the jumper have to walk beetwen each jump
 
 #define TIME_FOR_ANIMATION_CYCLE 150//The Duration for the a cycle for each animation
 #define NUMBER_IMAGE_PER_ANIMATION 2//number of image ffor an animation
@@ -33,6 +38,7 @@
 #define STILL 0 // define value of still
 #define GRAVITY 1 // gravity value
 #define COMBO_RANGE_TIME 1500//The time in ms when a combo are possible
+#define DISTANCE_FOR_MAX_GRAVITY 96 //define the number of pixel that the player have to make fore reach his max gravity : 576 pixels/s
 
 #define TILESET_FILE_PATH "://ressources/tileset0.png"
 #define TILESET2_FILE_PATH "://ressources/tileset1.png"
@@ -49,7 +55,12 @@
 #define FONT_PATH "://ressources/PressStart2P-Regular.ttf"
 #define HIGHSCORES_FILE_PATH "../../CharcloBrosse/CharcloBrosse/ressources/highscores.txt"
 
+<<<<<<< HEAD
 #define MAX_LEVEL 10
+=======
+
+#define MAX_LEVEL 6
+>>>>>>> dev
 #define MAX_LIFE 3
 
 /**

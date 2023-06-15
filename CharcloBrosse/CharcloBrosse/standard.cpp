@@ -18,18 +18,7 @@ Standard::Standard( short height,  short width, std::array<QPixmap *,12>* theSpr
     itsType = STANDARD;
     itsSpritesList = theSpritesList;
 }
-// Ennemi droit standard court  0
-// Ennemi droit standard court  1
-// Ennemi droite standard tombe 2
-// Rien                         3
-// Ennemi droite standard immobilisé 4
-// Ennemi droite standard immobilisé 5
-// Ennemi gauche standard court 6
-// Ennemi gauche standard court 7
-// Ennemi gauche standard tombe 8
-// Rien                         9
-// Ennemi gauche standard immobilisé 10
-// Ennemi gauche standard immobilisé 11
+
 void Standard::display(QPainter *painter)
 {
     if(itsState){
