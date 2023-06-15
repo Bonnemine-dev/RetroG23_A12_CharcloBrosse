@@ -20,6 +20,10 @@ void Player::move()
 
 void Player::display(QPainter * painter)
 {
+    if(isFrozen)
+    {
+        painter->drawPixmap(itsX, itsY, *itsSpritesList->at(5));
+    }
     if(isOnTheGround){
         if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/PLAYERMAXSPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
         {
