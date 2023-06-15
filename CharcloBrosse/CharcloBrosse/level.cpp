@@ -9,6 +9,7 @@
 #include "level.h"
 #include "typedef.h"
 #include "accelerator.h"
+#include "freezer.h"
 
 std::vector<Block *> Level::getItsBlockList() const
 {
@@ -47,6 +48,10 @@ void Level::display(QPainter *painter)
         else if (itsEnemiesList.at(i)->getItsType() == GIANT)
         {
             dynamic_cast<Giant*>(itsEnemiesList.at(i))->display(painter);
+        }
+        else if (itsEnemiesList.at(i)->getItsType() == FREEZER)
+        {
+            dynamic_cast<Freezer*>(itsEnemiesList.at(i))->display(painter);
         }
     }
     for (unsigned short i = 0; i < itsSpawnerList.size(); i++){ // affiche tout les spawner
@@ -162,7 +167,8 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
     for (unsigned short line=0; line < Enemies.size(); line++){ // for each enemies
         QJsonArray jsonLine = Enemies[line].toArray(); // get the array
         std::string type = jsonLine[0].toString().toStdString(); // get the type of the enemy in string
-        if (type == "standard"){ // if a standard enemy
+        if (type == "standard")
+        { // if a standard enemy
             itsRemainingEnemies.push_back(new Standard(32, 32, tileSet->getItsEnnemyStandardTilesList())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
@@ -171,7 +177,8 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
                 itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
             }
         }
-        else if (type == "giant"){ // if a giant enemy
+        else if (type == "giant")
+        { // if a giant enemy
             qWarning()<<"Je viends de créer le geant";
             itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsEnnemyGiantTilesList())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
@@ -181,8 +188,19 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
                 itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
             }
         }
-        else if (type == "accelerator"){ // if an accelerator enemy
+        else if (type == "accelerator")
+        { // if an accelerator enemy
             itsRemainingEnemies.push_back(new Accelerator(32, 32, tileSet->getItsEnnemyAcceleratorTilesList())); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
+        else if (type == "freezer")
+        { // if an accelerator enemy
+            itsRemainingEnemies.push_back(new Freezer(32, 32, tileSet->getItsEnnemyFreezerTilesList())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
