@@ -518,11 +518,24 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
             // Si l'ennemi n'est pas KO
             if((enemy->getItsState() == true))
             {
-                // L'ennemi deveint KO
-                enemy->setItsState(false);
-                // L'image de l'ennemi est modifié
-                // La loop de durée de KO est démarré
-                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                if(enemy->getItsType() == ACCELERATOR)
+                {
+                    //met l'enemy KO
+                    enemy->setItsState(false);
+                    //Démarrage du compteur,pour le temps de mort
+                    enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                    // L'état d'accélération est modifié
+                    Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+                    accelerator->setAcceleratorDown(true);
+                }
+                else
+                {
+                    // L'ennemi deveint KO
+                    enemy->setItsState(false);
+                    // L'image de l'ennemi est modifié
+                    // La loop de durée de KO est démarré
+                    enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                }
             }
             // Si l'ennemi est KO
             else if((enemy->getItsState() == false))
