@@ -76,7 +76,6 @@ void DB_Score::saveScore(std::string theName, unsigned int theScore) {
         iss >> score;
         scores.push_back({name, score});
     }
-    ifs.close();
 
     scores.push_back({theName, theScore});
 
@@ -95,7 +94,7 @@ void DB_Score::saveScore(std::string theName, unsigned int theScore) {
     for (const auto &score : scores) {
         ofs << score.first << "," << score.second << std::endl;
     }
-    ofs.close();
+    // j'ai enlevé les fermetures de flux car elles sont automatiques  ala fin de la methode et ca consome moins de rsc comme ça
 }
 
 
