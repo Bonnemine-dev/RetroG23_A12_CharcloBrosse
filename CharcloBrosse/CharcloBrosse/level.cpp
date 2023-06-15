@@ -9,11 +9,11 @@
 #include "level.h"
 #include "typedef.h"
 #include "standard.h"
-#include "accelerator.h"
 #include "giant.h"
 #include "jumper.h"
 #include "freezer.h"
 #include <iostream>
+
 
 std::vector<Block *> Level::getItsBlockList() const
 {

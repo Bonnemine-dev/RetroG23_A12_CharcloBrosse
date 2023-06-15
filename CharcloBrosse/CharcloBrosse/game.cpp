@@ -73,6 +73,8 @@ void Game::gameLoop()
         }
     }
     if(running){
+        // pour avoir le combo qui s'enleve des qu'il est finit
+        itsCombo = itsPlayer->getComboValue();
         //création du timer
         QElapsedTimer timer;
         //démarrage du time
@@ -132,7 +134,7 @@ void Game::gameLoop()
                 //Vrai si le palier actuel est différent du palier auquel il doit être
                 //Incrémentation du niveau actuel
                 currentLevel++;
-
+                nbLevelPassed++;
             }
             if (currentTier != checkTier()){
                 // modification du pallier
@@ -217,6 +219,21 @@ QString Game::getCheminBG() const
 short Game::getCurrentTier() const
 {
     return currentTier;
+}
+
+unsigned short Game::getItsCombo() const
+{
+    return itsCombo;
+}
+
+unsigned short Game::getNbEnemyKilled() const
+{
+    return nbEnemyKilled;
+}
+
+unsigned short Game::getNbLevelPassed() const
+{
+    return nbLevelPassed;
 }
 
 void Game::checkAllCollid(){
@@ -370,7 +387,6 @@ void Game::checkAllCollid(){
             //------------------------------Début de l'application de la gravité en fonction des vérification efféctué--------------------------------
             if (gravityList[i1])
             {
-                qInfo()<<"mise de sa vitesse à : "<<GRAVITY;
                 enemy1->setItsYSpeed(GRAVITY);
             }
             else
@@ -444,7 +460,9 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
         thePlayer->setComboValue(thePlayer->getComboValue() + 1);
         int tier = currentTier;
         int multiplier = tier; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
-        itsScore += theEnemy->getItsType() * multiplier * thePlayer->getComboValue();
+        itsCombo = thePlayer->getComboValue();
+        itsScore += theEnemy->getItsType() * multiplier * itsCombo;
+        nbEnemyKilled++;
         itsLevel->removeEnemy(theEnemy);
     }
 }
