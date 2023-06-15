@@ -423,12 +423,13 @@ void Game::checkAllCollid(){
                     break;
                 case ACCELERATOR:
                     enemy1->setItsState(true);
-                    if (acceleratorDown)
+                    // L'état d'accélération est modifié
+                    Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy1);
+                    if (accelerator->getAcceleratorDown())
                     {
                         // L'état d'accélération est modifié
-                        Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy1);
                         accelerator->addItsSpeedState();
-                        acceleratorDown = false;
+                        accelerator->setAcceleratorDown(false);
                         break;
                     }
 
@@ -621,14 +622,6 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 //Démarrage du compteur,pour le temps de mort
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 break;
-            //cas ou l'enemy est un ACCELERATOR
-            case ACCELERATOR:
-                //met l'enemy KO
-                theEnemy->setItsState(false);
-                //Démarrage du compteur,pour le temps de mort
-                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
-                acceleratorDown = true;
-                break;
             case JUMPER:
                 theEnemy->setItsState(false);
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
@@ -637,7 +630,15 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 theEnemy->setItsState(false);
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 break;
-            default:
+            //cas ou l'enemy est un ACCELERATOR
+            case ACCELERATOR:
+                //met l'enemy KO
+                theEnemy->setItsState(false);
+                //Démarrage du compteur,pour le temps de mort
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                // L'état d'accélération est modifié
+                Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
+                accelerator->setAcceleratorDown(true);
                 break;
             }
         }
@@ -678,7 +679,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 // L'état d'accélération est modifié
                 Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
                 accelerator->addItsSpeedState();
-                acceleratorDown = false;
+                accelerator->setAcceleratorDown(false);
                 break;
             }
         }

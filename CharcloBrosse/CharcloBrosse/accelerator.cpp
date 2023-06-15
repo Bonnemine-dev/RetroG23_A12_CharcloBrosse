@@ -25,6 +25,16 @@ short Accelerator::getItsSpeedState() const
     return itsSpeedState;
 }
 
+void Accelerator::setAcceleratorDown(bool newAcceleratorDown)
+{
+    acceleratorDown = newAcceleratorDown;
+}
+
+bool Accelerator::getAcceleratorDown() const
+{
+    return acceleratorDown;
+}
+
 Accelerator::Accelerator( short height,  short width, std::array<std::array<QPixmap *,12>*, 3>* theSpritesList)
     :Enemy(height, width)
 {
