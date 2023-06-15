@@ -25,6 +25,16 @@ short Accelerator::getItsSpeedState() const
     return itsSpeedState;
 }
 
+void Accelerator::setAcceleratorDown(bool newAcceleratorDown)
+{
+    acceleratorDown = newAcceleratorDown;
+}
+
+bool Accelerator::getAcceleratorDown() const
+{
+    return acceleratorDown;
+}
+
 Accelerator::Accelerator( short height,  short width, std::array<std::array<QPixmap *,12>*, 3>* theSpritesList)
     :Enemy(height, width)
 {
@@ -37,7 +47,7 @@ void Accelerator::display(QPainter *painter)//painter->drawPixmap(itsX, itsY, *i
     unsigned short speedstate = itsSpeedState == 1?0:itsSpeedState == 5?1:2;
     if(itsState){
         if(isOnTheGround){
-            if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/ACCELERATOR_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
+            if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%(NUMBER_IMAGE_PER_ANIMATION) == 0)
             {
                 if(itsXSpeed == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(speedstate)->at(0));
                 else if(itsXSpeed == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSpritesList->at(speedstate)->at(6));
@@ -59,7 +69,7 @@ void Accelerator::display(QPainter *painter)//painter->drawPixmap(itsX, itsY, *i
     }
     else
     {
-        if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/(speedstate == 1?5:speedstate == 2?10:15))*NUMBER_IMAGE_PER_ANIMATION)  == 0)
+        if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%(NUMBER_IMAGE_PER_ANIMATION) == 0)
         {
             if(itsXSpeed < NONE)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(speedstate)->at(4));
             else if(itsXSpeed > NONE)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(speedstate)->at(10));

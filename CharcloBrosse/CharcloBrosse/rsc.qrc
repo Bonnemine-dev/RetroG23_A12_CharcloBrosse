@@ -19,5 +19,8 @@
         <file>ressources/level6.json</file>
         <file>ressources/level9.json</file>
         <file>ressources/level10.json</file>
+        <file>ressources/tileset2.png</file>
+        <file>ressources/background2.png</file>
+        <file>ressources/rules.png</file>
     </qresource>
 </RCC>

@@ -56,6 +56,8 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     rulesLayout = new QVBoxLayout;
     rulesText = new QLabel("In this game, the player controls the main character, Charclo, and must navigate through levels composed of platforms and blocks.\nThe objective is to defeat all the enemies, collect coins and bills to unlock score multipliers, and complete the levels as quickly as possible.\nTo control Charclo, the player uses the arrow keys to move left or right, and the up arrow key to jump.\nPressing the \"Escape\" key allows the player to pause the game.");
     goBackButton = new QPushButton("Go back");
+    rulesImage = new QPixmap();
+
 
     // Initialisation du QLabel pour le highscoreList du main
     scoresLabel = new QLabel(this);
@@ -112,8 +114,19 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     gameLayout->addWidget(itsLevelNumberText);
 
     // Ajout des widgets au layout rules
+    rulesImage->load(":/ressources/rules.png");
+    rulesImage->load(":/ressources/rules.png");
+    QPixmap scaledRulesImage = rulesImage->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    QLabel *rulesImageLabel = new QLabel;
+    rulesImageLabel->setPixmap(scaledRulesImage);
+    rulesImageLabel->setAlignment(Qt::AlignCenter);
+
     rulesLayout->addWidget(rulesText);
+    rulesLayout->addWidget(rulesImageLabel, 0, Qt::AlignCenter);
     rulesLayout->addWidget(goBackButton, 0, Qt::AlignCenter);
+
+
 
 
     // Création des widgets
@@ -429,6 +442,7 @@ void HMI::paintEvent(QPaintEvent *event)
             painter->drawText(565, 32, QString("Combo: x%1 !").arg(itsGame->getItsCombo()));
             painter->setPen(QColor("black"));
         }
+        painter->setPen(QColor("black"));
         if (itsLevelTimer->remainingTime()/1000 > 99){
             painter->drawText(1230, 30, QString("%1").arg(itsLevelTimer->remainingTime()/1000));
         }
