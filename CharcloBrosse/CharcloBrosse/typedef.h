@@ -21,6 +21,8 @@
 #define FREEZER_ENEMY_SPEED 10 //Speed for the freezer ennemie in blocks per second
 #define KO_TIME 3//The Duration for the KO in seconds
 
+#define DISTANCE_JUMPER_JUMP 20 //the number of block thath the jumper have to walk beetwen each jump
+
 #define TIME_FOR_ANIMATION_CYCLE 150//The Duration for the a cycle for each animation
 #define NUMBER_IMAGE_PER_ANIMATION 2//number of image ffor an animation
 
