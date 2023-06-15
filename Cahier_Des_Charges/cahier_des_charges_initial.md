@@ -56,7 +56,7 @@ Charclo Brosse est un jeu **inspiré** du jeu _Mario Bros_ sorti sur arcade et c
 - L'accélération de Charclo est **instantané**. 
 - <font color="blue">L'accélération de Charclo n'est pas instantanée, elle suit une courbe de progression exponentielle.</font>
 - Quand Charclo franchit **une bordure de l'écran de jeu**, il apparait de l'autre coté de l'écran en concervant sa vitesse de déplacement.
-- Quand Charclo saute en se trouvant en dessous d'une plateforme, lorsque sa tête touche les blocs se trouvant au dessus de lui, **ces blocs se soulèvent**. La phase montante de son saut est alors **stoppé** mais il concerve sa vitesse.
+- Quand Charclo saute en se trouvant en dessous d'une plateforme, lorsque sa tête touche les blocs se trouvant au dessus de lui, **ces blocs se soulèvent**. La phase montante de son saut est alors **stoppé** mais il conserve sa vitesse.
 - <font color="green">Quand Charclo rentre en colision avec un obstacle, il perd une vie et disparait.</font>
 - Quand Charclo rentre en **colision** avec un ennemi dans un état invulnérable, il **perd une vie et disparait**.
 - Quand Charclo rentre en **colision** avec un ennemi dans un état vulnérable, l'ennemi **est vaincu et disparait**.
@@ -96,11 +96,11 @@ Charclo Brosse est un jeu **inspiré** du jeu _Mario Bros_ sorti sur arcade et c
 - <font color="green">Le joueur peut ramasser de l'argent en rentrant un colision avec.</font>
 - <font color="green">Il y a un nombre de fini de pièces et de billets dans chaque niveau.</font>
 - <font color="green">Les billets rapportent plus d'argent que les pièces.</font>
-- <font color="green">Il y a des pallier d'argent qui quand ils sont atteints débloquent des multiplicateurs de points pour le joueur</font><font color="blue">, cela débloque aussi un nouveau thème, Charclo est donc dans un nouvel environnement avec de nouveaux vêtement.</font>
+- <font color="green">Il y a des pallier d'argent qui quand ils sont atteints débloquent des multiplicateurs de points pour le joueur</font><font color="blue">, cela débloque aussi un nouveau thème, Charclo est donc dans un nouvel environnement avec de nouveaux vêtements.</font>
 
 ## Coopération
 
-- <font color="blue">Lorsque les deux joueurs rentre en colision, leurs courses sont stoppées.</font>
+- <font color="red">Lorsque les deux joueurs rentre en colision, leurs courses sont stoppées.</font>
 - <font color="red">Lorsque l'un des deux joueurs n'a plus de vie, son personnage ne réapparait pas mais l'autre joueur peut continuer de jouer.</font>
 
 
