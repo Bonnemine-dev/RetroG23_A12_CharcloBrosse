@@ -39,13 +39,13 @@
 #define COMBO_RANGE_TIME 1500//The time in ms when a combo are possible
 #define DISTANCE_FOR_MAX_GRAVITY 96 //define the number of pixel that the player have to make fore reach his max gravity : 576 pixels/s
 
-#define TILESET_FILE_PATH "://ressources/tileset1.png"
+#define TILESET_FILE_PATH "://ressources/tileset0.png"
 #define TILESET2_FILE_PATH "://ressources/tileset1.png"
 #define TILESET3_FILE_PATH "://ressources/tileset1.png"
 #define TILESET4_FILE_PATH "://ressources/tileset1.png"
 #define TILESET5_FILE_PATH "://ressources/tileset1.png"
 
-#define BACKGROUND1_FILE_PATH ":/ressources/background1.png"
+#define BACKGROUND1_FILE_PATH ":/ressources/background0.png"
 #define BACKGROUND2_FILE_PATH ":/ressources/background1.png"
 #define BACKGROUND3_FILE_PATH ":/ressources/background1.png"
 #define BACKGROUND4_FILE_PATH ":/ressources/background1.png"
