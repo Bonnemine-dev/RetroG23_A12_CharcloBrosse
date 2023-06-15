@@ -20,8 +20,7 @@ public:
 private slots:
     void initTestCase();
     void cleanupTestCase();
-    void test_
-
+    void test_Type();
 };
 
 test_Block::test_Block()
@@ -42,6 +41,10 @@ void test_Block::initTestCase()
 void test_Block::cleanupTestCase()
 {
     delete tileSet;
+}
+
+void test_Block::test_Type(){
+
 }
 
 
