@@ -404,11 +404,21 @@ void HMI::paintEvent(QPaintEvent *event)
         }
 
         // Dessin du reste du jeu
+        painter->setFont(QFont("VT323", 28));
+        painter->drawText(10, 70, QString("Score(x%1): %2").arg(itsGame->getCurrentTier()).arg(itsGame->getItsScore()));
+        painter->setFont(QFont("VT323", 24));
+        // image de portefeuille et wallet
+        QPixmap heartImage(":/ressources/heart.png");
+        QPixmap walletImage(":/ressources/wallet.png");
+        QPixmap scaledHeartImage = heartImage.scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPixmap scaledWalletImage = walletImage.scaled(35, 35, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        for(int i = 0; i < itsGame->getItsPlayer()->getItsLivesNb(); i++)
+        {
+            painter->drawPixmap(200 + i*scaledHeartImage.width(), 2, scaledHeartImage);
+        }
+        painter->drawPixmap(8, 12, scaledWalletImage);
+        painter->drawText(8 + scaledWalletImage.width(), 37, QString(": %1").arg(itsGame->getItsMoney()));
         painter->setFont(QFont("VT323", 18));
-        painter->drawText(10, 20, QString("Score: %1").arg(itsGame->getItsScore())); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
-        painter->drawText(10, 40, QString("Multiplier: %1").arg(itsGame->getCurrentTier()));
-        painter->drawText(10, 60, QString("Lives: %1").arg(itsGame->getItsPlayer()->getItsLivesNb()));
-        painter->drawText(10, 80, QString("Wallet: %1").arg(itsGame->getItsMoney()));
         painter->drawText(1165, 60, QString("Enemies: %1").arg(itsLevel->getItsRemainingEnemies().size() + itsLevel->getItsEnemiesList().size()));
         itsLevel->display(painter);
         itsPlayer->display(painter);

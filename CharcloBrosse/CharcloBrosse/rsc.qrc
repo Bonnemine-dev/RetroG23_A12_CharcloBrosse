@@ -12,5 +12,7 @@
         <file>ressources/background1.png</file>
         <file>ressources/tileset1.png</file>
         <file>ressources/level6.json</file>
+        <file>ressources/heart.png</file>
+        <file>ressources/wallet.png</file>
     </qresource>
 </RCC>
