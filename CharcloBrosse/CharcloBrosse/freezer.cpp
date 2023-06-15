@@ -23,7 +23,7 @@ void Freezer::display(QPainter *painter)
 {
     if(itsState){
         if(isOnTheGround){
-            if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/FREEZER_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
+            if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%(NUMBER_IMAGE_PER_ANIMATION) == 0)
             {
                 if(itsXSpeed == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0));
                 else if(itsXSpeed == LEFT_X) painter->drawPixmap(itsX, itsY, *itsSpritesList->at(6));
@@ -45,7 +45,7 @@ void Freezer::display(QPainter *painter)
     }
     else
     {
-        if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/FREEZER_ENEMY_SPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
+        if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%(NUMBER_IMAGE_PER_ANIMATION) == 0)
         {
             if(itsXSpeed == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(4));
             else if(itsXSpeed == LEFT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(10));

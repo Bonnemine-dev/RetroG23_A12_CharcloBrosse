@@ -10,6 +10,7 @@
 #include <QObject>
 #include "game.h"
 #include "typedef.h"
+#include "jumper.h"
 #include <iostream>
 #include <QElapsedTimer>
 #include <QDebug>
@@ -42,6 +43,8 @@ void Game::onGameStart(){
     currentLevel = 1;
     //Money
     itsMoney = 0;
+    //Reset du block pow
+    isBlockPOWHitted = false;
     //Création du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Initialisation du nombre de vies
@@ -57,7 +60,6 @@ void Game::onGameStart(){
     //Initialisation
     itsEllapsedTime = 0;
     checkTier();
-    gameLoop();
     running = true;
 }
 
@@ -242,7 +244,8 @@ void Game::checkAllCollid(){
     //isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
     // player to block
 
-    bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
+    //Met la gravité si le joueur n'est pas en train de sauter et il est en falling
+    //rdibitoire : est en train de sauter ou n'est pas en falling mod
     //définie le joueur comme n'étant pas sur un bloc
     itsPlayer->setIsOnTheGround(false);
     if(itsPlayer->getItsRemaningComboTicks() != 0)
@@ -278,7 +281,6 @@ void Game::checkAllCollid(){
             //Condition qui vérifie que : le joueur est sur le bloc
             if (isOnTop(itsPlayer, block)){
                 //Change la varible qui définie si oui ou non le joueur doit subir la gravité
-                playerGravity = false;
                 //Définie l'attribut boolean du joueur à vrai, cet attribut est
                 //vrai si il est sur une surface faux si il est dans le vide
                 itsPlayer->setIsOnTheGround(true);
@@ -298,17 +300,8 @@ void Game::checkAllCollid(){
     //------------------------------Fin de la vérification des collisions entre joueur et money -------------------------------------------------------
 
     //------------------------------Début de l'application de la gravitée ou pas pour le joueur -------------------------------------------------------
-    if (playerGravity)
-    {
-        //Définie la vitesse du joueur sur l'axe des absices à 1
-        itsPlayer->setItsYSpeed(GRAVITY);
-    }
-    else
-    {
-        //Définie la vitesse du joueur sur l'axe des absices à 0 si sa vitesse est positif
-        //et ne la change pas si elle est négatif
-        itsPlayer->setItsYSpeed(itsPlayer->getItsYSpeed() > STILL?STILL:itsPlayer->getItsYSpeed());
-    }
+    //si il n'est pas sur un bloc et qu'il n'est pas en pleine chute et qu'il n'est pas en plein saut
+
     //------------------------------Fin de l'application de la gravitée ou pas pour le joueur -------------------------------------------------------
 
     //------------------------------Début de la vérification des collisions avec les ennemies -------------------------------------------------------
@@ -421,6 +414,9 @@ void Game::checkAllCollid(){
                 case ACCELERATOR:
                     enemy1->setItsState(true);
                     break;
+                case JUMPER:
+                    enemy1->setItsState(true);
+                    break;
                 case FREEZER:
                     enemy1->setItsState(true);
                     break;
@@ -429,6 +425,14 @@ void Game::checkAllCollid(){
                 }
             }
         }
+    }
+    if(!itsPlayer->getIsOnTheGround() && itsPlayer->getItsRemaningFallMove() == 0xFFFF)
+    {
+        itsPlayer->setItsRemaningFallMove(DISTANCE_FOR_MAX_GRAVITY);
+    }
+    else if(itsPlayer->getIsOnTheGround())
+    {
+        itsPlayer->setItsRemaningFallMove(0xFFFF);
     }
 }
 
@@ -490,6 +494,7 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
     isBlockPOWHitted = true;
     // Le saut du joueur est stoppé.
     thePlayer->setItsRemaningJumpMove(0);
+    thePlayer->setItsRemaningFallMove(DISTANCE_FOR_MAX_GRAVITY/2);
     // L'état du bloc POW passe à true.
     theBlockPOW->setItsState(true);
     // L'image du bloc POW est modifié.
@@ -622,6 +627,10 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 //Incrémente de 1 l'état de l'accelerator
                 dynamic_cast<Accelerator*>(theEnemy)->addItsSpeedState();
                 break;
+            case JUMPER:
+                theEnemy->setItsState(false);
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
             case FREEZER:
                 theEnemy->setItsState(false);
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
@@ -657,6 +666,10 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 //Définie son compteur de temps de mort à un temps légèrement superieur au temps que met un block à redevenir normal
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
+            case JUMPER:
+                theEnemy->setItsState(true);
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
             case FREEZER:
                 theEnemy->setItsState(true);
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
@@ -673,7 +686,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     //vrai si le haut du joueur égale le bas du joueur et que le joueur est en pleine ascenssion soit le joueur vien de taper un block avec sa tête
-    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsYSpeed() < STILL)
+    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsRemaningJumpMove() != 0)
     {
         // Si le bloc est un bloc POW et qu'il n'a pas été frappé.
         if(theBlock->getItsType() == POW && !isBlockPOWHitted)
@@ -686,6 +699,7 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
         {
             //Arrette le saut du joueur
             thePlayer->setItsRemaningJumpMove(0);
+            thePlayer->setItsRemaningFallMove(DISTANCE_FOR_MAX_GRAVITY/2);
             //Met l'état du block à true soit : touché
             theBlock->setItsState(true);
             //Démarre le compteur du block pour le temps qu'il doit passé à true
@@ -802,10 +816,8 @@ int Game::checkTier()
 
 void Game::moveAll(){
     //vrai si le game loop à fait assez de tour valeur définie avec la speed du player
-    if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(PLAYERMAXSPEED*BLOCK_SIZE)) == 0) && (itsPlayer->getIsFrozen() == false))//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
-    {
-        itsPlayer->move();
-    }
+    itsPlayer->moveX();
+    itsPlayer->moveY();
     //Parcours tous les enemy du niveau
     for (Enemy * enemy : itsLevel->getItsEnemiesList()){
         //Case pour tous les type d'enemy
@@ -828,6 +840,10 @@ void Game::moveAll(){
                 //execute sa fonction move
                 enemy->move();
             }
+            break;
+        //Cas ou l'enemy est de type JUMPER
+        case JUMPER:
+            dynamic_cast<Jumper*>(enemy)->move();
             break;
         //Cas ou l'enemy est de type FREEZER
         case FREEZER:
@@ -855,12 +871,14 @@ void Game::onLeftKeyPressed()
 {
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(LEFT_X);
     itsPlayer->setItsNextMove(LEFT_X);
+    if(itsPlayer->getItsRemaningWalkMove() == 0xFFFF)itsPlayer->setItsRemaningWalkMove(BLOCK_SIZE);
 }
 
 void Game::onRightKeyPressed()
 {
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(RIGHT_X);
     itsPlayer->setItsNextMove(RIGHT_X);
+    if(itsPlayer->getItsRemaningWalkMove() == 0xFFFF)itsPlayer->setItsRemaningWalkMove(BLOCK_SIZE);
 }
 
 void Game::onUpKeyPressed()

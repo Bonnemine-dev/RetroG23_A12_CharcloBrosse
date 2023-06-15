@@ -8,8 +8,12 @@
 
 #include "level.h"
 #include "typedef.h"
-#include "accelerator.h"
+#include "standard.h"
+#include "giant.h"
+#include "jumper.h"
 #include "freezer.h"
+#include <iostream>
+
 
 std::vector<Block *> Level::getItsBlockList() const
 {
@@ -48,6 +52,10 @@ void Level::display(QPainter *painter)
         else if (itsEnemiesList.at(i)->getItsType() == GIANT)
         {
             dynamic_cast<Giant*>(itsEnemiesList.at(i))->display(painter);
+        }
+        else if (itsEnemiesList.at(i)->getItsType() == JUMPER)
+        {
+            dynamic_cast<Jumper*>(itsEnemiesList.at(i))->display(painter);
         }
         else if (itsEnemiesList.at(i)->getItsType() == FREEZER)
         {
@@ -179,7 +187,6 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         }
         else if (type == "giant")
         { // if a giant enemy
-            qWarning()<<"Je viends de créer le geant";
             itsRemainingEnemies.push_back(new Giant(96, 32, tileSet->getItsEnnemyGiantTilesList())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
@@ -201,6 +208,16 @@ Level::Level(std::string levelFilePath, TileSet * tileSet) : itsLevelFile(levelF
         else if (type == "freezer")
         { // if an accelerator enemy
             itsRemainingEnemies.push_back(new Freezer(32, 32, tileSet->getItsEnnemyFreezerTilesList())); // create the enemy and add it to the list
+            if (jsonLine[1].toString().toStdString() == "left"){
+                itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
+            }
+            else{
+                itsEnemyAppearsSides.push_back(RIGHT); // set the appear point to right spawner
+            }
+        }
+        else if (type == "jumper")
+        { // if an accelerator enemy
+            itsRemainingEnemies.push_back(new Jumper(32, 32, tileSet->getItsEnnemyJumperTilesList())); // create the enemy and add it to the list
             if (jsonLine[1].toString().toStdString() == "left"){
                 itsEnemyAppearsSides.push_back(LEFT); // set the appear point to left spawner
             }
@@ -261,18 +278,21 @@ Level::~Level()
     itsMoneyList.clear();
 }
 
-void Level::appears(Enemy * enemy){
+void Level::appears(Enemy * enemy)
+{
     itsRemainingEnemies.pop_back();
     itsEnemiesList.push_back(enemy);
     itsEnemyAppearsTimes.pop_back();
     itsEnemyAppearsSides.pop_back();
 }
 
-void Level::activate(){
+void Level::activate()
+{
     active = true;
 }
 
-bool Level::isActive(){
+bool Level::isActive()
+{
     return active;
 }
 

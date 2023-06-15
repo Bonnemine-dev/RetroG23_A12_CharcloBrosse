@@ -9,10 +9,15 @@
         <file>ressources/level4.json</file>
         <file>ressources/level5.json</file>
         <file>ressources/background1.png</file>
-        <file>ressources/level6.json</file>
+        <file>ressources/level8.json</file>
         <file>ressources/heart.png</file>
         <file>ressources/wallet.png</file>
         <file>ressources/tileset0.png</file>
         <file>ressources/tileset1.png</file>
+        <file>ressources/level0.json</file>
+        <file>ressources/level7.json</file>
+        <file>ressources/level6.json</file>
+        <file>ressources/level9.json</file>
+        <file>ressources/level10.json</file>
     </qresource>
 </RCC>
