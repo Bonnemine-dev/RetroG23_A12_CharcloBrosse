@@ -131,6 +131,26 @@ void Player::setComboValue(unsigned short newComboValue)
     comboValue = newComboValue;
 }
 
+void Player::setIsFrozen(bool newIsFrozen)
+{
+    isFrozen = newIsFrozen;
+}
+
+bool Player::getIsFrozen() const
+{
+    return isFrozen;
+}
+
+void Player::setStartFreeze(unsigned short newStartFreeze)
+{
+    startFreeze = newStartFreeze;
+}
+
+unsigned short Player::getStartFreeze() const
+{
+    return startFreeze;
+}
+
 Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 12> *theSpritesList,unsigned short* theLoopCounter)
     : Entity(x, y, height, width)
 {
