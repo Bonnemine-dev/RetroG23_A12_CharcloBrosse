@@ -15,9 +15,11 @@ SOURCES += \
         enemy.cpp \
         entity.cpp \
         despawner.cpp \
+        freezer.cpp \
         game.cpp \
         giant.cpp \
         hmi.cpp \
+        jumper.cpp \
         level.cpp \
         main.cpp \
         money.cpp \
@@ -33,9 +35,11 @@ HEADERS += \
     enemy.h \
     entity.h \
     despawner.h \
+    freezer.h \
     game.h \
     giant.h \
     hmi.h \
+    jumper.h \
     level.h \
     money.h \
     player.h \

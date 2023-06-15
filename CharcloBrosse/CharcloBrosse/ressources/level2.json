@@ -25,7 +25,7 @@
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ],
 "moneys" : [[0,0, 320], [0,1152,64]],
-"enemies" : [["standard", "left"], ["standard", "right"]],
+"enemies" : [["jumper", "left"], ["freezer", "right"]],
 "minDelay" : 2,
 "maxDelay" : 10,
 "timer" : 300

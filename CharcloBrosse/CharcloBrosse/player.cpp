@@ -1,5 +1,4 @@
 #include "player.h"
-#include "QtCore/qdebug.h"
 #include <iostream>
 
 std::array<QPixmap*, 12>* Player::itsSpritesList = nullptr;
@@ -7,7 +6,7 @@ std::array<QPixmap*, 12>* Player::itsSpritesList = nullptr;
 //Methode move
 void Player::moveX()
 {
-    qInfo()<<"remaning walk = "<<itsRemaningWalkMove;
+    if(!isFrozen){
     //Si le mouvement actuel est différent du prochain mouvement et que le joueur est sur le sol alors égalise les deux valeurs
     if(itsCurrentMove != itsNextMove && isOnTheGround)itsCurrentMove = itsNextMove;
     if(itsCurrentMove != NONE)
@@ -25,10 +24,12 @@ void Player::moveX()
         if(itsRemaningJumpMove == 0 && itsRemaningFallMove == 0xFFFF)itsRemaningWalkMove = 0xFFFF;
     }
     itsRect.moveTo(itsX,itsY);
+    }
 }
 
 void Player::moveY()
 {
+    if(!isFrozen){
     //Vrai si le joueur est dans un saut
     if(itsRemaningJumpMove != 0)
     {
@@ -58,11 +59,17 @@ void Player::moveY()
     }
 
     itsRect.moveTo(itsX,itsY);
+    }
 }
+
 
 void Player::display(QPainter * painter)
 {
-    if(isOnTheGround){
+    if(isFrozen)
+    {
+        painter->drawPixmap(itsX, itsY, *itsSpritesList->at(5));
+    }
+    else if(isOnTheGround){
         if((((*itsLoopCounter/(NUMBER_LOOP_PER_SECOND/FPS))*(NUMBER_LOOP_PER_SECOND/FPS))/TIME_FOR_ANIMATION_CYCLE)%((10/PLAYERMAXSPEED)*NUMBER_IMAGE_PER_ANIMATION)  == 0)
         {
             if(itsCurrentMove == RIGHT_X)painter->drawPixmap(itsX, itsY, *itsSpritesList->at(0));
@@ -152,7 +159,6 @@ void Player::setItsNextMove(MoveX newItsNextMove)
     itsNextMove = newItsNextMove;
 }
 
-
 unsigned short Player::getItsRemaningComboTicks() const
 {
     return itsRemaningComboTicks;
@@ -191,6 +197,26 @@ void Player::setItsRemaningWalkMove(unsigned short newItsRemaningWalkMove)
 unsigned short Player::getItsRemaningWalkMove() const
 {
     return itsRemaningWalkMove;
+}
+
+void Player::setIsFrozen(bool newIsFrozen)
+{
+    isFrozen = newIsFrozen;
+}
+
+bool Player::getIsFrozen() const
+{
+    return isFrozen;
+}
+
+void Player::setStartFreeze(unsigned short newStartFreeze)
+{
+    startFreeze = newStartFreeze;
+}
+
+unsigned short Player::getStartFreeze() const
+{
+    return startFreeze;
 }
 
 Player::Player(short x,  short y,  short height,  short width, std::array<QPixmap *, 12> *theSpritesList,unsigned short* theLoopCounter)

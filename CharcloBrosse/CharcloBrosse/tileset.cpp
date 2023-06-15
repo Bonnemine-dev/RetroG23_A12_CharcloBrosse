@@ -274,7 +274,7 @@ TileSet::TileSet(std::string aTileSetFilePath)
 
 
        // Ennemi gauche Freezer court
-       itsEnnemyFreezerTilesList.at(6) = new QPixmap(tileset.copy(166, 232, 32, 32).transformed(mirror));
+       itsEnnemyFreezerTilesList.at(6) = new QPixmap(tileset.copy(166, 199, 32, 32).transformed(mirror));
        itsEnnemyFreezerTilesList.at(7) = new QPixmap(tileset.copy(199, 199, 32, 32).transformed(mirror));
        // Ennemi gauche Freezer tombe
        itsEnnemyFreezerTilesList.at(8) = new QPixmap(tileset.copy(232, 199, 32, 32).transformed(mirror));
