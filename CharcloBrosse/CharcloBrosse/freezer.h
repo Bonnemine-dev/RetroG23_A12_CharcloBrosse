@@ -20,7 +20,7 @@
 class Freezer : public Enemy
 {
 private:
-    static std::array<QPixmap *,12>* itsSpritesList;
+    static std::array<QPixmap *,12>* itsSpritesList; /** @brief the list of the accelerator sprites * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>*/
 public:
     /**
      * @brief Constructor of the Giant class.

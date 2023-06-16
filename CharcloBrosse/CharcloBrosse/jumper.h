@@ -20,7 +20,7 @@
 class Jumper : public Enemy
 {
 private:
-    static std::array<QPixmap *,12>* itsSpritesList;
+    static std::array<QPixmap *,12>* itsSpritesList; /** @brief the list of the accelerator sprites * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>*/
     bool jump = false;
     unsigned short itsJumpTime = DISTANCE_JUMPER_JUMP*BLOCK_SIZE;
     unsigned short itsRemaningJumpMove = 0;
