@@ -23,7 +23,7 @@ Game::Game()
     //Définition du tileset pour la partie en cours, TILESET_FILE_PATH = le chemin vers le fichier .png du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Création du joueur pour la partie en cours
-    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
+    itsPlayer = new Player(-50, -50, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
     //Création de l'interface homme machine lié au jeu
     itsHMI = new HMI(itsPlayer, this);
     //Definition de la variable du temps écoulé pour l'appartion des ennemies
@@ -40,7 +40,7 @@ Game::Game()
 
 void Game::onGameStart(){
     //Niveau actuel
-    currentLevel = 1;
+    currentLevel = 0;
     //Money
     itsMoney = 0;
     //Reset du block pow
@@ -518,11 +518,24 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
             // Si l'ennemi n'est pas KO
             if((enemy->getItsState() == true))
             {
-                // L'ennemi deveint KO
-                enemy->setItsState(false);
-                // L'image de l'ennemi est modifié
-                // La loop de durée de KO est démarré
-                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                if(enemy->getItsType() == ACCELERATOR)
+                {
+                    //met l'enemy KO
+                    enemy->setItsState(false);
+                    //Démarrage du compteur,pour le temps de mort
+                    enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                    // L'état d'accélération est modifié
+                    Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+                    accelerator->setAcceleratorDown(true);
+                }
+                else
+                {
+                    // L'ennemi deveint KO
+                    enemy->setItsState(false);
+                    // L'image de l'ennemi est modifié
+                    // La loop de durée de KO est démarré
+                    enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                }
             }
             // Si l'ennemi est KO
             else if((enemy->getItsState() == false))
@@ -691,7 +704,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     //vrai si le haut du joueur égale le bas du joueur et que le joueur est en pleine ascenssion soit le joueur vien de taper un block avec sa tête
-    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom())
+    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && (thePlayer->getItsRect()->right() != theBlock->getItsRect()->left()) && (thePlayer->getItsRect()->left() != theBlock->getItsRect()->right()))
     {
         // Si le bloc est un bloc POW et qu'il n'a pas été frappé.
         if(theBlock->getItsType() == POW && !isBlockPOWHitted)

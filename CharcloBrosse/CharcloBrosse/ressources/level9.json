@@ -26,6 +26,6 @@
 "moneys" : [[0, 352, 480], [1, 896, 480], [2, 864, 480]],
 "enemies" : [["standard", "left"], ["freezer",  "right"], ["jumper", "left"], ["accelerator", "left"], ["giant", "right"], ["accelerator", "right"], ["jumper", "right"], ["freezer", "left"], ["standard", "left"]],
 "minDelay" : 4,
-"maxDelay" : 13,
+"maxDelay" : 14,
 "timer" : 400
  }

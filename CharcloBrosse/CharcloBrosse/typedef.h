@@ -8,6 +8,8 @@
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 
+#include <string>
+
 //-------- Values for the windows settings --------
 
 #define HEIGHT 22 /**< The height of the window in tiles */
@@ -177,5 +179,14 @@ enum MoneyType {RED = RED_COIN_VALUE,YELLOW = YELLOW_COIN_VALUE,BILL = CASH_VALU
  * @brief The Sides enum represents the sides of enemy appearances
  */
 enum Sides {LEFT,RIGHT};
+
+/**
+ * @brief Define a comparator to reverse the order of the heap
+ */
+struct CompareScore {
+    bool operator()(std::pair<std::string, unsigned int> const& p1, std::pair<std::string, unsigned int> const& p2) {
+        return p1.second > p2.second;
+    }
+};
 
 #endif // TYPEDEF_H
