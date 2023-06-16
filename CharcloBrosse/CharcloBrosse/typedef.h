@@ -124,7 +124,7 @@
 
 #define FONT_PATH "://ressources/PressStart2P-Regular.ttf"
 
-#define HIGHSCORES_FILE_PATH "ressources/highscores.txt"
+#define HIGHSCORES_FILE_PATH "highscores.txt"
 
 // -------------------------------------------------
 
