@@ -159,5 +159,5 @@ bool DB_Score::isInTop10(unsigned int theScore) {
     ifs.close();
 
     // Vérifier si le score serait dans le top 10
-    return minHeap.empty() || theScore > minHeap.top().second;
+    return minHeap.size() < 10 || theScore > minHeap.top().second;
 }
