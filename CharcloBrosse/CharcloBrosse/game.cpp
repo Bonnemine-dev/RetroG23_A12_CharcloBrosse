@@ -23,7 +23,7 @@ Game::Game()
     //Définition du tileset pour la partie en cours, TILESET_FILE_PATH = le chemin vers le fichier .png du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Création du joueur pour la partie en cours
-    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
+    itsPlayer = new Player(-50, -50, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
     //Création de l'interface homme machine lié au jeu
     itsHMI = new HMI(itsPlayer, this);
     //Definition de la variable du temps écoulé pour l'appartion des ennemies
@@ -40,7 +40,7 @@ Game::Game()
 
 void Game::onGameStart(){
     //Niveau actuel
-    currentLevel = 1;
+    currentLevel = 4;
     //Money
     itsMoney = 0;
     //Reset du block pow
