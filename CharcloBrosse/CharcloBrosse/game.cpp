@@ -45,6 +45,8 @@ void Game::onGameStart(){
     itsMoney = 0;
     //Reset du block pow
     isBlockPOWHitted = false;
+    //Reset du muliplicateur
+    currentTier = 1;
     //Création du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Initialisation du nombre de vies
@@ -421,12 +423,13 @@ void Game::checkAllCollid(){
                     break;
                 case ACCELERATOR:
                     enemy1->setItsState(true);
-                    if (acceleratorDown)
+                    // L'état d'accélération est modifié
+                    Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy1);
+                    if (accelerator->getAcceleratorDown())
                     {
                         // L'état d'accélération est modifié
-                        Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy1);
                         accelerator->addItsSpeedState();
-                        acceleratorDown = false;
+                        accelerator->setAcceleratorDown(false);
                         break;
                     }
 
@@ -515,11 +518,24 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
             // Si l'ennemi n'est pas KO
             if((enemy->getItsState() == true))
             {
-                // L'ennemi deveint KO
-                enemy->setItsState(false);
-                // L'image de l'ennemi est modifié
-                // La loop de durée de KO est démarré
-                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                if(enemy->getItsType() == ACCELERATOR)
+                {
+                    //met l'enemy KO
+                    enemy->setItsState(false);
+                    //Démarrage du compteur,pour le temps de mort
+                    enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                    // L'état d'accélération est modifié
+                    Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
+                    accelerator->setAcceleratorDown(true);
+                }
+                else
+                {
+                    // L'ennemi deveint KO
+                    enemy->setItsState(false);
+                    // L'image de l'ennemi est modifié
+                    // La loop de durée de KO est démarré
+                    enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                }
             }
             // Si l'ennemi est KO
             else if((enemy->getItsState() == false))
@@ -619,14 +635,6 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 //Démarrage du compteur,pour le temps de mort
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 break;
-            //cas ou l'enemy est un ACCELERATOR
-            case ACCELERATOR:
-                //met l'enemy KO
-                theEnemy->setItsState(false);
-                //Démarrage du compteur,pour le temps de mort
-                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
-                acceleratorDown = true;
-                break;
             case JUMPER:
                 theEnemy->setItsState(false);
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
@@ -635,7 +643,15 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 theEnemy->setItsState(false);
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 break;
-            default:
+            //cas ou l'enemy est un ACCELERATOR
+            case ACCELERATOR:
+                //met l'enemy KO
+                theEnemy->setItsState(false);
+                //Démarrage du compteur,pour le temps de mort
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                // L'état d'accélération est modifié
+                Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
+                accelerator->setAcceleratorDown(true);
                 break;
             }
         }
@@ -676,7 +692,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 // L'état d'accélération est modifié
                 Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
                 accelerator->addItsSpeedState();
-                acceleratorDown = false;
+                accelerator->setAcceleratorDown(false);
                 break;
             }
         }
@@ -688,7 +704,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     //vrai si le haut du joueur égale le bas du joueur et que le joueur est en pleine ascenssion soit le joueur vien de taper un block avec sa tête
-    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsRemaningJumpMove() != 0)
+    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom())
     {
         // Si le bloc est un bloc POW et qu'il n'a pas été frappé.
         if(theBlock->getItsType() == POW && !isBlockPOWHitted)

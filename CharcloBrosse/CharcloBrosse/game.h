@@ -129,11 +129,6 @@ private:
      */
     QString cheminBG;
 
-    /**
-    * @brief Boolean which say if an accelerator is down or no, necessary to avoid a bug.
-    */
-    bool acceleratorDown = false;
-
 public :
     /**
      * @brief Checks all possible collisions in the current game state

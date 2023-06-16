@@ -32,7 +32,7 @@ void Jumper::move()//----   96-0.01(x-96)^2
 {
     if(itsState)
     {
-        if(itsJumpTime == 0xFFFF && (isOnTheGround || itsRemaningJumpMove != 0))
+        if(itsJumpTime == 0xFFFF && (isOnTheGround || (itsRemaningJumpMove != 0 && itsRemaningJumpMove != 192)))
         {
             if(*itsLoopCounter % (NUMBER_LOOP_PER_SECOND/int(float(30)+float(0.059)*pow(float(itsRemaningJumpMove-float(96)),2))) == 0)
             {
