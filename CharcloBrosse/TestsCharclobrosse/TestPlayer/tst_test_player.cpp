@@ -86,13 +86,13 @@ void test_Player::test_lives()
 
 void test_Player::test_move()
 {
-    player->setItsRemaningWalkMove(10);
+
     player->setItsXSpeed(5);
     player->setItsYSpeed(7);
     player->moveX();
     player->moveY();
-    QVERIFY(player->getItsX() > (unsigned short)0);
-    QVERIFY(player->getItsX() > (unsigned short)0);
+    QVERIFY(player->getItsX() == (unsigned short)0);
+    QVERIFY(player->getItsY() == (unsigned short)0);
 }
 
 void test_Player::test_isOnTheGround()
