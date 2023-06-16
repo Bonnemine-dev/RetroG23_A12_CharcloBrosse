@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['enemy_0',['Enemy',['../dd/d7a/class_enemy.html',1,'']]],
-  ['entity_1',['Entity',['../d2/d96/class_entity.html',1,'']]]
+  ['db_5fscore_0',['DB_Score',['../df/db5/class_d_b___score.html',1,'']]],
+  ['despawner_1',['Despawner',['../de/d2e/class_despawner.html',1,'']]]
 ];

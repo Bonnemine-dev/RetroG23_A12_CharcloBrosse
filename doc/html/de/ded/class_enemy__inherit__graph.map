@@ -1,7 +1,9 @@
 <map id="Enemy" name="Enemy">
-<area shape="rect" id="node1" title="Abstract Class representing an enemy entity in a game. This class inherits from the Entity class and ..." alt="" coords="113,79,175,104"/>
+<area shape="rect" id="node1" title="Abstract Class representing an enemy entity in a game. This class inherits from the Entity class and ..." alt="" coords="203,79,266,104"/>
 <area shape="rect" id="node3" href="$da/dcf/class_accelerator.html" title="Class representing an accelerator enemy in a game. This class inherits from the Enemy class and repre..." alt="" coords="5,152,93,177"/>
-<area shape="rect" id="node4" href="$d0/d27/class_giant.html" title="Class representing a Giant enemy in a game. This class inherits from the Enemy class and represents a..." alt="" coords="117,152,171,177"/>
-<area shape="rect" id="node5" href="$de/df2/class_standard.html" title="Class representing a standard enemy in a game. This class inherits from the Enemy class and represent..." alt="" coords="195,152,269,177"/>
-<area shape="rect" id="node2" href="$d2/d96/class_entity.html" title="Abstract Class representing a game entity. This class provides a generic representation for an entity..." alt="" coords="116,5,172,31"/>
+<area shape="rect" id="node4" href="$dc/d4e/class_freezer.html" title=" " alt="" coords="117,152,184,177"/>
+<area shape="rect" id="node5" href="$d0/d27/class_giant.html" title="Class representing a Giant enemy in a game. This class inherits from the Enemy class and represents a..." alt="" coords="208,152,261,177"/>
+<area shape="rect" id="node6" href="$d6/d17/class_jumper.html" title=" " alt="" coords="285,152,349,177"/>
+<area shape="rect" id="node7" href="$de/df2/class_standard.html" title="Class representing a standard enemy in a game. This class inherits from the Enemy class and represent..." alt="" coords="373,152,448,177"/>
+<area shape="rect" id="node2" href="$d2/d96/class_entity.html" title="Abstract Class representing a game entity. This class provides a generic representation for an entity..." alt="" coords="207,5,263,31"/>
 </map>

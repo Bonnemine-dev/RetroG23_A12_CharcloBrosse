@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['obstacle_0',['Obstacle',['../d9/df0/class_obstacle.html',1,'']]]
+  ['jumper_0',['Jumper',['../d6/d17/class_jumper.html',1,'']]]
 ];

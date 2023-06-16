@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['game_0',['Game',['../dd/d1f/class_game.html',1,'']]],
-  ['giant_1',['Giant',['../d0/d27/class_giant.html',1,'']]]
+  ['enemy_0',['Enemy',['../dd/d7a/class_enemy.html',1,'']]],
+  ['entity_1',['Entity',['../d2/d96/class_entity.html',1,'']]]
 ];

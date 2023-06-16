@@ -1,8 +1,9 @@
 <map id="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/block.h" name="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/block.h">
-<area shape="rect" id="node1" title="Header file for class Block." alt="" coords="87,5,287,60"/>
-<area shape="rect" id="node2" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="108,108,173,133"/>
-<area shape="rect" id="node6" href="$d3/d0b/typedef_8h.html" title="Header file for general definition." alt="" coords="198,108,273,133"/>
+<area shape="rect" id="node1" title="Header file for class Block." alt="" coords="126,5,326,60"/>
+<area shape="rect" id="node2" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="147,108,212,133"/>
+<area shape="rect" id="node6" href="$d3/d0b/typedef_8h.html" title="Header file for general definitions." alt="" coords="257,108,331,133"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,181,79,207"/>
 <area shape="rect" id="node4" title=" " alt="" coords="103,181,179,207"/>
 <area shape="rect" id="node5" title=" " alt="" coords="203,181,262,207"/>
+<area shape="rect" id="node7" title=" " alt="" coords="287,181,341,207"/>
 </map>

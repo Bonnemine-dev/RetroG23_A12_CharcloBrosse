@@ -1,6 +1,13 @@
 var searchData=
 [
-  ['refreshall_0',['refreshAll',['../d5/dce/class_h_m_i.html#a4b76cf8249ef80cfa4544c1041fc3c92',1,'HMI']]],
-  ['removeenemy_1',['removeEnemy',['../d4/d9a/class_level.html#a8b6d62f38885fb35b428ba5ded00efec',1,'Level']]],
-  ['removemoney_2',['removeMoney',['../d4/d9a/class_level.html#a2c664e0592cc0e026acf536e7fa29355',1,'Level']]]
+  ['ongamepaused_0',['onGamePaused',['../dd/d1f/class_game.html#aa83f86d32cebc139cd09e344ad9d2fd2',1,'Game']]],
+  ['ongameresumed_1',['onGameResumed',['../dd/d1f/class_game.html#aa58fd87177bf7ac1d7d34f3b7c9781a8',1,'Game']]],
+  ['ongamestart_2',['onGameStart',['../dd/d1f/class_game.html#a3b5b0bb5cdad6dc6d8bbf5eaca18837b',1,'Game']]],
+  ['onleftkeypressed_3',['onLeftKeyPressed',['../dd/d1f/class_game.html#a512f837fd1a46b937f487d8eb3059fa4',1,'Game']]],
+  ['onleftkeyreleased_4',['onLeftKeyReleased',['../dd/d1f/class_game.html#a6249da33e8e5ba267f7b92d4cf6975e3',1,'Game']]],
+  ['onrightkeypressed_5',['onRightKeyPressed',['../dd/d1f/class_game.html#a619edda441650564b66c913e82e28555',1,'Game']]],
+  ['onrightkeyreleased_6',['onRightKeyReleased',['../dd/d1f/class_game.html#a03d708e6e5554468a8105d321d910db9',1,'Game']]],
+  ['onupkeypressed_7',['onUpKeyPressed',['../dd/d1f/class_game.html#aa3239cb32babad5adeb54b3356ccd32a',1,'Game']]],
+  ['openlevel_8',['openLevel',['../dd/d1f/class_game.html#a28118fcd0303b9f4875e821fb9a8c8b4',1,'Game']]],
+  ['operator_28_29_9',['operator()',['../da/d92/struct_compare_score.html#a9dd9cd4dbbe0f5cb7e0ef5ec4196bb87',1,'CompareScore']]]
 ];

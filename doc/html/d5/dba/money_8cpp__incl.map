@@ -1,9 +1,10 @@
 <map id="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/money.cpp" name="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/money.cpp">
-<area shape="rect" id="node1" title="Source file for class Money." alt="" coords="87,5,287,60"/>
-<area shape="rect" id="node2" href="$db/dd7/money_8h.html" title="Header file for class Money." alt="" coords="151,108,223,133"/>
-<area shape="rect" id="node3" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="108,181,173,207"/>
-<area shape="rect" id="node7" href="$d3/d0b/typedef_8h.html" title="Header file for general definition." alt="" coords="198,181,273,207"/>
+<area shape="rect" id="node1" title="Source file for class Money." alt="" coords="126,5,326,60"/>
+<area shape="rect" id="node2" href="$db/dd7/money_8h.html" title="Header file for class Money." alt="" coords="190,108,262,133"/>
+<area shape="rect" id="node3" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="147,181,212,207"/>
+<area shape="rect" id="node7" href="$d3/d0b/typedef_8h.html" title="Header file for general definitions." alt="" coords="257,181,331,207"/>
 <area shape="rect" id="node4" title=" " alt="" coords="5,255,79,280"/>
 <area shape="rect" id="node5" title=" " alt="" coords="103,255,179,280"/>
 <area shape="rect" id="node6" title=" " alt="" coords="203,255,262,280"/>
+<area shape="rect" id="node8" title=" " alt="" coords="287,255,341,280"/>
 </map>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['player_5fjump_5fheight_0',['PLAYER_JUMP_HEIGHT',['../d3/d0b/typedef_8h.html#a43108aab3c7bfeb7432d64e22fe176d1',1,'typedef.h']]],
-  ['playermaxspeed_1',['PLAYERMAXSPEED',['../d3/d0b/typedef_8h.html#a6a82793ec2e0cdb86ae1adaf847e5160',1,'typedef.h']]]
+  ['number_5fimage_5fper_5fanimation_0',['NUMBER_IMAGE_PER_ANIMATION',['../d3/d0b/typedef_8h.html#ad918c693c372447cb2fda0a17f300a3a',1,'typedef.h']]],
+  ['number_5floop_5fper_5fsecond_1',['NUMBER_LOOP_PER_SECOND',['../d3/d0b/typedef_8h.html#a7837705c51541c739689a314aa4b0e21',1,'typedef.h']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['yellow_0',['YELLOW',['../d3/d0b/typedef_8h.html#ab5a40911776567945acc637d43315f12ae735a848bf82163a19236ead1c3ef2d2',1,'typedef.h']]]
+  ['standard_0',['STANDARD',['../d3/d0b/typedef_8h.html#ac3e413a86119db4b031458c7259e268ea9de934790934fe831fe946c851e8338e',1,'typedef.h']]]
 ];

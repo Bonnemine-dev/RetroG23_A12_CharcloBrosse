@@ -1,15 +1,16 @@
 var hierarchy =
 [
     [ "BD_Score", "dd/d50/class_b_d___score.html", null ],
+    [ "CompareScore", "da/d92/struct_compare_score.html", null ],
     [ "DB_Score", "df/db5/class_d_b___score.html", null ],
     [ "Entity", "d2/d96/class_entity.html", [
-      [ "Block", "d2/df8/class_block.html", [
-        [ "Obstacle", "d9/df0/class_obstacle.html", null ]
-      ] ],
+      [ "Block", "d2/df8/class_block.html", null ],
       [ "Despawner", "de/d2e/class_despawner.html", null ],
       [ "Enemy", "dd/d7a/class_enemy.html", [
         [ "Accelerator", "da/dcf/class_accelerator.html", null ],
+        [ "Freezer", "dc/d4e/class_freezer.html", null ],
         [ "Giant", "d0/d27/class_giant.html", null ],
+        [ "Jumper", "d6/d17/class_jumper.html", null ],
         [ "Standard", "de/df2/class_standard.html", null ]
       ] ],
       [ "Money", "d6/d10/class_money.html", null ],

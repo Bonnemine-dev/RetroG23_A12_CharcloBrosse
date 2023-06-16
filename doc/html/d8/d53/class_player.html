@@ -25,7 +25,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CharcloBrosse<span id="projectnumber">&#160;2</span>
+   <div id="projectname">CharcloBrosse<span id="projectnumber">&#160;3</span>
    </div>
   </td>
  </tr>
@@ -122,7 +122,7 @@ Collaboration diagram for Player:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af73472ddce2986250f91799d217112da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#af73472ddce2986250f91799d217112da">Player</a> (short x, short y, short height, short width, std::array&lt; QPixmap *, 12 &gt; *theSpritesList, unsigned short *theLoopCounter)</td></tr>
-<tr class="memdesc:af73472ddce2986250f91799d217112da"><td class="mdescLeft">&#160;</td><td class="mdescRight">the list of the <a class="el" href="../../d8/d53/class_player.html" title="Class representing a player entity in a game. This class inherits from the Entity class and provides ...">Player</a> sprites *  <br /></td></tr>
+<tr class="memdesc:af73472ddce2986250f91799d217112da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time when start player freeze.  <br /></td></tr>
 <tr class="separator:af73472ddce2986250f91799d217112da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3225bc623dd1f6a24dbdecd7e276e20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#af3225bc623dd1f6a24dbdecd7e276e20">display</a> (QPainter *painter)</td></tr>
 <tr class="memdesc:af3225bc623dd1f6a24dbdecd7e276e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">display display the current sprite at the screen  <br /></td></tr>
@@ -130,9 +130,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abf4ddc1b3f58f1d78746fd10073dea69"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#abf4ddc1b3f58f1d78746fd10073dea69">getItsState</a> () const</td></tr>
 <tr class="memdesc:abf4ddc1b3f58f1d78746fd10073dea69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the state of the player.  <br /></td></tr>
 <tr class="separator:abf4ddc1b3f58f1d78746fd10073dea69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae02ee46d8c20dd0697b975f935b09839"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#ae02ee46d8c20dd0697b975f935b09839">move</a> ()</td></tr>
-<tr class="memdesc:ae02ee46d8c20dd0697b975f935b09839"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the player.  <br /></td></tr>
-<tr class="separator:ae02ee46d8c20dd0697b975f935b09839"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11139e2fbd8b9ca373952c00bcae51b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a11139e2fbd8b9ca373952c00bcae51b7">moveX</a> ()</td></tr>
+<tr class="memdesc:a11139e2fbd8b9ca373952c00bcae51b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the player on ordinate.  <br /></td></tr>
+<tr class="separator:a11139e2fbd8b9ca373952c00bcae51b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa92bad6cbd1487ef924cbc164dfa0774"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#aa92bad6cbd1487ef924cbc164dfa0774">moveY</a> ()</td></tr>
+<tr class="memdesc:aa92bad6cbd1487ef924cbc164dfa0774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the player on abscisse.  <br /></td></tr>
+<tr class="separator:aa92bad6cbd1487ef924cbc164dfa0774"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f3e672f7288dd54e02a17f5bf5dbe65"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a2f3e672f7288dd54e02a17f5bf5dbe65">setItsXSpeed</a> (short newItsXSpeed)</td></tr>
 <tr class="memdesc:a2f3e672f7288dd54e02a17f5bf5dbe65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the speed of the player on the X axis.  <br /></td></tr>
 <tr class="separator:a2f3e672f7288dd54e02a17f5bf5dbe65"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,6 +178,42 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a64ea99836c20f157161e64ca15dcdfda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a64ea99836c20f157161e64ca15dcdfda">setItsAnimCounter</a> (short newItsAnimCounter)</td></tr>
 <tr class="memdesc:a64ea99836c20f157161e64ca15dcdfda"><td class="mdescLeft">&#160;</td><td class="mdescRight">setItsAnimCounter sets the animation counter  <br /></td></tr>
 <tr class="separator:a64ea99836c20f157161e64ca15dcdfda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b75de7813707c12a82b728d6622fc6c"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a1b75de7813707c12a82b728d6622fc6c">getItsRemaningComboTicks</a> () const</td></tr>
+<tr class="memdesc:a1b75de7813707c12a82b728d6622fc6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the value of itsRemaningComboTicks.  <br /></td></tr>
+<tr class="separator:a1b75de7813707c12a82b728d6622fc6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7d7e6718462511511d28e3e2792a321"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#ad7d7e6718462511511d28e3e2792a321">setItsRemaningComboTicks</a> (unsigned short newItsRemaningComboTicks)</td></tr>
+<tr class="memdesc:ad7d7e6718462511511d28e3e2792a321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of itsRemaningComboTicks.  <br /></td></tr>
+<tr class="separator:ad7d7e6718462511511d28e3e2792a321"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c4cd055138c0432e4f8f39d8915f209"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a8c4cd055138c0432e4f8f39d8915f209">getComboValue</a> () const</td></tr>
+<tr class="memdesc:a8c4cd055138c0432e4f8f39d8915f209"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the value of ComboValue.  <br /></td></tr>
+<tr class="separator:a8c4cd055138c0432e4f8f39d8915f209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac04e468e0adb544d1747446ed850da9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#ac04e468e0adb544d1747446ed850da9a">setComboValue</a> (unsigned short newComboValue)</td></tr>
+<tr class="memdesc:ac04e468e0adb544d1747446ed850da9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of ComboValue.  <br /></td></tr>
+<tr class="separator:ac04e468e0adb544d1747446ed850da9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6992feb4d74275fbe9a3c1269581478"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#ad6992feb4d74275fbe9a3c1269581478">getItsRemaningFallMove</a> () const</td></tr>
+<tr class="memdesc:ad6992feb4d74275fbe9a3c1269581478"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the value of itsRemaningFallMove.  <br /></td></tr>
+<tr class="separator:ad6992feb4d74275fbe9a3c1269581478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a630c2d9f1665678b83e87a8ef6a561e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a630c2d9f1665678b83e87a8ef6a561e4">setItsRemaningFallMove</a> (unsigned short newItsRemaningFallMove)</td></tr>
+<tr class="memdesc:a630c2d9f1665678b83e87a8ef6a561e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of itsRemaningFallMove.  <br /></td></tr>
+<tr class="separator:a630c2d9f1665678b83e87a8ef6a561e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae29789d0430c815111f9afea0c222ef3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#ae29789d0430c815111f9afea0c222ef3">setItsRemaningWalkMove</a> (unsigned short newItsRemaningWalkMove)</td></tr>
+<tr class="memdesc:ae29789d0430c815111f9afea0c222ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of itsRemaningWalkMove.  <br /></td></tr>
+<tr class="separator:ae29789d0430c815111f9afea0c222ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ee99507d7ff3e472f823e5b45d0485f"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a7ee99507d7ff3e472f823e5b45d0485f">getItsRemaningWalkMove</a> () const</td></tr>
+<tr class="memdesc:a7ee99507d7ff3e472f823e5b45d0485f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the value of itsRemaningWalkMove.  <br /></td></tr>
+<tr class="separator:a7ee99507d7ff3e472f823e5b45d0485f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63f7812b5142a7bcbbfe639c87b495cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a63f7812b5142a7bcbbfe639c87b495cb">setIsFrozen</a> (bool newIsFrozen)</td></tr>
+<tr class="memdesc:a63f7812b5142a7bcbbfe639c87b495cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of isFrozen.  <br /></td></tr>
+<tr class="separator:a63f7812b5142a7bcbbfe639c87b495cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b52e1b68f7f7fb4a21d8e6e1234210f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a8b52e1b68f7f7fb4a21d8e6e1234210f">getIsFrozen</a> () const</td></tr>
+<tr class="memdesc:a8b52e1b68f7f7fb4a21d8e6e1234210f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the value of isFrozen.  <br /></td></tr>
+<tr class="separator:a8b52e1b68f7f7fb4a21d8e6e1234210f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d285d1c45b6093940453365f5895054"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#a1d285d1c45b6093940453365f5895054">setStartFreeze</a> (unsigned short newStartFreeze)</td></tr>
+<tr class="memdesc:a1d285d1c45b6093940453365f5895054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value of startFreeze.  <br /></td></tr>
+<tr class="separator:a1d285d1c45b6093940453365f5895054"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe68792b82fec99eabd6820298dcd318"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/class_player.html#afe68792b82fec99eabd6820298dcd318">getStartFreeze</a> () const</td></tr>
+<tr class="memdesc:afe68792b82fec99eabd6820298dcd318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the value of startFreeze.  <br /></td></tr>
+<tr class="separator:afe68792b82fec99eabd6820298dcd318"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_entity"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_entity')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d2/d96/class_entity.html">Entity</a></td></tr>
 <tr class="memitem:a6915c92e78374610974c3d8cd13eef9c inherit pub_methods_class_entity"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d96/class_entity.html#a6915c92e78374610974c3d8cd13eef9c">Entity</a> (short x, short y, short height, short width)</td></tr>
 <tr class="memdesc:a6915c92e78374610974c3d8cd13eef9c inherit pub_methods_class_entity"><td class="mdescLeft">&#160;</td><td class="mdescRight">the serve to display the animation  <br /></td></tr>
@@ -277,7 +316,6 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a></dd></dl>
 <p>Constructor of the <a class="el" href="../../d8/d53/class_player.html" title="Class representing a player entity in a game. This class inherits from the Entity class and provides ...">Player</a> class. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>X coordinate of the player. </td></tr>
@@ -290,7 +328,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00114">114</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00222">222</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -328,7 +366,47 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/d96/class_entity.html#a42cecdd36be2ebf5ee007618d81a2e7d">Entity</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00021">21</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00066">66</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a8c4cd055138c0432e4f8f39d8915f209" name="a8c4cd055138c0432e4f8f39d8915f209"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c4cd055138c0432e4f8f39d8915f209">&#9670;&#160;</a></span>getComboValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned short Player::getComboValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The value of ComboValue. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00172">172</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a8b52e1b68f7f7fb4a21d8e6e1234210f" name="a8b52e1b68f7f7fb4a21d8e6e1234210f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b52e1b68f7f7fb4a21d8e6e1234210f">&#9670;&#160;</a></span>getIsFrozen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Player::getIsFrozen </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The value of isFrozen. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00207">207</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -348,7 +426,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The "is on the ground" status. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00087">87</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00136">136</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -386,7 +464,47 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The number of lives. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00063">63</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00112">112</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1b75de7813707c12a82b728d6622fc6c" name="a1b75de7813707c12a82b728d6622fc6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b75de7813707c12a82b728d6622fc6c">&#9670;&#160;</a></span>getItsRemaningComboTicks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned short Player::getItsRemaningComboTicks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The value of itsRemaningComboTicks. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00162">162</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ad6992feb4d74275fbe9a3c1269581478" name="ad6992feb4d74275fbe9a3c1269581478"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6992feb4d74275fbe9a3c1269581478">&#9670;&#160;</a></span>getItsRemaningFallMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned short Player::getItsRemaningFallMove </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The value of itsRemaningFallMove. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00182">182</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -406,7 +524,27 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>itsRemaningJumpMove </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00093">93</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00142">142</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7ee99507d7ff3e472f823e5b45d0485f" name="a7ee99507d7ff3e472f823e5b45d0485f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ee99507d7ff3e472f823e5b45d0485f">&#9670;&#160;</a></span>getItsRemaningWalkMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned short Player::getItsRemaningWalkMove </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The value of itsRemaningWalkMove. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00197">197</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -444,7 +582,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The speed on the X axis. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00069">69</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00118">118</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -464,18 +602,38 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The speed on the Y axis. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00075">75</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00124">124</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
-<a id="ae02ee46d8c20dd0697b975f935b09839" name="ae02ee46d8c20dd0697b975f935b09839"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae02ee46d8c20dd0697b975f935b09839">&#9670;&#160;</a></span>move()</h2>
+<a id="afe68792b82fec99eabd6820298dcd318" name="afe68792b82fec99eabd6820298dcd318"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe68792b82fec99eabd6820298dcd318">&#9670;&#160;</a></span>getStartFreeze()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Player::move </td>
+          <td class="memname">unsigned short Player::getStartFreeze </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The value of startFreeze. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00217">217</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a11139e2fbd8b9ca373952c00bcae51b7" name="a11139e2fbd8b9ca373952c00bcae51b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11139e2fbd8b9ca373952c00bcae51b7">&#9670;&#160;</a></span>moveX()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Player::moveX </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -484,6 +642,77 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00007">7</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aa92bad6cbd1487ef924cbc164dfa0774" name="aa92bad6cbd1487ef924cbc164dfa0774"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa92bad6cbd1487ef924cbc164dfa0774">&#9670;&#160;</a></span>moveY()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Player::moveY </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00030">30</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac04e468e0adb544d1747446ed850da9a" name="ac04e468e0adb544d1747446ed850da9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac04e468e0adb544d1747446ed850da9a">&#9670;&#160;</a></span>setComboValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Player::setComboValue </td>
+          <td>(</td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>newComboValue</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newComboValue</td><td>The new value of ComboValue. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00177">177</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a63f7812b5142a7bcbbfe639c87b495cb" name="a63f7812b5142a7bcbbfe639c87b495cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63f7812b5142a7bcbbfe639c87b495cb">&#9670;&#160;</a></span>setIsFrozen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Player::setIsFrozen </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>newIsFrozen</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newIsFrozen</td><td>The new value of isFrozen. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00202">202</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -509,7 +738,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00081">81</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00130">130</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -559,7 +788,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00103">103</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00152">152</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -585,7 +814,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00057">57</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00106">106</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -611,7 +840,59 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00108">108</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00157">157</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ad7d7e6718462511511d28e3e2792a321" name="ad7d7e6718462511511d28e3e2792a321"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7d7e6718462511511d28e3e2792a321">&#9670;&#160;</a></span>setItsRemaningComboTicks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Player::setItsRemaningComboTicks </td>
+          <td>(</td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>newItsRemaningComboTicks</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newItsRemaningComboTicks</td><td>The new value of itsRemaningComboTicks. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00167">167</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a630c2d9f1665678b83e87a8ef6a561e4" name="a630c2d9f1665678b83e87a8ef6a561e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a630c2d9f1665678b83e87a8ef6a561e4">&#9670;&#160;</a></span>setItsRemaningFallMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Player::setItsRemaningFallMove </td>
+          <td>(</td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>newItsRemaningFallMove</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newItsRemaningFallMove</td><td>The new value of itsRemaningFallMove. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00187">187</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -637,7 +918,33 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00098">98</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00147">147</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ae29789d0430c815111f9afea0c222ef3" name="ae29789d0430c815111f9afea0c222ef3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae29789d0430c815111f9afea0c222ef3">&#9670;&#160;</a></span>setItsRemaningWalkMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Player::setItsRemaningWalkMove </td>
+          <td>(</td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>newItsRemaningWalkMove</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newItsRemaningWalkMove</td><td>The new value of itsRemaningWalkMove. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00192">192</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -663,7 +970,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00045">45</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00094">94</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>
@@ -689,7 +996,33 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00051">51</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00100">100</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1d285d1c45b6093940453365f5895054" name="a1d285d1c45b6093940453365f5895054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d285d1c45b6093940453365f5895054">&#9670;&#160;</a></span>setStartFreeze()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Player::setStartFreeze </td>
+          <td>(</td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>newStartFreeze</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newStartFreeze</td><td>The new value of startFreeze. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d80/player_8cpp_source.html#l00212">212</a> of file <a class="el" href="../../db/d80/player_8cpp_source.html">player.cpp</a>.</p>
 
 </div>
 </div>

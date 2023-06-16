@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['giant_5fenemy_5fspeed_0',['GIANT_ENEMY_SPEED',['../d3/d0b/typedef_8h.html#ad1884bc4d229ae257706b4b2183e8fe7',1,'typedef.h']]],
-  ['gravity_1',['GRAVITY',['../d3/d0b/typedef_8h.html#a6801baa546c6112d19eb095111d24720',1,'typedef.h']]]
+  ['font_5fpath_0',['FONT_PATH',['../d3/d0b/typedef_8h.html#af326d9b4cced6fd44a9f9567dc666014',1,'typedef.h']]],
+  ['fps_1',['FPS',['../d3/d0b/typedef_8h.html#ac92ca5ab87034a348decad7ee8d4bd1b',1,'typedef.h']]],
+  ['freezer_5fenemy_5fspeed_2',['FREEZER_ENEMY_SPEED',['../d3/d0b/typedef_8h.html#a2e6c5751266f5765705249af472a8274',1,'typedef.h']]],
+  ['freezer_5fhit_5fplayer_3',['FREEZER_HIT_PLAYER',['../d3/d0b/typedef_8h.html#ab6df338dfa4248f7d2110f3a3038ada5',1,'typedef.h']]],
+  ['freezer_5fpoints_4',['FREEZER_POINTS',['../d3/d0b/typedef_8h.html#adebefec8bedbdeab59f27bb2323d742c',1,'typedef.h']]]
 ];

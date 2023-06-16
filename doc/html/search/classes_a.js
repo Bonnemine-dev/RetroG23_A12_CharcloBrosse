@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['spawner_0',['Spawner',['../d0/d0f/class_spawner.html',1,'']]],
-  ['standard_1',['Standard',['../de/df2/class_standard.html',1,'']]]
+  ['money_0',['Money',['../d6/d10/class_money.html',1,'']]]
 ];

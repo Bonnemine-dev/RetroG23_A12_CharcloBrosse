@@ -1,10 +1,11 @@
 <map id="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/despawner.h" name="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/despawner.h">
-<area shape="rect" id="node1" title=" " alt="" coords="59,5,259,60"/>
-<area shape="rect" id="node2" href="$d7/d85/spawner_8h.html" title="Header file for class Spawner." alt="" coords="118,108,199,133"/>
-<area shape="rect" id="node3" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="99,255,165,280"/>
-<area shape="rect" id="node7" href="$d7/dfd/enemy_8h.html" title="Header file for class Enemy." alt="" coords="184,181,256,207"/>
-<area shape="rect" id="node4" title=" " alt="" coords="89,328,162,353"/>
-<area shape="rect" id="node5" title=" " alt="" coords="186,328,262,353"/>
-<area shape="rect" id="node6" title=" " alt="" coords="5,328,64,353"/>
-<area shape="rect" id="node8" href="$d3/d0b/typedef_8h.html" title="Header file for general definition." alt="" coords="257,255,332,280"/>
+<area shape="rect" id="node1" title=" " alt="" coords="62,5,262,60"/>
+<area shape="rect" id="node2" href="$d7/d85/spawner_8h.html" title="Header file for class Spawner." alt="" coords="121,108,203,133"/>
+<area shape="rect" id="node3" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="109,255,175,280"/>
+<area shape="rect" id="node7" href="$d7/dfd/enemy_8h.html" title="Header file for class Enemy." alt="" coords="189,181,261,207"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,328,79,353"/>
+<area shape="rect" id="node5" title=" " alt="" coords="187,328,263,353"/>
+<area shape="rect" id="node6" title=" " alt="" coords="103,328,162,353"/>
+<area shape="rect" id="node8" href="$d3/d0b/typedef_8h.html" title="Header file for general definitions." alt="" coords="269,255,343,280"/>
+<area shape="rect" id="node9" title=" " alt="" coords="287,328,341,353"/>
 </map>

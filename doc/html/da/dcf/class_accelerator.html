@@ -25,7 +25,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">CharcloBrosse<span id="projectnumber">&#160;2</span>
+   <div id="projectname">CharcloBrosse<span id="projectnumber">&#160;3</span>
    </div>
   </td>
  </tr>
@@ -124,7 +124,7 @@ Collaboration diagram for Accelerator:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af8753b3142ce9040718dc6e9f2beb0bf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dcf/class_accelerator.html#af8753b3142ce9040718dc6e9f2beb0bf">Accelerator</a> (short height, short width, std::array&lt; std::array&lt; QPixmap *, 12 &gt; *, 3 &gt; *theSpritesList)</td></tr>
-<tr class="memdesc:af8753b3142ce9040718dc6e9f2beb0bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Speed State when accelerator comes up.  <br /></td></tr>
+<tr class="memdesc:af8753b3142ce9040718dc6e9f2beb0bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boolean which say if an accelerator is down or no, necessary to avoid a bug.  <br /></td></tr>
 <tr class="separator:af8753b3142ce9040718dc6e9f2beb0bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a324cf412a6dc363de993ab004bcbb9c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dcf/class_accelerator.html#a324cf412a6dc363de993ab004bcbb9c9">display</a> (QPainter *painter)</td></tr>
 <tr class="memdesc:a324cf412a6dc363de993ab004bcbb9c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">display display the current sprite at the screen  <br /></td></tr>
@@ -135,6 +135,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a699d82c0e63323ff94a3b87d3f6226c0"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dcf/class_accelerator.html#a699d82c0e63323ff94a3b87d3f6226c0">getItsSpeedState</a> () const</td></tr>
 <tr class="memdesc:a699d82c0e63323ff94a3b87d3f6226c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">getItsSpeedState get the actual acceleration of the enemy  <br /></td></tr>
 <tr class="separator:a699d82c0e63323ff94a3b87d3f6226c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea122aa279cb6faa46cc002d790fcce3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dcf/class_accelerator.html#aea122aa279cb6faa46cc002d790fcce3">setAcceleratorDown</a> (bool newAcceleratorDown)</td></tr>
+<tr class="memdesc:aea122aa279cb6faa46cc002d790fcce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">setAcceleratorDown set if the accelerator is down or not  <br /></td></tr>
+<tr class="separator:aea122aa279cb6faa46cc002d790fcce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a516472754f5c3ba34a78f6fc73a6cb28"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dcf/class_accelerator.html#a516472754f5c3ba34a78f6fc73a6cb28">getAcceleratorDown</a> () const</td></tr>
+<tr class="memdesc:a516472754f5c3ba34a78f6fc73a6cb28"><td class="mdescLeft">&#160;</td><td class="mdescRight">getAcceleratorDown tell if the acccelertor is down or not  <br /></td></tr>
+<tr class="separator:a516472754f5c3ba34a78f6fc73a6cb28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_enemy"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_enemy')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../dd/d7a/class_enemy.html">Enemy</a></td></tr>
 <tr class="memitem:a0671cdc11f54a835efb72ee01c660d7f inherit pub_methods_class_enemy"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d7a/class_enemy.html#a0671cdc11f54a835efb72ee01c660d7f">Enemy</a> (short height, short width)</td></tr>
 <tr class="memdesc:a0671cdc11f54a835efb72ee01c660d7f inherit pub_methods_class_enemy"><td class="mdescLeft">&#160;</td><td class="mdescRight">True is the player is on the ground .  <br /></td></tr>
@@ -259,7 +265,7 @@ Additional Inherited Members</h2></td></tr>
 <dd>
 <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a> </dd>
 <dd>
-<a class="el" href="../../d3/d0b/typedef_8h.html#ac3e413a86119db4b031458c7259e268e" title="The EnemyType enum the enemies types.">EnemyType</a> </dd></dl>
+<a class="el" href="../../d3/d0b/typedef_8h.html#ac3e413a86119db4b031458c7259e268e" title="The EnemyType enum represents the types of enemies.">EnemyType</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../db/d46/accelerator_8h_source.html#l00025">25</a> of file <a class="el" href="../../db/d46/accelerator_8h_source.html">accelerator.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -304,7 +310,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="../../dd/d7a/class_enemy.html#a0671cdc11f54a835efb72ee01c660d7f" title="True is the player is on the ground .">Enemy::Enemy</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00027">27</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00038">38</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
 
 </div>
 </div>
@@ -324,7 +330,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00013">13</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
 
 </div>
 </div>
@@ -361,7 +367,27 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../dd/d7a/class_enemy.html#a1da62137f5db1c6a5f83c2711bb8352a">Enemy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00034">34</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00045">45</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a516472754f5c3ba34a78f6fc73a6cb28" name="a516472754f5c3ba34a78f6fc73a6cb28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a516472754f5c3ba34a78f6fc73a6cb28">&#9670;&#160;</a></span>getAcceleratorDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Accelerator::getAcceleratorDown </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>ture if the accelerator is odwn, false else </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00033">33</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +407,33 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>the current acceleration state </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00022">22</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00023">23</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aea122aa279cb6faa46cc002d790fcce3" name="aea122aa279cb6faa46cc002d790fcce3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea122aa279cb6faa46cc002d790fcce3">&#9670;&#160;</a></span>setAcceleratorDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Accelerator::setAcceleratorDown </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>newAcceleratorDown</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newAcceleratorDown</td><td>the new state of the accelerator </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../da/dc6/accelerator_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../da/dc6/accelerator_8cpp_source.html">accelerator.cpp</a>.</p>
 
 </div>
 </div>

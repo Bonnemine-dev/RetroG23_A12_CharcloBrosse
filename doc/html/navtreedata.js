@@ -51,7 +51,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"dd/d1f/class_game.html#aa58fd87177bf7ac1d7d34f3b7c9781a8"
+"db/d0f/jumper_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

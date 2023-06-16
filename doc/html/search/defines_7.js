@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['level_5ffile_5fpath_0',['LEVEL_FILE_PATH',['../d3/d0b/typedef_8h.html#a9a80e68195ffe1b6c24c7492ad2de154',1,'typedef.h']]]
+  ['jumper_5fenemy_5fspeed_0',['JUMPER_ENEMY_SPEED',['../d3/d0b/typedef_8h.html#ae8fd1315210ee4955fe7fd6f5621610e',1,'typedef.h']]],
+  ['jumper_5fpoints_1',['JUMPER_POINTS',['../d3/d0b/typedef_8h.html#ac8842f1d6a4d43b5af390623c6e6fcee',1,'typedef.h']]]
 ];

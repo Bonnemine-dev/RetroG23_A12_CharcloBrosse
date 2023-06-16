@@ -1,11 +1,11 @@
 <map id="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/standard.h" name="retrog23_a12_charclobrosse/CharcloBrosse/CharcloBrosse/standard.h">
-<area shape="rect" id="node1" title="Header file for class Standard." alt="" coords="528,5,728,60"/>
-<area shape="rect" id="node2" href="$de/d09/level_8h.html" title="Header file for class Level." alt="" coords="416,108,616,163"/>
-<area shape="rect" id="node9" href="$df/d92/standard_8cpp.html" title="Source file for class Standard." alt="" coords="640,108,840,163"/>
-<area shape="rect" id="node3" href="$d2/dd5/game_8h.html" title="Header file for class Game." alt="" coords="237,313,483,353"/>
-<area shape="rect" id="node7" href="$df/dd5/hmi_8h.html" title="Header file for class HMI." alt="" coords="398,218,634,258"/>
-<area shape="rect" id="node8" href="$d2/d57/level_8cpp.html" title="Source file for class Level." alt="" coords="659,211,859,265"/>
-<area shape="rect" id="node4" href="$df/dd9/game_8cpp.html" title="Source file for class Game." alt="" coords="5,401,205,456"/>
-<area shape="rect" id="node5" href="$d2/d19/hmi_8cpp.html" title=" " alt="" coords="453,401,653,456"/>
-<area shape="rect" id="node6" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="229,401,429,456"/>
+<area shape="rect" id="node1" title="Header file for class Standard." alt="" coords="260,5,460,60"/>
+<area shape="rect" id="node2" href="$d2/d57/level_8cpp.html" title="Source file for class Level." alt="" coords="123,211,323,265"/>
+<area shape="rect" id="node3" href="$de/d09/level_8h.html" title="Header file for class Level." alt="" coords="260,108,460,163"/>
+<area shape="rect" id="node9" href="$df/d92/standard_8cpp.html" title="Source file for class Standard." alt="" coords="484,108,684,163"/>
+<area shape="rect" id="node4" href="$d2/dd5/game_8h.html" title="Header file for class Game." alt="" coords="237,313,483,353"/>
+<area shape="rect" id="node8" href="$df/dd5/hmi_8h.html" title="Header file for class HMI." alt="" coords="398,218,634,258"/>
+<area shape="rect" id="node5" href="$df/dd9/game_8cpp.html" title="Source file for class Game." alt="" coords="5,401,205,456"/>
+<area shape="rect" id="node6" href="$d2/d19/hmi_8cpp.html" title=" " alt="" coords="453,401,653,456"/>
+<area shape="rect" id="node7" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="229,401,429,456"/>
 </map>
