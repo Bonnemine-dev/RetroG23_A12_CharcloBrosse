@@ -29,6 +29,11 @@ public:
      * @param sprite Sprite used for the Giant enemy.
      */
     Freezer(short height,  short width, std::array<QPixmap *,12>* theSpritesList);
+    /**
+     * @brief display display the current sprite at the screen
+     * @param painter a pointer to a painter associated to th screen where to display
+     * @see <a href="https://doc.qt.io/qt-5/qpainter.html" target="_blank">QPainter</a>
+     */
     void display(QPainter *painter);
 };
 
