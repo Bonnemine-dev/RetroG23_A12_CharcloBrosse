@@ -447,29 +447,20 @@ void HMI::paintEvent(QPaintEvent *event)
 
 
         int time = itsLevelTimer->remainingTime()/1000;
-        if (time > 30){
-            painter->setPen(QColor("black"));
-        }
-        else if (time % 2 == 0){
+        if (time < 31 && time % 2 == 0){
             painter->setPen(QColor("red"));
         }
-        else{
-            painter->setPen(QColor("white"));
+        else {
+            painter->setPen(QColor("Black"));
         }
-//        if (time < 31 && time % 2 == 0){
-//            painter->setPen(QColor("red"));
-//        }
-//        else {
-//            painter->setPen(QColor("Black"));
-//        }
         if (time > 99){
-            painter->drawText(1230, 30, QString("%1").arg(itsLevelTimer->remainingTime()/1000));
+            painter->drawText(1230, 30, QString("%1").arg(time));
         }
         else if (time > 9){
-            painter->drawText(1230, 30, QString("0%1").arg(itsLevelTimer->remainingTime()/1000));
+            painter->drawText(1230, 30, QString("0%1").arg(time));
         }
         else {
-            painter->drawText(1230, 30, QString("00%1").arg(itsLevelTimer->remainingTime()/1000));
+            painter->drawText(1230, 30, QString("00%1").arg(time));
         }
 
         delete painter;
