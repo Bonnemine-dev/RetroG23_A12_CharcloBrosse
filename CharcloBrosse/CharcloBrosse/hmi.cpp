@@ -442,15 +442,25 @@ void HMI::paintEvent(QPaintEvent *event)
             painter->drawText(565, 32, QString("Combo: x%1 !").arg(itsGame->getItsCombo()));
             painter->setPen(QColor("black"));
         }
-        painter->setPen(QColor("black"));
-        if (itsLevelTimer->remainingTime()/1000 > 99){
-            painter->drawText(1230, 30, QString("%1").arg(itsLevelTimer->remainingTime()/1000));
-        }
-        else if (itsLevelTimer->remainingTime()/1000 > 9){
-            painter->drawText(1230, 30, QString("0%1").arg(itsLevelTimer->remainingTime()/1000));
+
+
+
+
+        int time = itsLevelTimer->remainingTime()/1000;
+        if (time < 31 && time % 2 == 0){
+            painter->setPen(QColor("red"));
         }
         else {
-            painter->drawText(1230, 30, QString("00%1").arg(itsLevelTimer->remainingTime()/1000));
+            painter->setPen(QColor("Black"));
+        }
+        if (time > 99){
+            painter->drawText(1230, 30, QString("%1").arg(time));
+        }
+        else if (time > 9){
+            painter->drawText(1230, 30, QString("0%1").arg(time));
+        }
+        else {
+            painter->drawText(1230, 30, QString("00%1").arg(time));
         }
 
         delete painter;

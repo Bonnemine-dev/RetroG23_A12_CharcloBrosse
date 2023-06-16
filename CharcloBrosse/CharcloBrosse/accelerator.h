@@ -52,7 +52,15 @@ public:
      * @return the current acceleration state
      */
     short getItsSpeedState() const;
+    /**
+     * @brief setAcceleratorDown set if the accelerator is down or not
+     * @param newAcceleratorDown the new state of the accelerator
+     */
     void setAcceleratorDown(bool newAcceleratorDown);
+    /**
+     * @brief getAcceleratorDown tell if the acccelertor is down or not
+     * @return ture if the accelerator is odwn, false else
+     */
     bool getAcceleratorDown() const;
 };
 
