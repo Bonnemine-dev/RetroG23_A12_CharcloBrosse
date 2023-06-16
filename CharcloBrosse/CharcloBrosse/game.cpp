@@ -40,7 +40,7 @@ Game::Game()
 
 void Game::onGameStart(){
     //Niveau actuel
-    currentLevel = 4;
+    currentLevel = 0;
     //Money
     itsMoney = 0;
     //Reset du block pow
