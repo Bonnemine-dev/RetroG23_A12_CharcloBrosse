@@ -704,7 +704,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     //vrai si le haut du joueur égale le bas du joueur et que le joueur est en pleine ascenssion soit le joueur vien de taper un block avec sa tête
-    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom())
+    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && (thePlayer->getItsRect()->right() != theBlock->getItsRect()->left()) && (thePlayer->getItsRect()->left() != theBlock->getItsRect()->right()))
     {
         // Si le bloc est un bloc POW et qu'il n'a pas été frappé.
         if(theBlock->getItsType() == POW && !isBlockPOWHitted)
