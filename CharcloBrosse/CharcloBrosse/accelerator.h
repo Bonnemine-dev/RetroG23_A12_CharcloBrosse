@@ -27,6 +27,7 @@ class Accelerator : public Enemy
 private:
     static std::array<std::array<QPixmap *,12>*, 3>* itsSpritesList; /** @brief the list of the accelerator sprites * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>*/
     short itsSpeedState = 1; /**  @brief The Speed State when accelerator comes up. */
+    bool acceleratorDown = false;/**  @brief Boolean which say if an accelerator is down or no, necessary to avoid a bug. */
 public:
     /**
      * @brief Constructor of the Accelerator class.
@@ -51,6 +52,16 @@ public:
      * @return the current acceleration state
      */
     short getItsSpeedState() const;
+    /**
+     * @brief setAcceleratorDown set if the accelerator is down or not
+     * @param newAcceleratorDown the new state of the accelerator
+     */
+    void setAcceleratorDown(bool newAcceleratorDown);
+    /**
+     * @brief getAcceleratorDown tell if the acccelertor is down or not
+     * @return ture if the accelerator is odwn, false else
+     */
+    bool getAcceleratorDown() const;
 };
 
 #endif // ACCELERATOR_H

@@ -1,9 +1,0 @@
-<map id="spawner.h" name="spawner.h">
-<area shape="rect" id="node1" title="Header file for class Spawner." alt="" coords="137,5,219,31"/>
-<area shape="rect" id="node2" href="$d8/d83/entity_8h.html" title="Header file for class Entity." alt="" coords="109,152,175,177"/>
-<area shape="rect" id="node6" href="$d7/dfd/enemy_8h.html" title="Header file for class Enemy." alt="" coords="179,79,251,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,225,79,251"/>
-<area shape="rect" id="node4" title=" " alt="" coords="187,225,263,251"/>
-<area shape="rect" id="node5" title=" " alt="" coords="103,225,162,251"/>
-<area shape="rect" id="node7" href="$d3/d0b/typedef_8h.html" title="Header file for general definition." alt="" coords="253,152,327,177"/>
-</map>

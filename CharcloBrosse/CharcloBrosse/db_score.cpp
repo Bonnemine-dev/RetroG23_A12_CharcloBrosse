@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <utility>
+#include <queue>
 #include "db_score.h"
 #include "typedef.h"
 
@@ -76,7 +77,6 @@ void DB_Score::saveScore(std::string theName, unsigned int theScore) {
         iss >> score;
         scores.push_back({name, score});
     }
-    ifs.close();
 
     scores.push_back({theName, theScore});
 
@@ -95,12 +95,50 @@ void DB_Score::saveScore(std::string theName, unsigned int theScore) {
     for (const auto &score : scores) {
         ofs << score.first << "," << score.second << std::endl;
     }
-    ofs.close();
+    // j'ai enlevé les fermetures de flux car elles sont automatiques  ala fin de la methode et ca consome moins de rsc comme ça
 }
 
 
+//bool DB_Score::isInTop10(unsigned int theScore) {
+//    std::vector<std::pair<std::string, unsigned int>> scores;
+//    std::ifstream ifs(HIGHSCORES_FILE_PATH);
+//    std::string line;
+//    while (std::getline(ifs, line)) {
+//        std::istringstream iss(line);
+//        std::string name;
+//        unsigned int score;
+//        getline(iss, name, ',');
+//        iss >> score;
+//        scores.push_back(std::make_pair(name, score));
+//    }
+//    ifs.close();
+
+//    // Trier le vecteur en ordre décroissant de score
+//    std::sort(scores.begin(), scores.end(), [](std::pair<std::string, unsigned int> &left, std::pair<std::string, unsigned int> &right) {
+//        return left.second > right.second;
+//    });
+
+//    bool isInTop10 = false;
+
+//    // Si moins de 10 scores, le score est forcément dans le top 10
+//    if (scores.size() < 10) {
+//        isInTop10 = true;
+//    } else {
+//        // Si plus de 10 scores, en supprimer pour ne garder que les 10 premiers
+//        scores.resize(10);
+
+//        // Vérifier si le score est dans le top 10
+//        isInTop10 = std::any_of(scores.begin(), scores.end(), [&theScore](const std::pair<std::string, unsigned int>& pair){
+//            return pair.second < theScore;
+//        });
+//    }
+
+//    return isInTop10;
+//}
 bool DB_Score::isInTop10(unsigned int theScore) {
-    std::vector<std::pair<std::string, unsigned int>> scores;
+    // Définir un tas min avec une taille maximale de 10
+    std::priority_queue<std::pair<std::string, unsigned int>, std::vector<std::pair<std::string, unsigned int>>, CompareScore> minHeap;
+
     std::ifstream ifs(HIGHSCORES_FILE_PATH);
     std::string line;
     while (std::getline(ifs, line)) {
@@ -109,29 +147,17 @@ bool DB_Score::isInTop10(unsigned int theScore) {
         unsigned int score;
         getline(iss, name, ',');
         iss >> score;
-        scores.push_back(std::make_pair(name, score));
+
+        // Ajouter le score au tas min
+        minHeap.push(std::make_pair(name, score));
+
+        // Si plus de 10 scores, supprimer le plus petit
+        if (minHeap.size() > 10) {
+            minHeap.pop();
+        }
     }
     ifs.close();
 
-    // Trier le vecteur en ordre décroissant de score
-    std::sort(scores.begin(), scores.end(), [](std::pair<std::string, unsigned int> &left, std::pair<std::string, unsigned int> &right) {
-        return left.second > right.second;
-    });
-
-    bool isInTop10 = false;
-
-    // Si moins de 10 scores, le score est forcément dans le top 10
-    if (scores.size() < 10) {
-        isInTop10 = true;
-    } else {
-        // Si plus de 10 scores, en supprimer pour ne garder que les 10 premiers
-        scores.resize(10);
-
-        // Vérifier si le score est dans le top 10
-        isInTop10 = std::any_of(scores.begin(), scores.end(), [&theScore](const std::pair<std::string, unsigned int>& pair){
-            return pair.second < theScore;
-        });
-    }
-
-    return isInTop10;
+    // Vérifier si le score serait dans le top 10
+    return minHeap.size() < 10 || theScore > minHeap.top().second;
 }

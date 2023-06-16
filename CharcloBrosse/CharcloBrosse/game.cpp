@@ -10,6 +10,7 @@
 #include <QObject>
 #include "game.h"
 #include "typedef.h"
+#include "jumper.h"
 #include <iostream>
 #include <QElapsedTimer>
 #include <QDebug>
@@ -22,7 +23,7 @@ Game::Game()
     //Définition du tileset pour la partie en cours, TILESET_FILE_PATH = le chemin vers le fichier .png du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Création du joueur pour la partie en cours
-    itsPlayer = new Player((32*39)/2, 250, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
+    itsPlayer = new Player(-50, -50, 64, 32, itsTileSet->getItsPlayerTilesList(),&itsLoopCounter);
     //Création de l'interface homme machine lié au jeu
     itsHMI = new HMI(itsPlayer, this);
     //Definition de la variable du temps écoulé pour l'appartion des ennemies
@@ -39,9 +40,13 @@ Game::Game()
 
 void Game::onGameStart(){
     //Niveau actuel
-    currentLevel = 1;
+    currentLevel = 0;
     //Money
     itsMoney = 0;
+    //Reset du block pow
+    isBlockPOWHitted = false;
+    //Reset du muliplicateur
+    currentTier = 1;
     //Création du tileset
     itsTileSet = new TileSet(TILESET_FILE_PATH);
     //Initialisation du nombre de vies
@@ -57,13 +62,22 @@ void Game::onGameStart(){
     //Initialisation
     itsEllapsedTime = 0;
     checkTier();
-    gameLoop();
     running = true;
 }
 
 void Game::gameLoop()
 {
+    if(itsPlayer->getIsFrozen())
+    {
+        itsPlayer->setStartFreeze(itsPlayer->getStartFreeze()-1);
+        if(itsPlayer->getStartFreeze() == 0)
+        {
+            itsPlayer->setIsFrozen(false);
+        }
+    }
     if(running){
+        // pour avoir le combo qui s'enleve des qu'il est finit
+        itsCombo = itsPlayer->getComboValue();
         //création du timer
         QElapsedTimer timer;
         //démarrage du time
@@ -123,7 +137,7 @@ void Game::gameLoop()
                 //Vrai si le palier actuel est différent du palier auquel il doit être
                 //Incrémentation du niveau actuel
                 currentLevel++;
-
+                nbLevelPassed++;
             }
             if (currentTier != checkTier()){
                 // modification du pallier
@@ -131,7 +145,7 @@ void Game::gameLoop()
                 //Suppression du tileset actuel
                 delete itsTileSet;
                 //création du nouveau tileset
-                itsTileSet = new TileSet(":/ressources/tileset0.png");
+                itsTileSet = new TileSet(tileSetPath);
             }
             //ouverture du niveau
             openLevel();
@@ -210,6 +224,21 @@ short Game::getCurrentTier() const
     return currentTier;
 }
 
+unsigned short Game::getItsCombo() const
+{
+    return itsCombo;
+}
+
+unsigned short Game::getNbEnemyKilled() const
+{
+    return nbEnemyKilled;
+}
+
+unsigned short Game::getNbLevelPassed() const
+{
+    return nbLevelPassed;
+}
+
 void Game::checkAllCollid(){
     //Définie si la gravité doit être appliqué de base.
     //oui si le joueur n'a pas un saut en cours d'execution non sinon.
@@ -217,9 +246,15 @@ void Game::checkAllCollid(){
     //isBlockPOWHitted = false; // A retirer une fois le bloc pow immplémenter
     // player to block
 
-    bool playerGravity = (itsPlayer->getItsRemaningJumpMove() == 0);
+    //Met la gravité si le joueur n'est pas en train de sauter et il est en falling
+    //rdibitoire : est en train de sauter ou n'est pas en falling mod
     //définie le joueur comme n'étant pas sur un bloc
     itsPlayer->setIsOnTheGround(false);
+    if(itsPlayer->getItsRemaningComboTicks() != 0)
+    {
+        itsPlayer->setItsRemaningComboTicks(itsPlayer->getItsRemaningComboTicks() - 1);
+        if(itsPlayer->getItsRemaningComboTicks() == 0)itsPlayer->setComboValue(0);
+    }
     for (Block * block : itsLevel->getItsBlockList())
     {
         if (block->getItsType() == OBSTACLE && collid(itsPlayer, block))
@@ -242,13 +277,14 @@ void Game::checkAllCollid(){
             }
         }
         //Condition qui vérifie que : une collision à lieu entre le joueur et le bloc
-        if(collid(itsPlayer, block) == true){
+        if(collid(itsPlayer, block) == true)
+        {
             //Execute la fonction qui gère la collision
             colBtwPlayerAndBlock(itsPlayer, block);
             //Condition qui vérifie que : le joueur est sur le bloc
-            if (isOnTop(itsPlayer, block)){
+            if (isOnTop(itsPlayer, block))
+            {
                 //Change la varible qui définie si oui ou non le joueur doit subir la gravité
-                playerGravity = false;
                 //Définie l'attribut boolean du joueur à vrai, cet attribut est
                 //vrai si il est sur une surface faux si il est dans le vide
                 itsPlayer->setIsOnTheGround(true);
@@ -268,17 +304,8 @@ void Game::checkAllCollid(){
     //------------------------------Fin de la vérification des collisions entre joueur et money -------------------------------------------------------
 
     //------------------------------Début de l'application de la gravitée ou pas pour le joueur -------------------------------------------------------
-    if (playerGravity)
-    {
-        //Définie la vitesse du joueur sur l'axe des absices à 1
-        itsPlayer->setItsYSpeed(GRAVITY);
-    }
-    else
-    {
-        //Définie la vitesse du joueur sur l'axe des absices à 0 si sa vitesse est positif
-        //et ne la change pas si elle est négatif
-        itsPlayer->setItsYSpeed(itsPlayer->getItsYSpeed() > STILL?STILL:itsPlayer->getItsYSpeed());
-    }
+    //si il n'est pas sur un bloc et qu'il n'est pas en pleine chute et qu'il n'est pas en plein saut
+
     //------------------------------Fin de l'application de la gravitée ou pas pour le joueur -------------------------------------------------------
 
     //------------------------------Début de la vérification des collisions avec les ennemies -------------------------------------------------------
@@ -365,6 +392,7 @@ void Game::checkAllCollid(){
             //------------------------------Début de l'application de la gravité en fonction des vérification efféctué--------------------------------
             if (gravityList[i1])
             {
+                enemy1->setIsOnTheGround(false);
                 enemy1->setItsYSpeed(GRAVITY);
             }
             else
@@ -387,14 +415,35 @@ void Game::checkAllCollid(){
                 case GIANT:
                     enemy1->setItsState(true);
                     break;
-                case ACCELERATOR:
+                case JUMPER:
                     enemy1->setItsState(true);
                     break;
-                default:
+                case FREEZER:
+                    enemy1->setItsState(true);
                     break;
+                case ACCELERATOR:
+                    enemy1->setItsState(true);
+                    // L'état d'accélération est modifié
+                    Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy1);
+                    if (accelerator->getAcceleratorDown())
+                    {
+                        // L'état d'accélération est modifié
+                        accelerator->addItsSpeedState();
+                        accelerator->setAcceleratorDown(false);
+                        break;
+                    }
+
                 }
             }
         }
+    }
+    if(!itsPlayer->getIsOnTheGround() && itsPlayer->getItsRemaningFallMove() == 0xFFFF)
+    {
+        itsPlayer->setItsRemaningFallMove(DISTANCE_FOR_MAX_GRAVITY);
+    }
+    else if(itsPlayer->getIsOnTheGround())
+    {
+        itsPlayer->setItsRemaningFallMove(0xFFFF);
     }
 }
 
@@ -404,14 +453,29 @@ void Game::colBtwPlayerAndEnemy(Player* thePlayer,Enemy* theEnemy)
     //Vrai si l'enemy n'est pas KO
     if(theEnemy->getItsState())
     {
-        //cette fonction fait exactement le même chose que ce qui doit être fait quand il touche un enemy pas KO
-        colBtwPlayerAndObstacle(thePlayer);
+        if (theEnemy->getItsType() == FREEZER)
+        {
+            itsLevel->removeEnemy(theEnemy);
+            thePlayer->setIsFrozen(true);
+            thePlayer->setStartFreeze((1000/NUMBER_LOOP_PER_SECOND)*FREEZER_HIT_PLAYER);
+            itsPlayer->setItsCurrentMove(NONE);
+            itsPlayer->setItsNextMove(NONE);
+        }
+        else
+        {
+            //cette fonction fait exactement le même chose que ce qui doit être fait quand il touche un enemy pas KO
+            colBtwPlayerAndObstacle(thePlayer);
+        }
     }
     else//quand l'enemie est KO
     {
+        thePlayer->setItsRemaningComboTicks((1000/NUMBER_LOOP_PER_SECOND)*COMBO_RANGE_TIME);
+        thePlayer->setComboValue(thePlayer->getComboValue() + 1);
         int tier = currentTier;
         int multiplier = tier; // Le multiplicateur est 1 plus 3 fois le tier. Si tier est 0, le multiplicateur est 1.
-        itsScore += theEnemy->getItsType() * multiplier;
+        itsCombo = thePlayer->getComboValue();
+        itsScore += theEnemy->getItsType() * multiplier * itsCombo;
+        nbEnemyKilled++;
         itsLevel->removeEnemy(theEnemy);
     }
 }
@@ -441,6 +505,7 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
     isBlockPOWHitted = true;
     // Le saut du joueur est stoppé.
     thePlayer->setItsRemaningJumpMove(0);
+    thePlayer->setItsRemaningFallMove(DISTANCE_FOR_MAX_GRAVITY/2);
     // L'état du bloc POW passe à true.
     theBlockPOW->setItsState(true);
     // L'image du bloc POW est modifié.
@@ -453,17 +518,23 @@ void Game::colBtwPlayerAndBlockPOW(Player* thePlayer, Block *theBlockPOW)
             // Si l'ennemi n'est pas KO
             if((enemy->getItsState() == true))
             {
-                // L'ennemi deveint KO
-                enemy->setItsState(false);
-                // L'image de l'ennemi est modifié
-                // La loop de durée de KO est démarré
-                enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
-                // Si l'ennemi est de type ACCELERATEUR il a un comportement spécial.
                 if(enemy->getItsType() == ACCELERATOR)
                 {
+                    //met l'enemy KO
+                    enemy->setItsState(false);
+                    //Démarrage du compteur,pour le temps de mort
+                    enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                     // L'état d'accélération est modifié
                     Accelerator* accelerator = dynamic_cast<Accelerator*>(enemy);
-                    accelerator->addItsSpeedState();
+                    accelerator->setAcceleratorDown(true);
+                }
+                else
+                {
+                    // L'ennemi deveint KO
+                    enemy->setItsState(false);
+                    // L'image de l'ennemi est modifié
+                    // La loop de durée de KO est démarré
+                    enemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 }
             }
             // Si l'ennemi est KO
@@ -564,16 +635,23 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 //Démarrage du compteur,pour le temps de mort
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
                 break;
+            case JUMPER:
+                theEnemy->setItsState(false);
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
+            case FREEZER:
+                theEnemy->setItsState(false);
+                theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
+                break;
             //cas ou l'enemy est un ACCELERATOR
             case ACCELERATOR:
                 //met l'enemy KO
                 theEnemy->setItsState(false);
                 //Démarrage du compteur,pour le temps de mort
                 theEnemy->setItsNumberLoopKO(KO_TIME * NUMBER_LOOP_PER_SECOND);
-                //Incrémente de 1 l'état de l'accelerator
-                dynamic_cast<Accelerator*>(theEnemy)->addItsSpeedState();
-                break;
-            default:
+                // L'état d'accélération est modifié
+                Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
+                accelerator->setAcceleratorDown(true);
                 break;
             }
         }
@@ -597,14 +675,24 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
                 //Définie son compteur de temps de mort à un temps légèrement superieur au temps que met un block à redevenir normal
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
                 break;
+            case JUMPER:
+                theEnemy->setItsState(true);
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
+            case FREEZER:
+                theEnemy->setItsState(true);
+                theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
+                break;
             //cas ou l'enemy est un ACCELERATOR
             case ACCELERATOR:
                 //met l'enemy en vie
                 theEnemy->setItsState(true);
                 //Définie son compteur de temps de mort à un temps légèrement superieur au temps que met un block à redevenir normal
                 theEnemy->setItsNumberLoopKO(2+((1000/NUMBER_LOOP_PER_SECOND)*BLOCK_HIT_TIME));//+2 car problème de précision
-                break;
-            default:
+                // L'état d'accélération est modifié
+                Accelerator* accelerator = dynamic_cast<Accelerator*>(theEnemy);
+                accelerator->addItsSpeedState();
+                accelerator->setAcceleratorDown(false);
                 break;
             }
         }
@@ -616,7 +704,7 @@ void Game::colBtwEnemyAndBlock(Enemy* theEnemy, Block* theBlock)
 void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
 {
     //vrai si le haut du joueur égale le bas du joueur et que le joueur est en pleine ascenssion soit le joueur vien de taper un block avec sa tête
-    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && thePlayer->getItsYSpeed() < STILL)
+    if(thePlayer->getItsRect()->top() == theBlock->getItsRect()->bottom() && (thePlayer->getItsRect()->right() != theBlock->getItsRect()->left()) && (thePlayer->getItsRect()->left() != theBlock->getItsRect()->right()))
     {
         // Si le bloc est un bloc POW et qu'il n'a pas été frappé.
         if(theBlock->getItsType() == POW && !isBlockPOWHitted)
@@ -629,6 +717,7 @@ void Game::colBtwPlayerAndBlock(Player* thePlayer, Block* theBlock)
         {
             //Arrette le saut du joueur
             thePlayer->setItsRemaningJumpMove(0);
+            thePlayer->setItsRemaningFallMove(DISTANCE_FOR_MAX_GRAVITY/2);
             //Met l'état du block à true soit : touché
             theBlock->setItsState(true);
             //Démarre le compteur du block pour le temps qu'il doit passé à true
@@ -709,41 +798,44 @@ int Game::checkTier()
     //Vrai si le wallet de la game est supérieur ou égale à 100
     if (itsMoney >= 100)
     {
-        cheminBG = BACKGROUND2_FILE_PATH;
+        cheminBG = BACKGROUND5_FILE_PATH;
+        tileSetPath = TILESET5_FILE_PATH;
         return 5; // Quatrième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 50
     else if (itsMoney >= 50)
     {
-        cheminBG = BACKGROUND2_FILE_PATH;
+        cheminBG = BACKGROUND4_FILE_PATH;
+        tileSetPath = TILESET4_FILE_PATH;
         return 4; // Troisième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 25
     else if (itsMoney >= 25)
     {
-        cheminBG = BACKGROUND2_FILE_PATH;
+        cheminBG = BACKGROUND3_FILE_PATH;
+        tileSetPath = TILESET3_FILE_PATH;
         return 3; // Deuxième palier
     }
     //Vrai si le wallet de la game est supérieur ou égale à 10
     else if (itsMoney >= 10)
     {
         cheminBG = BACKGROUND2_FILE_PATH;
+        tileSetPath = TILESET2_FILE_PATH;
         return 2; // Premier palier
     }
     //Vrai si le wallet de la game est supérieur ou inférieur à 10
     else
     {
         cheminBG = BACKGROUND1_FILE_PATH;
+        tileSetPath = TILESET_FILE_PATH;
         return 1; // Pas encore de palier atteint
     }
 }
 
 void Game::moveAll(){
     //vrai si le game loop à fait assez de tour valeur définie avec la speed du player
-    if(itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(PLAYERMAXSPEED*BLOCK_SIZE)) == 0)//NUMBER_LOOP_PER_SECOND/((NUMBER_LOOP_PER_SECOND/BLOCK_SIZE)/PLAYERMAXSPEED))
-    {
-        itsPlayer->move();
-    }
+    itsPlayer->moveX();
+    itsPlayer->moveY();
     //Parcours tous les enemy du niveau
     for (Enemy * enemy : itsLevel->getItsEnemiesList()){
         //Case pour tous les type d'enemy
@@ -767,6 +859,17 @@ void Game::moveAll(){
                 enemy->move();
             }
             break;
+        //Cas ou l'enemy est de type JUMPER
+        case JUMPER:
+            dynamic_cast<Jumper*>(enemy)->move();
+            break;
+        //Cas ou l'enemy est de type FREEZER
+        case FREEZER:
+            if((itsLoopCounter % (NUMBER_LOOP_PER_SECOND/(FREEZER_ENEMY_SPEED*BLOCK_SIZE))) == 0)
+            {
+                enemy->move();
+            }
+            break;
         //Cas ou l'enemy est de type ACCELERATOR
         case ACCELERATOR:
             //Défini l'ennemy avec son objet accelerator
@@ -786,12 +889,14 @@ void Game::onLeftKeyPressed()
 {
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(LEFT_X);
     itsPlayer->setItsNextMove(LEFT_X);
+    if(itsPlayer->getItsRemaningWalkMove() == 0xFFFF)itsPlayer->setItsRemaningWalkMove(BLOCK_SIZE);
 }
 
 void Game::onRightKeyPressed()
 {
     //    if(itsPlayer->getItsRemaningJumpMove() == 0)itsPlayer->setItsCurrentMove(RIGHT_X);
     itsPlayer->setItsNextMove(RIGHT_X);
+    if(itsPlayer->getItsRemaningWalkMove() == 0xFFFF)itsPlayer->setItsRemaningWalkMove(BLOCK_SIZE);
 }
 
 void Game::onUpKeyPressed()

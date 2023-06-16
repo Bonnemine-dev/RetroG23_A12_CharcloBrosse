@@ -1,4 +1,0 @@
-<map id="Block" name="Block">
-<area shape="rect" id="node1" title="Class representing a block entity in a game. This class inherits from the Entity class and provides a..." alt="" coords="6,79,61,104"/>
-<area shape="rect" id="node2" href="$d2/d96/class_entity.html" title="Class representing a game entity. This class provides a generic representation for an entity in a gam..." alt="" coords="5,5,61,31"/>
-</map>

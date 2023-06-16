@@ -39,6 +39,8 @@ class HMI : public QWidget
 {
     Q_OBJECT
 private:
+    QPixmap *rulesImage; /** @brief  The key bind image. */
+
     DB_Score *DBSCORE; /** @brief  The object that we use for database methods. */
 
     MenuState state; /** @brief  Current state of the HMI. */
@@ -67,6 +69,7 @@ private:
 
     QLabel *gameTitleLabel; /** @brief  Label for displaying "Chaclo Brosse". */
     QLabel *rulesText; /** @brief  Label for displaying game rules. */
+    QLabel *rulesImageLabel; /** @brief  Label for displaying game rules with the key bind image. */
     QVBoxLayout *gameOverTop10Layout; /** @brief Layout for displaying GameOver Layout with Top 10 submit */
 
     QLabel *congratulationsMessage; /** @brief Label for displaying the congratulation message */
@@ -223,6 +226,9 @@ public slots:
      */
     void stopGame();
 
+    /**
+     * @brief Submits the score after clicking on the submit button.
+     */
     void submitScore();
 
 };

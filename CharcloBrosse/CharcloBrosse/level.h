@@ -24,7 +24,6 @@
 #include "giant.h"
 #include "accelerator.h"
 #include "block.h"
-#include "obstacle.h"
 #include "spawner.h"
 #include "money.h"
 #include "despawner.h"

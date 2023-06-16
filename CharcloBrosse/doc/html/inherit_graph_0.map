@@ -1,9 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d2/d96/class_entity.html" title="Class representing a game entity. This class provides a generic representation for an entity in a gam..." alt="" coords="5,104,61,129"/>
-<area shape="rect" id="node2" href="$d2/df8/class_block.html" title="Class representing a block entity in a game. This class inherits from the Entity class and provides a..." alt="" coords="125,5,180,31"/>
-<area shape="rect" id="node3" href="$de/d2e/class_despawner.html" title="Class representing a despawner entity in a game. This class inherits from the Entity class and provid..." alt="" coords="109,55,196,80"/>
-<area shape="rect" id="node4" href="$dd/d7a/class_enemy.html" title="Class representing an enemy entity in a game. This class inherits from the Entity class and provides ..." alt="" coords="121,104,184,129"/>
-<area shape="rect" id="node6" href="$d8/d53/class_player.html" title="Class representing a player entity in a game. This class inherits from the Entity class and provides ..." alt="" coords="123,153,182,179"/>
-<area shape="rect" id="node7" href="$d0/d0f/class_spawner.html" title="Class representing a spawner entity in a game. This class inherits from the Entity class and provides..." alt="" coords="117,203,189,228"/>
-<area shape="rect" id="node5" href="$de/df2/class_standard.html" title="Class representing a standard enemy in a game. This class inherits from the Enemy class and represent..." alt="" coords="244,104,319,129"/>
-</map>

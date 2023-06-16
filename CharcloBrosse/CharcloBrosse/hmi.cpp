@@ -43,7 +43,7 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     quitToMainButton2 = new QPushButton("Leave the game");
     gameOverLabel = new QLabel("GAME OVER", this);
     gameOverLabel->setAlignment(Qt::AlignCenter);  // Centre le texte dans le QLabel
-    QFont gameOverFont = gameOverLabel->font();
+    QFont gameOverFont = arcadeFont;
     gameOverFont.setPointSize(56);
     gameOverLabel->setFont(gameOverFont);
 
@@ -56,6 +56,8 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     rulesLayout = new QVBoxLayout;
     rulesText = new QLabel("In this game, the player controls the main character, Charclo, and must navigate through levels composed of platforms and blocks.\nThe objective is to defeat all the enemies, collect coins and bills to unlock score multipliers, and complete the levels as quickly as possible.\nTo control Charclo, the player uses the arrow keys to move left or right, and the up arrow key to jump.\nPressing the \"Escape\" key allows the player to pause the game.");
     goBackButton = new QPushButton("Go back");
+    rulesImage = new QPixmap();
+
 
     // Initialisation du QLabel pour le highscoreList du main
     scoresLabel = new QLabel(this);
@@ -64,7 +66,9 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     font.setPointSize(18);
     scoresLabel->setFont(font);
     rulesText->setAlignment(Qt::AlignCenter);
+    font.setPointSize(15);
     rulesText->setFont(font);
+    font.setPointSize(18);
 
     // initialisation du QLabel pour le numero de niveau
     itsLevelNumberText = new QLabel(this);
@@ -103,15 +107,26 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     gameOverLayout->addWidget(scoreLabelGameOver, 0, Qt::AlignCenter);
     gameOverLayout->addWidget(quitToMainButton2, 0, Qt::AlignCenter);
     QFont fontGO = scoreLabelGameOver->font();
-    fontGO.setPointSize(30);
+    fontGO.setPointSize(20);
     scoreLabelGameOver->setFont(fontGO);
 
     // Ajout des widgets au layout gaming
     gameLayout->addWidget(itsLevelNumberText);
 
     // Ajout des widgets au layout rules
+    rulesImage->load(":/ressources/rules.png");
+    rulesImage->load(":/ressources/rules.png");
+    QPixmap scaledRulesImage = rulesImage->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    QLabel *rulesImageLabel = new QLabel;
+    rulesImageLabel->setPixmap(scaledRulesImage);
+    rulesImageLabel->setAlignment(Qt::AlignCenter);
+
     rulesLayout->addWidget(rulesText);
+    rulesLayout->addWidget(rulesImageLabel, 0, Qt::AlignCenter);
     rulesLayout->addWidget(goBackButton, 0, Qt::AlignCenter);
+
+
 
 
     // Création des widgets
@@ -230,7 +245,7 @@ HMI::HMI(Player * player, Game * game, QWidget *parent) : QWidget(parent), itsPl
     for (QLabel* label: this->findChildren<QLabel*>()) {
         label->setStyleSheet("QLabel { color : white; }");
     }
-
+    scoresLabel->setStyleSheet("QLabel { color : white; border: 2px solid white; padding: 20px;}");
 
     // Pour l'ajout des scores pas dans un Qinputdialog super cool
     // Ajout dans la liste des déclarations dans votre constructeur HMI
@@ -388,7 +403,6 @@ void HMI::paintEvent(QPaintEvent *event)
 
         // Dessin du background
         QString cheminBG = itsGame->getCheminBG();
-        qDebug() << "Chemin du background: " << cheminBG;
         if (QFile::exists(cheminBG)) {
             QPixmap bg(cheminBG);
             if (!bg.isNull()) {
@@ -403,22 +417,50 @@ void HMI::paintEvent(QPaintEvent *event)
         }
 
         // Dessin du reste du jeu
+        painter->setFont(QFont("VT323", 28));
+        painter->drawText(10, 70, QString("Score(x%1): %2").arg(itsGame->getCurrentTier()).arg(itsGame->getItsScore()));
+        painter->setFont(QFont("VT323", 24));
+        // image de portefeuille et wallet
+        QPixmap heartImage(":/ressources/heart.png");
+        QPixmap walletImage(":/ressources/wallet.png");
+        QPixmap scaledHeartImage = heartImage.scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPixmap scaledWalletImage = walletImage.scaled(35, 35, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        for(int i = 0; i < itsGame->getItsPlayer()->getItsLivesNb(); i++)
+        {
+            painter->drawPixmap(200 + i*scaledHeartImage.width(), 2, scaledHeartImage);
+        }
+        painter->drawPixmap(8, 12, scaledWalletImage);
+        painter->drawText(8 + scaledWalletImage.width(), 37, QString(": %1").arg(itsGame->getItsMoney()));
         painter->setFont(QFont("VT323", 18));
-        painter->drawText(10, 20, QString("Score: %1").arg(itsGame->getItsScore())); // Le texte apparaîtra à 10 pixels du bord gauche et à 20 pixels du haut de l'écran
-        painter->drawText(10, 40, QString("Multiplier: %1").arg(itsGame->getCurrentTier()));
-        painter->drawText(10, 60, QString("Lives: %1").arg(itsGame->getItsPlayer()->getItsLivesNb()));
-        painter->drawText(10, 80, QString("Wallet: %1").arg(itsGame->getItsMoney()));
+        painter->drawText(1165, 60, QString("Enemies: %1").arg(itsLevel->getItsRemainingEnemies().size() + itsLevel->getItsEnemiesList().size()));
         itsLevel->display(painter);
         itsPlayer->display(painter);
         painter->setFont(QFont("VT323", 28));
-        if (itsLevelTimer->remainingTime()/1000 > 99){
-            painter->drawText(1230, 30, QString("%1").arg(itsLevelTimer->remainingTime()/1000));
+        if (itsGame->getItsCombo()>1)
+        {
+            painter->setPen(QColor("red"));
+            painter->drawText(565, 32, QString("Combo: x%1 !").arg(itsGame->getItsCombo()));
+            painter->setPen(QColor("black"));
         }
-        else if (itsLevelTimer->remainingTime()/1000 > 9){
-            painter->drawText(1230, 30, QString("0%1").arg(itsLevelTimer->remainingTime()/1000));
+
+
+
+
+        int time = itsLevelTimer->remainingTime()/1000;
+        if (time < 31 && time % 2 == 0){
+            painter->setPen(QColor("red"));
         }
         else {
-            painter->drawText(1230, 30, QString("00%1").arg(itsLevelTimer->remainingTime()/1000));
+            painter->setPen(QColor("Black"));
+        }
+        if (time > 99){
+            painter->drawText(1230, 30, QString("%1").arg(time));
+        }
+        else if (time > 9){
+            painter->drawText(1230, 30, QString("0%1").arg(time));
+        }
+        else {
+            painter->drawText(1230, 30, QString("00%1").arg(time));
         }
 
         delete painter;
@@ -437,15 +479,39 @@ void HMI::displayMainMenu(std::vector<std::pair<std::string, unsigned int>> high
     startGameButton->setDefault(true);
     stackedWidget->setCurrentWidget(mainMenuWidget);
 
-    QString scoresText = "Leaderboard :\n\n";
+    QString scoresText = "<html>LEADERBOARD :<br><br>";
     int rank = 1;
     for (const auto &score : highscores) {
-        scoresText += QString::number(rank) + ". " + QString::fromStdString(score.first) + ": " + QString::number(score.second) + "\n";
+        QString line;
+        if (rank == 1) {
+            line = QString("<font color='#FFD700'>%1. %2 %3</font>")
+                   .arg(rank, 2)
+                   .arg(QString::fromStdString(score.first), -5)
+                   .arg(score.second);
+        } else if (rank == 2) {
+            line = QString("<font color='silver'>%1. %2 %3</font>")
+                   .arg(rank, 2)
+                   .arg(QString::fromStdString(score.first), -5)
+                   .arg(score.second);
+        } else if (rank == 3) {
+            line = QString("<font color='#cd7f32'>%1. %2 %3</font>")
+                   .arg(rank, 2)
+                   .arg(QString::fromStdString(score.first), -5)
+                   .arg(score.second);
+        } else {
+            line = QString("%1. %2 %3")
+                   .arg(rank, 2)
+                   .arg(QString::fromStdString(score.first), -5)
+                   .arg(score.second);
+        }
+        scoresText += line + "<br>";
         rank++;
     }
 
+    scoresText += "</html>";
     scoresLabel->setText(scoresText);
 }
+
 
 void HMI::displayPauseMenu()
 {
@@ -461,7 +527,14 @@ void HMI::displayPauseMenu()
 void HMI::displayGameOverMenu()
 {
     clearPaintings();
-    scoreLabelGameOver->setText(QString("Score: %1").arg(itsGame->getItsScore()));
+    scoreLabelGameOver->setText(QString("Score: %1\n"
+                                        "Enemies killed: %2\n"
+                                        "Passed levels: %3\n"
+                                        "Money collected: %4")
+                                .arg(itsGame->getItsScore())
+                                .arg(itsGame->getNbEnemyKilled())
+                                .arg(itsGame->getNbLevelPassed())
+                                .arg(itsGame->getItsMoney()));
     state = GAMEOVER;
     stackedWidget->setCurrentWidget(gameOverMenuWidget);
 }

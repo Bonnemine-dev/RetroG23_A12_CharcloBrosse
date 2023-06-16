@@ -29,12 +29,16 @@ private:
     short itsYSpeed = 0; /** @brief Speed of the player on the Y axis. */
     bool isOnTheGround = false; /** @brief True is the player is on the ground .*/
     unsigned short itsRemaningJumpMove = 0; /** @brief the jump size counter */
+    unsigned short itsRemaningFallMove = 0xFFFF; /** @brief The number of pixels that the player have to make make befor the max gravity speed*/
+    unsigned short itsRemaningWalkMove = 0; /** @brief The number of pixels that the player have to walk before the max speed for the walking speed*/
+    unsigned short itsRemaningComboTicks = 0; /** @brief the combo ticks counter */
+    unsigned short comboValue = 0; /** The number of ennemies that the player killed in combo mode*/
     MoveX itsCurrentMove = NONE; /** @brief the current move on the X axis */
     MoveX itsNextMove = NONE; /** @brief the next move on the X axis */
     static std::array<QPixmap*, 12>* itsSpritesList; /** @brief the list of the Player sprites * @see <a href="https://doc.qt.io/qt-6/qpixmap.html" target="_blank">QPixMap</a>*/
-    //short itsMaxXSpeed = 0; /** @brief  Maximum speed of the player on the X axis. */
-    //short itsMaxYSpeed = 0; /** @brief  Maximum speed of the player on the Y axis. */
-    //bool itsState = true; /** @brief  State of the player. */
+    bool isFrozen = false;/** @brief Boolean which say if player is freeze by freezer or no.*/
+    unsigned short int startFreeze;/** @brief Time when start player freeze.*/
+
 public:
     /**
      * @brief Constructor of the Player class.
@@ -60,10 +64,14 @@ public:
     bool getItsState() const;
 
     /**
-     * @brief Moves the player.
+     * @brief Moves the player on ordinate.
      */
-    void move();
+    void moveX();
 
+    /**
+     * @brief Moves the player on abscisse.
+     */
+    void moveY();
     /**
      * @brief Sets the speed of the player on the X axis.
      * @param newItsXSpeed The new speed on the X axis.
@@ -141,6 +149,78 @@ public:
      * @param newItsAnimCounter the new animation counter
      */
     void setItsAnimCounter(short newItsAnimCounter);
+
+    /**
+ * @brief Retrieves the value of itsRemaningComboTicks.
+ * @return The value of itsRemaningComboTicks.
+ */
+    unsigned short getItsRemaningComboTicks() const;
+
+    /**
+ * @brief Sets the value of itsRemaningComboTicks.
+ * @param newItsRemaningComboTicks The new value of itsRemaningComboTicks.
+ */
+    void setItsRemaningComboTicks(unsigned short newItsRemaningComboTicks);
+
+    /**
+ * @brief Retrieves the value of ComboValue.
+ * @return The value of ComboValue.
+ */
+    unsigned short getComboValue() const;
+
+    /**
+ * @brief Sets the value of ComboValue.
+ * @param newComboValue The new value of ComboValue.
+ */
+    void setComboValue(unsigned short newComboValue);
+
+    /**
+ * @brief Retrieves the value of itsRemaningFallMove.
+ * @return The value of itsRemaningFallMove.
+ */
+    unsigned short getItsRemaningFallMove() const;
+
+    /**
+ * @brief Sets the value of itsRemaningFallMove.
+ * @param newItsRemaningFallMove The new value of itsRemaningFallMove.
+ */
+    void setItsRemaningFallMove(unsigned short newItsRemaningFallMove);
+
+    /**
+ * @brief Sets the value of itsRemaningWalkMove.
+ * @param newItsRemaningWalkMove The new value of itsRemaningWalkMove.
+ */
+    void setItsRemaningWalkMove(unsigned short newItsRemaningWalkMove);
+
+    /**
+ * @brief Retrieves the value of itsRemaningWalkMove.
+ * @return The value of itsRemaningWalkMove.
+ */
+    unsigned short getItsRemaningWalkMove() const;
+
+    /**
+ * @brief Sets the value of isFrozen.
+ * @param newIsFrozen The new value of isFrozen.
+ */
+    void setIsFrozen(bool newIsFrozen);
+
+    /**
+ * @brief Retrieves the value of isFrozen.
+ * @return The value of isFrozen.
+ */
+    bool getIsFrozen() const;
+
+    /**
+ * @brief Sets the value of startFreeze.
+ * @param newStartFreeze The new value of startFreeze.
+ */
+    void setStartFreeze(unsigned short newStartFreeze);
+
+    /**
+ * @brief Retrieves the value of startFreeze.
+ * @return The value of startFreeze.
+ */
+    unsigned short getStartFreeze() const;
 };
 
 #endif // PLAYER_H

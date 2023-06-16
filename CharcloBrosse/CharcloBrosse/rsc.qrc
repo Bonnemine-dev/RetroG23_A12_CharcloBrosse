@@ -7,8 +7,20 @@
         <file>ressources/background0.png</file>
         <file>ressources/level3.json</file>
         <file>ressources/level4.json</file>
-        <file>ressources/background1.png</file>
-        <file>ressources/tileset0.png</file>
         <file>ressources/level5.json</file>
+        <file>ressources/background1.png</file>
+        <file>ressources/level8.json</file>
+        <file>ressources/heart.png</file>
+        <file>ressources/wallet.png</file>
+        <file>ressources/tileset0.png</file>
+        <file>ressources/tileset1.png</file>
+        <file>ressources/level0.json</file>
+        <file>ressources/level7.json</file>
+        <file>ressources/level6.json</file>
+        <file>ressources/level9.json</file>
+        <file>ressources/level10.json</file>
+        <file>ressources/tileset2.png</file>
+        <file>ressources/background2.png</file>
+        <file>ressources/rules.png</file>
     </qresource>
 </RCC>
